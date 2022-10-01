@@ -1,0 +1,23 @@
+%
+% Judgments
+%
+
+% Judgments
+\newcommand{\judgment}[3]{\inferrule{#1}{#2}~~{\textsc{\small [#3]}}}
+\newcommand{\judgbox}[1]{\noindent \fbox{$#1$}}
+
+% Consistency
+\newcommand{\isConsistent}[2]{\ensuremath{#1 \sim #2}}
+\newcommand{\isNotConsistent}[2]{\ensuremath{#1 \nsim #2}}
+
+% Typing contexts
+\newcommand{\ctx}{\ensuremath{\Gamma}}
+\newcommand{\extendCtx}[3]{\ensuremath{#1 ; ~\hasType{#2}{#3}}}
+\newcommand{\withCtx}[2]{\ensuremath{#1 \vdash #2}}
+\newcommand{\assignType}[2]{\ensuremath{#1 : #2}}
+\newcommand{\ctxAssignType}[3]{\ensuremath{\withCtx{#1}{\assignType{#2}{#3}}}}
+\newcommand{\synType}[2]{\ensuremath{#1 \Rightarrow #2}}
+\newcommand{\ctxSynType}[3]{\ensuremath{\withCtx{#1}{\synType{#2}{#3}}}}
+\newcommand{\anaType}[2]{\ensuremath{#1 \Leftarrow #2}}
+\newcommand{\ctxAnaType}[3]{\ensuremath{\withCtx{#1}{\anaType{#2}{#3}}}}
+
