@@ -3,5 +3,22 @@
 \usepackage[margin=1in]{geometry}
 
 \begin{document}
+\section{Formalism}
+Formalization of hole-fixing semantics.
+
+\begin{figure}
+  \[\begin{array}{lrcl}
+    \textsf{Type} & \TMV  & \Coloneqq & \TUnknown \mid \TInt \mid \TBool \mid \TFun{\TMV}{\TMV} \\
+    \textsf{Exp }  & \EMV  & \Coloneqq & \ECEHole \mid x \mid \ECLam{x}{\TMV}{\ECMV} \mid \ECAp{\ECMV}{\ECMV} \\
+         &       & \mid         & \ECIntMV \mid \ECPlus{\ECMV}{\ECMV} \\
+         &       & \mid         & \ECTrue \mid \ECFalse \mid \ECIf{\ECMV}{\ECMV}{\ECMV} \\
+    \textsf{Exp'} & \ECMV & \Coloneqq & \ECEHole \mid x \mid \ECLam{x}{\TMV}{\ECMV} \mid \ECAp{\ECMV}{\ECMV} \\
+         &       & \mid         & \ECIntMV \mid \ECPlus{\ECMV}{\ECMV} \\
+         &       & \mid         & \ECTrue \mid \ECFalse \mid \ECIf{\ECMV}{\ECMV}{\ECMV} \\
+         &       & \mid         & \ECUnbound{x} \mid \ECInconType{\ECMV} \mid \ECInconBr{\ECMV}{\ECMV}{\ECMV}
+  \end{array}\]
+  \caption{Syntax}
+  \label{fig:internal-syntax}
+\end{figure}
 
 \end{document}

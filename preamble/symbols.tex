@@ -21,3 +21,41 @@
 \newcommand{\anaType}[2]{\ensuremath{#1 \Leftarrow #2}}
 \newcommand{\ctxAnaType}[3]{\ensuremath{\withCtx{#1}{\anaType{#2}{#3}}}}
 
+%
+% Symbols
+%
+
+% Types
+\newcommand{\TMV}{\ensuremath{\tau}}
+\newcommand{\TUnknown}{\ensuremath{?}}
+\newcommand{\TFun}[2]{\ensuremath{#1 \to #2}}
+\newcommand{\TInt}{\ensuremath{\textsf{Int}}}
+\newcommand{\TBool}{\ensuremath{\textsf{Bool}}}
+
+% Expressions
+\newcommand{\EMV}{\ensuremath{e}}
+\newcommand{\ECMV}{\ensuremath{\check{e}}}
+
+% Holes
+\definecolor{lavender}{RGB}{162,85,162}
+\newcommand{\ECEHole}{\ensuremath{\textcolor{lavender}{\bm{\llparenthesis}}\textcolor{lavender}{\bm{\rrparenthesis}}}}
+
+% Integers
+\newcommand{\ECInt}[1]{\ensuremath{\underline{#1}}}
+\newcommand{\ECIntMV}{\ensuremath{\ECInt{n}}}
+\newcommand{\ECOpPlus}{\ensuremath{+}}
+\newcommand{\ECPlus}[2]{\ensuremath{#1 \ECOpPlus #2}}
+
+% Booleans
+\newcommand{\ECTrue}{\ensuremath{\textsf{tt}}}
+\newcommand{\ECFalse}{\ensuremath{\textsf{ff}}}
+\newcommand{\ECIf}[3]{\ensuremath{#1 ~?~ #2 : #2}}
+
+% Lambdas
+\newcommand{\ECLam}[3]{\ensuremath{\lambda #1 : #2. ~#3}}
+\newcommand{\ECAp}[2]{\ensuremath{#1 ~#2}}
+
+% Errors
+\newcommand{\ECUnbound}[1]{\ensuremath{\textcolor{red}{\bm{[}}#1\textcolor{red}{\bm{]}}}}
+\newcommand{\ECInconType}[1]{\ensuremath{\textcolor{red}{\bm{\llparenthesis}}#1\textcolor{red}{\bm{\rrparenthesis}}}}
+\newcommand{\ECInconBr}[3]{\ensuremath{\textcolor{red}{\bm{[}}\ECIf{#1}{#2}{#3}\textcolor{red}{\bm{]}}}}
