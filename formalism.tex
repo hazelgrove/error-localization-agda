@@ -3,129 +3,145 @@
 \usepackage[margin=1in]{geometry}
 
 \begin{document}
+\renewcommand{\thesection}{\Alph{section}}
 \section{Formalism}
 Formalization of hole-fixing semantics.
 
-\begin{figure}
-  \[\begin{array}{lrcl}
-    \TMName  & \TMV  & \Coloneqq & \TUnknown \mid \TInt \mid \TBool \mid \TArrow{\TMV}{\TMV} \\
-    \EMName  & \EMV  & \Coloneqq & \ECEHole \mid x \mid \ECLam{x}{\TMV}{\ECMV} \mid \ECAp{\ECMV}{\ECMV} \\
-             &       & \mid         & \ECIntMV \mid \ECPlus{\ECMV}{\ECMV} \\
-             &       & \mid         & \ECTrue \mid \ECFalse \mid \ECIf{\ECMV}{\ECMV}{\ECMV} \\
-    \ECMName & \ECMV & \Coloneqq & \ECEHole \mid x \mid \ECLam{x}{\TMV}{\ECMV} \mid \ECAp{\ECMV}{\ECMV} \\
-             &       & \mid         & \ECIntMV \mid \ECPlus{\ECMV}{\ECMV} \\
-             &       & \mid         & \ECTrue \mid \ECFalse \mid \ECIf{\ECMV}{\ECMV}{\ECMV} \\
-             &       & \mid         & \ECUnbound{x} \mid \ECInconType{\ECMV} \mid \ECInconBr{\ECMV}{\ECMV}{\ECMV}
-  \end{array}\]
-  %
-  \caption{Syntax}
-  \label{fig:syntax}
-\end{figure}
+\subsection{Syntax}
+\[\begin{array}{lrcl}
+  \TMName  & \TMV  & \Coloneqq & \TUnknown \mid \TInt \mid \TBool \mid \TArrow{\TMV}{\TMV} \\
+  \EMName  & \EMV  & \Coloneqq & \EEHole \mid x \mid \ELam{x}{\TMV}{\EMV} \mid \EAp{\EMV}{\EMV} \\
+           &       & \mid         & \EIntMV \mid \EPlus{\EMV}{\EMV} \\
+           &       & \mid         & \ETrue \mid \EFalse \mid \EIf{\EMV}{\EMV}{\EMV} \\
+  \ECMName & \ECMV & \Coloneqq & \ECEHole \mid x \mid \ECLam{x}{\TMV}{\ECMV} \mid \ECAp{\ECMV}{\ECMV} \\
+           &       & \mid         & \ECIntMV \mid \ECPlus{\ECMV}{\ECMV} \\
+           &       & \mid         & \ECTrue \mid \ECFalse \mid \ECIf{\ECMV}{\ECMV}{\ECMV} \\
+           &       & \mid         & \ECUnbound{x} \mid \ECInconType{\ECMV} \mid \ECInconBr{\ECMV}{\ECMV}{\ECMV}
+\end{array}\]
 
-\begin{figure}
-  \judgbox{\ctxSynType{\ctx}{\ECMV}{\TMV}}
-  %
-  \begin{mathpar}
-    \judgment{ }{
-      \ctxSynType{\ctx}{\ECEHole}{\TUnknown}
-    }{SHole}
+\subsection{Hole Insertion}
 
-    \judgment{ }{
-      \ctxSynType{\extendCtx{\ctx}{x}{\TMV}}{x}{\TMV}
-    }{SVar}
+\subsection{Internal Expressions}
+Internal expressions are bidrectionally typed: \\
 
-    \judgment{
-      \ctxSynType{\extendCtx{\ctx}{x}{\TMV}}{\ECMV}{\TMV'}
-    }{
-      \ctxSynType{\ctx}{\ECLam{x}{\TMV}{\ECMV}}{\TArrow{\TMV}{\TMV'}}
-    }{SLam}
+\judgbox{\ctxSynType{\ctx}{\ECMV}{\TMV}} $\ECMV$ synthesizes type $\TMV$
 
-    \judgment{
-      \ctxSynType{\ctx}{\ECMV_1}{\TMV} \\
-      \matchedArrow{\TMV}{\TMV_1}{\TMV_2} \\
-      \ctxAnaType{\ctx}{\ECMV_2}{\TMV_1}
-    }{
-      \ctxSynType{\ctx}{\ECAp{\ECMV_1}{\ECMV_2}}{\TMV_2}
-    }{SAp}
+\begin{mathpar}
+  \judgment{ }{
+    \ctxSynType{\ctx}{\ECEHole}{\TUnknown}
+  }{SHole}
 
-    \judgment{ }{
-      \ctxSynType{\ctx}{\ECIntMV}{\TInt}
-    }{SNum}
+  \judgment{ }{
+    \ctxSynType{\extendCtx{\ctx}{x}{\TMV}}{x}{\TMV}
+  }{SVar}
 
-    \judgment{
-      \ctxAnaType{\ctx}{\ECMV_1}{\TInt} \\
-      \ctxAnaType{\ctx}{\ECMV_2}{\TInt}
-    }{
-      \ctxSynType{\ctx}{\ECPlus{\ECMV_1}{\ECMV_2}}{\TInt}
-    }{SPlus}
+  \judgment{
+    \ctxSynType{\extendCtx{\ctx}{x}{\TMV}}{\ECMV}{\TMV'}
+  }{
+    \ctxSynType{\ctx}{\ECLam{x}{\TMV}{\ECMV}}{\TArrow{\TMV}{\TMV'}}
+  }{SLam}
 
-    \judgment{ }{
-      \ctxSynType{\ctx}{\ECTrue}{\TBool}
-    }{STrue}
+  \judgment{
+    \ctxSynType{\ctx}{\ECMV_1}{\TMV} \\
+    \matchedArrow{\TMV}{\TMV_1}{\TMV_2} \\
+    \ctxAnaType{\ctx}{\ECMV_2}{\TMV_1}
+  }{
+    \ctxSynType{\ctx}{\ECAp{\ECMV_1}{\ECMV_2}}{\TMV_2}
+  }{SAp}
 
-    \judgment{ }{
-      \ctxSynType{\ctx}{\ECFalse}{\TBool}
-    }{SFalse}
+  \judgment{ }{
+    \ctxSynType{\ctx}{\ECIntMV}{\TInt}
+  }{SNum}
 
-    \judgment{
-      \ctxAnaType{\ctx}{\ECMV_1}{\TBool} \\
-      \ctxSynType{\ctx}{\ECMV_1}{\TMV_1} \\
-      \ctxSynType{\ctx}{\ECMV_2}{\TMV_2}
-    }{
-      \ctxSynType{\ctx}{\ECIf{\ECMV_1}{\ECMV_2}{\ECMV_3}}{\TJoin{\TMV_1}{\TMV_2}}
-    }{SIf}
+  \judgment{
+    \ctxAnaType{\ctx}{\ECMV_1}{\TInt} \\
+    \ctxAnaType{\ctx}{\ECMV_2}{\TInt}
+  }{
+    \ctxSynType{\ctx}{\ECPlus{\ECMV_1}{\ECMV_2}}{\TInt}
+  }{SPlus}
 
-    \judgment{
-      \notInCtx{\ctx}{x}
-    }{
-      \ctxSynType{\ctx}{\ECUnbound{x}}{\TUnknown}
-    }{SUnbound}
-  \end{mathpar} \\\\
-  %
-  \judgbox{\ctxAnaType{\ctx}{\ECMV}{\TMV}}
-  %
-  \begin{mathpar}
-    \judgment{
-      \matchedArrow{\TMV_3}{\TMV_1}{\TMV_2} \\
-      \consistent{\TMV}{\TMV_1} \\
-      \ctxAnaType{\extendCtx{\ctx}{x}{\TMV}}{\ECMV}{\TMV_2}
-    }{
-      \ctxAnaType{\ctx}{\ECLam{x}{\TMV}{\ECMV}}{\TMV_3}
-    }{ALam}
+  \judgment{ }{
+    \ctxSynType{\ctx}{\ECTrue}{\TBool}
+  }{STrue}
 
-    \judgment{
-      \ctxAnaType{\ctx}{\ECMV_1}{\TBool} \\
-      \ctxAnaType{\ctx}{\ECMV_1}{\TMV} \\
-      \ctxAnaType{\ctx}{\ECMV_2}{\TMV}
-    }{
-      \ctxAnaType{\ctx}{\ECIf{\ECMV_1}{\ECMV_2}{\ECMV_3}}{\TMV}
-    }{AIf}
+  \judgment{ }{
+    \ctxSynType{\ctx}{\ECFalse}{\TBool}
+  }{SFalse}
 
-    \judgment{
-      \ctxSynType{\ctx}{\ECMV}{\TMV'} \\
-      \inconsistent{\TMV}{\TMV'}
-    }{
-      \ctxAnaType{\ctx}{\ECInconType{\ECMV}}{\TMV}
-    }{AInconsistentTypes}
+  \judgment{
+    \ctxAnaType{\ctx}{\ECMV_1}{\TBool} \\
+    \ctxSynType{\ctx}{\ECMV_1}{\TMV_1} \\
+    \ctxSynType{\ctx}{\ECMV_2}{\TMV_2}
+  }{
+    \ctxSynType{\ctx}{\ECIf{\ECMV_1}{\ECMV_2}{\ECMV_3}}{\TJoin{\TMV_1}{\TMV_2}}
+  }{SIf}
 
-    \judgment{
-      \ctxAnaType{\ctx}{\ECMV_1}{\TBool} \\
-      \ctxSynType{\ctx}{\ECMV_1}{\TMV_1} \\
-      \ctxSynType{\ctx}{\ECMV_2}{\TMV_2} \\
-      \inconsistent{\TMV_1}{\TMV_2}
-    }{
-      \ctxAnaType{\ctx}{\ECInconBr{\ECMV_1}{\ECMV_2}{\ECMV_3}}{\TMV}
-    }{AInconsistentBranches}
+  \judgment{
+    \notInCtx{\ctx}{x}
+  }{
+    \ctxSynType{\ctx}{\ECUnbound{x}}{\TUnknown}
+  }{SUnbound}
+\end{mathpar} \\
 
-    \judgment{
-      \ctxSynType{\ctx}{\ECMV}{\TMV}
-    }{
-      \ctxAnaType{\ctx}{\ECMV}{\TMV}
-    }{ASubsume}
-  \end{mathpar}
-  %
-  \caption{Bidirectional Typing of Internal Expressions}
-  \label{fig:internal-typing}
-\end{figure}
+\judgbox{\ctxAnaType{\ctx}{\ECMV}{\TMV}} $\ECMV$ analyzes type $\TMV$
+
+\begin{mathpar}
+  \judgment{
+    \matchedArrow{\TMV_3}{\TMV_1}{\TMV_2} \\
+    \consistent{\TMV}{\TMV_1} \\
+    \ctxAnaType{\extendCtx{\ctx}{x}{\TMV}}{\ECMV}{\TMV_2}
+  }{
+    \ctxAnaType{\ctx}{\ECLam{x}{\TMV}{\ECMV}}{\TMV_3}
+  }{ALam}
+
+  \judgment{
+    \ctxAnaType{\ctx}{\ECMV_1}{\TBool} \\
+    \ctxAnaType{\ctx}{\ECMV_1}{\TMV} \\
+    \ctxAnaType{\ctx}{\ECMV_2}{\TMV}
+  }{
+    \ctxAnaType{\ctx}{\ECIf{\ECMV_1}{\ECMV_2}{\ECMV_3}}{\TMV}
+  }{AIf}
+
+  \judgment{
+    \ctxSynType{\ctx}{\ECMV}{\TMV'} \\
+    \inconsistent{\TMV}{\TMV'}
+  }{
+    \ctxAnaType{\ctx}{\ECInconType{\ECMV}}{\TMV}
+  }{AInconsistentTypes}
+
+  \judgment{
+    \ctxAnaType{\ctx}{\ECMV_1}{\TBool} \\
+    \ctxSynType{\ctx}{\ECMV_1}{\TMV_1} \\
+    \ctxSynType{\ctx}{\ECMV_2}{\TMV_2} \\
+    \inconsistent{\TMV_1}{\TMV_2}
+  }{
+    \ctxAnaType{\ctx}{\ECInconBr{\ECMV_1}{\ECMV_2}{\ECMV_3}}{\TMV}
+  }{AInconsistentBranches}
+
+  \judgment{
+    \ctxSynType{\ctx}{\ECMV}{\TMV}
+  }{
+    \ctxAnaType{\ctx}{\ECMV}{\TMV}
+  }{ASubsume}
+\end{mathpar}
+
+\subsection{Hole Erasure}
+$\judgbox{\erase{\ECMV} = \EMV}$ is a metafunction defined as follows:
+
+\newcommand{\erasesTo}[2]{\erase{#1} & = & #2}
+\[\begin{array}{rcl}
+  \erasesTo{\ECEHole}{\EEHole} \\
+  \erasesTo{x}{x} \\
+  \erasesTo{(\ECLam{x}{\TMV}{\ECMV})}{\ELam{x}{\TMV}{(\erase{\ECMV})}} \\
+  \erasesTo{(\ECAp{\ECMV_1}{\ECMV_2})}{\EAp{(\erase{\ECMV_1})}{(\erase{\ECMV_2})}} \\
+  \erasesTo{\ECIntMV}{\EIntMV} \\
+  \erasesTo{(\ECPlus{\ECMV_1}{\ECMV_2})}{\EPlus{(\erase{\ECMV_1})}{(\erase{\ECMV_2})}} \\
+  \erasesTo{\ECTrue}{\ETrue} \\
+  \erasesTo{\ECFalse}{\EFalse} \\
+  \erasesTo{(\ECIf{\ECMV_1}{\ECMV_2}{\ECMV_3})}{\EIf{(\erase{\ECMV_1})}{(\erase{\ECMV_2})}{(\erase{\ECMV_3})}} \\
+  \erasesTo{\ECUnbound{x}}{x} \\
+  \erasesTo{\ECInconType{\ECMV}}{\erase{\ECMV}} \\
+  \erasesTo{\ECInconBr{\ECMV_1}{\ECMV_2}{\ECMV_3}}{\EIf{(\erase{\ECMV_1})}{(\erase{\ECMV_2})}{(\erase{\ECMV_3})}} \\
+\end{array}\]
 
 \end{document}

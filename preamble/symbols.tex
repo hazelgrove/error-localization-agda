@@ -1,4 +1,9 @@
 %
+% Utilities
+%
+\definecolor{lavender}{RGB}{162,85,162}
+
+%
 % Judgments
 %
 
@@ -13,11 +18,14 @@
 % Matching
 \newcommand{\matchedArrow}[3]{\ensuremath{#1 \blacktriangleright_{\to} \TArrow{#2}{#3}}}
 
-% Typing contexts
+% Contexts
 \newcommand{\ctx}{\ensuremath{\Gamma}}
 \newcommand{\extendCtx}[3]{\ensuremath{#1 ; ~\assignType{#2}{#3}}}
+\DeclareMathOperator{\dom}{dom}
 \newcommand{\notInCtx}[2]{\ensuremath{#2 \not\in \dom(#1)}}
 \newcommand{\withCtx}[2]{\ensuremath{#1 \vdash #2}}
+
+% Typing
 \newcommand{\assignType}[2]{\ensuremath{#1 : #2}}
 \newcommand{\ctxAssignType}[3]{\ensuremath{\withCtx{#1}{\assignType{#2}{#3}}}}
 \newcommand{\synType}[2]{\ensuremath{#1 \Rightarrow #2}}
@@ -25,30 +33,53 @@
 \newcommand{\anaType}[2]{\ensuremath{#1 \Leftarrow #2}}
 \newcommand{\ctxAnaType}[3]{\ensuremath{\withCtx{#1}{\anaType{#2}{#3}}}}
 
-%
-% Symbols
-%
+% Erasure
+\newcommand{\erase}[1]{\ensuremath{#1^{\square}}}
 
-% Names
-\newcommand{\EMName}{\textsf{Exp}}
-\newcommand{\ECMName}{\textsf{Exp'}}
-\newcommand{\TMName}{\textsf{Type}}
-
+% 
 % Types
+%
+\newcommand{\TMName}{\textsf{Type}}
 \newcommand{\TMV}{\ensuremath{\tau}}
 \newcommand{\TJoin}[2]{\ensuremath{#1 \sqcup #2}}
 \DeclareMathOperator{\?}{?}
+
 \newcommand{\TUnknown}{\ensuremath{\?}}
 \newcommand{\TArrow}[2]{\ensuremath{#1 \to #2}}
 \newcommand{\TInt}{\ensuremath{\textsf{Num}}}
 \newcommand{\TBool}{\ensuremath{\textsf{Bool}}}
 
-% Expressions
+%
+% External expressions
+%
+\newcommand{\EMName}{\textsf{Exp}}
 \newcommand{\EMV}{\ensuremath{e}}
+
+% Holes
+\newcommand{\EEHole}{\ECEHole}
+
+% Integers
+\newcommand{\EInt}[1]{\ECInt{#1}}
+\newcommand{\EIntMV}{\ECIntMV}
+\newcommand{\EOpPlus}{\ECOpPlus}
+\newcommand{\EPlus}[2]{\ECPlus{#1}{#2}}
+
+% Booleans
+\newcommand{\ETrue}{\ECTrue}
+\newcommand{\EFalse}{\ECFalse}
+\newcommand{\EIf}[3]{\ECIf{#1}{#2}{#3}}
+
+% Lambdas
+\newcommand{\ELam}[3]{\ECLam{#1}{#2}{#3}}
+\newcommand{\EAp}[2]{\ECAp{#1}{#2}}
+
+%
+% Internal expressions
+%
+\newcommand{\ECMName}{\textsf{Exp'}}
 \newcommand{\ECMV}{\ensuremath{\check{e}}}
 
 % Holes
-\definecolor{lavender}{RGB}{162,85,162}
 \newcommand{\ECEHole}{\ensuremath{\textcolor{lavender}{\bm{\llparenthesis}}\textcolor{lavender}{\bm{\rrparenthesis}}}}
 
 % Integers
