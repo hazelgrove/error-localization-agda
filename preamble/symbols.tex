@@ -7,12 +7,16 @@
 \newcommand{\judgbox}[1]{\noindent \fbox{$#1$}}
 
 % Consistency
-\newcommand{\isConsistent}[2]{\ensuremath{#1 \sim #2}}
-\newcommand{\isNotConsistent}[2]{\ensuremath{#1 \nsim #2}}
+\newcommand{\consistent}[2]{\ensuremath{#1 \sim #2}}
+\newcommand{\inconsistent}[2]{\ensuremath{#1 \nsim #2}}
+
+% Matching
+\newcommand{\matchedArrow}[3]{\ensuremath{#1 \blacktriangleright_{\to} \TArrow{#2}{#3}}}
 
 % Typing contexts
 \newcommand{\ctx}{\ensuremath{\Gamma}}
-\newcommand{\extendCtx}[3]{\ensuremath{#1 ; ~\hasType{#2}{#3}}}
+\newcommand{\extendCtx}[3]{\ensuremath{#1 ; ~\assignType{#2}{#3}}}
+\newcommand{\notInCtx}[2]{\ensuremath{#2 \not\in \dom(#1)}}
 \newcommand{\withCtx}[2]{\ensuremath{#1 \vdash #2}}
 \newcommand{\assignType}[2]{\ensuremath{#1 : #2}}
 \newcommand{\ctxAssignType}[3]{\ensuremath{\withCtx{#1}{\assignType{#2}{#3}}}}
@@ -25,11 +29,18 @@
 % Symbols
 %
 
+% Names
+\newcommand{\EMName}{\textsf{Exp}}
+\newcommand{\ECMName}{\textsf{Exp'}}
+\newcommand{\TMName}{\textsf{Type}}
+
 % Types
 \newcommand{\TMV}{\ensuremath{\tau}}
-\newcommand{\TUnknown}{\ensuremath{?}}
-\newcommand{\TFun}[2]{\ensuremath{#1 \to #2}}
-\newcommand{\TInt}{\ensuremath{\textsf{Int}}}
+\newcommand{\TJoin}[2]{\ensuremath{#1 \sqcup #2}}
+\DeclareMathOperator{\?}{?}
+\newcommand{\TUnknown}{\ensuremath{\?}}
+\newcommand{\TArrow}[2]{\ensuremath{#1 \to #2}}
+\newcommand{\TInt}{\ensuremath{\textsf{Num}}}
 \newcommand{\TBool}{\ensuremath{\textsf{Bool}}}
 
 % Expressions
