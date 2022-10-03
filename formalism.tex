@@ -8,7 +8,7 @@
 Formalization of hole-fixing semantics.
 
 \subsection{Syntax}
-\[\begin{array}{lrcl}
+\[\begin{array}{rrcl}
   \TMName  & \TMV  & \Coloneqq & \TUnknown \mid \TInt \mid \TBool \mid \TArrow{\TMV}{\TMV} \\
   \EMName  & \EMV  & \Coloneqq & \EEHole \mid x \mid \ELam{x}{\TMV}{\EMV} \mid \EAp{\EMV}{\EMV} \\
            &       & \mid         & \EIntMV \mid \EPlus{\EMV}{\EMV} \\
@@ -19,18 +19,41 @@ Formalization of hole-fixing semantics.
            &       & \mid         & \ECUnbound{x} \mid \ECInconType{\ECMV} \mid \ECInconBr{\ECMV}{\ECMV}{\ECMV}
 \end{array}\]
 
-\subsection{Hole Insertion}
+\subsection{Types}
+\judgbox{\ensuremath{\consistent{\TMV_1}{\TMV_2}}} $\TMV_1$ is consistent with $\TMV_2$
+%
+\begin{mathpar}
+  \judgment{ }{
+    \consistent{\TUnknown}{\TMV}
+  }{TCUnknown1}
+
+  \judgment{ }{
+    \consistent{\TMV}{\TUnknown}
+  }{TCUnknown2}
+
+  \judgment{ }{
+    \consistent{\TMV}{\TMV}
+  }{TCRefl}
+
+  \judgment{
+    \consistent{\TMV_1}{\TMV_1'} \\
+    \consistent{\TMV_2}{\TMV_2'} \\
+  }{
+    \consistent{\TArrow{\TMV_1}{\TMV_2}}{\TArrow{\TMV_1'}{\TMV_2'}}
+  }{TCArr}
+\end{mathpar} \\
+
 \judgbox{\ensuremath{\matchedArrow{\TMV}{\TMV_1}{\TMV_2}}} $\TMV$ has matched arrow type
 $\TArrow{\TMV_1}{\TMV_2}$
 %
 \begin{mathpar}
   \judgment{ }{
     \matchedArrow{\TUnknown}{\TUnknown}{\TUnknown}
-  }{MAHole}
+  }{TMAHole}
 
   \judgment{ }{
     \matchedArrow{\TArrow{\TMV}{\TMV}}{\TMV}{\TMV}
-  }{MAArrow}
+  }{TMAArrow}
 \end{mathpar} \\
 
 \judgbox{\ensuremath{\TJoin{\TMV_1}{\TMV_2} = \TMV}} is a \emph{partial} metafunction defined as
@@ -38,9 +61,11 @@ follows:
 %
 \newcommand{\joinsTo}[3]{\ensuremath{\TJoin{#1}{#2} & = & #3}}
 \[\begin{array}{rcl}
-\end{array}\] \\
+  & \vdots &
+\end{array}\]
 
-\judgbox{\ctxSynFixedInto{\ctx}{\EMV}{\ECMV}{\TMV}} $\EMV$ is hole-fixed into $\ECMV$ and
+\subsection{Hole Insertion}
+\judgbox{\ctxSynFixedInto{\ctx}{\EMV}{\ECMV}{\TMV}} $\EMV$ is marked into $\ECMV$ and
 synthesizes type $\TMV$
 %
 \begin{mathpar}
@@ -112,7 +137,7 @@ synthesizes type $\TMV$
   }{FSInconsistentBranches}
 \end{mathpar} \\
 
-\judgbox{\ctxAnaFixedInto{\ctx}{\EMV}{\ECMV}{\TMV}} $\EMV$ is hole-fixed into $\ECMV$ and analyzes
+\judgbox{\ctxAnaFixedInto{\ctx}{\EMV}{\ECMV}{\TMV}} $\EMV$ is marked into $\ECMV$ and analyzes
 against type $\TMV$
 %
 \begin{mathpar}
@@ -147,23 +172,23 @@ against type $\TMV$
   }{FASubsume}
 \end{mathpar}
 
-\subsection{Internal Expressions}
+\subsection{Marked Expressions}
 \judgbox{\ctxSynType{\ctx}{\ECMV}{\TMV}} $\ECMV$ synthesizes type $\TMV$
 %
 \begin{mathpar}
   \judgment{ }{
     \ctxSynType{\ctx}{\ECEHole}{\TUnknown}
-  }{SHole}
+  }{MSHole}
 
   \judgment{ }{
     \ctxSynType{\extendCtx{\ctx}{x}{\TMV}}{x}{\TMV}
-  }{SVar}
+  }{MSVar}
 
   \judgment{
     \ctxSynType{\extendCtx{\ctx}{x}{\TMV}}{\ECMV}{\TMV_2}
   }{
     \ctxSynType{\ctx}{\ECLam{x}{\TMV_1}{\ECMV}}{\TArrow{\TMV_1}{\TMV_2}}
-  }{SLam}
+  }{MSLam}
 
   \judgment{
     \ctxSynType{\ctx}{\ECMV_1}{\TMV} \\
@@ -171,26 +196,26 @@ against type $\TMV$
     \ctxAnaType{\ctx}{\ECMV_2}{\TMV_1}
   }{
     \ctxSynType{\ctx}{\ECAp{\ECMV_1}{\ECMV_2}}{\TMV_2}
-  }{SAp}
+  }{MSAp}
 
   \judgment{ }{
     \ctxSynType{\ctx}{\ECIntMV}{\TInt}
-  }{SNum}
+  }{MSNum}
 
   \judgment{
     \ctxAnaType{\ctx}{\ECMV_1}{\TInt} \\
     \ctxAnaType{\ctx}{\ECMV_2}{\TInt}
   }{
     \ctxSynType{\ctx}{\ECPlus{\ECMV_1}{\ECMV_2}}{\TInt}
-  }{SPlus}
+  }{MSPlus}
 
   \judgment{ }{
     \ctxSynType{\ctx}{\ECTrue}{\TBool}
-  }{STrue}
+  }{MSTrue}
 
   \judgment{ }{
     \ctxSynType{\ctx}{\ECFalse}{\TBool}
-  }{SFalse}
+  }{MSFalse}
 
   \judgment{
     \ctxAnaType{\ctx}{\ECMV_1}{\TBool} \\
@@ -198,13 +223,13 @@ against type $\TMV$
     \ctxSynType{\ctx}{\ECMV_3}{\TMV_2}
   }{
     \ctxSynType{\ctx}{\ECIf{\ECMV_1}{\ECMV_2}{\ECMV_3}}{\TJoin{\TMV_1}{\TMV_2}}
-  }{SIf}
+  }{MSIf}
 
   \judgment{
     \notInCtx{\ctx}{x}
   }{
     \ctxSynType{\ctx}{\ECUnbound{x}}{\TUnknown}
-  }{SUnbound}
+  }{MSUnbound}
 
   \judgment{
     \ctxAnaType{\ctx}{\ECMV_1}{\TBool} \\
@@ -213,7 +238,7 @@ against type $\TMV$
     \inconsistent{\TMV_1}{\TMV_2}
   }{
     \ctxAnaType{\ctx}{\ECInconBr{\ECMV_1}{\ECMV_2}{\ECMV_3}}{\TUnknown}
-  }{SInconsistentBranches}
+  }{MSInconsistentBranches}
 \end{mathpar} \\
 
 \judgbox{\ctxAnaType{\ctx}{\ECMV}{\TMV}} $\ECMV$ analyzes against type $\TMV$
@@ -225,7 +250,7 @@ against type $\TMV$
     \ctxAnaType{\extendCtx{\ctx}{x}{\TMV}}{\ECMV}{\TMV_2}
   }{
     \ctxAnaType{\ctx}{\ECLam{x}{\TMV}{\ECMV}}{\TMV_3}
-  }{ALam}
+  }{MALam}
 
   \judgment{
     \ctxAnaType{\ctx}{\ECMV_1}{\TBool} \\
@@ -233,21 +258,21 @@ against type $\TMV$
     \ctxAnaType{\ctx}{\ECMV_2}{\TMV}
   }{
     \ctxAnaType{\ctx}{\ECIf{\ECMV_1}{\ECMV_2}{\ECMV_3}}{\TMV}
-  }{AIf}
+  }{MAIf}
 
   \judgment{
     \ctxSynType{\ctx}{\ECMV}{\TMV'} \\
     \inconsistent{\TMV}{\TMV'}
   }{
     \ctxAnaType{\ctx}{\ECInconType{\ECMV}}{\TMV}
-  }{AInconsistentTypes}
+  }{MAInconsistentTypes}
 
   \judgment{
     \ctxSynType{\ctx}{\ECMV}{\TMV'} \\
     \consistent{\TMV}{\TMV'}
   }{
     \ctxAnaType{\ctx}{\ECMV}{\TMV}
-  }{ASubsume}
+  }{MASubsume}
 \end{mathpar}
 
 \subsection{Hole Erasure}
@@ -270,16 +295,33 @@ $\judgbox{\erasesTo{\ECMV}{\EMV}}$ is a metafunction defined as follows:
 \end{array}\]
 
 \subsection{Metatheorems}
-\begin{theorem}[name=Hole Insertion]
-  If $\ctxSynFixedInto{\ctx}{\EMV}{\ECMV}{\TMV}$, then $\ctxSynType{\ctx}{\ECMV}{\TMV}$ and
-  $\erasesTo{\ECMV}{\EMV}$. If $\ctxAnaFixedInto{\ctx}{\EMV}{\ECMV}{\TMV}$, then
-  $\ctxAnaType{\ctx}{\ECMV}{\TMV}$ and $\erasesTo{\ECMV}{\EMV}$.
+\begin{theorem}[name=Hole Insertion] \
+  \begin{enumerate}[label=(\arabic*)]
+    \item If $\ctxSynFixedInto{\ctx}{\EMV}{\ECMV}{\TMV}$, then $\ctxSynType{\ctx}{\ECMV}{\TMV}$ and
+      $\erasesTo{\ECMV}{\EMV}$. 
+    \item If $\ctxAnaFixedInto{\ctx}{\EMV}{\ECMV}{\TMV}$, then $\ctxAnaType{\ctx}{\ECMV}{\TMV}$ and
+      $\erasesTo{\ECMV}{\EMV}$.
+  \end{enumerate}
 \end{theorem}
 
-\begin{theorem}[name=Totality and Unicity]
-  For all $\ctx$ and $\EMV$, there exists a unique $\ECMV$ and $\TMV$ such that
-  $\ctxSynFixedInto{\ctx}{\EMV}{\ECMV}{\TMV}$. For all $\ctx$, $\EMV$, and $\TMV$, there exists a
-  unique $\ECMV$ such that $\ctxAnaFixedInto{\ctx}{\EMV}{\ECMV}{\TMV}$.
+\begin{theorem}[name=Totality] \
+  \begin{enumerate}[label=(\arabic*)]
+    \item For all $\ctx$ and $\EMV$, there exist $\ECMV$ and $\TMV$ such that
+      $\ctxSynFixedInto{\ctx}{\EMV}{\ECMV}{\TMV}$. 
+    \item For all $\ctx$, $\EMV$, and $\TMV$, there exists $\ECMV$ such that
+      $\ctxAnaFixedInto{\ctx}{\EMV}{\ECMV}{\TMV}$.
+  \end{enumerate}
+\end{theorem}
+
+\begin{theorem}[name=Unicity] \
+  \begin{enumerate}[label=(\arabic*)]
+    \item If $\ctxSynFixedInto{\ctx}{\EMV}{\ECMV_1}{\TMV_1}$ and
+      $\ctxSynFixedInto{\ctx}{\EMV}{\ECMV_2}{\TMV_2}$, then $\ECMV_1 = \ECMV_2$ and $\TMV_1 =
+      \TMV_2$.
+    \item If $\ctxAnaFixedInto{\ctx}{\EMV}{\ECMV_1}{\TMV_1}$ and
+      $\ctxAnaFixedInto{\ctx}{\EMV}{\ECMV_2}{\TMV_2}$, then $\ECMV_1 = \ECMV_2$ and $\TMV_1 =
+      \TMV_2$.
+  \end{enumerate}
 \end{theorem}
 
 \end{document}
