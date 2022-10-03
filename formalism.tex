@@ -86,13 +86,13 @@ synthesizes type $\TMV$
   \judgment{
     \ctxSynFixedInto{\extendCtx{\ctx}{x}{\TMV_1}}{\EMV}{\ECMV}{\TMV_2}
   }{
-    \ctxSynFixedInto{\ctx}{\ELam{x}{\TMV}{\EMV}}{\ELam{x}{\TMV_1}{\ECMV}}{\TArrow{\TMV_1}{\TMV_2}}
+    \ctxSynFixedInto{\ctx}{\ELam{x}{\TMV_1}{\EMV}}{\ELam{x}{\TMV_1}{\ECMV}}{\TArrow{\TMV_1}{\TMV_2}}
   }{FSLam}
 
   \judgment{
-    \ctxSynFixedInto{\ctx}{\EMV_1}{\TMV} \\
+    \ctxSynFixedInto{\ctx}{\EMV_1}{\ECMV_1}{\TMV} \\
     \matchedArrow{\TMV}{\TMV_1}{\TMV_2} \\
-    \ctxAnaFixedInto{\ctx}{\EMV_2}{\TMV_1} \\
+    \ctxAnaFixedInto{\ctx}{\EMV_2}{\ECMV_2}{\TMV_1} \\
   }{
     \ctxSynFixedInto{\ctx}{\EAp{\EMV_1}{\EMV_2}}{\ECAp{\ECMV_1}{\ECMV_2}}{\TMV_2}
   }{FSAp}
