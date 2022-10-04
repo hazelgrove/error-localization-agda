@@ -16,12 +16,22 @@
 \newcommand{\inconsistent}[2]{\ensuremath{#1 \nsim #2}}
 
 % Matching
-\newcommand{\matchedArrow}[3]{\ensuremath{#1 \blacktriangleright_{\to} \TArrow{#2}{#3}}}
+\newcommand{\matchedRel}[1]{\ensuremath{\blacktriangleright_{#1}}}
+\newcommand{\notMatchedRel}[1]{\ensuremath{\not\matchedRel{#1}}}
+\newcommand{\matchedArrowRel}{\ensuremath{\matchedRel{\to}}}
+\newcommand{\notMatchedArrowRel}{\ensuremath{\notMatchedRel{\to}}}
+\newcommand{\matchedArrow}[3]{\ensuremath{#1 \matchedArrowRel \TArrow{#2}{#3}}}
+\newcommand{\notMatchedArrow}[3]{\ensuremath{#1 \notMatchedArrowRel \TArrow{#2}{#3}}}
+\newcommand{\matchedPairRel}{\ensuremath{\matchedRel{\times}}}
+\newcommand{\notMatchedPairRel}{\ensuremath{\notMatchedRel{\times}}}
+\newcommand{\matchedPair}[3]{\ensuremath{#1 \matchedPairRel \TPair{#2}{#3}}}
+\newcommand{\notMatchedPair}[3]{\ensuremath{#1 \notMatchedPairRel \TPair{#2}{#3}}}
 
 % Contexts
 \newcommand{\ctx}{\ensuremath{\Gamma}}
 \newcommand{\extendCtx}[3]{\ensuremath{#1 ; ~\assignType{#2}{#3}}}
 \DeclareMathOperator{\dom}{dom}
+\newcommand{\inCtx}[3]{\ensuremath{#2, #3 \in #1}}
 \newcommand{\notInCtx}[2]{\ensuremath{#2 \not\in \dom(#1)}}
 \newcommand{\withCtx}[2]{\ensuremath{#1 \vdash #2}}
 
@@ -52,9 +62,10 @@
 \DeclareMathOperator{\?}{?}
 
 \newcommand{\TUnknown}{\ensuremath{\?}}
-\newcommand{\TArrow}[2]{\ensuremath{#1 \to #2}}
 \newcommand{\TInt}{\ensuremath{\textsf{Num}}}
 \newcommand{\TBool}{\ensuremath{\textsf{Bool}}}
+\newcommand{\TArrow}[2]{\ensuremath{#1 \to #2}}
+\newcommand{\TPair}[2]{\ensuremath{#1 \times #2}}
 
 %
 % External expressions
@@ -80,6 +91,11 @@
 \newcommand{\ELam}[3]{\ECLam{#1}{#2}{#3}}
 \newcommand{\EAp}[2]{\ECAp{#1}{#2}}
 
+% Pairs
+\newcommand{\EPair}[2]{\ECPair{#1}{#2}}
+\newcommand{\EProjL}[1]{\ECProjL{#1}}
+\newcommand{\EProjR}[1]{\ECProjR{#1}}
+
 %
 % Internal expressions
 %
@@ -103,8 +119,17 @@
 % Lambdas
 \newcommand{\ECLam}[3]{\ensuremath{\lambda #1 : #2. ~#3}}
 \newcommand{\ECAp}[2]{\ensuremath{#1 ~#2}}
+\newcommand{\ECNonMatchedAp}[2]{\ensuremath{\textcolor{red}{[}\ECAp{#1}{#2}\textcolor{red}{]}}}
+
+% Pairs
+\newcommand{\ECPair}[2]{\ensuremath{(#1, #2)}}
+\newcommand{\ECProjL}[1]{\ensuremath{#1.0}}
+\newcommand{\ECProjR}[1]{\ensuremath{#1.1}}
 
 % Errors
 \newcommand{\ECUnbound}[1]{\ensuremath{\textcolor{red}{\bm{[}}#1\textcolor{red}{\bm{]}}}}
 \newcommand{\ECInconType}[1]{\ensuremath{\textcolor{red}{\bm{\llparenthesis}}#1\textcolor{red}{\bm{\rrparenthesis}}}}
 \newcommand{\ECInconBr}[3]{\ensuremath{\textcolor{red}{\bm{[}}\ECIf{#1}{#2}{#3}\textcolor{red}{\bm{]}}}}
+\newcommand{\ECInconMatched}[2]{\ensuremath{\textcolor{red}{[}#1\textcolor{red}{]^{\not#2}}}}
+\newcommand{\ECInconMatchedArrow}[1]{\ensuremath{\ECInconMatched{#1}{\matchedArrowRel}}}
+\newcommand{\ECInconMatchedPair}[1]{\ensuremath{\ECInconMatched{#1}{\matchedPairRel}}}

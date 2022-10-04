@@ -73,12 +73,14 @@ synthesizes type $\TMV$
     \ctxSynFixedInto{\ctx}{\EEHole}{\ECEHole}{\TUnknown}
   }{FSHole}
 
-  \judgment{ }{
-    \ctxSynFixedInto{\extendCtx{\ctx}{x}{\TMV}}{x}{x}{\TMV}
+  \judgment{
+    \inCtx{\ctx}{x}{\TMV}
+  }{
+    \ctxSynFixedInto{\ctx}{x}{x}{\TMV}
   }{FSVar}
 
   \judgment{
-    \notInCtx{x}{\ctx}
+    \notInCtx{\ctx}{x}
   }{
     \ctxSynFixedInto{\ctx}{x}{\ECUnbound{x}}{\TUnknown}
   }{FSUnbound}
@@ -95,7 +97,15 @@ synthesizes type $\TMV$
     \ctxAnaFixedInto{\ctx}{\EMV_2}{\ECMV_2}{\TMV_1} \\
   }{
     \ctxSynFixedInto{\ctx}{\EAp{\EMV_1}{\EMV_2}}{\ECAp{\ECMV_1}{\ECMV_2}}{\TMV_2}
-  }{FSAp}
+  }{FSAp1}
+
+  \judgment{
+    \ctxSynFixedInto{\ctx}{\EMV_1}{\ECMV_1}{\TMV} \\
+    \notMatchedArrow{\TMV}{\TMV_1}{\TMV_2} \\
+    \ctxAnaFixedInto{\ctx}{\EMV_2}{\ECMV_2}{\TUnknown}
+  }{
+    \ctxSynFixedInto{\ctx}{\EAp{\EMV_1}{\EMV_2}}{\ECAp{\ECInconType{\ECMV_1}}{\ECMV_2}}{\TUnknown}
+  }{FSAp2}
 
   \judgment{
   }{
@@ -196,7 +206,15 @@ against type $\TMV$
     \ctxAnaType{\ctx}{\ECMV_2}{\TMV_1}
   }{
     \ctxSynType{\ctx}{\ECAp{\ECMV_1}{\ECMV_2}}{\TMV_2}
-  }{MSAp}
+  }{MSAp1}
+
+  \judgment{
+    \ctxSynType{\ctx}{\ECMV_1}{\TMV} \\
+    \notMatchedArrow{\TMV}{\TMV_1}{\TMV_2} \\
+    \ctxAnaType{\ctx}{\ECMV_2}{\TUnknown}
+  }{
+    \ctxSynType{\ctx}{\ECAp{\ECInconType{\ECMV_1}}{\ECMV_2}}{\TUnknown}
+  }{MSAp2}
 
   \judgment{ }{
     \ctxSynType{\ctx}{\ECIntMV}{\TInt}
@@ -275,6 +293,124 @@ against type $\TMV$
   }{MASubsume}
 \end{mathpar}
 
+\subsubsection{Alternative Rules}
+[MSAp2] handles the case that the expression applied in function application does not synthesize a
+type that is a matched arrow type. Treating the expression in that position to be in a
+``constrained'' synthetic mode, we mark a type inconsistency around it.
+
+As an alternative to overloading the meaning of type inconsistency errors, we may instead designate
+a special error case for such applications:
+%
+\[\begin{array}{rrcl}
+  \ECMName & \ECMV & \Coloneqq & \cdots \mid \ECNonMatchedAp{\ECMV}{\ECMV}
+\end{array}\]
+%
+This gives rise to similar marking and typing judgments (the premises of each are identical):
+%
+\begin{mathpar}
+  \judgment{
+    \ctxSynFixedInto{\ctx}{\EMV_1}{\ECMV_1}{\TMV} \\
+    \notMatchedArrow{\TMV}{\TMV_1}{\TMV_2} \\
+    \ctxAnaFixedInto{\ctx}{\EMV_2}{\ECMV_2}{\TUnknown}
+  }{
+    \ctxSynFixedInto{\ctx}{\EAp{\EMV_1}{\EMV_2}}{\ECNonMatchedAp{\ECMV_1}{\ECMV_2}}{\TUnknown}
+  }{FSAp2'}
+
+  \judgment{
+    \ctxSynType{\ctx}{\ECMV_1}{\TMV} \\
+    \notMatchedArrow{\TMV}{\TMV_1}{\TMV_2} \\
+    \ctxAnaType{\ctx}{\ECMV_2}{\TUnknown}
+  }{
+    \ctxSynType{\ctx}{\ECNonMatchedAp{\ECMV}{\ECMV}}{\TUnknown}
+  }{MSAp2'}
+\end{mathpar}
+
+Another alternative is to still insert the hole around the applied expression without overloading
+type inconsistency errors, instead designating a ``unmatched type`` error:
+%
+\[\begin{array}{rrcl}
+  \ECMName & \ECMV & \Coloneqq & \cdots \mid \ECInconMatchedArrow{\ECMV}
+\end{array}\]
+%
+The rules remain much the same (the premises are again identical):
+%
+\begin{mathpar}
+  \judgment{
+    \ctxSynFixedInto{\ctx}{\EMV_1}{\ECMV_1}{\TMV} \\
+    \notMatchedArrow{\TMV}{\TMV_1}{\TMV_2} \\
+    \ctxAnaFixedInto{\ctx}{\EMV_2}{\ECMV_2}{\TUnknown}
+  }{
+    \ctxSynFixedInto{\ctx}{\EAp{\EMV_1}{\EMV_2}}{\ECAp{\ECInconMatchedArrow{\ECMV_1}}{\ECMV_2}}{\TUnknown}
+  }{FSAp2''}
+
+  \judgment{
+    \ctxSynType{\ctx}{\ECMV_1}{\TMV} \\
+    \notMatchedArrow{\TMV}{\TMV_1}{\TMV_2} \\
+    \ctxAnaType{\ctx}{\ECMV_2}{\TUnknown}
+  }{
+    \ctxSynType{\ctx}{\ECAp{\ECInconMatchedArrow{\ECMV}}{\ECMV}}{\TUnknown}
+  }{MSAp2''}
+\end{mathpar}
+
+It then becomes natural to extend this to other elimination forms that require handling of unmatched
+types, e.g. pairs:
+%
+\[\begin{array}{rrcl}
+  \TMName  & \TMV  & \Coloneqq & \cdots \mid \TPair{\TMV}{\TMV} \\
+  \EMName  & \EMV  & \Coloneqq & \cdots
+                               \mid \EPair{\EMV}{\EMV} 
+                               \mid \EProjL{\EMV} \mid \EProjR{\EMV} \\
+  \ECMName & \ECMV & \Coloneqq & \cdots 
+                               \mid \ECPair{\ECMV}{\ECMV} 
+                               \mid \ECProjL{\ECMV} \mid \ECProjR{\ECMV}
+                               \mid \ECInconMatchedPair{\ECMV}
+\end{array}\]
+
+\begin{mathpar}
+  \judgment{
+    \ctxSynType{\ctx}{\ECMV_1}{\TMV_1} \\
+    \ctxSynType{\ctx}{\ECMV_2}{\TMV_2}
+  }{
+    \ctxSynType{\ctx}{\ECPair{\ECMV_1}{\ECMV_2}}{\TPair{\TMV_1}{\TMV_2}}
+  }{MSPair}
+
+  \judgment{
+    \matchedPair{\TMV}{\TMV_1}{\TMV_2} \\
+    \ctxAnaType{\ctx}{\ECMV_1}{\TMV_1} \\
+    \ctxAnaType{\ctx}{\ECMV_2}{\TMV_2}
+  }{
+    \ctxAnaType{\ctx}{\ECPair{\ECMV_1}{\ECMV_2}}{\TMV}
+  }{MAPair}
+
+  \judgment{
+    \ctxSynType{\ctx}{\ECMV}{\TMV} \\
+    \matchedPair{\TMV}{\TMV_1}{\TVM_2}
+  }{
+    \ctxSynType{\ctx}{\ECProjL{\ECMV}}{\TMV_1}
+  }{MSProjL1}
+
+  \judgment{
+    \ctxSynType{\ctx}{\ECMV}{\TMV} \\
+    \notMatchedPair{\TMV}{\TMV_1}{\TVM_2}
+  }{
+    \ctxSynType{\ctx}{\ECProjL{\ECInconMatchedPair{\ECMV}}}{\TUnknown}
+  }{MSProjL2}
+
+  \judgment{
+    \ctxSynType{\ctx}{\ECMV}{\TMV} \\
+    \matchedPair{\TMV}{\TMV_1}{\TVM_2}
+  }{
+    \ctxSynType{\ctx}{\ECProjR{\ECMV}}{\TMV_2}
+  }{MSProjR1}
+
+  \judgment{
+    \ctxSynType{\ctx}{\ECMV}{\TMV} \\
+    \notMatchedPair{\TMV}{\TMV_1}{\TVM_2}
+  }{
+    \ctxSynType{\ctx}{\ECProjR{\ECInconMatchedPair{\ECMV}}}{\TUnknown}
+  }{MSProjR2}
+\end{mathpar}
+
 \subsection{Hole Erasure}
 $\judgbox{\erasesTo{\ECMV}{\EMV}}$ is a metafunction defined as follows:
 %
@@ -323,5 +459,6 @@ $\judgbox{\erasesTo{\ECMV}{\EMV}}$ is a metafunction defined as follows:
       \TMV_2$.
   \end{enumerate}
 \end{theorem}
+
 
 \end{document}
