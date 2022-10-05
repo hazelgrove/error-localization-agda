@@ -56,12 +56,16 @@ $\TArrow{\TMV_1}{\TMV_2}$
   }{TMAArrow}
 \end{mathpar} \\
 
-\judgbox{\ensuremath{\TJoin{\TMV_1}{\TMV_2} = \TMV}} is a \emph{partial} metafunction defined as
-follows:
+\judgbox{\ensuremath{\TJoin{\TMV_1}{\TMV_2}}} is a \emph{partial} metafunction defined as
+follows (this is a LUB join):
 %
 \newcommand{\joinsTo}[3]{\ensuremath{\TJoin{#1}{#2} & = & #3}}
 \[\begin{array}{rcl}
-  & \vdots &
+  \joinsTo{\TUnknown}{\TMV}{\TMV} \\
+  \joinsTo{\TMV}{\TUnknown}{\TMV} \\
+  \joinsTo{\TInt}{\TInt}{\TInt} \\
+  \joinsTo{\TBool}{\TBool}{\TBool} \\
+  \joinsTo{(\TArrow{\TMV_1}{\TMV_2})}{(\TArrow{\TMV_1'}{\TMV_2'})}{\TArrow{(\TJoin{\TMV_1}{\TMV_1'})}{(\TJoin{\TMV_2}{\TMV_2'})}} \\
 \end{array}\]
 
 \subsection{Unmarked Expressions}
