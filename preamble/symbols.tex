@@ -53,10 +53,16 @@
 \newcommand{\anaFixedInto}[3]{\ensuremath{\anaType{#1 \looparrowright #2}{#3}}}
 \newcommand{\ctxAnaFixedInto}[4]{\ensuremath{\withCtx{#1}{\anaFixedInto{#2}{#3}{#4}}}}
 
+% Image
+\newcommand{\image}[1]{\ensuremath{#1^{\circ}}}
+\newcommand{\imageIs}[2]{\ensuremath{\image{#1} = #2}}
+\newcommand{\imageIsNot}[2]{\ensuremath{\image{#1} \neq #2}}
+
 % 
 % Types
 %
 \newcommand{\TMName}{\textsf{Type}}
+\newcommand{\TMSet}{\ensuremath{T}}
 \newcommand{\TMV}{\ensuremath{\tau}}
 \newcommand{\TJoin}[2]{\ensuremath{#1 \sqcup #2}}
 \DeclareMathOperator{\?}{?}
@@ -70,7 +76,8 @@
 %
 % External expressions
 %
-\newcommand{\EMName}{\textsf{Exp}}
+\newcommand{\EMName}{\textsf{UExp}}
+\newcommand{\EMSet}{\ensuremath{E}}
 \newcommand{\EMV}{\ensuremath{e}}
 
 % Holes
@@ -97,9 +104,10 @@
 \newcommand{\EProjR}[1]{\ECProjR{#1}}
 
 %
-% Internal expressions
+% Marked expressions
 %
 \newcommand{\ECMName}{\textsf{MExp}}
+\newcommand{\ECMSet}{\ensuremath{\check{E}}}
 \newcommand{\ECMV}{\ensuremath{\check{e}}}
 
 % Holes

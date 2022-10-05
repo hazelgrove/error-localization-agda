@@ -9,14 +9,14 @@ Formalization of hole-fixing semantics.
 
 \subsection{Syntax}
 \[\begin{array}{rrcl}
-  \TMName  & \TMV  & \Coloneqq & \TUnknown \mid \TInt \mid \TBool \mid \TArrow{\TMV}{\TMV} \\
-  \EMName  & \EMV  & \Coloneqq & \EEHole \mid x \mid \ELam{x}{\TMV}{\EMV} \mid \EAp{\EMV}{\EMV} \\
-           &       & \mid         & \EIntMV \mid \EPlus{\EMV}{\EMV} \\
-           &       & \mid         & \ETrue \mid \EFalse \mid \EIf{\EMV}{\EMV}{\EMV} \\
-  \ECMName & \ECMV & \Coloneqq & \ECEHole \mid x \mid \ECLam{x}{\TMV}{\ECMV} \mid \ECAp{\ECMV}{\ECMV} \\
-           &       & \mid         & \ECIntMV \mid \ECPlus{\ECMV}{\ECMV} \\
-           &       & \mid         & \ECTrue \mid \ECFalse \mid \ECIf{\ECMV}{\ECMV}{\ECMV} \\
-           &       & \mid         & \ECUnbound{x} \mid \ECInconType{\ECMV} \mid \ECInconBr{\ECMV}{\ECMV}{\ECMV}
+  \TMName  & \TMV  \in \TMSet  & \Coloneqq & \TUnknown \mid \TInt \mid \TBool \mid \TArrow{\TMV}{\TMV} \\
+  \EMName  & \EMV  \in \EMSet  & \Coloneqq & \EEHole \mid x \mid \ELam{x}{\TMV}{\EMV} \mid \EAp{\EMV}{\EMV} \\
+           &                 & \mid         & \EIntMV \mid \EPlus{\EMV}{\EMV} \\
+           &                 & \mid         & \ETrue \mid \EFalse \mid \EIf{\EMV}{\EMV}{\EMV} \\
+  \ECMName & \ECMV \in \ECMSet & \Coloneqq & \ECEHole \mid x \mid \ECLam{x}{\TMV}{\ECMV} \mid \ECAp{\ECMV}{\ECMV} \\
+           &                 & \mid         & \ECIntMV \mid \ECPlus{\ECMV}{\ECMV} \\
+           &                 & \mid         & \ECTrue \mid \ECFalse \mid \ECIf{\ECMV}{\ECMV}{\ECMV} \\
+           &                 & \mid         & \ECUnbound{x} \mid \ECInconType{\ECMV} \mid \ECInconBr{\ECMV}{\ECMV}{\ECMV}
 \end{array}\]
 
 \subsection{Types}
@@ -63,6 +63,87 @@ follows:
 \[\begin{array}{rcl}
   & \vdots &
 \end{array}\]
+
+\subsection{Unmarked Expressions}
+$\judgbox{\ctxSynType{\ctx}{\EMV}{\TMV}}$ $\EMV$ synthesizes type $\TMV$
+%
+\begin{mathpar}
+  \judgment{ }{
+    \ctxSynType{\ctx}{\ECEHole}{\TUnknown}
+  }{USHole}
+
+  \judgment{ }{
+    \ctxSynType{\extendCtx{\ctx}{x}{\TMV}}{x}{\TMV}
+  }{USVar}
+
+  \judgment{
+    \ctxSynType{\extendCtx{\ctx}{x}{\TMV}}{\EMV}{\TMV_2}
+  }{
+    \ctxSynType{\ctx}{\ECLam{x}{\TMV_1}{\EMV}}{\TArrow{\TMV_1}{\TMV_2}}
+  }{USLam}
+
+  \judgment{
+    \ctxSynType{\ctx}{\EMV_1}{\TMV} \\
+    \matchedArrow{\TMV}{\TMV_1}{\TMV_2} \\
+    \ctxAnaType{\ctx}{\EMV_2}{\TMV_1}
+  }{
+    \ctxSynType{\ctx}{\ECAp{\EMV_1}{\EMV_2}}{\TMV_2}
+  }{USAp1}
+
+  \judgment{ }{
+    \ctxSynType{\ctx}{\ECIntMV}{\TInt}
+  }{USNum}
+
+  \judgment{
+    \ctxAnaType{\ctx}{\EMV_1}{\TInt} \\
+    \ctxAnaType{\ctx}{\EMV_2}{\TInt}
+  }{
+    \ctxSynType{\ctx}{\ECPlus{\EMV_1}{\EMV_2}}{\TInt}
+  }{USPlus}
+
+  \judgment{ }{
+    \ctxSynType{\ctx}{\ECTrue}{\TBool}
+  }{USTrue}
+
+  \judgment{ }{
+    \ctxSynType{\ctx}{\ECFalse}{\TBool}
+  }{USFalse}
+
+  \judgment{
+    \ctxAnaType{\ctx}{\EMV_1}{\TBool} \\
+    \ctxSynType{\ctx}{\EMV_2}{\TMV_1} \\
+    \ctxSynType{\ctx}{\EMV_3}{\TMV_2}
+  }{
+    \ctxSynType{\ctx}{\ECIf{\EMV_1}{\EMV_2}{\EMV_3}}{\TJoin{\TMV_1}{\TMV_2}}
+  }{USIf}
+\end{mathpar} \\
+
+\judgbox{\ctxAnaType{\ctx}{\EMV}{\TMV}} $\EMV$ analyzes against type $\TMV$
+%
+\begin{mathpar}
+  \judgment{
+    \matchedArrow{\TMV_3}{\TMV_1}{\TMV_2} \\
+    \consistent{\TMV}{\TMV_1} \\
+    \ctxAnaType{\extendCtx{\ctx}{x}{\TMV}}{\EMV}{\TMV_2}
+  }{
+    \ctxAnaType{\ctx}{\ECLam{x}{\TMV}{\EMV}}{\TMV_3}
+  }{UALam}
+
+  \judgment{
+    \ctxAnaType{\ctx}{\EMV_1}{\TBool} \\
+    \ctxAnaType{\ctx}{\EMV_1}{\TMV} \\
+    \ctxAnaType{\ctx}{\EMV_2}{\TMV}
+  }{
+    \ctxAnaType{\ctx}{\ECIf{\EMV_1}{\EMV_2}{\EMV_3}}{\TMV}
+  }{UAIf}
+
+  \judgment{
+    \ctxSynType{\ctx}{\EMV}{\TMV'} \\
+    \consistent{\TMV}{\TMV'}
+  }{
+    \ctxAnaType{\ctx}{\EMV}{\TMV}
+  }{UASubsume}
+\end{mathpar}
 
 \subsection{Hole Insertion}
 \judgbox{\ctxSynFixedInto{\ctx}{\EMV}{\ECMV}{\TMV}} $\EMV$ is marked into $\ECMV$ and
@@ -293,7 +374,94 @@ against type $\TMV$
   }{MASubsume}
 \end{mathpar}
 
-\subsubsection{Alternative Rules}
+\subsection{Hole Erasure}
+$\judgbox{\erase{\ECMV}}$ is a metafunction defined as follows:
+%
+\newcommand{\erasesToRow}[2]{\erase{#1} & = & #2}
+\[\begin{array}{rcl}
+  \erasesToRow{\ECEHole}{\EEHole} \\
+  \erasesToRow{x}{x} \\
+  \erasesToRow{(\ECLam{x}{\TMV}{\ECMV})}{\ELam{x}{\TMV}{(\erase{\ECMV})}} \\
+  \erasesToRow{(\ECAp{\ECMV_1}{\ECMV_2})}{\EAp{(\erase{\ECMV_1})}{(\erase{\ECMV_2})}} \\
+  \erasesToRow{\ECIntMV}{\EIntMV} \\
+  \erasesToRow{(\ECPlus{\ECMV_1}{\ECMV_2})}{\EPlus{(\erase{\ECMV_1})}{(\erase{\ECMV_2})}} \\
+  \erasesToRow{\ECTrue}{\ETrue} \\
+  \erasesToRow{\ECFalse}{\EFalse} \\
+  \erasesToRow{(\ECIf{\ECMV_1}{\ECMV_2}{\ECMV_3})}{\EIf{(\erase{\ECMV_1})}{(\erase{\ECMV_2})}{(\erase{\ECMV_3})}} \\
+  \erasesToRow{\ECUnbound{x}}{x} \\
+  \erasesToRow{\ECInconType{\ECMV}}{\erase{\ECMV}} \\
+  \erasesToRow{\ECInconBr{\ECMV_1}{\ECMV_2}{\ECMV_3}}{\EIf{(\erase{\ECMV_1})}{(\erase{\ECMV_2})}{(\erase{\ECMV_3})}} \\
+\end{array}\]
+
+\subsection{Image}
+$\judgbox{\image{\EMV}}$ is the injection of $\EMV$ into marked expressions:
+%
+\newcommand{\imageIsRow}[2]{\image{#1} & = & #2}
+\[\begin{array}{rcl}
+  \imageIsRow{\EEHole}{\ECEHole} \\
+  \imageIsRow{x}{x} \\
+  \imageIsRow{\ELam{x}{\TMV}{\EMV}}{\ECLam{x}{\TMV}{(\image{\ECMV})}} \\
+  \imageIsRow{(\EAp{\EMV_1}{\EMV_2})}{\ECAp{(\image{\ECMV_1})}{(\image{\ECMV_2})}} \\
+  \imageIsRow{\EIntMV}{\ECIntMV} \\
+  \imageIsRow{(\EPlus{\EMV_1}{\EMV_2})}{\ECPlus{(\image{\ECMV_1})}{(\image{\ECMV_2})}} \\
+  \imageIsRow{\ETrue}{\ECTrue} \\
+  \imageIsRow{\EFalse}{\ECFalse} \\
+  \imageIsRow{(\EIf{\EMV_1}{\EMV_2}{\EMV_3})}{\ECIf{(\image{\EMV_1})}{(\image{\EMV_2})}{(\image{\EMV_3})}} \\
+\end{array}\]
+
+\subsection{Metatheorems}
+\begin{theorem}[name=Hole Insertion] \
+  \begin{enumerate}[label=(\arabic*)]
+    \item If $\ctxSynFixedInto{\ctx}{\EMV}{\ECMV}{\TMV}$, then $\ctxSynType{\ctx}{\ECMV}{\TMV}$ and
+      $\erasesTo{\ECMV}{\EMV}$. 
+    \item If $\ctxAnaFixedInto{\ctx}{\EMV}{\ECMV}{\TMV}$, then $\ctxAnaType{\ctx}{\ECMV}{\TMV}$ and
+      $\erasesTo{\ECMV}{\EMV}$.
+  \end{enumerate}
+\end{theorem}
+
+\begin{theorem}[name=Totality] \
+  \begin{enumerate}[label=(\arabic*)]
+    \item For all $\ctx$ and $\EMV$, there exist $\ECMV$ and $\TMV$ such that
+      $\ctxSynFixedInto{\ctx}{\EMV}{\ECMV}{\TMV}$. 
+    \item For all $\ctx$, $\EMV$, and $\TMV$, there exists $\ECMV$ such that
+      $\ctxAnaFixedInto{\ctx}{\EMV}{\ECMV}{\TMV}$.
+  \end{enumerate}
+\end{theorem}
+
+\begin{theorem}[name=Unicity] \
+  \begin{enumerate}[label=(\arabic*)]
+    \item If $\ctxSynFixedInto{\ctx}{\EMV}{\ECMV_1}{\TMV_1}$ and
+      $\ctxSynFixedInto{\ctx}{\EMV}{\ECMV_2}{\TMV_2}$, then $\ECMV_1 = \ECMV_2$ and $\TMV_1 =
+      \TMV_2$.
+    \item If $\ctxAnaFixedInto{\ctx}{\EMV}{\ECMV_1}{\TMV_1}$ and
+      $\ctxAnaFixedInto{\ctx}{\EMV}{\ECMV_2}{\TMV_2}$, then $\ECMV_1 = \ECMV_2$ and $\TMV_1 =
+      \TMV_2$.
+  \end{enumerate}
+\end{theorem}
+
+\begin{theorem}[name=?] \
+  \begin{enumerate}
+    \item \begin{enumerate}
+        \item If $\ctxSynType{\ctx}{\EMV}{\TMV}$, then $\ctxSynFixedInto{\ctx}{\EMV}{\ECMV}{\TMV}$
+          where $\imageIs{\EMV}{\ECMV}$.
+        \item If there does not exist $\TMV$ such that $\ctxSynType{\ctx}{\EMV}{\TMV}$, then for all
+          $\ECMV$ and $\TMV'$ such that $\ctxSynFixedInto{\ctx}{\EMV}{\ECMV}{\TMV'}$,
+          $\imageIsNot{\EMV}{\ECMV}$ and $\imageIs{\EMV}{\ECMV'}$ for some $\ECMV'$ such that $\ECMV
+          \neq \ECMV'$.
+      \end{enumerate}
+
+    \item \begin{enumerate}
+        \item If $\ctxAnaType{\ctx}{\EMV}{\TMV}$, then $\ctxAnaFixedInto{\ctx}{\EMV}{\ECMV}{\TMV}$
+          where $\imageIs{\EMV}{\ECMV}$.
+        \item If there does not exist $\TMV$ such that $\ctxAnaType{\ctx}{\EMV}{\TMV}$, then for all
+          $\ECMV$ and $\TMV'$ such that $\ctxAnaFixedInto{\ctx}{\EMV}{\ECMV}{\TMV'}$,
+          $\imageIsNot{\EMV}{\ECMV}$ and $\imageIs{\EMV}{\ECMV'}$ for some $\ECMV'$ such that $\ECMV
+          \neq \ECMV'$.
+      \end{enumerate}
+  \end{enumerate}
+\end{theorem}
+
+\subsection{Alternative Rules}
 [MSAp2] handles the case that the expression applied in function application does not synthesize a
 type that is a matched arrow type. Treating the expression in that position to be in a
 ``constrained'' synthetic mode, we mark a type inconsistency around it.
@@ -368,6 +536,63 @@ types, e.g. pairs:
 
 \begin{mathpar}
   \judgment{
+    \ctxSynFixedInto{\ctx}{\EMV_1}{\ECMV_1}{\TMV_1} \\
+    \ctxSynFixedInto{\ctx}{\EMV_2}{\ECMV_2}{\TMV_2}
+  }{
+    \ctxSynFixedInto{\ctx}{\EPair{\EMV_1}{\EMV_2}}{\ECPair{\ECMV_1}{\ECMV_2}}{\TPair{\TMV_1}{\TMV_2}}
+  }{FSPair}
+
+  \judgment{
+    \matchedPair{\TMV}{\TMV_1}{\TMV_2} \\
+    \ctxAnaFixedInto{\ctx}{\EMV_1}{\ECMV_1}{\TMV_1} \\
+    \ctxAnaFixedInto{\ctx}{\EMV_2}{\ECMV_2}{\TMV_2}
+  }{
+    \ctxAnaFixedInto{\ctx}{\EPair{\EMV_1}{\EMV_2}}{\ECPair{\ECMV_1}{\ECMV_2}}{\TMV}
+  }{FAPair}
+
+  \judgment{
+    \ctxSynFixedInto{\ctx}{\EMV}{\ECMV}{\TMV} \\
+    \matchedPair{\TMV}{\TMV_1}{\TMV_2}
+  }{
+    \ctxSynFixedInto{\ctx}{\EProjL{\EMV}}{\ECProjL{\ECMV}}{\TMV_1}
+  }{FSProjL1}
+
+  \judgment{
+    \ctxSynFixedInto{\ctx}{\EMV}{\ECMV}{\TMV} \\
+    \notMatchedPair{\TMV}{\TMV_1}{\TMV_2}
+  }{
+    \ctxSynFixedInto{\ctx}{\EProjL{\EMV}}{\ECProjL{\ECInconMatchedPair{\ECMV}}}{\TMV_1}
+  }{FSProjL2}
+
+  \judgment{
+    \ctxSynFixedInto{\ctx}{\EMV}{\ECMV}{\TMV} \\
+    \matchedPair{\TMV}{\TMV_1}{\TMV_2}
+  }{
+    \ctxSynFixedInto{\ctx}{\EProjR{\EMV}}{\ECProjR{\ECMV}}{\TMV_2}
+  }{FSProjR1}
+
+  \judgment{
+    \ctxSynFixedInto{\ctx}{\EMV}{\ECMV}{\TMV} \\
+    \notMatchedPair{\TMV}{\TMV_1}{\TMV_2}
+  }{
+    \ctxSynFixedInto{\ctx}{\EProjR{\EMV}}{\ECProjR{\ECInconMatchedPair{\ECMV}}}{\TMV_2}
+  }{FSProjR2}
+
+  \judgment{
+    \ctxAnaFixedInto{\ctx}{\EMV}{\ECMV}{\TPair{\TMV}{\TUnknown}}
+  }{
+    \ctxAnaFixedInto{\ctx}{\EProjL{\EMV}}{\ECProjL{\ECMV}}{\TMV}
+  }{FAProjL}
+
+  \judgment{
+    \ctxAnaFixedInto{\ctx}{\EMV}{\ECMV}{\TPair{\TMV}{\TUnknown}}
+  }{
+    \ctxAnaFixedInto{\ctx}{\EProjR{\EMV}}{\ECProjR{\ECMV}}{\TMV}
+  }{FAProjR}
+\end{mathpar}
+
+\begin{mathpar}
+  \judgment{
     \ctxSynType{\ctx}{\ECMV_1}{\TMV_1} \\
     \ctxSynType{\ctx}{\ECMV_2}{\TMV_2}
   }{
@@ -384,81 +609,43 @@ types, e.g. pairs:
 
   \judgment{
     \ctxSynType{\ctx}{\ECMV}{\TMV} \\
-    \matchedPair{\TMV}{\TMV_1}{\TVM_2}
+    \matchedPair{\TMV}{\TMV_1}{\TMV_2}
   }{
     \ctxSynType{\ctx}{\ECProjL{\ECMV}}{\TMV_1}
   }{MSProjL1}
 
   \judgment{
     \ctxSynType{\ctx}{\ECMV}{\TMV} \\
-    \notMatchedPair{\TMV}{\TMV_1}{\TVM_2}
+    \notMatchedPair{\TMV}{\TMV_1}{\TMV_2}
   }{
     \ctxSynType{\ctx}{\ECProjL{\ECInconMatchedPair{\ECMV}}}{\TUnknown}
   }{MSProjL2}
 
   \judgment{
+    \ctxAnaType{\ctx}{\ECMV}{\TPair{\TMV}{\TUnknown}}
+  }{
+    \ctxAnaType{\ctx}{\ECProjL{\ECMV}}{\TMV}
+  }{MAProjL}
+
+  \judgment{
     \ctxSynType{\ctx}{\ECMV}{\TMV} \\
-    \matchedPair{\TMV}{\TMV_1}{\TVM_2}
+    \matchedPair{\TMV}{\TMV_1}{\TMV_2}
   }{
     \ctxSynType{\ctx}{\ECProjR{\ECMV}}{\TMV_2}
   }{MSProjR1}
 
   \judgment{
     \ctxSynType{\ctx}{\ECMV}{\TMV} \\
-    \notMatchedPair{\TMV}{\TMV_1}{\TVM_2}
+    \notMatchedPair{\TMV}{\TMV_1}{\TMV_2}
   }{
     \ctxSynType{\ctx}{\ECProjR{\ECInconMatchedPair{\ECMV}}}{\TUnknown}
   }{MSProjR2}
+
+  \judgment{
+    \ctxAnaType{\ctx}{\ECMV}{\TPair{\TUnknown}{\TMV}}
+  }{
+    \ctxAnaType{\ctx}{\ECProjR{\ECMV}}{\TMV}
+  }{MAProjR}
 \end{mathpar}
-
-\subsection{Hole Erasure}
-$\judgbox{\erasesTo{\ECMV}{\EMV}}$ is a metafunction defined as follows:
-%
-\newcommand{\erasesToRow}[2]{\erase{#1} & = & #2}
-\[\begin{array}{rcl}
-  \erasesToRow{\ECEHole}{\EEHole} \\
-  \erasesToRow{x}{x} \\
-  \erasesToRow{(\ECLam{x}{\TMV}{\ECMV})}{\ELam{x}{\TMV}{(\erase{\ECMV})}} \\
-  \erasesToRow{(\ECAp{\ECMV_1}{\ECMV_2})}{\EAp{(\erase{\ECMV_1})}{(\erase{\ECMV_2})}} \\
-  \erasesToRow{\ECIntMV}{\EIntMV} \\
-  \erasesToRow{(\ECPlus{\ECMV_1}{\ECMV_2})}{\EPlus{(\erase{\ECMV_1})}{(\erase{\ECMV_2})}} \\
-  \erasesToRow{\ECTrue}{\ETrue} \\
-  \erasesToRow{\ECFalse}{\EFalse} \\
-  \erasesToRow{(\ECIf{\ECMV_1}{\ECMV_2}{\ECMV_3})}{\EIf{(\erase{\ECMV_1})}{(\erase{\ECMV_2})}{(\erase{\ECMV_3})}} \\
-  \erasesToRow{\ECUnbound{x}}{x} \\
-  \erasesToRow{\ECInconType{\ECMV}}{\erase{\ECMV}} \\
-  \erasesToRow{\ECInconBr{\ECMV_1}{\ECMV_2}{\ECMV_3}}{\EIf{(\erase{\ECMV_1})}{(\erase{\ECMV_2})}{(\erase{\ECMV_3})}} \\
-\end{array}\]
-
-\subsection{Metatheorems}
-\begin{theorem}[name=Hole Insertion] \
-  \begin{enumerate}[label=(\arabic*)]
-    \item If $\ctxSynFixedInto{\ctx}{\EMV}{\ECMV}{\TMV}$, then $\ctxSynType{\ctx}{\ECMV}{\TMV}$ and
-      $\erasesTo{\ECMV}{\EMV}$. 
-    \item If $\ctxAnaFixedInto{\ctx}{\EMV}{\ECMV}{\TMV}$, then $\ctxAnaType{\ctx}{\ECMV}{\TMV}$ and
-      $\erasesTo{\ECMV}{\EMV}$.
-  \end{enumerate}
-\end{theorem}
-
-\begin{theorem}[name=Totality] \
-  \begin{enumerate}[label=(\arabic*)]
-    \item For all $\ctx$ and $\EMV$, there exist $\ECMV$ and $\TMV$ such that
-      $\ctxSynFixedInto{\ctx}{\EMV}{\ECMV}{\TMV}$. 
-    \item For all $\ctx$, $\EMV$, and $\TMV$, there exists $\ECMV$ such that
-      $\ctxAnaFixedInto{\ctx}{\EMV}{\ECMV}{\TMV}$.
-  \end{enumerate}
-\end{theorem}
-
-\begin{theorem}[name=Unicity] \
-  \begin{enumerate}[label=(\arabic*)]
-    \item If $\ctxSynFixedInto{\ctx}{\EMV}{\ECMV_1}{\TMV_1}$ and
-      $\ctxSynFixedInto{\ctx}{\EMV}{\ECMV_2}{\TMV_2}$, then $\ECMV_1 = \ECMV_2$ and $\TMV_1 =
-      \TMV_2$.
-    \item If $\ctxAnaFixedInto{\ctx}{\EMV}{\ECMV_1}{\TMV_1}$ and
-      $\ctxAnaFixedInto{\ctx}{\EMV}{\ECMV_2}{\TMV_2}$, then $\ECMV_1 = \ECMV_2$ and $\TMV_1 =
-      \TMV_2$.
-  \end{enumerate}
-\end{theorem}
-
 
 \end{document}
