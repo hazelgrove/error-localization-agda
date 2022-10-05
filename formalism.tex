@@ -9,14 +9,14 @@ Formalization of hole-fixing semantics.
 
 \subsection{Syntax}
 \[\begin{array}{rrcl}
-  \TMName  & \TMV  \in \TMSet  & \Coloneqq & \TUnknown \mid \TInt \mid \TBool \mid \TArrow{\TMV}{\TMV} \\
-  \EMName  & \EMV  \in \EMSet  & \Coloneqq & \EEHole \mid x \mid \ELam{x}{\TMV}{\EMV} \mid \EAp{\EMV}{\EMV} \\
-           &                 & \mid         & \EIntMV \mid \EPlus{\EMV}{\EMV} \\
-           &                 & \mid         & \ETrue \mid \EFalse \mid \EIf{\EMV}{\EMV}{\EMV} \\
-  \ECMName & \ECMV \in \ECMSet & \Coloneqq & \ECEHole \mid x \mid \ECLam{x}{\TMV}{\ECMV} \mid \ECAp{\ECMV}{\ECMV} \\
-           &                 & \mid         & \ECIntMV \mid \ECPlus{\ECMV}{\ECMV} \\
-           &                 & \mid         & \ECTrue \mid \ECFalse \mid \ECIf{\ECMV}{\ECMV}{\ECMV} \\
-           &                 & \mid         & \ECUnbound{x} \mid \ECInconType{\ECMV} \mid \ECInconBr{\ECMV}{\ECMV}{\ECMV}
+  \TMName  & \TMV  & \Coloneqq & \TUnknown \mid \TInt \mid \TBool \mid \TArrow{\TMV}{\TMV} \\
+  \EMName  & \EMV  & \Coloneqq & \EEHole \mid x \mid \ELam{x}{\TMV}{\EMV} \mid \EAp{\EMV}{\EMV} \\
+           &       & \mid         & \EIntMV \mid \EPlus{\EMV}{\EMV} \\
+           &       & \mid         & \ETrue \mid \EFalse \mid \EIf{\EMV}{\EMV}{\EMV} \\
+  \ECMName & \ECMV & \Coloneqq & \ECEHole \mid x \mid \ECLam{x}{\TMV}{\ECMV} \mid \ECAp{\ECMV}{\ECMV} \\
+           &       & \mid         & \ECIntMV \mid \ECPlus{\ECMV}{\ECMV} \\
+           &       & \mid         & \ECTrue \mid \ECFalse \mid \ECIf{\ECMV}{\ECMV}{\ECMV} \\
+           &       & \mid         & \ECUnbound{x} \mid \ECInconType{\ECMV} \mid \ECInconBr{\ECMV}{\ECMV}{\ECMV}
 \end{array}\]
 
 \subsection{Types}
@@ -398,7 +398,8 @@ $\judgbox{\erase{\ECMV}}$ is a metafunction defined as follows:
 \end{array}\]
 
 \subsection{Image}
-$\judgbox{\image{\EMV}}$ is the injection of $\EMV$ into marked expressions:
+$\judgbox{\image{\EMV}}$ is a metafunction that gives the injection of $\EMV$ into marked
+expressions:
 %
 \newcommand{\imageIsRow}[2]{\image{#1} & = & #2}
 \[\begin{array}{rcl}
