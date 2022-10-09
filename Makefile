@@ -5,9 +5,9 @@ all	: formalism.pdf
 
 %.pdf : %.tex
 	$(LATEXMK) $*.tex
-	mv target/$*.pdf $*.pdf
+	mv build/$*.pdf $*.pdf
 
 .PHONY : clean
 clean :
-	rm -rf target
+	rm -rf build
 	rm -f *.pdf
