@@ -43,6 +43,42 @@ Formalization of hole-fixing semantics.
   }{TCArr}
 \end{mathpar} \\
 
+\judgbox{\ensuremath{\inconsistent{\TMV_1}{\TMV_2}}} $\TMV_1$ is inconsistent with $\TMV_2$
+%
+\begin{mathpar}
+  \judgment{
+  }{
+    \inconsistent{\TInt}{\TArrow{\TMV_1}{\TMV_2}}
+  }{TICNumArr1}
+
+  \judgment{
+  }{
+    \inconsistent{\TArrow{\TMV_1}{\TMV_2}}{\TNum}
+  }{TICNumArr2}
+
+  \judgment{
+  }{
+    \inconsistent{\TBool}{\TArrow{\TMV_1}{\TMV_2}}
+  }{TICBoolArr1}
+
+  \judgment{
+  }{
+    \inconsistent{\TArrow{\TMV_1}{\TMV_2}}{\TBool}
+  }{TICBoolArr2}
+
+  \judgment{
+    \inconsistent{\TMV_1}{\TMV_1'}
+  }{
+    \inconsistent{\TArrow{\TMV_1}{\TMV_2}}{\TArrow{\TMV_1'}{\TMV_2'}}
+  }{TICArr1}
+
+  \judgment{
+    \inconsistent{\TMV_2}{\TMV_2'}
+  }{
+    \inconsistent{\TArrow{\TMV_1}{\TMV_2}}{\TArrow{\TMV_1'}{\TMV_2'}}
+  }{TICArr2}
+\end{mathpar}
+
 \judgbox{\ensuremath{\matchedArrow{\TMV}{\TMV_1}{\TMV_2}}} $\TMV$ has matched arrow type
 $\TArrow{\TMV_1}{\TMV_2}$
 %
@@ -53,7 +89,7 @@ $\TArrow{\TMV_1}{\TMV_2}$
 
   \judgment{ }{
     \matchedArrow{\TArrow{\TMV}{\TMV}}{\TMV}{\TMV}
-  }{TMAArrow}
+  }{TMAArr}
 \end{mathpar} \\
 
 \judgbox{\ensuremath{\TJoin{\TMV_1}{\TMV_2}}} is a \emph{partial} metafunction defined as
