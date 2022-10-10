@@ -5,7 +5,7 @@
 \begin{document}
 \renewcommand{\thesection}{\Alph{section}}
 \section{Formalism}
-Formalization of hole-fixing semantics.
+Formalization of error localisation semantics.
 
 \subsection{Syntax}
 \[\begin{array}{rrcl}
@@ -53,7 +53,7 @@ Formalization of hole-fixing semantics.
 
   \judgment{
   }{
-    \inconsistent{\TArrow{\TMV_1}{\TMV_2}}{\TNum}
+    \inconsistent{\TArrow{\TMV_1}{\TMV_2}}{\TInt}
   }{TICNumArr2}
 
   \judgment{
@@ -185,7 +185,7 @@ $\judgbox{\ctxSynType{\ctx}{\EMV}{\TMV}}$ $\EMV$ synthesizes type $\TMV$
   }{UASubsume}
 \end{mathpar}
 
-\subsection{Hole Insertion}
+\subsection{Mark Insertion}
 \judgbox{\ctxSynFixedInto{\ctx}{\EMV}{\ECMV}{\TMV}} $\EMV$ is marked into $\ECMV$ and
 synthesizes type $\TMV$
 %
@@ -414,7 +414,7 @@ against type $\TMV$
   }{MASubsume}
 \end{mathpar}
 
-\subsection{Hole Erasure}
+\subsection{Mark Erasure}
 $\judgbox{\erase{\ECMV}}$ is a metafunction defined as follows:
 %
 \newcommand{\erasesToRow}[2]{\erase{#1} & = & #2}
@@ -451,7 +451,7 @@ expressions:
 \end{array}\]
 
 \subsection{Metatheorems}
-\begin{theorem}[name=Hole Insertion] \
+\begin{theorem}[name=Mark Insertion] \
   \begin{enumerate}[label=(\arabic*)]
     \item If $\ctxSynFixedInto{\ctx}{\EMV}{\ECMV}{\TMV}$, then $\ctxSynType{\ctx}{\ECMV}{\TMV}$ and
       $\erasesTo{\ECMV}{\EMV}$. 
