@@ -454,7 +454,7 @@ expressions:
 \begin{theorem}[name=Mark Insertion] \
   \begin{enumerate}[label=(\arabic*)]
     \item If $\ctxSynFixedInto{\ctx}{\EMV}{\ECMV}{\TMV}$, then $\ctxSynType{\ctx}{\ECMV}{\TMV}$ and
-      $\erasesTo{\ECMV}{\EMV}$. 
+      $\erasesTo{\ECMV}{\EMV}$.
     \item If $\ctxAnaFixedInto{\ctx}{\EMV}{\ECMV}{\TMV}$, then $\ctxAnaType{\ctx}{\ECMV}{\TMV}$ and
       $\erasesTo{\ECMV}{\EMV}$.
   \end{enumerate}
@@ -463,7 +463,7 @@ expressions:
 \begin{theorem}[name=Totality] \
   \begin{enumerate}[label=(\arabic*)]
     \item For all $\ctx$ and $\EMV$, there exist $\ECMV$ and $\TMV$ such that
-      $\ctxSynFixedInto{\ctx}{\EMV}{\ECMV}{\TMV}$. 
+      $\ctxSynFixedInto{\ctx}{\EMV}{\ECMV}{\TMV}$.
     \item For all $\ctx$, $\EMV$, and $\TMV$, there exists $\ECMV$ such that
       $\ctxAnaFixedInto{\ctx}{\EMV}{\ECMV}{\TMV}$.
   \end{enumerate}
@@ -567,10 +567,10 @@ types, e.g. pairs:
 \[\begin{array}{rrcl}
   \TMName  & \TMV  & \Coloneqq & \cdots \mid \TPair{\TMV}{\TMV} \\
   \EMName  & \EMV  & \Coloneqq & \cdots
-                               \mid \EPair{\EMV}{\EMV} 
+                               \mid \EPair{\EMV}{\EMV}
                                \mid \EProjL{\EMV} \mid \EProjR{\EMV} \\
-  \ECMName & \ECMV & \Coloneqq & \cdots 
-                               \mid \ECPair{\ECMV}{\ECMV} 
+  \ECMName & \ECMV & \Coloneqq & \cdots
+                               \mid \ECPair{\ECMV}{\ECMV}
                                \mid \ECProjL{\ECMV} \mid \ECProjR{\ECMV}
                                \mid \ECInconMatchedPair{\ECMV}
 \end{array}\]
