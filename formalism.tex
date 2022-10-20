@@ -112,8 +112,10 @@ $\judgbox{\ctxSynType{\ctx}{\EMV}{\TMV}}$ $\EMV$ synthesizes type $\TMV$
     \ctxSynType{\ctx}{\ECEHole}{\TUnknown}
   }{USHole}
 
-  \judgment{ }{
-    \ctxSynType{\extendCtx{\ctx}{x}{\TMV}}{x}{\TMV}
+  \judgment{
+    \inCtx{\ctx}{x}{\TMV}
+  }{
+    \ctxSynType{\ctx}{x}{\TMV}
   }{USVar}
 
   \judgment{
