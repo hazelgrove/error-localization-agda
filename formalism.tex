@@ -311,8 +311,10 @@ against type $\TMV$
     \ctxSynType{\ctx}{\ECEHole}{\TUnknown}
   }{MSHole}
 
-  \judgment{ }{
-    \ctxSynType{\extendCtx{\ctx}{x}{\TMV}}{x}{\TMV}
+  \judgment{
+    \inCtx{\ctx}{x}{\TMV}
+  }{
+    \ctxSynType{\ctx}{x}{\TMV}
   }{MSVar}
 
   \judgment{
