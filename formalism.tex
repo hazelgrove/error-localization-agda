@@ -5,7 +5,7 @@
 \begin{document}
 \renewcommand{\thesection}{\Alph{section}}
 \section{Formalism}
-Formalization of error localisation semantics.
+Formalization of error localization semantics.
 
 \subsection{Syntax}
 \[\begin{array}{rrcl}
@@ -484,20 +484,18 @@ expressions:
   \begin{enumerate}
     \item \begin{enumerate}
         \item If $\ctxSynType{\ctx}{\EMV}{\TMV}$, then $\ctxSynFixedInto{\ctx}{\EMV}{\ECMV}{\TMV}$
-          where $\imageIs{\EMV}{\ECMV}$.
+          such that $\imageIs{\EMV}{\ECMV}$.
         \item If there does not exist $\TMV$ such that $\ctxSynType{\ctx}{\EMV}{\TMV}$, then for all
-          $\ECMV$ and $\TMV'$ such that $\ctxSynFixedInto{\ctx}{\EMV}{\ECMV}{\TMV'}$,
-          $\imageIsNot{\EMV}{\ECMV}$ and $\imageIs{\EMV}{\ECMV'}$ for some $\ECMV'$ such that $\ECMV
-          \neq \ECMV'$.
+          $\ECMV$ and $\TMV'$ such that $\ctxSynFixedInto{\ctx}{\EMV}{\ECMV}{\TMV'}$, we have
+          $\imageIsNot{\EMV}{\ECMV}$.
       \end{enumerate}
 
     \item \begin{enumerate}
         \item If $\ctxAnaType{\ctx}{\EMV}{\TMV}$, then $\ctxAnaFixedInto{\ctx}{\EMV}{\ECMV}{\TMV}$
-          where $\imageIs{\EMV}{\ECMV}$.
+          such that $\imageIs{\EMV}{\ECMV}$.
         \item If there does not exist $\TMV$ such that $\ctxAnaType{\ctx}{\EMV}{\TMV}$, then for all
-          $\ECMV$ and $\TMV'$ such that $\ctxAnaFixedInto{\ctx}{\EMV}{\ECMV}{\TMV'}$,
-          $\imageIsNot{\EMV}{\ECMV}$ and $\imageIs{\EMV}{\ECMV'}$ for some $\ECMV'$ such that $\ECMV
-          \neq \ECMV'$.
+          $\ECMV$ and $\TMV'$ such that $\ctxAnaFixedInto{\ctx}{\EMV}{\ECMV}{\TMV'}$, we have
+          $\imageIsNot{\EMV}{\ECMV}$.
       \end{enumerate}
   \end{enumerate}
 \end{theorem}
