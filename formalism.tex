@@ -192,25 +192,25 @@ synthesizes type $\TMV$
 \begin{mathpar}
   \judgment{ }{
     \ctxSynFixedInto{\ctx}{\EEHole}{\ECEHole}{\TUnknown}
-  }{FSHole}
+  }{ISHole}
 
   \judgment{
     \inCtx{\ctx}{x}{\TMV}
   }{
     \ctxSynFixedInto{\ctx}{x}{x}{\TMV}
-  }{FSVar}
+  }{ISVar}
 
   \judgment{
     \notInCtx{\ctx}{x}
   }{
     \ctxSynFixedInto{\ctx}{x}{\ECUnbound{x}}{\TUnknown}
-  }{FSUnbound}
+  }{ISUnbound}
 
   \judgment{
     \ctxSynFixedInto{\extendCtx{\ctx}{x}{\TMV_1}}{\EMV}{\ECMV}{\TMV_2}
   }{
     \ctxSynFixedInto{\ctx}{\ELam{x}{\TMV_1}{\EMV}}{\ELam{x}{\TMV_1}{\ECMV}}{\TArrow{\TMV_1}{\TMV_2}}
-  }{FSLam}
+  }{ISLam}
 
   \judgment{
     \ctxSynFixedInto{\ctx}{\EMV_1}{\ECMV_1}{\TMV} \\
@@ -218,7 +218,7 @@ synthesizes type $\TMV$
     \ctxAnaFixedInto{\ctx}{\EMV_2}{\ECMV_2}{\TMV_1} \\
   }{
     \ctxSynFixedInto{\ctx}{\EAp{\EMV_1}{\EMV_2}}{\ECAp{\ECMV_1}{\ECMV_2}}{\TMV_2}
-  }{FSAp1}
+  }{ISAp1}
 
   \judgment{
     \ctxSynFixedInto{\ctx}{\EMV_1}{\ECMV_1}{\TMV} \\
@@ -226,29 +226,29 @@ synthesizes type $\TMV$
     \ctxAnaFixedInto{\ctx}{\EMV_2}{\ECMV_2}{\TUnknown}
   }{
     \ctxSynFixedInto{\ctx}{\EAp{\EMV_1}{\EMV_2}}{\ECAp{\ECInconType{\ECMV_1}}{\ECMV_2}}{\TUnknown}
-  }{FSAp2}
+  }{ISAp2}
 
   \judgment{
   }{
     \ctxSynFixedInto{\ctx}{\EIntMV}{\ECIntMV}{\TInt}
-  }{FSNum}
+  }{ISNum}
 
   \judgment{
     \ctxAnaFixedInto{\ctx}{\EMV_1}{\ECMV_1}{\TInt} \\
     \ctxAnaFixedInto{\ctx}{\EMV_2}{\ECMV_2}{\TInt}
   }{
     \ctxSynFixedInto{\ctx}{\EPlus{\EMV_1}{\EMV_2}}{\ECPlus{\ECMV_1}{\ECMV_2}}{\TInt}
-  }{FSPlus}
+  }{ISPlus}
 
   \judgment{
   }{
     \ctxSynFixedInto{\ctx}{\ETrue}{\ECTrue}{\TBool}
-  }{FSTrue}
+  }{ISTrue}
 
   \judgment{
   }{
     \ctxSynFixedInto{\ctx}{\EFalse}{\ECFalse}{\TBool}
-  }{FSFalse}
+  }{ISFalse}
 
   \judgment{
     \ctxAnaFixedInto{\ctx}{\EMV_1}{\ECMV_1}{\TBool} \\
@@ -256,7 +256,7 @@ synthesizes type $\TMV$
     \ctxSynFixedInto{\ctx}{\EMV_3}{\ECMV_3}{\TMV_2}
   }{
     \ctxSynFixedInto{\ctx}{\EIf{\EMV_1}{\EMV_2}{\EMV_3}}{\ECIf{\ECMV_1}{\ECMV_2}{\ECMV_3}}{\TJoin{\TMV_1}{\TMV_2}}
-  }{FSIf}
+  }{ISIf}
 
   \judgment{
     \ctxAnaFixedInto{\ctx}{\EMV_1}{\ECMV_1}{\TBool} \\
@@ -265,7 +265,7 @@ synthesizes type $\TMV$
     \inconsistent{\TMV_1}{\TMV_2}
   }{
     \ctxSynFixedInto{\ctx}{\EIf{\EMV_1}{\EMV_2}{\EMV_3}}{\ECInconBr{\ECMV_1}{\ECMV_2}{\ECMV_3}}{\TUnknown}
-  }{FSInconsistentBranches}
+  }{ISInconsistentBranches}
 \end{mathpar} \\
 
 \judgbox{\ctxAnaFixedInto{\ctx}{\EMV}{\ECMV}{\TMV}} $\EMV$ is marked into $\ECMV$ and analyzes
@@ -278,7 +278,7 @@ against type $\TMV$
     \ctxAnaFixedInto{\extendCtx{\ctx}{x}{\TMV}}{\EMV}{\ECMV}{\TMV_2}
   }{
     \ctxAnaFixedInto{\ctx}{\ELam{x}{\TMV}{\EMV}}{\ECLam{x}{\TMV}{\ECMV}}{\TMV_3}
-  }{FALam}
+  }{IALam}
 
   \judgment{
     \ctxAnaFixedInto{\ctx}{\EMV_1}{\ECMV_1}{\TBool} \\
@@ -286,21 +286,21 @@ against type $\TMV$
     \ctxAnaFixedInto{\ctx}{\EMV_3}{\ECMV_3}{\TMV} \\
   }{
     \ctxAnaFixedInto{\ctx}{\EIf{\EMV_1}{\EMV_2}{\EMV_3}}{\ECIf{\ECMV_1}{\ECMV_2}{\ECMV_3}}{\TMV}
-  }{FAIf}
+  }{IAIf}
 
   \judgment{
     \ctxSynFixedInto{\ctx}{\EMV}{\ECMV}{\TMV'} \\
     \inconsistent{\TMV}{\TMV'}
   }{
     \ctxAnaFixedInto{\ctx}{\EMV}{\ECInconType{\ECMV}}{\TMV}
-  }{FAInconsistentTypes}
+  }{IAInconsistentTypes}
 
   \judgment{
     \ctxSynFixedInto{\ctx}{\EMV}{\ECMV}{\TMV'} \\
     \consistent{\TMV}{\TMV'}
   }{
     \ctxAnaFixedInto{\ctx}{\EMV}{\ECMV}{\TMV}
-  }{FASubsume}
+  }{IASubsume}
 \end{mathpar}
 
 \subsection{Marked Expressions}
@@ -527,7 +527,7 @@ This gives rise to similar marking and typing judgments (the premises of each ar
     \ctxAnaFixedInto{\ctx}{\EMV_2}{\ECMV_2}{\TUnknown}
   }{
     \ctxSynFixedInto{\ctx}{\EAp{\EMV_1}{\EMV_2}}{\ECNonMatchedAp{\ECMV_1}{\ECMV_2}}{\TUnknown}
-  }{FSAp2'}
+  }{ISAp2'}
 
   \judgment{
     \ctxSynType{\ctx}{\ECMV_1}{\TMV} \\
@@ -554,7 +554,7 @@ The rules remain much the same (the premises are again identical):
     \ctxAnaFixedInto{\ctx}{\EMV_2}{\ECMV_2}{\TUnknown}
   }{
     \ctxSynFixedInto{\ctx}{\EAp{\EMV_1}{\EMV_2}}{\ECAp{\ECInconMatchedArrow{\ECMV_1}}{\ECMV_2}}{\TUnknown}
-  }{FSAp2''}
+  }{ISAp2''}
 
   \judgment{
     \ctxSynType{\ctx}{\ECMV_1}{\TMV} \\
@@ -585,7 +585,7 @@ types, e.g. pairs:
     \ctxSynFixedInto{\ctx}{\EMV_2}{\ECMV_2}{\TMV_2}
   }{
     \ctxSynFixedInto{\ctx}{\EPair{\EMV_1}{\EMV_2}}{\ECPair{\ECMV_1}{\ECMV_2}}{\TPair{\TMV_1}{\TMV_2}}
-  }{FSPair}
+  }{ISPair}
 
   \judgment{
     \matchedPair{\TMV}{\TMV_1}{\TMV_2} \\
@@ -593,47 +593,47 @@ types, e.g. pairs:
     \ctxAnaFixedInto{\ctx}{\EMV_2}{\ECMV_2}{\TMV_2}
   }{
     \ctxAnaFixedInto{\ctx}{\EPair{\EMV_1}{\EMV_2}}{\ECPair{\ECMV_1}{\ECMV_2}}{\TMV}
-  }{FAPair}
+  }{IAPair}
 
   \judgment{
     \ctxSynFixedInto{\ctx}{\EMV}{\ECMV}{\TMV} \\
     \matchedPair{\TMV}{\TMV_1}{\TMV_2}
   }{
     \ctxSynFixedInto{\ctx}{\EProjL{\EMV}}{\ECProjL{\ECMV}}{\TMV_1}
-  }{FSProjL1}
+  }{ISProjL1}
 
   \judgment{
     \ctxSynFixedInto{\ctx}{\EMV}{\ECMV}{\TMV} \\
     \notMatchedPair{\TMV}{\TMV_1}{\TMV_2}
   }{
     \ctxSynFixedInto{\ctx}{\EProjL{\EMV}}{\ECProjL{\ECInconMatchedPair{\ECMV}}}{\TMV_1}
-  }{FSProjL2}
+  }{ISProjL2}
 
   \judgment{
     \ctxSynFixedInto{\ctx}{\EMV}{\ECMV}{\TMV} \\
     \matchedPair{\TMV}{\TMV_1}{\TMV_2}
   }{
     \ctxSynFixedInto{\ctx}{\EProjR{\EMV}}{\ECProjR{\ECMV}}{\TMV_2}
-  }{FSProjR1}
+  }{ISProjR1}
 
   \judgment{
     \ctxSynFixedInto{\ctx}{\EMV}{\ECMV}{\TMV} \\
     \notMatchedPair{\TMV}{\TMV_1}{\TMV_2}
   }{
     \ctxSynFixedInto{\ctx}{\EProjR{\EMV}}{\ECProjR{\ECInconMatchedPair{\ECMV}}}{\TMV_2}
-  }{FSProjR2}
+  }{ISProjR2}
 
   \judgment{
     \ctxAnaFixedInto{\ctx}{\EMV}{\ECMV}{\TPair{\TMV}{\TUnknown}}
   }{
     \ctxAnaFixedInto{\ctx}{\EProjL{\EMV}}{\ECProjL{\ECMV}}{\TMV}
-  }{FAProjL}
+  }{IAProjL}
 
   \judgment{
     \ctxAnaFixedInto{\ctx}{\EMV}{\ECMV}{\TPair{\TMV}{\TUnknown}}
   }{
     \ctxAnaFixedInto{\ctx}{\EProjR{\EMV}}{\ECProjR{\ECMV}}{\TMV}
-  }{FAProjR}
+  }{IAProjR}
 \end{mathpar}
 
 \begin{mathpar}
