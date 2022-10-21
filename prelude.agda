@@ -3,15 +3,17 @@ module prelude where
 
   -- equality
   module eq where
+    infix 4 _≡_
+    infix 4 _≢_
+
     data _≡_ {A : Set} (x : A) : A → Set where
       refl : x ≡ x
-    infix 4 _≡_
     {-# BUILTIN EQUALITY _≡_ #-}
 
-    sym : ∀ {A : Set} {x y : A}
-      → x ≡ y
-        -----
-      → y ≡ x
+    _≢_ : ∀ {A : Set} → A → A → Set
+    x ≢ y = x ≡ y → ⊥
+
+    sym : ∀ {A : Set} {x y : A} → x ≡ y → y ≡ x
     sym refl = refl
 
   -- naturals
