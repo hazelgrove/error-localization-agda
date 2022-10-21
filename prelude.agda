@@ -1,4 +1,6 @@
 module prelude where
+  data ⊥ : Set where
+
   -- equality
   module eq where
     data _≡_ {A : Set} (x : A) : A → Set where
