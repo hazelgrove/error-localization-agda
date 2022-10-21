@@ -44,12 +44,12 @@ module typ where
     TMAArr  : {τ₁ τ₂ : Typ} → τ₁ -→ τ₂ ▸ τ₁ -→ τ₂
 
   -- lub join
-  _⊔_ : (τ₁ τ₂ : Typ) → Maybe Typ
-  unknown    ⊔ τ                                     = Some τ
-  τ          ⊔ unknown                               = Some τ
-  num        ⊔ num                                   = Some num
-  bool       ⊔ bool                                  = Some bool
-  (τ₁ -→ τ₂) ⊔ (τ₁′ -→ τ₂′) with τ₁ ⊔ τ₁′ | τ₂ ⊔ τ₂′
-  ...                          | Some τ₁″ | Some τ₂″ = Some (τ₁″ -→ τ₂″)
-  ...                          | _        | _        = None
-  τ₁         ⊔ τ₂                                    = None
+  data _⊔_⇒_ : Typ → Typ → Typ → Set where
+    TJUnknown1 : ∀ {τ} → unknown ⊔ τ ⇒ unknown
+    TJUnknown2 : ∀ {τ} → τ ⊔ unknown ⇒ unknown
+    TJNum       : num ⊔ num ⇒ num
+    TJBool      : bool ⊔ bool ⇒ bool
+    TJArr       : ∀ {τ₁ τ₂ τ₁′ τ₂′ τ₁″ τ₂″}
+                → τ₁ ⊔ τ₁′ ⇒ τ₁″
+                → τ₂ ⊔ τ₂′ ⇒ τ₂″
+                → τ₁ -→ τ₂ ⊔ τ₁′ -→ τ₂′ ⇒ τ₁″ -→ τ₂″
