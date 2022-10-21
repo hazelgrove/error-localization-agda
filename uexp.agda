@@ -18,7 +18,7 @@ module uexp where
     _,_∶_ : Ctx → Var → Typ → Ctx
 
   -- context membership
-  data _∋_∶_ : Ctx → Var → Typ → Set where
+  data _∋_∶_ : (Γ : Ctx) (x : Var) (τ : Typ) → Set where
     Z : ∀ {Γ x τ}                            → Γ , x ∶ τ ∋ x ∶ τ
     S : ∀ {Γ x x′ τ τ′} → x ≢ x′ → Γ ∋ x ∶ τ → Γ , x′ ∶ τ′ ∋ x ∶ τ
 
@@ -35,7 +35,7 @@ module uexp where
 
   mutual
     -- synthesis
-    data _⊢_⇒_ : Ctx → UExp → Typ → Set where
+    data _⊢_⇒_ : (Γ : Ctx) (e : UExp) (τ : Typ) → Set where
       USHole : ∀ {Γ u}
         → Γ ⊢ ‵⦇-⦈[ u ] ⇒ unknown
 
@@ -50,6 +50,7 @@ module uexp where
       USAp : ∀ {Γ e₁ e₂ τ τ₁ τ₂}
         → Γ ⊢ e₁ ⇒ τ
         → τ ▸ τ₁ -→ τ₂
+        → Γ ⊢ e₂ ⇐ τ₁
         → Γ ⊢ ‵ e₁ ∙ e₂ ⇒ τ₂
 
       USNum : ∀ {Γ n}
@@ -74,7 +75,7 @@ module uexp where
         → Γ ⊢ ‵ e₁ ∙ e₂ ∙ e₃ ⇒ τ
 
     -- analysis
-    data _⊢_⇐_ : Ctx → UExp → Typ → Set where
+    data _⊢_⇐_ : (Γ : Ctx) (e : UExp) (τ : Typ) → Set where
       UALam : ∀ {Γ x τ e τ₁ τ₂ τ₃}
         → τ₃ ▸ τ₁ -→ τ₂
         → Γ , x ∶ τ ⊢ e ⇐ τ₁
