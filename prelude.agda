@@ -37,11 +37,11 @@ module prelude where
 
     -- dependent products
     record Σ {a b} (A : Set a) (B : A → Set b) : Set (a ⊔ b) where
-      constructor _,_
+      constructor ⟨_,_⟩
       field
         fst : A
         snd : B fst
-    infixr 4 _,_
+    infixr 4 ⟨_,_⟩
     {-# BUILTIN SIGMA Σ #-}
 
     -- nice syntax
