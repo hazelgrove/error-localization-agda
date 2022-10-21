@@ -12,13 +12,13 @@ module mexp where
     ∅   : Ctx
     _,_ : Ctx → Typ → Ctx
 
-  data _∋_ : Ctx → Typ → Set where
+  data _∋_ : (Γ : Ctx) (τ : Typ) → Set where
     Z  : ∀ {Γ τ}            → Γ , τ  ∋ τ
     S_ : ∀ {Γ τ τ′} → Γ ∋ τ → Γ , τ′ ∋ τ
 
   mutual
     -- synthesis
-    data _⊢⇒_ : Ctx → Typ → Set where
+    data _⊢⇒_ : (Γ : Ctx) (τ : Typ) → Set where
       -- MSHole
       ‵⦇-⦈[_] : ∀ {Γ}
         → ℕ
@@ -37,8 +37,8 @@ module mexp where
 
       -- MSAp1
       ‵_∙_ : ∀ {Γ τ τ₁ τ₂}
+        → {τ ▸ τ₁ -→ τ₂}
         → Γ ⊢⇒ τ
-        → τ ▸ τ₁ -→ τ₂
         → Γ ⊢⇐ τ₁
         → Γ ⊢⇒ τ₂
 
@@ -90,7 +90,7 @@ module mexp where
         → Γ ⊢⇒ unknown
 
     -- analysis
-    data _⊢⇐_ : Ctx → Typ → Set where
+    data _⊢⇐_ : (Γ : Ctx) (τ : Typ) → Set where
       -- MALam
       ‵λ:_∙_ : ∀ {Γ τ₁ τ₂ τ₃}
         → {τ₃ ▸ τ₁ -→ τ₂}
@@ -113,6 +113,7 @@ module mexp where
         → Γ ⊢⇐ τ
 
       -- MASubsume
-      `∙_ : ∀ {Γ τ}
-        → Γ ⊢⇒ τ
+      ‵∙_ : ∀ {Γ τ τ′}
+        → {τ ~ τ′}
+        → Γ ⊢⇒ τ′
         → Γ ⊢⇐ τ
