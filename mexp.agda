@@ -8,6 +8,10 @@ module mexp where
   infix  4 _∋_
   infixl 5 _,_
 
+  -- variables
+  FreeVar : Set
+  FreeVar = ℕ
+
   data Ctx : Set where
     ∅   : Ctx
     _,_ : Ctx → Typ → Ctx
@@ -78,7 +82,7 @@ module mexp where
 
       -- MSUnbound
       ‵⟦_⟧ : ∀ {Γ}
-        → ℕ
+        → FreeVar
         → Γ ⊢⇒ unknown
 
       -- MSInconsistentBranches
