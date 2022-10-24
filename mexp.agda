@@ -18,7 +18,7 @@ module mexp where
 
   data _∋_ : (Γ : Ctx) (τ : Typ) → Set where
     Z  : ∀ {Γ τ}            → Γ , τ  ∋ τ
-    S_ : ∀ {Γ τ τ′} → Γ ∋ τ → Γ , τ′ ∋ τ
+    S  : ∀ {Γ τ τ′} → Γ ∋ τ → Γ , τ′ ∋ τ
 
   mutual
     -- synthesis
