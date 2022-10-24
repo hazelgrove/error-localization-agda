@@ -19,8 +19,11 @@ module uexp where
 
   -- context membership
   data _∋_∶_ : (Γ : Ctx) (x : Var) (τ : Typ) → Set where
-    Z : ∀ {Γ x τ}                            → Γ , x ∶ τ ∋ x ∶ τ
+    Z : ∀ {Γ x τ}                            → Γ , x  ∶ τ ∋ x ∶ τ
     S : ∀ {Γ x x′ τ τ′} → x ≢ x′ → Γ ∋ x ∶ τ → Γ , x′ ∶ τ′ ∋ x ∶ τ
+
+  _∌_∶_ : (Γ : Ctx) → (x : Var) → (τ : Typ) → Set
+  Γ ∌ x ∶ τ = Γ ∋ x ∶ τ → ⊥
 
   data UExp : Set where
     ‵⦇-⦈[_] : ℕ → UExp
