@@ -69,12 +69,8 @@ module prelude where
   module product where
     open import Agda.Primitive using (Level; _⊔_)
 
-    private
-      variable
-        a b : Level
-
     -- dependent products
-    record Σ {a b} (A : Set a) (B : A → Set b) : Set (a ⊔ b) where
+    record Σ {ℓ ℓ′ : Level} (A : Set ℓ) (B : A → Set ℓ′) : Set (ℓ ⊔ ℓ′) where
       constructor ⟨_,_⟩
       field
         fst : A
@@ -90,8 +86,18 @@ module prelude where
     syntax Σ-syntax A (λ x → B) = Σ[ x ∈ A ] B
     infix 2 Σ-syntax
 
+    -- existence
+    ∃ : ∀ {ℓ ℓ′ : Level} {A : Set ℓ} → (A → Set ℓ′) → Set (ℓ ⊔ ℓ′)
+    ∃ = Σ _
+
+    -- existence syntax
+    infix 2 ∃-syntax
+    ∃-syntax : ∀ {ℓ ℓ′ : Level} {A : Set ℓ} → (A → Set ℓ′) → Set (ℓ ⊔ ℓ′)
+    ∃-syntax = ∃
+    syntax ∃-syntax (λ x → B) = ∃[ x ] B
+
     -- non-dependent products
-    _×_ : ∀ (A : Set a) (B : Set b) → Set (a ⊔ b)
+    _×_ : ∀ {ℓ ℓ′ : Level} (A : Set ℓ) (B : Set ℓ′) → Set (ℓ ⊔ ℓ′)
     A × B = Σ[ x ∈ A ] B
     infixr 2 _×_
 
