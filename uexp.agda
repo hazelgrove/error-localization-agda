@@ -30,7 +30,7 @@ module uexp where
     ‵_      : ℕ → UExp
     ‵λ_∶_∙_ : ℕ → Typ → UExp → UExp
     ‵_∙_    : UExp → UExp → UExp
-    ‵n_     : ℕ → UExp
+    ‵ℕ_     : ℕ → UExp
     ‵_+_    : UExp → UExp → UExp
     ‵tt     : UExp
     ‵ff     : UExp
@@ -57,7 +57,7 @@ module uexp where
         → Γ ⊢ ‵ e₁ ∙ e₂ ⇒ τ₂
 
       USNum : ∀ {Γ n}
-        → Γ ⊢ ‵n n ⇒ num
+        → Γ ⊢ ‵ℕ n ⇒ num
 
       USPlus : ∀ {Γ e₁ e₂}
         → Γ ⊢ e₁ ⇐ num

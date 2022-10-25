@@ -54,7 +54,7 @@ module mexp where
         → Γ ⊢⇒ unknown
 
       -- MSNum
-      ⊢n_ : ∀ {Γ}
+      ⊢ℕ_ : ∀ {Γ}
         → ℕ
         → Γ ⊢⇒ num
 
