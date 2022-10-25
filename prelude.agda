@@ -16,6 +16,8 @@ module prelude where
 
   -- equality
   module eq where
+    open negation
+
     infix 4 _≡_
     infix 4 _≢_
 
@@ -24,7 +26,7 @@ module prelude where
     {-# BUILTIN EQUALITY _≡_ #-}
 
     _≢_ : ∀ {A : Set} → A → A → Set
-    x ≢ y = x ≡ y → ⊥
+    x ≢ y = ¬ (x ≡ y)
 
     sym : ∀ {A : Set} {x y : A} → x ≡ y → y ≡ x
     sym refl = refl
