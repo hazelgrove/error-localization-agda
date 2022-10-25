@@ -43,6 +43,9 @@ module typ where
     TMAHole : unknown ▸ unknown -→ unknown
     TMAArr  : {τ₁ τ₂ : Typ} → τ₁ -→ τ₂ ▸ τ₁ -→ τ₂
 
+  _!▸ : Typ → Set
+  τ !▸ = ∀ {τ₁ τ₂} → (τ ▸ τ₁ -→ τ₂) → ⊥
+
   -- lub join
   data _⊔_⇒_ : (τ₁ τ₂ τ : Typ) → Set where
     TJUnknown1 : ∀ {τ} → unknown ⊔ τ ⇒ unknown

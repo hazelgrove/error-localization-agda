@@ -1,5 +1,5 @@
 open import prelude
-open import typ using (Typ; unknown; num; bool; _-→_; _~_; _~̸_; _▸_-→_; _⊔_⇒_)
+open import typ
 
 -- instrinsically typed marked expressions
 module mexp where
@@ -47,10 +47,10 @@ module mexp where
         → Γ ⊢⇒ τ₂
 
       -- MSAp2
-      ⊢⸨_⸩∙_[_] : ∀ {Γ τ τ₁ τ₂}
+      ⊢⸨_⸩∙_[_] : ∀ {Γ τ}
         → Γ ⊢⇒ τ
         → Γ ⊢⇐ unknown
-        → τ ▸ τ₁ -→ τ₂ → ⊥
+        → τ !▸
         → Γ ⊢⇒ unknown
 
       -- MSNum
