@@ -27,9 +27,11 @@ module typ where
 
   -- inconsistency
   data _~̸_ : (τ₁ τ₂ : Typ) → Set where
-    TICBaseArr1 : {τ τ₁ τ₂ : Typ} {b : τ base}
+    TICBaseArr1 : {τ τ₁ τ₂ : Typ}
+                 → τ base
                  → τ ~̸ τ₁ -→ τ₂
-    TICBaseArr2 : {τ τ₁ τ₂ : Typ} {b : τ base}
+    TICBaseArr2 : {τ τ₁ τ₂ : Typ}
+                 → τ base
                  → τ₁ -→ τ₂ ~̸ τ
     TICArr1     : {τ₁ τ₂ τ₁′ τ₂′ : Typ}
                  → τ₁ ~̸ τ₁′
@@ -88,6 +90,29 @@ module typ where
   ... | _          | no τ₂≢τ₂′  = no (-→≢₂ τ₂≢τ₂′)
   ... | no τ₁≢τ₁′  | _          = no (-→≢₁ τ₁≢τ₁′)
 
+  -- consistency is symmetric
+  ~-sym : ∀ {τ₁ τ₂} → τ₁ ~ τ₂ → τ₂ ~ τ₁
+  ~-sym TCRefl = TCRefl
+  ~-sym TCUnknown1 = TCUnknown2
+  ~-sym TCUnknown2 = TCUnknown1
+  ~-sym (TCArr τ₁~τ₁′ τ₂~τ₂′) = TCArr (~-sym τ₁~τ₁′) (~-sym τ₂~τ₂′)
+
+  -- inconsistency is symmetric
+  ~̸-sym : ∀ {τ₁ τ₂} → τ₁ ~̸ τ₂ → τ₂ ~̸ τ₁
+  ~̸-sym (TICBaseArr1 b) = TICBaseArr2 b
+  ~̸-sym (TICBaseArr2 b) = TICBaseArr1 b
+  ~̸-sym (TICArr1 τ₁~̸τ₁′) = TICArr1 (~̸-sym τ₁~̸τ₁′)
+  ~̸-sym (TICArr2 τ₂~̸τ₂′) = TICArr2 (~̸-sym τ₂~̸τ₂′)
+
+  -- join is symmetric
+  ⊔-sym : ∀ {τ₁ τ₂ τ} → τ₁ ⊔ τ₂ ⇒ τ → τ₂ ⊔ τ₁ ⇒ τ
+  ⊔-sym TJUnknown1 = TJUnknown2
+  ⊔-sym TJUnknown2 = TJUnknown1
+  ⊔-sym TJNum = TJNum
+  ⊔-sym TJBool = TJBool
+  ⊔-sym (TJArr ⊔⇒τ₁″ ⊔⇒τ₂″) = TJArr (⊔-sym ⊔⇒τ₁″) (⊔-sym ⊔⇒τ₂″)
+
+  -- join is a function
   ⊔-unicity : ∀ {τ₁ τ₂ τ τ′} → τ₁ ⊔ τ₂ ⇒ τ → τ₁ ⊔ τ₂ ⇒ τ′ → τ ≡ τ′ 
   ⊔-unicity TJUnknown1 TJUnknown1                         = refl
   ⊔-unicity TJUnknown1 TJUnknown2                         = refl
@@ -97,9 +122,22 @@ module typ where
   ⊔-unicity TJBool TJBool                                 = refl
   ⊔-unicity (TJArr τ₁⊔τ₁′ τ₂⊔τ₂′) (TJArr τ₁⊔τ₁′′ τ₂⊔τ₂′′) = -→≡ (⊔-unicity τ₁⊔τ₁′ τ₁⊔τ₁′′) (⊔-unicity τ₂⊔τ₂′ τ₂⊔τ₂′′)
 
-  ⊔-iff-~ : ∀ {τ τ₁ τ₂} → τ₁ ⊔ τ₂ ⇒ τ → τ₁ ~ τ₂
-  ⊔-iff-~ TJUnknown1            = TCUnknown1
-  ⊔-iff-~ TJUnknown2            = TCUnknown2
-  ⊔-iff-~ TJNum                 = TCRefl
-  ⊔-iff-~ TJBool                = TCRefl
-  ⊔-iff-~ (TJArr τ₁⊔τ₁′ τ₂⊔τ₂′) = TCArr (⊔-iff-~ τ₁⊔τ₁′) (⊔-iff-~ τ₂⊔τ₂′)
+  -- join exists for consistent types
+  ⊔→~ : ∀ {τ τ₁ τ₂} → τ₁ ⊔ τ₂ ⇒ τ → τ₁ ~ τ₂
+  ⊔→~ TJUnknown1            = TCUnknown1
+  ⊔→~ TJUnknown2            = TCUnknown2
+  ⊔→~ TJNum                 = TCRefl
+  ⊔→~ TJBool                = TCRefl
+  ⊔→~ (TJArr τ₁⊔τ₁′ τ₂⊔τ₂′) = TCArr (⊔→~ τ₁⊔τ₁′) (⊔→~ τ₂⊔τ₂′)
+
+  -- consistent types have a join
+  ~→⊔ : ∀ {τ₁ τ₂} → τ₁ ~ τ₂ → ∃[ τ ] τ₁ ⊔ τ₂ ⇒ τ
+  ~→⊔ {num}      TCRefl                                            = ⟨ num , TJNum ⟩
+  ~→⊔ {bool}     TCRefl                                            = ⟨ bool , TJBool ⟩
+  ~→⊔ {unknown}  TCRefl                                            = ⟨ unknown , TJUnknown1 ⟩
+  ~→⊔ {τ₁ -→ τ₂} TCRefl     with ~→⊔ {τ₁} TCRefl | ~→⊔ {τ₂} TCRefl
+  ...                          | ⟨ τ₁′ , ⊔⇒τ₁′ ⟩ | ⟨ τ₂′ , ⊔⇒τ₂′ ⟩ = ⟨ τ₁′ -→ τ₂′ , TJArr ⊔⇒τ₁′ ⊔⇒τ₂′ ⟩
+  ~→⊔ TCUnknown1                                                   = ⟨ unknown , TJUnknown1 ⟩
+  ~→⊔ TCUnknown2                                                   = ⟨ unknown , TJUnknown2 ⟩
+  ~→⊔ (TCArr τ₁~τ₁′ τ₂~τ₂′) with ~→⊔ τ₁~τ₁′ | ~→⊔ τ₂~τ₂′
+  ...                          | ⟨ τ₁″ , ⊔⇒τ₁″ ⟩ | ⟨ τ₂″ , ⊔⇒τ₂″ ⟩ = ⟨ τ₁″ -→ τ₂″ , TJArr ⊔⇒τ₁″ ⊔⇒τ₂″ ⟩
