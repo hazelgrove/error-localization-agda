@@ -1,6 +1,11 @@
 module prelude where
   data ⊥ : Set where
 
+  -- negation
+  module negation where
+    ¬_ : Set → Set
+    ¬ A = A → ⊥
+
   -- equality
   module eq where
     infix 4 _≡_
@@ -59,6 +64,7 @@ module prelude where
     A × B = Σ[ x ∈ A ] B
     infixr 2 _×_
 
+  open negation public
   open eq public
   open nat public
   open maybe public
