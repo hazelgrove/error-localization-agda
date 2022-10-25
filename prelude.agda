@@ -6,6 +6,14 @@ module prelude where
     ¬_ : Set → Set
     ¬ A = A → ⊥
 
+  -- decidability
+  module decidability where
+    open negation
+
+    data Dec (A : Set) : Set where
+      yes :   A → Dec A
+      no  : ¬ A → Dec A
+
   -- equality
   module eq where
     infix 4 _≡_
@@ -65,6 +73,7 @@ module prelude where
     infixr 2 _×_
 
   open negation public
+  open decidability public
   open eq public
   open nat public
   open maybe public
