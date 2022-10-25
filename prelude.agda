@@ -33,10 +33,31 @@ module prelude where
 
   -- naturals
   module nat where
+    open eq
+    open decidability
+
     data ℕ : Set where
       zero : ℕ
       suc  : ℕ → ℕ
     {-# BUILTIN NATURAL ℕ #-}
+
+    ≡suc : ∀ {m n} → m ≡ n → suc m ≡ suc n
+    ≡suc refl = refl
+
+    suc-inj : ∀ {m n} → suc m ≡ suc n → m ≡ n
+    suc-inj refl = refl
+
+    ≢suc : ∀ {m n} → m ≢ n → suc m ≢ suc n
+    ≢suc {zero}  z≢z   refl    = z≢z refl
+    ≢suc {suc m} sm≢sn ssm≡ssn = sm≢sn (suc-inj ssm≡ssn)
+
+    _≡ℕ?_ : (m : ℕ) → (n : ℕ) → Dec (m ≡ n)
+    zero  ≡ℕ? zero               = yes refl
+    zero  ≡ℕ? suc n              = no (λ ())
+    suc m ≡ℕ? zero               = no (λ ())
+    suc m ≡ℕ? suc n with m ≡ℕ? n
+    ...                | yes m≡n = yes (≡suc m≡n)
+    ...                | no m≢n  = no  (≢suc m≢n)
 
   -- maybe
   module maybe where
