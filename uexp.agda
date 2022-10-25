@@ -26,7 +26,7 @@ module uexp where
   Γ ∌ x ∶ τ = Γ ∋ x ∶ τ → ⊥
 
   data UExp : Set where
-    ‵⦇-⦈[_] : ℕ → UExp
+    ‵⦇-⦈^_  : ℕ → UExp
     ‵_      : ℕ → UExp
     ‵λ_∶_∙_ : ℕ → Typ → UExp → UExp
     ‵_∙_    : UExp → UExp → UExp
@@ -40,7 +40,7 @@ module uexp where
     -- synthesis
     data _⊢_⇒_ : (Γ : Ctx) (e : UExp) (τ : Typ) → Set where
       USHole : ∀ {Γ u}
-        → Γ ⊢ ‵⦇-⦈[ u ] ⇒ unknown
+        → Γ ⊢ ‵⦇-⦈^ u  ⇒ unknown
 
       USVar : ∀ {Γ x τ}
         → Γ ∋ x ∶ τ
