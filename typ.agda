@@ -123,6 +123,16 @@ module typ where
   ~̸-sym (TICArr1 τ₁~̸τ₁′) = TICArr1 (~̸-sym τ₁~̸τ₁′)
   ~̸-sym (TICArr2 τ₂~̸τ₂′) = TICArr2 (~̸-sym τ₂~̸τ₂′)
 
+  -- matched arrow is unique
+  ▸-→-unicity : ∀ {τ τ₁ τ₂ τ₃ τ₄} → τ ▸ τ₁ -→ τ₂ → τ ▸ τ₃ -→ τ₄ → τ₁ -→ τ₂ ≡ τ₃ -→ τ₄
+  ▸-→-unicity TMAHole TMAHole = refl
+  ▸-→-unicity TMAArr TMAArr = refl
+
+  -- only consistent types arrow match
+  ▸-→→~ : ∀ {τ τ₁ τ₂} → τ ▸ τ₁ -→ τ₂ → τ ~ τ₁ -→ τ₂
+  ▸-→→~ TMAHole = TCUnknown2
+  ▸-→→~ TMAArr = TCRefl
+
   -- join is symmetric
   ⊔-sym : ∀ {τ₁ τ₂ τ} → τ₁ ⊔ τ₂ ⇒ τ → τ₂ ⊔ τ₁ ⇒ τ
   ⊔-sym TJUnknown1          = TJUnknown2
