@@ -25,20 +25,8 @@ module typ where
                 → τ₂ ~ τ₂′
                 → τ₁ -→ τ₂ ~ τ₁′ -→ τ₂′
 
-  -- inconsistency
-  data _~̸_ : (τ₁ τ₂ : Typ) → Set where
-    TICBaseArr1 : {τ τ₁ τ₂ : Typ}
-                 → τ base
-                 → τ ~̸ τ₁ -→ τ₂
-    TICBaseArr2 : {τ τ₁ τ₂ : Typ}
-                 → τ base
-                 → τ₁ -→ τ₂ ~̸ τ
-    TICArr1     : {τ₁ τ₂ τ₁′ τ₂′ : Typ}
-                 → τ₁ ~̸ τ₁′
-                 → τ₁ -→ τ₂ ~̸ τ₁′ -→ τ₂′
-    TICArr2     : {τ₁ τ₂ τ₁′ τ₂′ : Typ}
-                 → τ₂ ~̸ τ₂′
-                 → τ₁ -→ τ₂ ~̸ τ₁′ -→ τ₂′
+  _~̸_ : (τ₁ : Typ) → (τ₂ : Typ) → Set
+  τ₁ ~̸ τ₂ = ¬ (τ₁ ~ τ₂)
 
   -- matched arrow
   data _▸_-→_ : (τ τ₁ τ₂ : Typ) → Set where
@@ -46,7 +34,7 @@ module typ where
     TMAArr  : {τ₁ τ₂ : Typ} → τ₁ -→ τ₂ ▸ τ₁ -→ τ₂
 
   _!▸ : Typ → Set
-  τ !▸ = ∀ {τ₁ τ₂} → ¬ (τ ▸ τ₁ -→ τ₂)
+  τ !▸ = ¬ (∃[ τ₁ ] ∃[ τ₂ ] τ ▸ τ₁ -→ τ₂)
 
   -- lub join
   data _⊔_⇒_ : (τ₁ τ₂ τ : Typ) → Set where
@@ -114,38 +102,12 @@ module typ where
   unknown ▸? = yes ⟨ unknown , ⟨ unknown , TMAHole ⟩ ⟩
   (τ₁ -→ τ₂) ▸? = yes ⟨ τ₁ , ⟨ τ₂ , TMAArr ⟩ ⟩
 
-  -- apartness of consistency and inconsistency
-  ~→¬~̸ : ∀ {τ₁ τ₂} → τ₁ ~ τ₂ → ¬ (τ₁ ~̸ τ₂)
-  ~→¬~̸ TCRefl                (TICArr1 τ₁~̸τ₁)  = ~→¬~̸ TCRefl τ₁~̸τ₁
-  ~→¬~̸ TCRefl                (TICArr2 τ₂~̸τ₂)  = ~→¬~̸ TCRefl τ₂~̸τ₂
-  ~→¬~̸ TCUnknown1            (TICBaseArr2 ())
-  ~→¬~̸ TCUnknown2            (TICBaseArr1 ())
-  ~→¬~̸ (TCArr τ₁~τ₁′ τ₂~τ₂′) (TICArr1 τ₁~̸τ₁′) = ~→¬~̸ τ₁~τ₁′ τ₁~̸τ₁′
-  ~→¬~̸ (TCArr τ₁~τ₁′ τ₂~τ₂′) (TICArr2 τ₁~̸τ₁′) = ~→¬~̸ τ₂~τ₂′ τ₁~̸τ₁′
-
-  ~̸→¬~ : ∀ {τ₁ τ₂} → τ₁ ~̸ τ₂ → ¬ (τ₁ ~ τ₂)
-  ~̸→¬~ (TICBaseArr1 BNum)  ()
-  ~̸→¬~ (TICBaseArr1 BBool) ()
-  ~̸→¬~ (TICBaseArr2 BNum)  ()
-  ~̸→¬~ (TICBaseArr2 BBool) ()
-  ~̸→¬~ (TICArr1 τ₁~̸τ₁)   TCRefl          = ~̸→¬~ τ₁~̸τ₁ TCRefl
-  ~̸→¬~ (TICArr1 τ₁~̸τ₁′) (TCArr τ₁~τ₁′ _) = ~̸→¬~ τ₁~̸τ₁′ τ₁~τ₁′
-  ~̸→¬~ (TICArr2 τ₂~̸τ₂)   TCRefl          = ~̸→¬~ τ₂~̸τ₂ TCRefl
-  ~̸→¬~ (TICArr2 τ₂~̸τ₂′) (TCArr _ τ₂~τ₂′) = ~̸→¬~ τ₂~̸τ₂′ τ₂~τ₂′
-
   -- consistency is symmetric
   ~-sym : ∀ {τ₁ τ₂} → τ₁ ~ τ₂ → τ₂ ~ τ₁
   ~-sym TCRefl                = TCRefl
   ~-sym TCUnknown1            = TCUnknown2
   ~-sym TCUnknown2            = TCUnknown1
   ~-sym (TCArr τ₁~τ₁′ τ₂~τ₂′) = TCArr (~-sym τ₁~τ₁′) (~-sym τ₂~τ₂′)
-
-  -- inconsistency is symmetric
-  ~̸-sym : ∀ {τ₁ τ₂} → τ₁ ~̸ τ₂ → τ₂ ~̸ τ₁
-  ~̸-sym (TICBaseArr1 b)  = TICBaseArr2 b
-  ~̸-sym (TICBaseArr2 b)  = TICBaseArr1 b
-  ~̸-sym (TICArr1 τ₁~̸τ₁′) = TICArr1 (~̸-sym τ₁~̸τ₁′)
-  ~̸-sym (TICArr2 τ₂~̸τ₂′) = TICArr2 (~̸-sym τ₂~̸τ₂′)
 
   -- matched arrow is unique
   ▸-→-unicity : ∀ {τ τ₁ τ₂ τ₃ τ₄} → τ ▸ τ₁ -→ τ₂ → τ ▸ τ₃ -→ τ₄ → τ₁ -→ τ₂ ≡ τ₃ -→ τ₄
@@ -194,8 +156,3 @@ module typ where
   ~→⊔ TCUnknown2                                                   = ⟨ unknown , TJUnknown2 ⟩
   ~→⊔ (TCArr τ₁~τ₁′ τ₂~τ₂′) with ~→⊔ τ₁~τ₁′ | ~→⊔ τ₂~τ₂′
   ...                          | ⟨ τ₁″ , ⊔⇒τ₁″ ⟩ | ⟨ τ₂″ , ⊔⇒τ₂″ ⟩ = ⟨ τ₁″ -→ τ₂″ , TJArr ⊔⇒τ₁″ ⊔⇒τ₂″ ⟩
-
-  -- join existence means that types are not inconsistent
-  ⊔→¬~̸ : ∀ {τ τ₁ τ₂} → τ₁ ⊔ τ₂ ⇒ τ → ¬ (τ₁ ~̸ τ₂)
-  ⊔→¬~̸ ⊔⇒τ τ₁~̸τ₂ with ⊔→~ ⊔⇒τ
-  ...               | τ₁~τ₂ = ~→¬~̸ τ₁~τ₂ τ₁~̸τ₂
