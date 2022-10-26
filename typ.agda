@@ -69,26 +69,26 @@ module typ where
   -→≢₂ τ₂≢τ₂′ refl = τ₂≢τ₂′ refl
 
   -- decidable equality
-  _≡Typ?_ : (τ : Typ) → (τ′ : Typ) → Dec (τ ≡ τ′)
-  num        ≡Typ? num          = yes refl
-  num        ≡Typ? bool         = no (λ ())
-  num        ≡Typ? unknown      = no (λ ())
-  num        ≡Typ? (_ -→ _)     = no (λ ())
-  bool       ≡Typ? num          = no (λ ())
-  bool       ≡Typ? bool         = yes refl
-  bool       ≡Typ? unknown      = no (λ ())
-  bool       ≡Typ? (_ -→ _)     = no (λ ())
-  unknown    ≡Typ? num          = no (λ ())
-  unknown    ≡Typ? bool         = no (λ ())
-  unknown    ≡Typ? unknown      = yes refl
-  unknown    ≡Typ? (_ -→ _)     = no (λ ())
-  (_ -→ _)   ≡Typ? num          = no (λ ())
-  (_ -→ _)   ≡Typ? bool         = no (λ ())
-  (_ -→ _)   ≡Typ? unknown      = no (λ ())
-  (τ₁ -→ τ₂) ≡Typ? (τ₁′ -→ τ₂′) with τ₁ ≡Typ? τ₁′ | τ₂ ≡Typ? τ₂′
-  ... | yes τ₁≡τ₁′ | yes τ₂≡τ₂′ = yes (-→≡ τ₁≡τ₁′ τ₂≡τ₂′)
-  ... | _          | no τ₂≢τ₂′  = no (-→≢₂ τ₂≢τ₂′)
-  ... | no τ₁≢τ₁′  | _          = no (-→≢₁ τ₁≢τ₁′)
+  _≡?_ : (τ : Typ) → (τ′ : Typ) → Dec (τ ≡ τ′)
+  num        ≡? num      = yes refl
+  num        ≡? bool     = no (λ ())
+  num        ≡? unknown  = no (λ ())
+  num        ≡? (_ -→ _) = no (λ ())
+  bool       ≡? num      = no (λ ())
+  bool       ≡? bool     = yes refl
+  bool       ≡? unknown  = no (λ ())
+  bool       ≡? (_ -→ _) = no (λ ())
+  unknown    ≡? num      = no (λ ())
+  unknown    ≡? bool     = no (λ ())
+  unknown    ≡? unknown  = yes refl
+  unknown    ≡? (_ -→ _) = no (λ ())
+  (_ -→ _)   ≡? num      = no (λ ())
+  (_ -→ _)   ≡? bool     = no (λ ())
+  (_ -→ _)   ≡? unknown  = no (λ ())
+  (τ₁ -→ τ₂) ≡? (τ₁′ -→ τ₂′) with τ₁ ≡? τ₁′  | τ₂ ≡? τ₂′
+  ...                           | yes τ₁≡τ₁′ | yes τ₂≡τ₂′ = yes (-→≡ τ₁≡τ₁′ τ₂≡τ₂′)
+  ...                           | _          | no τ₂≢τ₂′  = no (-→≢₂ τ₂≢τ₂′)
+  ...                           | no τ₁≢τ₁′  | _          = no (-→≢₁ τ₁≢τ₁′)
 
   -- apartness of consistency and inconsistency
   ~→¬~̸ : ∀ {τ₁ τ₂} → τ₁ ~ τ₂ → ¬ (τ₁ ~̸ τ₂)
