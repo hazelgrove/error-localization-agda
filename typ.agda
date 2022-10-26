@@ -90,6 +90,30 @@ module typ where
   ...                           | _          | no τ₂≢τ₂′  = no (-→≢₂ τ₂≢τ₂′)
   ...                           | no τ₁≢τ₁′  | _          = no (-→≢₁ τ₁≢τ₁′)
 
+  -- decidable consistency
+  _~?_ : (τ : Typ) → (τ′ : Typ) → Dec (τ ~ τ′)
+  unknown    ~? _        = yes TCUnknown2
+  _          ~? unknown  = yes TCUnknown1
+  num        ~? num      = yes TCRefl
+  num        ~? bool     = no (λ ())
+  num        ~? (_ -→ _) = no (λ ())
+  bool       ~? num      = no (λ ())
+  bool       ~? bool     = yes TCRefl
+  bool       ~? (_ -→ _) = no (λ ())
+  (_ -→ _)   ~? num      = no (λ ())
+  (_ -→ _)   ~? bool     = no (λ ())
+  (τ₁ -→ τ₂) ~? (τ₁′ -→ τ₂′) with τ₁ ~? τ₁′  | τ₂ ~? τ₂′
+  ...                           | yes τ₁~τ₁′ | yes τ₂~τ₂′ = yes (TCArr τ₁~τ₁′ τ₂~τ₂′)
+  ...                           | _          | no ¬τ₂~τ₂′ = no λ { TCRefl → ¬τ₂~τ₂′ TCRefl ; (TCArr _ τ₂~τ₂′) → ¬τ₂~τ₂′ τ₂~τ₂′ }
+  ...                           | no ¬τ₁~τ₁′ | _          = no λ { TCRefl → ¬τ₁~τ₁′ TCRefl ; (TCArr τ₁~τ₁′ _) → ¬τ₁~τ₁′ τ₁~τ₁′ }
+
+  -- decidable matched arrow
+  _▸? : (τ : Typ) → Dec (∃[ τ₁ ] ∃[ τ₂ ] τ ▸ τ₁ -→ τ₂)
+  num ▸? = no (λ ())
+  bool ▸? = no (λ ())
+  unknown ▸? = yes ⟨ unknown , ⟨ unknown , TMAHole ⟩ ⟩
+  (τ₁ -→ τ₂) ▸? = yes ⟨ τ₁ , ⟨ τ₂ , TMAArr ⟩ ⟩
+
   -- apartness of consistency and inconsistency
   ~→¬~̸ : ∀ {τ₁ τ₂} → τ₁ ~ τ₂ → ¬ (τ₁ ~̸ τ₂)
   ~→¬~̸ TCRefl                (TICArr1 τ₁~̸τ₁)  = ~→¬~̸ TCRefl τ₁~̸τ₁
