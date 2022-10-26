@@ -19,26 +19,9 @@
 \usepackage{stmaryrd}
 \usepackage{bm}
 
-\usepackage{multicol}
-
-\usepackage{tikz}
-
-\usepackage{booktabs}
 \usepackage{enumitem}
-\setlist{itemsep=1pt}
 
-\usepackage{biblatex}
+\declaretheorem[name=Theorem, parent=section]{theorem}
+\declaretheorem[name=Definition, parent=section, style=definition]{definition}
 
-\usepackage[colorlinks=true, linkcolor=purple]{hyperref}
-\usepackage[capitalise, noabbrev]{cleveref}
-
-\usepackage{subfiles}
-
-\numberwithin{figure}{section}
-\numberwithin{table}{section}
-
-\makeatletter
-\renewcommand\tableofcontents{\@starttoc{toc}}
-
-\input{preamble/math}
 \input{preamble/symbols}
