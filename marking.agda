@@ -27,8 +27,8 @@ module marking where
         → (∋x : Γ ∋ x ∶ τ)
         → Γ ⊢ ‵ x ↬⇒ ⊢ (ctx∋ ∋x)
 
-      ISUnbound : ∀ {Γ x τ}
-        → Γ ∌ x ∶ τ
+      ISUnbound : ∀ {Γ x}
+        → Γ ∌ x
         → Γ ⊢ ‵ x ↬⇒ ⊢⟦ x ⟧
 
       ISLam : ∀ {Γ x τ e τ₁}
