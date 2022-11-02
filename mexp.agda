@@ -93,6 +93,53 @@ module mexp where
         → τ₁ ~̸ τ₂
         → Γ ⊢⇒ unknown
 
+    data Subsumable : {Γ : Ctx} {τ : Typ} → (ě : Γ ⊢⇒ τ) → Set where
+      SuHole : ∀ {Γ}
+        → {u : ℕ}
+        → Subsumable {Γ} (⊢⦇-⦈^ u)
+
+      SuVar : ∀ {Γ τ}
+        → {∋x : Γ ∋ τ}
+        → Subsumable {Γ} (⊢ ∋x)
+
+      SuAp1 : ∀ {Γ τ τ₁ τ₂}
+        → {ě₁ : Γ ⊢⇒ τ}
+        → {ě₂ : Γ ⊢⇐ τ₁}
+        → {τ▸ : τ ▸ τ₁ -→ τ₂}
+        → Subsumable {Γ} (⊢ ě₁ ∙ ě₂ [ τ▸ ])
+
+      SuAp2 : ∀ {Γ τ}
+        → {ě₁ : Γ ⊢⇒ τ}
+        → {ě₂ : Γ ⊢⇐ unknown}
+        → {τ!▸ : τ !▸}
+        → Subsumable {Γ} (⊢⸨ ě₁ ⸩∙ ě₂ [ τ!▸ ])
+
+      SuNum : ∀ {Γ}
+        → {n : ℕ}
+        → Subsumable {Γ} (⊢ℕ n)
+
+      SuPlus : ∀ {Γ}
+        → {ě₁ : Γ ⊢⇐ num}
+        → {ě₂ : Γ ⊢⇐ num}
+        → Subsumable {Γ} (⊢ ě₁ + ě₂)
+
+      SuTrue : ∀ {Γ}
+        → Subsumable {Γ} (⊢tt)
+
+      SuFalse : ∀ {Γ}
+        → Subsumable {Γ} (⊢ff)
+
+      SuUnbound : ∀ {Γ}
+        → {x : FreeVar}
+        → Subsumable {Γ} (⊢⟦ x ⟧)
+
+      SuInconsistentBranches : ∀ {Γ τ₁ τ₂}
+        → {ě₁ : Γ ⊢⇐ bool}
+        → {ě₂ : Γ ⊢⇒ τ₁}
+        → {ě₃ : Γ ⊢⇒ τ₂}
+        → {τ₁~̸τ₂ : τ₁ ~̸ τ₂}
+        → Subsumable {Γ} (⊢⦉ ě₁ ∙ ě₂ ∙ ě₃ ⦊[ τ₁~̸τ₂ ])
+
     -- analysis
     data _⊢⇐_ : (Γ : Ctx) (τ : Typ) → Set where
       -- MALam
