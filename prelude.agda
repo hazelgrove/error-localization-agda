@@ -1,6 +1,9 @@
 module prelude where
   data ⊥ : Set where
 
+  data Triv : Set where
+    unit : Triv
+
   -- negation
   module negation where
     ¬_ : Set → Set
