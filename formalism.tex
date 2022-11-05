@@ -181,10 +181,43 @@ $\judgbox{\ctxSynType{\ctx}{\EMV}{\TMV}}$ $\EMV$ synthesizes type $\TMV$
 
   \judgment{
     \ctxSynType{\ctx}{\EMV}{\TMV'} \\
-    \consistent{\TMV}{\TMV'}
+    \consistent{\TMV}{\TMV'} \\
+    \subsumable{\EMV}
   }{
     \ctxAnaType{\ctx}{\EMV}{\TMV}
   }{UASubsume}
+\end{mathpar} \\
+
+\judgbox{\subsumable{\ECMV}} $\ECMV$ is subsumable
+%
+\begin{mathpar}
+  \judgment{ }{
+    \subsumable{\EEHole}
+  }{UASHole}
+
+  \judgment{ }{
+    \subsumable{x}
+  }{UASVar}
+
+  \judgment{ }{
+    \subsumable{\EAp{\EMV_1}{\EMV_2}}
+  }{UASAp}
+
+  \judgment{ }{
+    \subsumable{\EIntMV}
+  }{UASNum}
+
+  \judgment{ }{
+    \subsumable{\EPlus{\EMV_1}{\EMV_2}}
+  }{UASPlus}
+
+  \judgment{ }{
+    \subsumable{\ETrue}
+  }{UASTrue}
+
+  \judgment{ }{
+    \subsumable{\EFalse}
+  }{UASFalse}
 \end{mathpar}
 
 \subsection{Mark Insertion}
@@ -280,7 +313,22 @@ against type $\TMV$
     \ctxAnaFixedInto{\extendCtx{\ctx}{x}{\TMV}}{\EMV}{\ECMV}{\TMV_2}
   }{
     \ctxAnaFixedInto{\ctx}{\ELam{x}{\TMV}{\EMV}}{\ECLam{x}{\TMV}{\ECMV}}{\TMV_3}
-  }{IALam}
+  }{IALam1}
+
+  \judgment{
+    \notMatchedArrow{\TMV_3}{\TMV_1}{\TMV_2} \\
+    \ctxAnaFixedInto{\extendCtx{\ctx}{x}{\TMV}}{\EMV}{\ECMV}{\TUnknown}
+  }{
+    \ctxAnaFixedInto{\ctx}{\ELam{x}{\TMV}{\EMV}}{\ECInconType{\ECLam{x}{\TMV}{\ECMV}}}{\TMV_3}
+  }{IALam2}
+
+  \judgment{
+    \matchedArrow{\TMV_3}{\TMV_1}{\TMV_2} \\
+    \inconsistent{\TMV}{\TMV_1} \\
+    \ctxAnaFixedInto{\extendCtx{\ctx}{x}{\TMV}}{\EMV}{\ECMV}{\TUnknown}
+  }{
+    \ctxAnaFixedInto{\ctx}{\ELam{x}{\TMV}{\EMV}}{\ECInconType{\ECLam{x}{\TMV}{\ECMV}}}{\TMV_3}
+  }{IALam3}
 
   \judgment{
     \ctxAnaFixedInto{\ctx}{\EMV_1}{\ECMV_1}{\TBool} \\
@@ -299,7 +347,8 @@ against type $\TMV$
 
   \judgment{
     \ctxSynFixedInto{\ctx}{\EMV}{\ECMV}{\TMV'} \\
-    \consistent{\TMV}{\TMV'}
+    \consistent{\TMV}{\TMV'} \\
+    \subsumable{\EMV}
   }{
     \ctxAnaFixedInto{\ctx}{\EMV}{\ECMV}{\TMV}
   }{IASubsume}
@@ -393,7 +442,22 @@ against type $\TMV$
     \ctxAnaType{\extendCtx{\ctx}{x}{\TMV}}{\ECMV}{\TMV_2}
   }{
     \ctxAnaType{\ctx}{\ECLam{x}{\TMV}{\ECMV}}{\TMV_3}
-  }{MALam}
+  }{MALam1}
+
+  \judgment{
+    \notMatchedArrow{\TMV_3}{\TMV_1}{\TMV_2} \\
+    \ctxAnaType{\extendCtx{\ctx}{x}{\TMV}}{\ECMV}{\TUnknown}
+  }{
+    \ctxAnaType{\ctx}{\ECInconType{\ECLam{x}{\TMV}{\ECMV}}}{\TMV_3}
+  }{MALam2}
+
+  \judgment{
+    \matchedArrow{\TMV_3}{\TMV_1}{\TMV_2} \\
+    \inconsistent{\TMV}{\TMV_1} \\
+    \ctxAnaType{\extendCtx{\ctx}{x}{\TMV}}{\ECMV}{\TUnknown}
+  }{
+    \ctxAnaType{\ctx}{\ECInconType{\ECLam{x}{\TMV}{\ECMV}}}{\TMV_3}
+  }{MALam3}
 
   \judgment{
     \ctxAnaType{\ctx}{\ECMV_1}{\TBool} \\
@@ -412,10 +476,51 @@ against type $\TMV$
 
   \judgment{
     \ctxSynType{\ctx}{\ECMV}{\TMV'} \\
-    \consistent{\TMV}{\TMV'}
+    \consistent{\TMV}{\TMV'} \\
+    \subsumable{\ECMV}
   }{
     \ctxAnaType{\ctx}{\ECMV}{\TMV}
   }{MASubsume}
+\end{mathpar} \\
+
+\judgbox{\subsumable{\ECMV}} $\ECMV$ is subsumable
+%
+\begin{mathpar}
+  \judgment{ }{
+    \subsumable{\ECEHole}
+  }{MASHole}
+
+  \judgment{ }{
+    \subsumable{x}
+  }{MASVar}
+
+  \judgment{ }{
+    \subsumable{\ECAp{\ECMV_1}{\ECMV_2}}
+  }{MASAp}
+
+  \judgment{ }{
+    \subsumable{\ECIntMV}
+  }{MASNum}
+
+  \judgment{ }{
+    \subsumable{\ECPlus{\ECMV_1}{\ECMV_2}}
+  }{MASPlus}
+
+  \judgment{ }{
+    \subsumable{\ECTrue}
+  }{MASTrue}
+
+  \judgment{ }{
+    \subsumable{\ECFalse}
+  }{MASFalse}
+
+  \judgment{ }{
+    \subsumable{\ECUnbound{x}}
+  }{MASUnbound}
+
+  \judgment{ }{
+    \subsumable{\ECInconBr{\ECMV_1}{\ECMV_2}{\ECMV_3}}
+  }{MASInconsistentBranches}
 \end{mathpar}
 
 \subsection{Mark Erasure}
