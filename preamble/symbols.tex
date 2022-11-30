@@ -13,11 +13,12 @@
 
 % Consistency
 \newcommand{\consistent}[2]{\ensuremath{#1 \sim #2}}
-\newcommand{\inconsistent}[2]{\ensuremath{#1 \nsim #2}}
+\newcommand{\inconsistentRel}{\ensuremath{\nsim}}
+\newcommand{\inconsistent}[2]{\ensuremath{#1 \inconsistentRel #2}}
 
 % Matching
 \newcommand{\matchedRel}[1]{\ensuremath{\blacktriangleright_{#1}}}
-\newcommand{\notMatchedRel}[1]{\ensuremath{\blacktriangleright_{\not#1}}}
+\newcommand{\notMatchedRel}[1]{\ensuremath{\blacktriangleright_{\centernot#1}}}
 \newcommand{\matchedArrowRel}{\ensuremath{\matchedRel{\to}}}
 \newcommand{\notMatchedArrowRel}{\ensuremath{\notMatchedRel{\to}}}
 \newcommand{\matchedArrow}[3]{\ensuremath{#1 \matchedArrowRel \TArrow{#2}{#3}}}
@@ -67,9 +68,12 @@
 \newcommand{\TMName}{\textsf{Type}}
 \newcommand{\TMSet}{\ensuremath{T}}
 \newcommand{\TMV}{\ensuremath{\tau}}
-\newcommand{\TJoin}[2]{\ensuremath{#1 \sqcup #2}}
-\DeclareMathOperator{\?}{?}
 
+\newcommand{\joinRel}{\sqcup}
+\newcommand{\noJoinRel}{\centernot\sqcup}
+\newcommand{\TJoin}[2]{\ensuremath{#1 \joinRel #2}}
+
+\DeclareMathOperator{\?}{?}
 \newcommand{\TUnknown}{\ensuremath{\?}}
 \newcommand{\TInt}{\ensuremath{\textsf{Num}}}
 \newcommand{\TBool}{\ensuremath{\textsf{Bool}}}
@@ -138,9 +142,21 @@
 \newcommand{\ECProjR}[1]{\ensuremath{#1.1}}
 
 % Errors
-\newcommand{\ECUnbound}[1]{\ensuremath{\textcolor{red}{\bm{[}}#1\textcolor{red}{\bm{]}}}}
-\newcommand{\ECInconType}[1]{\ensuremath{\textcolor{red}{\bm{\llparenthesis}}#1\textcolor{red}{\bm{\rrparenthesis}}}}
-\newcommand{\ECInconBr}[3]{\ensuremath{\textcolor{red}{\bm{[}}\ECIf{#1}{#2}{#3}\textcolor{red}{\bm{]}}}}
-\newcommand{\ECInconMatched}[2]{\ensuremath{\textcolor{red}{[}#1\textcolor{red}{]^{\not#2}}}}
-\newcommand{\ECInconMatchedArrow}[1]{\ensuremath{\ECInconMatched{#1}{\matchedArrowRel}}}
-\newcommand{\ECInconMatchedPair}[1]{\ensuremath{\ECInconMatched{#1}{\matchedPairRel}}}
+\newcommand{\MRMName}{\textsf{MReason}}
+\newcommand{\MRMV}{\ensuremath{r}}
+\newcommand{\MRUnbound}{\ensuremath{\mathsmaller{\mathsmaller{\mathsmaller{\square}}}}}
+\newcommand{\MRInconType}{\ensuremath{\mathsmaller{\inconsistentRel}}}
+\newcommand{\MRInconBr}{\ensuremath{\mathlarger{\noJoinRel}}}
+
+\newcommand{\ECMarked}[2]{\ensuremath{\textcolor{red}{\bm{\llparenthesis}}#1\textcolor{red}{\bm{\rrparenthesis}_{#2}}}}
+\newcommand{\ECMarkedUnbound}[1]{\ensuremath{\ECMarked{#1}{\MRUnbound}}}
+\newcommand{\ECMarkedInconType}[1]{\ensuremath{\ECMarked{#1}{\MRInconType}}}
+\newcommand{\ECMarkedInconBr}[1]{\ensuremath{\ECMarked{#1}{\MRInconBr}}}
+
+\newcommand{\ECUnbound}[1]{\ensuremath{\ECMarkedUnbound{#1}}}
+\newcommand{\ECInconType}[1]{\ensuremath{\ECMarkedInconType{#1}}}
+\newcommand{\ECInconBr}[3]{\ensuremath{\ECMarkedInconBr{\ECIf{#1}{#2}{#3}}}}
+
+\newcommand{\ECInconMatched}[2]{\ensuremath{\ECMarked{#1}{#2}}}
+\newcommand{\ECInconMatchedArrow}[1]{\ensuremath{\ECInconMatched{#1}{\notMatchedArrowRel}}}
+\newcommand{\ECInconMatchedPair}[1]{\ensuremath{\ECInconMatched{#1}{\notMatchedPairRel}}}

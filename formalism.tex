@@ -16,7 +16,8 @@ Formalization of error localization semantics.
   \ECMName & \ECMV & \Coloneqq & \ECEHole \mid x \mid \ECLam{x}{\TMV}{\ECMV} \mid \ECAp{\ECMV}{\ECMV} \\
            &       & \mid         & \ECIntMV \mid \ECPlus{\ECMV}{\ECMV} \\
            &       & \mid         & \ECTrue \mid \ECFalse \mid \ECIf{\ECMV}{\ECMV}{\ECMV} \\
-           &       & \mid         & \ECUnbound{x} \mid \ECInconType{\ECMV} \mid \ECInconBr{\ECMV}{\ECMV}{\ECMV}
+           &       & \mid         & \ECMarked{x}{\MRMV} \\
+  \MRMName & \MRMV & \Coloneqq & \MRUnbound \mid \MRInconType \mid \MRInconBr
 \end{array}\]
 
 \subsection{Types}
@@ -325,7 +326,7 @@ against type $\TMV$
   \judgment{
     \matchedArrow{\TMV_3}{\TMV_1}{\TMV_2} \\
     \inconsistent{\TMV}{\TMV_1} \\
-    \ctxAnaFixedInto{\extendCtx{\ctx}{x}{\TMV}}{\EMV}{\ECMV}{\TUnknown}
+    \ctxAnaFixedInto{\extendCtx{\ctx}{x}{\TMV_1}}{\EMV}{\ECMV}{\TMV_2}
   }{
     \ctxAnaFixedInto{\ctx}{\ELam{x}{\TMV}{\EMV}}{\ECInconType{\ECLam{x}{\TMV}{\ECMV}}}{\TMV_3}
   }{IALam3}
@@ -340,7 +341,8 @@ against type $\TMV$
 
   \judgment{
     \ctxSynFixedInto{\ctx}{\EMV}{\ECMV}{\TMV'} \\
-    \inconsistent{\TMV}{\TMV'}
+    \inconsistent{\TMV}{\TMV'} \\
+    \subsumable{\EMV}
   }{
     \ctxAnaFixedInto{\ctx}{\EMV}{\ECInconType{\ECMV}}{\TMV}
   }{IAInconsistentTypes}
@@ -454,7 +456,7 @@ against type $\TMV$
   \judgment{
     \matchedArrow{\TMV_3}{\TMV_1}{\TMV_2} \\
     \inconsistent{\TMV}{\TMV_1} \\
-    \ctxAnaType{\extendCtx{\ctx}{x}{\TMV}}{\ECMV}{\TUnknown}
+    \ctxAnaType{\extendCtx{\ctx}{x}{\TMV_1}}{\ECMV}{\TMV_2}
   }{
     \ctxAnaType{\ctx}{\ECInconType{\ECLam{x}{\TMV}{\ECMV}}}{\TMV_3}
   }{MALam3}
@@ -469,7 +471,8 @@ against type $\TMV$
 
   \judgment{
     \ctxSynType{\ctx}{\ECMV}{\TMV'} \\
-    \inconsistent{\TMV}{\TMV'}
+    \inconsistent{\TMV}{\TMV'} \\
+    \subsumable{\ECMV}
   }{
     \ctxAnaType{\ctx}{\ECInconType{\ECMV}}{\TMV}
   }{MAInconsistentTypes}
