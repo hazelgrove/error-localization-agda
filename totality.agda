@@ -6,7 +6,7 @@ open import marking
 
 module totality where
   mutual
-    ↬⇒-totality : ∀ (Γ : UCtx) → (e : UExp) → Σ[ τ ∈ Typ ] Σ[ ě ∈ ((ctx Γ) ⊢⇒ τ) ] (Γ ⊢ e ↬⇒ ě)
+    ↬⇒-totality : ∀ (Γ : UCtx) → (e : UExp) → Σ[ τ ∈ Typ ] Σ[ ě ∈ ⟦ Γ ⟧ ⊢⇒ τ ] (Γ ⊢ e ↬⇒ ě)
     ↬⇒-totality Γ (‵⦇-⦈^ x) = ⟨ unknown , ⟨ ⊢⦇-⦈^ x , ISHole ⟩ ⟩
     ↬⇒-totality Γ (‵ x) with Γ ∋?? x
     ...                    | yes (Z {Γ} {x} {τ}) = ⟨ τ , ⟨ ⊢ Z , ISVar Z ⟩ ⟩
@@ -31,12 +31,12 @@ module totality where
     ↬⇒-totality Γ (‵ e₁ ∙ e₂ ∙ e₃)    | ⟨ ě₁ , e₁↬⇐ě₁ ⟩       | ⟨ τ₁ , ⟨ ě₂ , e₂↬⇐ě₂ ⟩ ⟩ | ⟨ τ₂ , ⟨ ě₃ , e₃↬⇒ě₃ ⟩ ⟩    | yes τ₁~τ₂    | ⟨ τ , ⊔⇒τ ⟩ = ⟨ τ , ⟨ ⊢ ě₁ ∙ ě₂ ∙ ě₃ [ ⊔⇒τ ] , ISIf e₁↬⇐ě₁ e₂↬⇐ě₂ e₃↬⇒ě₃ ⊔⇒τ ⟩ ⟩
     ↬⇒-totality Γ (‵ e₁ ∙ e₂ ∙ e₃)    | ⟨ ě₁ , e₁↬⇐ě₁ ⟩       | ⟨ τ₁ , ⟨ ě₂ , e₂↬⇐ě₂ ⟩ ⟩ | ⟨ τ₂ , ⟨ ě₃ , e₃↬⇒ě₃ ⟩ ⟩    | no  τ₁~̸τ₂                  = ⟨ unknown , ⟨ ⊢⦉ ě₁ ∙ ě₂ ∙ ě₃ ⦊[ τ₁~̸τ₂ ] , ISInconsistentBranches e₁↬⇐ě₁ e₂↬⇐ě₂ e₃↬⇒ě₃ τ₁~̸τ₂ ⟩ ⟩
 
-    ↬⇐-subsume : ∀ {Γ e τ} → (ě : (ctx Γ) ⊢⇒ τ) → (τ′ : Typ) → (Γ ⊢ e ↬⇒ ě) → (∙e : Subsumable e) → Σ[ ě ∈ (ctx Γ) ⊢⇐ τ′ ] (Γ ⊢ e ↬⇐ ě)
+    ↬⇐-subsume : ∀ {Γ e τ} → (ě : ⟦ Γ ⟧ ⊢⇒ τ) → (τ′ : Typ) → (Γ ⊢ e ↬⇒ ě) → (∙e : Subsumable e) → Σ[ ě ∈ ⟦ Γ ⟧ ⊢⇐ τ′ ] (Γ ⊢ e ↬⇐ ě)
     ↬⇐-subsume {Γ} {_} {τ} ě τ′ e↬⇒ě ∙e with τ′ ~? τ
     ...   | yes τ′~τ = ⟨ ⊢∙ ě  [ τ′~τ ∙ USu→MSu ∙e e↬⇒ě ] , IASubsume e↬⇒ě τ′~τ ∙e ⟩
     ...   | no  τ′~̸τ = ⟨ ⊢⸨ ě ⸩[ τ′~̸τ ∙ USu→MSu ∙e e↬⇒ě ] , IAInconsistentTypes e↬⇒ě τ′~̸τ ∙e ⟩
 
-    ↬⇐-totality : ∀ (Γ : UCtx) → (τ′ : Typ) → (e : UExp) → Σ[ ě ∈ (ctx Γ) ⊢⇐ τ′ ] (Γ ⊢ e ↬⇐ ě)
+    ↬⇐-totality : ∀ (Γ : UCtx) → (τ′ : Typ) → (e : UExp) → Σ[ ě ∈ ⟦ Γ ⟧ ⊢⇐ τ′ ] (Γ ⊢ e ↬⇐ ě)
     ↬⇐-totality Γ τ′ e@(‵⦇-⦈^ u)
       with ↬⇒-totality Γ e
     ...  | ⟨ .unknown , ⟨ ě@(⊢⦇-⦈^ _) , e↬⇒ě ⟩ ⟩ = ↬⇐-subsume ě τ′ e↬⇒ě SuHole
