@@ -49,6 +49,28 @@ module uexp where
     ‵ff     : UExp
     ‵_∙_∙_  : UExp → UExp → UExp → UExp
 
+  data Subsumable : UExp → Set where
+    USuHole : ∀ {u}
+      → Subsumable (‵⦇-⦈^ u)
+
+    USuVar : ∀ {x}
+      → Subsumable (‵ x)
+
+    USuAp : ∀ {e₁ e₂}
+      → Subsumable (‵ e₁ ∙ e₂)
+
+    USuNum : ∀ {n}
+      → Subsumable (‵ℕ n)
+
+    USuPlus : ∀ {e₁ e₂}
+      → Subsumable (‵ e₁ + e₂)
+
+    USuTrue :
+        Subsumable ‵tt
+
+    USuFalse :
+        Subsumable ‵ff
+
   mutual
     -- synthesis
     data _⊢_⇒_ : (Γ : Ctx) (e : UExp) (τ : Typ) → Set where
@@ -106,4 +128,5 @@ module uexp where
       UASubsume : ∀ {Γ e τ τ′}
         → Γ ⊢ e ⇒ τ′
         → τ ~ τ′
+        → Subsumable e
         → Γ ⊢ e ⇐ τ

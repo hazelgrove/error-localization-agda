@@ -94,46 +94,46 @@ module mexp where
         → Γ ⊢⇒ unknown
 
     data Subsumable : {Γ : Ctx} {τ : Typ} → (ě : Γ ⊢⇒ τ) → Set where
-      SuHole : ∀ {Γ}
+      MSuHole : ∀ {Γ}
         → {u : ℕ}
         → Subsumable {Γ} (⊢⦇-⦈^ u)
 
-      SuVar : ∀ {Γ τ}
+      MSuVar : ∀ {Γ τ}
         → {∋x : Γ ∋ τ}
         → Subsumable {Γ} (⊢ ∋x)
 
-      SuAp1 : ∀ {Γ τ τ₁ τ₂}
+      MSuAp1 : ∀ {Γ τ τ₁ τ₂}
         → {ě₁ : Γ ⊢⇒ τ}
         → {ě₂ : Γ ⊢⇐ τ₁}
         → {τ▸ : τ ▸ τ₁ -→ τ₂}
         → Subsumable {Γ} (⊢ ě₁ ∙ ě₂ [ τ▸ ])
 
-      SuAp2 : ∀ {Γ τ}
+      MSuAp2 : ∀ {Γ τ}
         → {ě₁ : Γ ⊢⇒ τ}
         → {ě₂ : Γ ⊢⇐ unknown}
         → {τ!▸ : τ !▸}
         → Subsumable {Γ} (⊢⸨ ě₁ ⸩∙ ě₂ [ τ!▸ ])
 
-      SuNum : ∀ {Γ}
+      MSuNum : ∀ {Γ}
         → {n : ℕ}
         → Subsumable {Γ} (⊢ℕ n)
 
-      SuPlus : ∀ {Γ}
+      MSuPlus : ∀ {Γ}
         → {ě₁ : Γ ⊢⇐ num}
         → {ě₂ : Γ ⊢⇐ num}
         → Subsumable {Γ} (⊢ ě₁ + ě₂)
 
-      SuTrue : ∀ {Γ}
+      MSuTrue : ∀ {Γ}
         → Subsumable {Γ} (⊢tt)
 
-      SuFalse : ∀ {Γ}
+      MSuFalse : ∀ {Γ}
         → Subsumable {Γ} (⊢ff)
 
-      SuUnbound : ∀ {Γ}
+      MSuUnbound : ∀ {Γ}
         → {x : FreeVar}
         → Subsumable {Γ} (⊢⟦ x ⟧)
 
-      SuInconsistentBranches : ∀ {Γ τ₁ τ₂}
+      MSuInconsistentBranches : ∀ {Γ τ₁ τ₂}
         → {ě₁ : Γ ⊢⇐ bool}
         → {ě₂ : Γ ⊢⇒ τ₁}
         → {ě₃ : Γ ⊢⇒ τ₂}
@@ -142,12 +142,27 @@ module mexp where
 
     -- analysis
     data _⊢⇐_ : (Γ : Ctx) (τ : Typ) → Set where
-      -- MALam
+      -- MALam1
       ⊢λ∶_∙_[_∙_] : ∀ {Γ τ₁ τ₂ τ₃}
         → (τ : Typ)
         → Γ , τ ⊢⇐ τ₂
         → τ₃ ▸ τ₁ -→ τ₂
         → τ ~ τ₁
+        → Γ ⊢⇐ τ₃
+
+      -- MALam2
+      ⊢⸨λ∶_∙_⸩[_] : ∀ {Γ τ′}
+        → (τ : Typ)
+        → Γ , τ ⊢⇐ unknown
+        → τ′ !▸
+        → Γ ⊢⇐ τ′
+
+      -- MALam3
+      ⊢λ∶⸨_⸩∙_[_∙_] : ∀ {Γ τ₁ τ₂ τ₃}
+        → (τ : Typ)
+        → Γ , τ ⊢⇐ τ₂
+        → τ₃ ▸ τ₁ -→ τ₂
+        → τ ~̸ τ₁
         → Γ ⊢⇐ τ₃
 
       -- MAIf
@@ -158,13 +173,15 @@ module mexp where
         → Γ ⊢⇐ τ
 
       -- MAInconsistentTypes
-      ⊢⸨_⸩[_] : ∀ {Γ τ τ′}
-        → Γ ⊢⇒ τ′
+      ⊢⸨_⸩[_,_] : ∀ {Γ τ τ′}
+        → (ě : Γ ⊢⇒ τ′)
         → τ ~̸ τ′
+        → Subsumable ě
         → Γ ⊢⇐ τ
 
       -- MASubsume
-      ⊢∙_[_] : ∀ {Γ τ τ′}
-        → Γ ⊢⇒ τ′
+      ⊢∙_[_,_] : ∀ {Γ τ τ′}
+        → (ě : Γ ⊢⇒ τ′)
         → τ ~ τ′
+        → Subsumable ě
         → Γ ⊢⇐ τ

@@ -1,7 +1,7 @@
 open import prelude
 open import typ
-open import uexp renaming (Ctx to UCtx)
-open import mexp renaming (Ctx to MCtx)
+open import uexp renaming (Ctx to UCtx; Subsumable to USubsumable)
+open import mexp renaming (Ctx to MCtx; Subsumable to MSubsumable)
 open import marking
 
 module totality where
@@ -31,11 +31,44 @@ module totality where
     ↬⇒-totality Γ (‵ e₁ ∙ e₂ ∙ e₃)    | ⟨ ě₁ , e₁↬⇐ě₁ ⟩       | ⟨ τ₁ , ⟨ ě₂ , e₂↬⇐ě₂ ⟩ ⟩ | ⟨ τ₂ , ⟨ ě₃ , e₃↬⇒ě₃ ⟩ ⟩    | yes τ₁~τ₂    | ⟨ τ , ⊔⇒τ ⟩ = ⟨ τ , ⟨ ⊢ ě₁ ∙ ě₂ ∙ ě₃ [ ⊔⇒τ ] , ISIf e₁↬⇐ě₁ e₂↬⇐ě₂ e₃↬⇒ě₃ ⊔⇒τ ⟩ ⟩
     ↬⇒-totality Γ (‵ e₁ ∙ e₂ ∙ e₃)    | ⟨ ě₁ , e₁↬⇐ě₁ ⟩       | ⟨ τ₁ , ⟨ ě₂ , e₂↬⇐ě₂ ⟩ ⟩ | ⟨ τ₂ , ⟨ ě₃ , e₃↬⇒ě₃ ⟩ ⟩    | no  τ₁~̸τ₂                  = ⟨ unknown , ⟨ ⊢⦉ ě₁ ∙ ě₂ ∙ ě₃ ⦊[ τ₁~̸τ₂ ] , ISInconsistentBranches e₁↬⇐ě₁ e₂↬⇐ě₂ e₃↬⇒ě₃ τ₁~̸τ₂ ⟩ ⟩
 
-    ↬⇐-totality : ∀ (Γ : UCtx) → (τ′ : Typ) → (e : UExp) → Σ[ ě ∈ ((ctx Γ) ⊢⇐ τ′) ] (Γ ⊢ e ↬⇐ ě)
-    ↬⇐-totality Γ τ′ e = ↬⇐-subsume Γ τ′ e
-      where
-        ↬⇐-subsume : ∀ (Γ : UCtx) → (τ′ : Typ) → (e : UExp) → Σ[ ě ∈ ((ctx Γ) ⊢⇐ τ′) ] (Γ ⊢ e ↬⇐ ě)
-        ↬⇐-subsume Γ τ′ e with ↬⇒-totality Γ e
-        ... | ⟨ τ , ⟨ ě , e↬⇒ě ⟩ ⟩ with τ′ ~? τ
-        ...   | yes τ′~τ = ⟨ ⊢∙ ě [ τ′~τ ] , IASubsume e↬⇒ě τ′~τ ⟩
-        ...   | no  τ′~̸τ = ⟨ ⊢⸨ ě ⸩[ τ′~̸τ ] , IAInconsistentTypes e↬⇒ě τ′~̸τ ⟩
+    ↬⇐-subsume : ∀ {Γ e τ} → (ě : (ctx Γ) ⊢⇒ τ) → (τ′ : Typ) → (Γ ⊢ e ↬⇒ ě) → (∙e : USubsumable e) → Σ[ ě ∈ (ctx Γ) ⊢⇐ τ′ ] (Γ ⊢ e ↬⇐ ě)
+    ↬⇐-subsume {Γ} {_} {τ} ě τ′ e↬⇒ě ∙e with τ′ ~? τ
+    ...   | yes τ′~τ = ⟨ ⊢∙ ě  [ τ′~τ , Su→Su ∙e e↬⇒ě ] , IASubsume e↬⇒ě τ′~τ ∙e ⟩
+    ...   | no  τ′~̸τ = ⟨ ⊢⸨ ě ⸩[ τ′~̸τ , Su→Su ∙e e↬⇒ě ] , IAInconsistentTypes e↬⇒ě τ′~̸τ ∙e ⟩
+
+    ↬⇐-totality : ∀ (Γ : UCtx) → (τ′ : Typ) → (e : UExp) → Σ[ ě ∈ (ctx Γ) ⊢⇐ τ′ ] (Γ ⊢ e ↬⇐ ě)
+    ↬⇐-totality Γ τ′ e@(‵⦇-⦈^ u)
+      with ↬⇒-totality Γ e
+    ...  | ⟨ .unknown , ⟨ ě@(⊢⦇-⦈^ _) , e↬⇒ě ⟩ ⟩ = ↬⇐-subsume ě τ′ e↬⇒ě USuHole
+    ↬⇐-totality Γ τ′ e@(‵ x)
+      with ↬⇒-totality Γ e
+    ...  | ⟨ .unknown , ⟨ ě@(⊢⟦ x ⟧) , e↬⇒ě ⟩ ⟩ = ↬⇐-subsume ě τ′ e↬⇒ě USuVar
+    ...  | ⟨ τ        , ⟨ ě@(⊢ x)    , e↬⇒ě ⟩ ⟩ = ↬⇐-subsume ě τ′ e↬⇒ě USuVar
+    ↬⇐-totality Γ τ′ e@(‵λ x ∶ τ ∙ e′)
+      with τ′ ▸?
+    ↬⇐-totality Γ τ′ e@(‵λ x ∶ τ ∙ e′) | yes ⟨ τ₁ , ⟨ τ₂ , τ′▸ ⟩ ⟩ with τ ~? τ₁
+    ↬⇐-totality Γ τ′ e@(‵λ x ∶ τ ∙ e′) | yes ⟨ τ₁ , ⟨ τ₂ , τ′▸ ⟩ ⟩    | yes τ~τ₁ with ↬⇐-totality (Γ , x ∶ τ) τ₂ e′
+    ↬⇐-totality Γ τ′ e@(‵λ x ∶ τ ∙ e′) | yes ⟨ τ₁ , ⟨ τ₂ , τ′▸ ⟩ ⟩    | yes τ~τ₁    | ⟨ ě′ , e′↬⇐ě′ ⟩ = ⟨ ⊢λ∶ τ ∙ ě′ [ τ′▸ ∙ τ~τ₁ ] , IALam1 τ′▸ τ~τ₁ e′↬⇐ě′ ⟩
+    ↬⇐-totality Γ τ′ e@(‵λ x ∶ τ ∙ e′) | yes ⟨ τ₁ , ⟨ τ₂ , τ′▸ ⟩ ⟩    | no  τ~̸τ₁ with ↬⇐-totality (Γ , x ∶ τ) τ₂ e′
+    ↬⇐-totality Γ τ′ e@(‵λ x ∶ τ ∙ e′) | yes ⟨ τ₁ , ⟨ τ₂ , τ′▸ ⟩ ⟩    | no  τ~̸τ₁    | ⟨ ě′ , e′↬⇐ě′ ⟩ = ⟨ ⊢λ∶⸨ τ ⸩∙ ě′ [ τ′▸ ∙ τ~̸τ₁ ] , IALam3 τ′▸ τ~̸τ₁ e′↬⇐ě′ ⟩
+    ↬⇐-totality Γ τ′ e@(‵λ x ∶ τ ∙ e′) | no τ′!▸ with ↬⇐-totality (Γ , x ∶ τ) unknown e′
+    ↬⇐-totality Γ τ′ e@(‵λ x ∶ τ ∙ e′) | no τ′!▸    | ⟨ ě′ , e′↬⇐ě′ ⟩ = ⟨ ⊢⸨λ∶ τ ∙ ě′ ⸩[ τ′!▸ ] , IALam2 τ′!▸ e′↬⇐ě′ ⟩
+    ↬⇐-totality Γ τ′ e@(‵ _ ∙ _)
+      with ↬⇒-totality Γ e
+    ...  | ⟨ .unknown , ⟨ ě@(⊢⸨ _ ⸩∙ _ [ _ ]) , e↬⇒ě ⟩ ⟩ = ↬⇐-subsume ě τ′ e↬⇒ě USuAp
+    ...  | ⟨ _        , ⟨ ě@(⊢  _  ∙ _ [ _ ]) , e↬⇒ě ⟩ ⟩ = ↬⇐-subsume ě τ′ e↬⇒ě USuAp
+    ↬⇐-totality Γ τ′ e@(‵ℕ _)
+      with ↬⇒-totality Γ e
+    ...  | ⟨ _ , ⟨ ě@(⊢ℕ _) , e↬⇒ě ⟩ ⟩ = ↬⇐-subsume ě τ′ e↬⇒ě USuNum
+    ↬⇐-totality Γ τ′ e@(‵ _ + _)
+      with ↬⇒-totality Γ e
+    ...  | ⟨ _ , ⟨ ě@(⊢ _ + _) , e↬⇒ě ⟩ ⟩ = ↬⇐-subsume ě τ′ e↬⇒ě USuPlus
+    ↬⇐-totality Γ τ′ e@(‵tt)
+      with ↬⇒-totality Γ e
+    ...  | ⟨ _ , ⟨ ě@(⊢tt) , e↬⇒ě ⟩ ⟩ = ↬⇐-subsume ě τ′ e↬⇒ě USuTrue
+    ↬⇐-totality Γ τ′ e@(‵ff)
+      with ↬⇒-totality Γ e
+    ...  | ⟨ _ , ⟨ ě@(⊢ff) , e↬⇒ě ⟩ ⟩ = ↬⇐-subsume ě τ′ e↬⇒ě USuFalse
+    ↬⇐-totality Γ τ′ (‵ e₁ ∙ e₂ ∙ e₃)
+      with ↬⇐-totality Γ bool e₁ | ↬⇐-totality Γ τ′ e₂ | ↬⇐-totality Γ τ′ e₃
+    ...  | ⟨ ě₁ , e₁↬⇐ě₁ ⟩       | ⟨ ě₂ , e₂↬⇐ě₂ ⟩     | ⟨ ě₃ , e₃↬⇐ě₃ ⟩ = ⟨ ⊢ ě₁ ∙ ě₂ ∙ ě₃ , IAIf e₁↬⇐ě₁ e₂↬⇐ě₂ e₃↬⇐ě₃ ⟩

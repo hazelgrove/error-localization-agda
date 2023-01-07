@@ -1,7 +1,7 @@
 open import prelude
 open import typ
-open import uexp renaming (Ctx to UCtx)
-open import mexp renaming (Ctx to MCtx)
+open import uexp renaming (Ctx to UCtx; Subsumable to USubsumable)
+open import mexp renaming (Ctx to MCtx; Subsumable to MSubsumable)
 
 module marking where
   infix 4 _⊢_↬⇒_
@@ -88,14 +88,38 @@ module marking where
         → (τ₁~̸τ₂ : τ₁ ~̸ τ₂)
         → Γ ⊢ ‵ e₁ ∙ e₂ ∙ e₃ ↬⇒ ⊢⦉ ě₁ ∙ ě₂ ∙ ě₃ ⦊[ τ₁~̸τ₂ ]
 
+    Su→Su : ∀ {e : UExp} {Γ : UCtx} {τ : Typ} {ě : (ctx Γ) ⊢⇒ τ} → USubsumable e → Γ ⊢ e ↬⇒ ě → MSubsumable ě
+    Su→Su {ě = ⊢⦇-⦈^ u}             USuHole  _ = MSuHole
+    Su→Su {ě = ⊢ x}                 USuVar   _ = MSuVar
+    Su→Su {ě = ⊢⟦ x ⟧}              USuVar   _ = MSuUnbound
+    Su→Su {ě = ⊢ ě₁ ∙ ě₂ [ τ▸ ]}    USuAp    _ = MSuAp1
+    Su→Su {ě = ⊢⸨ ě₁ ⸩∙ ě₂ [ τ!▸ ]} USuAp    _ = MSuAp2
+    Su→Su {ě = ⊢ℕ n}                USuNum   _ = MSuNum
+    Su→Su {ě = ⊢ ě₁ + ě₂}           USuPlus  _ = MSuPlus
+    Su→Su {ě = ⊢tt}                 USuTrue  _ = MSuTrue
+    Su→Su {ě = ⊢ff}                 USuFalse _ = MSuFalse
+
     -- analysis
     data _⊢_↬⇐_ : {τ : Typ} (Γ : UCtx) → (e : UExp) → ((ctx Γ) ⊢⇐ τ) → Set where
-      IALam : ∀ {Γ x τ e τ₁ τ₂ τ₃}
+      IALam1 : ∀ {Γ x τ e τ₁ τ₂ τ₃}
         → {ě : (ctx (Γ , x ∶ τ)) ⊢⇐ τ₂}
         → (τ₃▸ : τ₃ ▸ τ₁ -→ τ₂)
         → (τ~τ₁ : τ ~ τ₁)
         → Γ , x ∶ τ ⊢ e ↬⇐ ě
         → Γ ⊢ (‵λ x ∶ τ ∙ e) ↬⇐ (⊢λ∶ τ ∙ ě [ τ₃▸ ∙ τ~τ₁ ])
+
+      IALam2 : ∀ {Γ x τ e τ′}
+        → {ě : (ctx (Γ , x ∶ τ) ⊢⇐ unknown)}
+        → (τ′!▸ : τ′ !▸)
+        → Γ , x ∶ τ ⊢ e ↬⇐ ě
+        → Γ ⊢ (‵λ x ∶ τ ∙ e) ↬⇐ (⊢⸨λ∶ τ ∙ ě ⸩[ τ′!▸ ])
+
+      IALam3 : ∀ {Γ x τ e τ₁ τ₂ τ₃}
+        → {ě : (ctx (Γ , x ∶ τ)) ⊢⇐ τ₂}
+        → (τ₃▸ : τ₃ ▸ τ₁ -→ τ₂)
+        → (τ~̸τ₁ : τ ~̸ τ₁)
+        → Γ , x ∶ τ ⊢ e ↬⇐ ě
+        → Γ ⊢ (‵λ x ∶ τ ∙ e) ↬⇐ (⊢λ∶⸨ τ ⸩∙ ě [ τ₃▸ ∙ τ~̸τ₁ ])
 
       IAIf : ∀ {Γ e₁ e₂ e₃ τ}
         → {ě₁ : (ctx Γ) ⊢⇐ bool}
@@ -108,12 +132,14 @@ module marking where
 
       IAInconsistentTypes : ∀ {Γ e τ τ′}
         → {ě : (ctx Γ) ⊢⇒ τ′}
-        → Γ ⊢ e ↬⇒ ě
+        → (⊢e↬⇒ě : Γ ⊢ e ↬⇒ ě)
         → (τ~̸τ′ : τ ~̸ τ′)
-        → Γ ⊢ e ↬⇐ ⊢⸨ ě ⸩[ τ~̸τ′ ]
+        → (s : USubsumable e)
+        → Γ ⊢ e ↬⇐ ⊢⸨ ě ⸩[ τ~̸τ′ , Su→Su s ⊢e↬⇒ě ]
 
       IASubsume : ∀ {Γ e τ τ′}
         → {ě : (ctx Γ) ⊢⇒ τ′}
-        → Γ ⊢ e ↬⇒ ě
+        → (⊢e↬⇒ě : Γ ⊢ e ↬⇒ ě)
         → (τ~τ′ : τ ~ τ′)
-        → Γ ⊢ e ↬⇐ ⊢∙ ě [ τ~τ′ ]
+        → (s : USubsumable e)
+        → Γ ⊢ e ↬⇐ ⊢∙ ě [ τ~τ′ , Su→Su s ⊢e↬⇒ě ]
