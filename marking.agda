@@ -88,16 +88,16 @@ module marking where
         → (τ₁~̸τ₂ : τ₁ ~̸ τ₂)
         → Γ ⊢ ‵ e₁ ∙ e₂ ∙ e₃ ↬⇒ ⊢⦉ ě₁ ∙ ě₂ ∙ ě₃ ⦊[ τ₁~̸τ₂ ]
 
-    Su→Su : ∀ {e : UExp} {Γ : UCtx} {τ : Typ} {ě : (ctx Γ) ⊢⇒ τ} → USubsumable e → Γ ⊢ e ↬⇒ ě → MSubsumable ě
-    Su→Su {ě = ⊢⦇-⦈^ u}             USuHole  _ = MSuHole
-    Su→Su {ě = ⊢ x}                 USuVar   _ = MSuVar
-    Su→Su {ě = ⊢⟦ x ⟧}              USuVar   _ = MSuUnbound
-    Su→Su {ě = ⊢ ě₁ ∙ ě₂ [ τ▸ ]}    USuAp    _ = MSuAp1
-    Su→Su {ě = ⊢⸨ ě₁ ⸩∙ ě₂ [ τ!▸ ]} USuAp    _ = MSuAp2
-    Su→Su {ě = ⊢ℕ n}                USuNum   _ = MSuNum
-    Su→Su {ě = ⊢ ě₁ + ě₂}           USuPlus  _ = MSuPlus
-    Su→Su {ě = ⊢tt}                 USuTrue  _ = MSuTrue
-    Su→Su {ě = ⊢ff}                 USuFalse _ = MSuFalse
+    USu→MSu : ∀ {e : UExp} {Γ : UCtx} {τ : Typ} {ě : (ctx Γ) ⊢⇒ τ} → USubsumable e → Γ ⊢ e ↬⇒ ě → MSubsumable ě
+    USu→MSu {ě = ⊢⦇-⦈^ u}             SuHole  _ = SuHole
+    USu→MSu {ě = ⊢ x}                 SuVar   _ = SuVar
+    USu→MSu {ě = ⊢⟦ x ⟧}              SuVar   _ = SuUnbound
+    USu→MSu {ě = ⊢ ě₁ ∙ ě₂ [ τ▸ ]}    SuAp    _ = SuAp1
+    USu→MSu {ě = ⊢⸨ ě₁ ⸩∙ ě₂ [ τ!▸ ]} SuAp    _ = SuAp2
+    USu→MSu {ě = ⊢ℕ n}                SuNum   _ = SuNum
+    USu→MSu {ě = ⊢ ě₁ + ě₂}           SuPlus  _ = SuPlus
+    USu→MSu {ě = ⊢tt}                 SuTrue  _ = SuTrue
+    USu→MSu {ě = ⊢ff}                 SuFalse _ = SuFalse
 
     -- analysis
     data _⊢_↬⇐_ : {τ : Typ} (Γ : UCtx) → (e : UExp) → ((ctx Γ) ⊢⇐ τ) → Set where
@@ -135,11 +135,11 @@ module marking where
         → (⊢e↬⇒ě : Γ ⊢ e ↬⇒ ě)
         → (τ~̸τ′ : τ ~̸ τ′)
         → (s : USubsumable e)
-        → Γ ⊢ e ↬⇐ ⊢⸨ ě ⸩[ τ~̸τ′ , Su→Su s ⊢e↬⇒ě ]
+        → Γ ⊢ e ↬⇐ ⊢⸨ ě ⸩[ τ~̸τ′ ∙ USu→MSu s ⊢e↬⇒ě ]
 
       IASubsume : ∀ {Γ e τ τ′}
         → {ě : (ctx Γ) ⊢⇒ τ′}
         → (⊢e↬⇒ě : Γ ⊢ e ↬⇒ ě)
         → (τ~τ′ : τ ~ τ′)
         → (s : USubsumable e)
-        → Γ ⊢ e ↬⇐ ⊢∙ ě [ τ~τ′ , Su→Su s ⊢e↬⇒ě ]
+        → Γ ⊢ e ↬⇐ ⊢∙ ě [ τ~τ′ ∙ USu→MSu s ⊢e↬⇒ě ]

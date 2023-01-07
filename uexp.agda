@@ -50,25 +50,25 @@ module uexp where
     ‵_∙_∙_  : UExp → UExp → UExp → UExp
 
   data Subsumable : UExp → Set where
-    USuHole : ∀ {u}
+    SuHole : ∀ {u}
       → Subsumable (‵⦇-⦈^ u)
 
-    USuVar : ∀ {x}
+    SuVar : ∀ {x}
       → Subsumable (‵ x)
 
-    USuAp : ∀ {e₁ e₂}
+    SuAp : ∀ {e₁ e₂}
       → Subsumable (‵ e₁ ∙ e₂)
 
-    USuNum : ∀ {n}
+    SuNum : ∀ {n}
       → Subsumable (‵ℕ n)
 
-    USuPlus : ∀ {e₁ e₂}
+    SuPlus : ∀ {e₁ e₂}
       → Subsumable (‵ e₁ + e₂)
 
-    USuTrue :
+    SuTrue :
         Subsumable ‵tt
 
-    USuFalse :
+    SuFalse :
         Subsumable ‵ff
 
   mutual

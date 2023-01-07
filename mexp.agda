@@ -94,46 +94,46 @@ module mexp where
         → Γ ⊢⇒ unknown
 
     data Subsumable : {Γ : Ctx} {τ : Typ} → (ě : Γ ⊢⇒ τ) → Set where
-      MSuHole : ∀ {Γ}
+      SuHole : ∀ {Γ}
         → {u : ℕ}
         → Subsumable {Γ} (⊢⦇-⦈^ u)
 
-      MSuVar : ∀ {Γ τ}
+      SuVar : ∀ {Γ τ}
         → {∋x : Γ ∋ τ}
         → Subsumable {Γ} (⊢ ∋x)
 
-      MSuAp1 : ∀ {Γ τ τ₁ τ₂}
+      SuAp1 : ∀ {Γ τ τ₁ τ₂}
         → {ě₁ : Γ ⊢⇒ τ}
         → {ě₂ : Γ ⊢⇐ τ₁}
         → {τ▸ : τ ▸ τ₁ -→ τ₂}
         → Subsumable {Γ} (⊢ ě₁ ∙ ě₂ [ τ▸ ])
 
-      MSuAp2 : ∀ {Γ τ}
+      SuAp2 : ∀ {Γ τ}
         → {ě₁ : Γ ⊢⇒ τ}
         → {ě₂ : Γ ⊢⇐ unknown}
         → {τ!▸ : τ !▸}
         → Subsumable {Γ} (⊢⸨ ě₁ ⸩∙ ě₂ [ τ!▸ ])
 
-      MSuNum : ∀ {Γ}
+      SuNum : ∀ {Γ}
         → {n : ℕ}
         → Subsumable {Γ} (⊢ℕ n)
 
-      MSuPlus : ∀ {Γ}
+      SuPlus : ∀ {Γ}
         → {ě₁ : Γ ⊢⇐ num}
         → {ě₂ : Γ ⊢⇐ num}
         → Subsumable {Γ} (⊢ ě₁ + ě₂)
 
-      MSuTrue : ∀ {Γ}
+      SuTrue : ∀ {Γ}
         → Subsumable {Γ} (⊢tt)
 
-      MSuFalse : ∀ {Γ}
+      SuFalse : ∀ {Γ}
         → Subsumable {Γ} (⊢ff)
 
-      MSuUnbound : ∀ {Γ}
+      SuUnbound : ∀ {Γ}
         → {x : FreeVar}
         → Subsumable {Γ} (⊢⟦ x ⟧)
 
-      MSuInconsistentBranches : ∀ {Γ τ₁ τ₂}
+      SuInconsistentBranches : ∀ {Γ τ₁ τ₂}
         → {ě₁ : Γ ⊢⇐ bool}
         → {ě₂ : Γ ⊢⇒ τ₁}
         → {ě₃ : Γ ⊢⇒ τ₂}
@@ -173,14 +173,14 @@ module mexp where
         → Γ ⊢⇐ τ
 
       -- MAInconsistentTypes
-      ⊢⸨_⸩[_,_] : ∀ {Γ τ τ′}
+      ⊢⸨_⸩[_∙_] : ∀ {Γ τ τ′}
         → (ě : Γ ⊢⇒ τ′)
         → τ ~̸ τ′
         → Subsumable ě
         → Γ ⊢⇐ τ
 
       -- MASubsume
-      ⊢∙_[_,_] : ∀ {Γ τ τ′}
+      ⊢∙_[_∙_] : ∀ {Γ τ τ′}
         → (ě : Γ ⊢⇒ τ′)
         → τ ~ τ′
         → Subsumable ě
