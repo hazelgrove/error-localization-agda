@@ -47,20 +47,20 @@ module typ where
                 → τ₂ ⊔ τ₂′ ⇒ τ₂″
                 → τ₁ -→ τ₂ ⊔ τ₁′ -→ τ₂′ ⇒ τ₁″ -→ τ₂″
 
+  -- arrow type equality
   -→≡ : ∀ {τ₁ τ₂ τ₁′ τ₂′} → τ₁ ≡ τ₁′ → τ₂ ≡ τ₂′ → τ₁ -→ τ₂ ≡ τ₁′ -→ τ₂′
   -→≡ refl refl = refl
 
+  -- inverted arrow type equality
+  ≡-→ : ∀ {τ₁ τ₂ τ₁′ τ₂′} → τ₁ -→ τ₂ ≡ τ₁′ -→ τ₂′ → τ₁ ≡ τ₁′ × τ₂ ≡ τ₂′
+  ≡-→ refl = ⟨ refl , refl ⟩
+
+  -- arrow type inequalities
   -→≢₁ : ∀ {τ₁ τ₂ τ₁′ τ₂′} → τ₁ ≢ τ₁′ → τ₁ -→ τ₂ ≢ τ₁′ -→ τ₂′
   -→≢₁ τ₁≢τ₁′ refl = τ₁≢τ₁′ refl
 
   -→≢₂ : ∀ {τ₁ τ₂ τ₁′ τ₂′} → τ₂ ≢ τ₂′ → τ₁ -→ τ₂ ≢ τ₁′ -→ τ₂′
   -→≢₂ τ₂≢τ₂′ refl = τ₂≢τ₂′ refl
-
-  -→~̸₁ : ∀ {τ₁ τ₂ τ₁′ τ₂′} → τ₁ ~̸ τ₁′ → τ₁ -→ τ₂ ~̸ τ₁′ -→ τ₂′
-  -→~̸₁ τ₁~̸τ₁′ = λ { TCRefl → τ₁~̸τ₁′ TCRefl ; (TCArr τ₁~τ₁′ _) → τ₁~̸τ₁′ τ₁~τ₁′ }
-
-  -→~̸₂ : ∀ {τ₁ τ₂ τ₁′ τ₂′} → τ₂ ~̸ τ₂′ → τ₁ -→ τ₂ ~̸ τ₁′ -→ τ₂′
-  -→~̸₂ τ₂~̸τ₂′ = λ { TCRefl → τ₂~̸τ₂′ TCRefl ; (TCArr _ τ₂~τ₂′) → τ₂~̸τ₂′ τ₂~τ₂′ }
 
   -- decidable equality
   _≡?_ : (τ : Typ) → (τ′ : Typ) → Dec (τ ≡ τ′)
@@ -83,6 +83,13 @@ module typ where
   ...                           | yes τ₁≡τ₁′ | yes τ₂≡τ₂′ = yes (-→≡ τ₁≡τ₁′ τ₂≡τ₂′)
   ...                           | _          | no τ₂≢τ₂′  = no (-→≢₂ τ₂≢τ₂′)
   ...                           | no τ₁≢τ₁′  | _          = no (-→≢₁ τ₁≢τ₁′)
+
+  -- arrow type inconsistencies
+  -→~̸₁ : ∀ {τ₁ τ₂ τ₁′ τ₂′} → τ₁ ~̸ τ₁′ → τ₁ -→ τ₂ ~̸ τ₁′ -→ τ₂′
+  -→~̸₁ τ₁~̸τ₁′ = λ { TCRefl → τ₁~̸τ₁′ TCRefl ; (TCArr τ₁~τ₁′ _) → τ₁~̸τ₁′ τ₁~τ₁′ }
+
+  -→~̸₂ : ∀ {τ₁ τ₂ τ₁′ τ₂′} → τ₂ ~̸ τ₂′ → τ₁ -→ τ₂ ~̸ τ₁′ -→ τ₂′
+  -→~̸₂ τ₂~̸τ₂′ = λ { TCRefl → τ₂~̸τ₂′ TCRefl ; (TCArr _ τ₂~τ₂′) → τ₂~̸τ₂′ τ₂~τ₂′ }
 
   -- decidable consistency
   _~?_ : (τ : Typ) → (τ′ : Typ) → Dec (τ ~ τ′)
@@ -120,6 +127,10 @@ module typ where
   ▸-→-unicity TMAHole TMAHole = refl
   ▸-→-unicity TMAArr TMAArr = refl
 
+  -- equal types produce same matched arrow type
+  ≡▸-→→≡ : ∀ {τ τ₁ τ₂ τ′ τ₁′ τ₂′} → τ ≡ τ′ → τ ▸ τ₁ -→ τ₂ → τ′ ▸ τ₁′ -→ τ₂′ → τ₁ ≡ τ₁′ × τ₂ ≡ τ₂′
+  ≡▸-→→≡ refl τ▸ τ′▸ = ≡-→ (▸-→-unicity τ▸ τ′▸)
+
   -- only consistent types arrow match
   ▸-→→~ : ∀ {τ τ₁ τ₂} → τ ▸ τ₁ -→ τ₂ → τ ~ τ₁ -→ τ₂
   ▸-→→~ TMAHole = TCUnknown2
@@ -138,6 +149,23 @@ module typ where
   ...                            | TCArr _ τ₂′~τ₂ = τ₂′~̸τ₂ τ₂′~τ₂
   ▸-→~̸₂ TMAHole τ₂′~̸τ₂ TCUnknown2                 = τ₂′~̸τ₂ TCUnknown1
   ▸-→~̸₂ TMAArr  τ₂′~̸τ₂ (TCArr _ τ₂~τ₂′)           = τ₂′~̸τ₂ (~-sym τ₂~τ₂′)
+
+  -- decidable join
+  _⊔?_ : (τ₁ : Typ) → (τ₂ : Typ) → Dec (∃[ τ ] τ₁ ⊔ τ₂ ⇒ τ)
+  unknown ⊔? _ = yes ⟨ unknown , TJUnknown2 ⟩
+  _ ⊔? unknown = yes ⟨ unknown , TJUnknown1 ⟩
+  num ⊔? num = yes ⟨ num , TJNum ⟩
+  num ⊔? bool = no (λ ())
+  num ⊔? (_ -→ _) = no (λ ())
+  bool ⊔? num = no (λ ())
+  bool ⊔? bool = yes ⟨ bool , TJBool ⟩
+  bool ⊔? (_ -→ _) = no (λ ())
+  (_ -→ _) ⊔? num = no (λ ())
+  (_ -→ _) ⊔? bool = no (λ ())
+  (τ₁ -→ τ₂) ⊔? (τ₁′ -→ τ₂′) with τ₁ ⊔? τ₁′            | τ₂ ⊔? τ₂′
+  ...                           | yes ⟨ τ , τ₁⊔τ₁′⇒τ ⟩ | yes ⟨ τ′ , τ₂⊔τ₂′⇒τ′ ⟩ = yes ⟨ τ -→ τ′ , TJArr τ₁⊔τ₁′⇒τ τ₂⊔τ₂′⇒τ′ ⟩
+  ...                           | _                    | no ¬τ₂⊔τ₂′ = no λ { ⟨ .(_ -→ _) , TJArr {τ₂″ = τ₂″} τ₁⊔τ₁′⇒τ₁″ τ₂⊔τ₂′⇒τ₂″ ⟩ → ¬τ₂⊔τ₂′ ⟨ τ₂″ , τ₂⊔τ₂′⇒τ₂″ ⟩ }
+  ...                           | no ¬τ₁⊔τ₁′           | _ = no λ { ⟨ .(_ -→ _) , TJArr {τ₁″ = τ₁″} τ₁⊔τ₁′⇒τ₁″ τ₂⊔τ₂′⇒τ₂″ ⟩ → ¬τ₁⊔τ₁′ ⟨ τ₁″ , τ₁⊔τ₁′⇒τ₁″ ⟩ }
 
   -- join is symmetric
   ⊔-sym : ∀ {τ₁ τ₂ τ} → τ₁ ⊔ τ₂ ⇒ τ → τ₂ ⊔ τ₁ ⇒ τ
