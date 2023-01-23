@@ -21,8 +21,8 @@ module typ where
     TCUnknown1 : {τ : Typ} → τ ~ unknown
     TCUnknown2 : {τ : Typ} → unknown ~ τ
     TCArr      : {τ₁ τ₂ τ₁′ τ₂′ : Typ}
-                → τ₁ ~ τ₁′
-                → τ₂ ~ τ₂′
+                → (τ₁~τ₁′ : τ₁ ~ τ₁′)
+                → (τ₂~τ₂′ : τ₂ ~ τ₂′)
                 → τ₁ -→ τ₂ ~ τ₁′ -→ τ₂′
 
   _~̸_ : (τ₁ : Typ) → (τ₂ : Typ) → Set
@@ -43,8 +43,8 @@ module typ where
     TJNum      : num ⊔ num ⇒ num
     TJBool     : bool ⊔ bool ⇒ bool
     TJArr      : {τ₁ τ₂ τ₁′ τ₂′ τ₁″ τ₂″ : Typ}
-                → τ₁ ⊔ τ₁′ ⇒ τ₁″
-                → τ₂ ⊔ τ₂′ ⇒ τ₂″
+                → (τ₁⊔τ₁′ : τ₁ ⊔ τ₁′ ⇒ τ₁″)
+                → (τ₂⊔τ₂′ : τ₂ ⊔ τ₂′ ⇒ τ₂″)
                 → τ₁ -→ τ₂ ⊔ τ₁′ -→ τ₂′ ⇒ τ₁″ -→ τ₂″
 
   -- arrow type equality
