@@ -12,6 +12,10 @@ module uexp where
   Var : Set
   Var = ℕ
 
+  -- hole identifiers
+  Hole : Set
+  Hole = ℕ
+
   -- contexts
   data Ctx : Set where
     ∅     : Ctx
@@ -39,7 +43,7 @@ module uexp where
   ...                                 | no ∌x  = no λ { Z → x≢x′ refl ; (S _ ∋x′) → ∌x ∋x′ }
 
   data UExp : Set where
-    ‵⦇-⦈^_  : (u : ℕ) → UExp
+    ‵⦇-⦈^_  : (u : Hole) → UExp
     ‵_      : (x : Var) → UExp
     ‵λ_∶_∙_ : (x : Var) → (τ : Typ) → (e : UExp) → UExp
     ‵_∙_    : (e₁ : UExp) → (e₂ : UExp) → UExp

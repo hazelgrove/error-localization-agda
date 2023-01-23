@@ -12,6 +12,10 @@ module mexp where
   FreeVar : Set
   FreeVar = ℕ
 
+  -- hole identifiers
+  Hole : Set
+  Hole = ℕ
+
   data Ctx : Set where
     ∅   : Ctx
     _,_ : Ctx → Typ → Ctx
@@ -25,7 +29,7 @@ module mexp where
     data _⊢⇒_ : (Γ : Ctx) (τ : Typ) → Set where
       -- MSHole
       ⊢⦇-⦈^_ : ∀ {Γ}
-        → (u : ℕ)
+        → (u : Hole)
         → Γ ⊢⇒ unknown
 
       -- MSVar
@@ -95,7 +99,7 @@ module mexp where
 
     data Subsumable : {Γ : Ctx} {τ : Typ} → (ě : Γ ⊢⇒ τ) → Set where
       SuHole : ∀ {Γ}
-        → {u : ℕ}
+        → {u : Hole}
         → Subsumable {Γ} (⊢⦇-⦈^ u)
 
       SuVar : ∀ {Γ τ}
