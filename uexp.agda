@@ -39,15 +39,15 @@ module uexp where
   ...                                 | no ∌x  = no λ { Z → x≢x′ refl ; (S _ ∋x′) → ∌x ∋x′ }
 
   data UExp : Set where
-    ‵⦇-⦈^_  : ℕ → UExp
-    ‵_      : ℕ → UExp
-    ‵λ_∶_∙_ : ℕ → Typ → UExp → UExp
-    ‵_∙_    : UExp → UExp → UExp
-    ‵ℕ_     : ℕ → UExp
-    ‵_+_    : UExp → UExp → UExp
+    ‵⦇-⦈^_  : (u : ℕ) → UExp
+    ‵_      : (x : Var) → UExp
+    ‵λ_∶_∙_ : (x : Var) → (τ : Typ) → (e : UExp) → UExp
+    ‵_∙_    : (e₁ : UExp) → (e₂ : UExp) → UExp
+    ‵ℕ_     : (n : ℕ) → UExp
+    ‵_+_    : (e₁ : UExp) → (e₂ : UExp) → UExp
     ‵tt     : UExp
     ‵ff     : UExp
-    ‵_∙_∙_  : UExp → UExp → UExp → UExp
+    ‵_∙_∙_  : (e₁ : UExp) → (e₂ : UExp) → (e₃ : UExp) → UExp
 
   data Subsumable : UExp → Set where
     SuHole : ∀ {u}
@@ -78,25 +78,25 @@ module uexp where
         → Γ ⊢ ‵⦇-⦈^ u  ⇒ unknown
 
       USVar : ∀ {Γ x τ}
-        → Γ ∋ x ∶ τ
+        → (∋x : Γ ∋ x ∶ τ)
         → Γ ⊢ ‵ x ⇒ τ
 
       USLam : ∀ {Γ x τ e τ′}
-        → Γ , x ∶ τ ⊢ e ⇒ τ′
+        → (e⇒τ′ :  Γ , x ∶ τ ⊢ e ⇒ τ′)
         → Γ ⊢ ‵λ x ∶ τ ∙ e ⇒ τ′
 
       USAp : ∀ {Γ e₁ e₂ τ τ₁ τ₂}
-        → Γ ⊢ e₁ ⇒ τ
-        → τ ▸ τ₁ -→ τ₂
-        → Γ ⊢ e₂ ⇐ τ₁
+        → (e₁⇒τ : Γ ⊢ e₁ ⇒ τ)
+        → (τ▸ : τ ▸ τ₁ -→ τ₂)
+        → (e₁⇐τ₁ : Γ ⊢ e₂ ⇐ τ₁)
         → Γ ⊢ ‵ e₁ ∙ e₂ ⇒ τ₂
 
       USNum : ∀ {Γ n}
         → Γ ⊢ ‵ℕ n ⇒ num
 
       USPlus : ∀ {Γ e₁ e₂}
-        → Γ ⊢ e₁ ⇐ num
-        → Γ ⊢ e₂ ⇐ num
+        → (e₁⇐num : Γ ⊢ e₁ ⇐ num)
+        → (e₂⇐num : Γ ⊢ e₂ ⇐ num)
         → Γ ⊢ ‵ e₁ + e₂ ⇒ num
 
       USTrue : ∀ {Γ}
@@ -106,27 +106,27 @@ module uexp where
         → Γ ⊢ ‵ff ⇒ bool
 
       USIf : ∀ {Γ e₁ e₂ e₃ τ τ₁ τ₂}
-        → Γ ⊢ e₁ ⇐ bool
-        → Γ ⊢ e₂ ⇒ τ₁
-        → Γ ⊢ e₃ ⇒ τ₂
-        → τ₁ ⊔ τ₂ ⇒ τ
+        → (e₁⇐bool : Γ ⊢ e₁ ⇐ bool)
+        → (e₂⇒t₁ : Γ ⊢ e₂ ⇒ τ₁)
+        → (e₃⇒τ₂ : Γ ⊢ e₃ ⇒ τ₂)
+        → (τ₁⊔τ₂ : τ₁ ⊔ τ₂ ⇒ τ)
         → Γ ⊢ ‵ e₁ ∙ e₂ ∙ e₃ ⇒ τ
 
     -- analysis
     data _⊢_⇐_ : (Γ : Ctx) (e : UExp) (τ : Typ) → Set where
       UALam : ∀ {Γ x τ e τ₁ τ₂ τ₃}
-        → τ₃ ▸ τ₁ -→ τ₂
-        → Γ , x ∶ τ ⊢ e ⇐ τ₁
+        → (τ₃▸ : τ₃ ▸ τ₁ -→ τ₂)
+        → (e⇐τ₁ : Γ , x ∶ τ ⊢ e ⇐ τ₁)
         → Γ ⊢ ‵λ x ∶ τ ∙ e ⇐ τ₃
 
       UAIf : ∀ {Γ e₁ e₂ e₃ τ}
-        → Γ ⊢ e₁ ⇐ bool
-        → Γ ⊢ e₂ ⇐ τ
-        → Γ ⊢ e₃ ⇐ τ
+        → (e₁⇐bool : Γ ⊢ e₁ ⇐ bool)
+        → (e₂⇐τ : Γ ⊢ e₂ ⇐ τ)
+        → (e₃⇐τ : Γ ⊢ e₃ ⇐ τ)
         → Γ ⊢ ‵ e₁ ∙ e₂ ∙ e₃ ⇐ τ
 
       UASubsume : ∀ {Γ e τ τ′}
-        → Γ ⊢ e ⇒ τ′
-        → τ ~ τ′
-        → Subsumable e
+        → (e⇒τ′ : Γ ⊢ e ⇒ τ′)
+        → (τ~τ′ : τ ~ τ′)
+        → (su : Subsumable e)
         → Γ ⊢ e ⇐ τ
