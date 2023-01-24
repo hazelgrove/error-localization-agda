@@ -1,6 +1,9 @@
 module prelude where
   data ⊥ : Set where
 
+  ⊥-elim : ∀ {A : Set} → ⊥ → A
+  ⊥-elim ()
+
   data Triv : Set where
     unit : Triv
 
