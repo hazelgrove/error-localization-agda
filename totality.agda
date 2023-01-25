@@ -10,7 +10,7 @@ module totality where
     ↬⇒-totality Γ (‵⦇-⦈^ x) = ⟨ unknown , ⟨ ⊢⦇-⦈^ x , ISHole ⟩ ⟩
     ↬⇒-totality Γ (‵ x) with Γ ∋?? x
     ...                    | yes (Z {Γ} {x} {τ}) = ⟨ τ , ⟨ ⊢ Z , ISVar Z ⟩ ⟩
-    ...                    | yes (S {Γ} {x} {x′} {τ} {τ′} x≢x′ ∋x) = ⟨ τ , ⟨ ⊢ (S (ctx∋ ∋x)) , ISVar (S x≢x′ ∋x) ⟩ ⟩
+    ...                    | yes (S {Γ} {x} {x′} {τ} {τ′} x≢x′ ∋x) = ⟨ τ , ⟨ ⊢ (S (⟦ ∋x ⟧∋)) , ISVar (S x≢x′ ∋x) ⟩ ⟩
     ...                    | no  ∌x = ⟨ unknown , ⟨ ⊢⟦ x ⟧ , ISUnbound ∌x ⟩ ⟩
     ↬⇒-totality Γ (‵λ x ∶ τ ∙ e) with ↬⇒-totality (Γ , x ∶ τ) e
     ...                             | ⟨ τ′ , ⟨ ě , e↬⇒ě ⟩ ⟩ = ⟨ τ -→ τ′ , ⟨ ⊢λ∶ τ ∙ ě , ISLam e↬⇒ě ⟩ ⟩

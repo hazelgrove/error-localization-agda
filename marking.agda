@@ -12,9 +12,9 @@ module marking where
   ⟦ ∅ ⟧         = ∅
   ⟦ Γ , _ ∶ τ ⟧ = (⟦ Γ ⟧) , τ
 
-  ctx∋ : ∀ {Γ x τ} → Γ ∋ x ∶ τ → ⟦ Γ ⟧ ∋ τ
-  ctx∋ Z = Z
-  ctx∋ (S x ∋x) = S (ctx∋ ∋x)
+  ⟦_⟧∋ : ∀ {Γ x τ} → Γ ∋ x ∶ τ → ⟦ Γ ⟧ ∋ τ
+  ⟦ Z ⟧∋ = Z
+  ⟦ S x ∋x ⟧∋ = S (⟦ ∋x ⟧∋)
 
   -- mark insertion
   mutual
@@ -25,7 +25,7 @@ module marking where
 
       ISVar : ∀ {Γ x τ}
         → (∋x : Γ ∋ x ∶ τ)
-        → Γ ⊢ ‵ x ↬⇒ ⊢ (ctx∋ ∋x)
+        → Γ ⊢ ‵ x ↬⇒ ⊢ (⟦ ∋x ⟧∋)
 
       ISUnbound : ∀ {Γ x}
         → (∌x : Γ ∌ x)
