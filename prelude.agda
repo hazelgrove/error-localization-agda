@@ -34,8 +34,17 @@ module prelude where
     _≢_ : ∀ {A : Set} → A → A → Set
     x ≢ y = ¬ (x ≡ y)
 
-    sym : ∀ {A : Set} {x y : A} → x ≡ y → y ≡ x
-    sym refl = refl
+    ≡sym : ∀ {A : Set} {x y : A} → x ≡ y → y ≡ x
+    ≡sym refl = refl
+
+    postulate
+      extensionality : ∀ {A B : Set} {f g : A → B}
+        → (∀ (x : A) → f x ≡ g x)
+          -----------------------
+        → f ≡ g
+
+    ¬≡ : ∀ {A : Set} → (¬a : ¬ A) → (¬a′ : ¬ A) → ¬a ≡ ¬a′
+    ¬≡ ¬a ¬a′ = extensionality λ { a → ⊥-elim (¬a a) }
 
   -- naturals
   module nat where
