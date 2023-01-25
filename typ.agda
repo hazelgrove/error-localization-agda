@@ -118,6 +118,19 @@ module typ where
     ~-sym TCArrUnknown          = TCUnknownArr
     ~-sym (TCArr τ₁~τ₁′ τ₂~τ₂′) = TCArr (~-sym τ₁~τ₁′) (~-sym τ₂~τ₂′)
 
+    ~-≡ : ∀ {τ₁ τ₂} → (τ₁~τ₂ : τ₁ ~ τ₂) → (τ₁~τ₂′ : τ₁ ~ τ₂) → τ₁~τ₂ ≡ τ₁~τ₂′
+    ~-≡ TCUnknown TCUnknown = refl
+    ~-≡ (TCBase b) (TCBase b′) rewrite base-≡ b b′ = refl
+    ~-≡ (TCUnknownBase b) (TCUnknownBase b′) rewrite base-≡ b b′ = refl
+    ~-≡ (TCBaseUnknown b) (TCBaseUnknown b′) rewrite base-≡ b b′ = refl
+    ~-≡ (TCArr τ₁~τ₁′ τ₂~τ₂′) (TCArr τ₁~τ₁′′ τ₂~τ₂′′)
+      with refl ← ~-≡ τ₁~τ₁′ τ₁~τ₁′′ | refl ← ~-≡ τ₂~τ₂′ τ₂~τ₂′′ = refl
+    ~-≡ TCUnknownArr TCUnknownArr = refl
+    ~-≡ TCArrUnknown TCArrUnknown = refl
+
+    ~̸-≡ : ∀ {τ₁ τ₂} → (τ₁~̸τ₂ : τ₁ ~̸ τ₂) → (τ₁~̸τ₂′ : τ₁ ~̸ τ₂) → τ₁~̸τ₂ ≡ τ₁~̸τ₂′
+    ~̸-≡ τ₁~̸τ₂ τ₁~̸τ₂′ rewrite ¬≡ τ₁~̸τ₂ τ₁~̸τ₂′ = refl
+
     -- arrow type inconsistencies
     -→~̸₁ : ∀ {τ₁ τ₂ τ₁′ τ₂′} → τ₁ ~̸ τ₁′ → τ₁ -→ τ₂ ~̸ τ₁′ -→ τ₂′
     -→~̸₁ τ₁~̸τ₁′ = λ { (TCBase ()) ; (TCArr τ₁~τ₁′ _) → τ₁~̸τ₁′ τ₁~τ₁′ }
@@ -162,10 +175,10 @@ module typ where
 
     -- decidable matched arrow
     _▸? : (τ : Typ) → Dec (∃[ τ₁ ] ∃[ τ₂ ] τ ▸ τ₁ -→ τ₂)
-    num ▸?        = no (λ ())
-    bool ▸?       = no (λ ())
-    unknown ▸?    = yes ⟨ unknown , ⟨ unknown , TMAHole ⟩ ⟩
-    (τ₁ -→ τ₂) ▸? = yes ⟨ τ₁ , ⟨ τ₂ , TMAArr ⟩ ⟩
+    num        ▸? = no (λ ())
+    bool       ▸? = no (λ ())
+    unknown    ▸? = yes ⟨ unknown , ⟨ unknown , TMAHole ⟩ ⟩
+    (τ₁ -→ τ₂) ▸? = yes ⟨ τ₁      , ⟨ τ₂      , TMAArr  ⟩ ⟩
 
     -- matched arrow is unique
     ▸-→≡ : ∀ {τ τ₁ τ₂} → (τ▸ : τ ▸ τ₁ -→ τ₂) → (τ▸′ : τ ▸ τ₁ -→ τ₂) → τ▸ ≡ τ▸′
@@ -176,6 +189,10 @@ module typ where
     ▸-→-unicity : ∀ {τ τ₁ τ₂ τ₃ τ₄} → (τ ▸ τ₁ -→ τ₂) → (τ ▸ τ₃ -→ τ₄) → τ₁ -→ τ₂ ≡ τ₃ -→ τ₄
     ▸-→-unicity TMAHole TMAHole = refl
     ▸-→-unicity TMAArr  TMAArr  = refl
+
+    -- no matched arrow is unique
+    !▸≡ : ∀ {τ} → (τ!▸ : τ !▸) → (τ!▸′ : τ !▸) → τ!▸ ≡ τ!▸′
+    !▸≡ τ!▸ τ!▸′ = ¬≡ τ!▸ τ!▸′
 
     -- equal types produce same matched arrow type
     ≡▸-→→≡ : ∀ {τ τ₁ τ₂ τ′ τ₁′ τ₂′} → τ ≡ τ′ → τ ▸ τ₁ -→ τ₂ → τ′ ▸ τ₁′ -→ τ₂′ → τ₁ ≡ τ₁′ × τ₂ ≡ τ₂′
