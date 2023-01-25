@@ -42,12 +42,6 @@ module uexp where
   ...                                 | yes ∋x = yes (S x≢x′ ∋x)
   ...                                 | no ∌x  = no λ { Z → x≢x′ refl ; (S _ ∋x′) → ∌x ∋x′ }
 
-  ∋x≡ : ∀ {Γ x τ₁ τ₂} → (Γ ∋ x ∶ τ₁) → (Γ ∋ x ∶ τ₂) → τ₁ ≡ τ₂
-  ∋x≡ Z Z = refl
-  ∋x≡ Z (S x≢x _) = ⊥-elim (x≢x refl)
-  ∋x≡ (S x≢x _) Z = ⊥-elim (x≢x refl)
-  ∋x≡ (S _ ∋x) (S _ ∋x′) = ∋x≡ ∋x ∋x′
-
   data UExp : Set where
     ‵⦇-⦈^_  : (u : Hole) → UExp
     ‵_      : (x : Var) → UExp
