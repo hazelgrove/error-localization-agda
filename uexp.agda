@@ -87,7 +87,7 @@ module uexp where
 
       USLam : ∀ {Γ x τ e τ′}
         → (e⇒τ′ :  Γ , x ∶ τ ⊢ e ⇒ τ′)
-        → Γ ⊢ ‵λ x ∶ τ ∙ e ⇒ τ′
+        → Γ ⊢ ‵λ x ∶ τ ∙ e ⇒ τ -→ τ′
 
       USAp : ∀ {Γ e₁ e₂ τ τ₁ τ₂}
         → (e₁⇒τ : Γ ⊢ e₁ ⇒ τ)
@@ -120,7 +120,8 @@ module uexp where
     data _⊢_⇐_ : (Γ : Ctx) (e : UExp) (τ : Typ) → Set where
       UALam : ∀ {Γ x τ e τ₁ τ₂ τ₃}
         → (τ₃▸ : τ₃ ▸ τ₁ -→ τ₂)
-        → (e⇐τ₁ : Γ , x ∶ τ ⊢ e ⇐ τ₁)
+        → (τ~τ₁ : τ ~ τ₁)
+        → (e⇐τ₂ : Γ , x ∶ τ ⊢ e ⇐ τ₂)
         → Γ ⊢ ‵λ x ∶ τ ∙ e ⇐ τ₃
 
       UAIf : ∀ {Γ e₁ e₂ e₃ τ}
