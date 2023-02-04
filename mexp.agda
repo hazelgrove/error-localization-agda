@@ -9,6 +9,9 @@ module mexp where
   infixl 5 _,_
 
   -- variables
+  Var : Set
+  Var = ℕ
+
   FreeVar : Set
   FreeVar = ℕ
 
@@ -33,14 +36,16 @@ module mexp where
         → Γ ⊢⇒ unknown
 
       -- MSVar
-      ⊢_ : ∀ {Γ τ}
+      ⊢_[_] : ∀ {Γ τ}
         → (∋x : Γ ∋ τ)
+        → (x : Var)
         → Γ ⊢⇒ τ
 
       -- MSLam
-      ⊢λ∶_∙_ : ∀ {Γ τ′}
+      ⊢λ∶_∙_[_] : ∀ {Γ τ′}
         → (τ : Typ)
         → (ě : Γ , τ ⊢⇒ τ′)
+        → (x : Var)
         → Γ ⊢⇒ τ -→ τ′
 
       -- MSAp1
@@ -104,7 +109,8 @@ module mexp where
 
       SuVar : ∀ {Γ τ}
         → {∋x : Γ ∋ τ}
-        → Subsumable {Γ} (⊢ ∋x)
+        → {x : Var}
+        → Subsumable {Γ} (⊢ ∋x [ x ])
 
       SuAp1 : ∀ {Γ τ τ₁ τ₂}
         → {ě₁ : Γ ⊢⇒ τ}
@@ -147,26 +153,29 @@ module mexp where
     -- analysis
     data _⊢⇐_ : (Γ : Ctx) (τ : Typ) → Set where
       -- MALam1
-      ⊢λ∶_∙_[_∙_] : ∀ {Γ τ₁ τ₂ τ₃}
+      ⊢λ∶_∙_[_∙_∙_] : ∀ {Γ τ₁ τ₂ τ₃}
         → (τ : Typ)
         → (ě : Γ , τ ⊢⇐ τ₂)
         → (τ₃▸ : τ₃ ▸ τ₁ -→ τ₂)
         → (τ~τ₁ : τ ~ τ₁)
+        → (x : Var)
         → Γ ⊢⇐ τ₃
 
       -- MALam2
-      ⊢⸨λ∶_∙_⸩[_] : ∀ {Γ τ′}
+      ⊢⸨λ∶_∙_⸩[_∙_] : ∀ {Γ τ′}
         → (τ : Typ)
         → (ě : Γ , τ ⊢⇐ unknown)
         → (τ′!▸ : τ′ !▸)
+        → (x : Var)
         → Γ ⊢⇐ τ′
 
       -- MALam3
-      ⊢λ∶⸨_⸩∙_[_∙_] : ∀ {Γ τ₁ τ₂ τ₃}
+      ⊢λ∶⸨_⸩∙_[_∙_∙_] : ∀ {Γ τ₁ τ₂ τ₃}
         → (τ : Typ)
         → (ě : Γ , τ ⊢⇐ τ₂)
         → (τ₃▸ : τ₃ ▸ τ₁ -→ τ₂)
         → (τ~̸τ₁ : τ ~̸ τ₁)
+        → (x : Var)
         → Γ ⊢⇐ τ₃
 
       -- MAIf

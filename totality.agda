@@ -13,7 +13,7 @@ module totality where
     ...                    | yes (S {Γ} {x} {x′} {τ} {τ′} x≢x′ ∋x) = ⟨ τ , ⟨ ⊢ (S (⟦ ∋x ⟧∋)) , ISVar (S x≢x′ ∋x) ⟩ ⟩
     ...                    | no  ∌x = ⟨ unknown , ⟨ ⊢⟦ x ⟧ , ISUnbound ∌x ⟩ ⟩
     ↬⇒-totality Γ (‵λ x ∶ τ ∙ e) with ↬⇒-totality (Γ , x ∶ τ) e
-    ...                             | ⟨ τ′ , ⟨ ě , e↬⇒ě ⟩ ⟩ = ⟨ τ -→ τ′ , ⟨ ⊢λ∶ τ ∙ ě , ISLam e↬⇒ě ⟩ ⟩
+    ...                             | ⟨ τ′ , ⟨ ě , e↬⇒ě ⟩ ⟩ = ⟨ τ -→ τ′ , ⟨ ⊢λ∶ τ ∙ ě [ x ] , ISLam e↬⇒ě ⟩ ⟩
     ↬⇒-totality Γ (‵ e₁ ∙ e₂) with ↬⇒-totality Γ e₁
     ↬⇒-totality Γ (‵ e₁ ∙ e₂)    | ⟨ τ , ⟨ ě₁ , e₁↬⇒ě₁ ⟩ ⟩ with τ ▸?
     ↬⇒-totality Γ (‵ e₁ ∙ e₂)    | ⟨ τ , ⟨ ě₁ , e₁↬⇒ě₁ ⟩ ⟩    | no τ!▸ with ↬⇐-totality Γ unknown e₂
@@ -43,16 +43,16 @@ module totality where
     ↬⇐-totality Γ τ′ e@(‵ x)
       with ↬⇒-totality Γ e
     ...  | ⟨ .unknown , ⟨ ě@(⊢⟦ x ⟧) , e↬⇒ě ⟩ ⟩ = ↬⇐-subsume ě τ′ e↬⇒ě SuVar
-    ...  | ⟨ τ        , ⟨ ě@(⊢ x)    , e↬⇒ě ⟩ ⟩ = ↬⇐-subsume ě τ′ e↬⇒ě SuVar
+    ...  | ⟨ τ        , ⟨ ě@(⊢ ∋x [ x ])    , e↬⇒ě ⟩ ⟩ = ↬⇐-subsume ě τ′ e↬⇒ě SuVar
     ↬⇐-totality Γ τ′ e@(‵λ x ∶ τ ∙ e′)
       with τ′ ▸?
     ↬⇐-totality Γ τ′ e@(‵λ x ∶ τ ∙ e′) | yes ⟨ τ₁ , ⟨ τ₂ , τ′▸ ⟩ ⟩ with τ ~? τ₁
     ↬⇐-totality Γ τ′ e@(‵λ x ∶ τ ∙ e′) | yes ⟨ τ₁ , ⟨ τ₂ , τ′▸ ⟩ ⟩    | yes τ~τ₁ with ↬⇐-totality (Γ , x ∶ τ) τ₂ e′
-    ↬⇐-totality Γ τ′ e@(‵λ x ∶ τ ∙ e′) | yes ⟨ τ₁ , ⟨ τ₂ , τ′▸ ⟩ ⟩    | yes τ~τ₁    | ⟨ ě′ , e′↬⇐ě′ ⟩ = ⟨ ⊢λ∶ τ ∙ ě′ [ τ′▸ ∙ τ~τ₁ ] , IALam1 τ′▸ τ~τ₁ e′↬⇐ě′ ⟩
+    ↬⇐-totality Γ τ′ e@(‵λ x ∶ τ ∙ e′) | yes ⟨ τ₁ , ⟨ τ₂ , τ′▸ ⟩ ⟩    | yes τ~τ₁    | ⟨ ě′ , e′↬⇐ě′ ⟩ = ⟨ ⊢λ∶ τ ∙ ě′ [ τ′▸ ∙ τ~τ₁ ∙ x ] , IALam1 τ′▸ τ~τ₁ e′↬⇐ě′ ⟩
     ↬⇐-totality Γ τ′ e@(‵λ x ∶ τ ∙ e′) | yes ⟨ τ₁ , ⟨ τ₂ , τ′▸ ⟩ ⟩    | no  τ~̸τ₁ with ↬⇐-totality (Γ , x ∶ τ) τ₂ e′
-    ↬⇐-totality Γ τ′ e@(‵λ x ∶ τ ∙ e′) | yes ⟨ τ₁ , ⟨ τ₂ , τ′▸ ⟩ ⟩    | no  τ~̸τ₁    | ⟨ ě′ , e′↬⇐ě′ ⟩ = ⟨ ⊢λ∶⸨ τ ⸩∙ ě′ [ τ′▸ ∙ τ~̸τ₁ ] , IALam3 τ′▸ τ~̸τ₁ e′↬⇐ě′ ⟩
+    ↬⇐-totality Γ τ′ e@(‵λ x ∶ τ ∙ e′) | yes ⟨ τ₁ , ⟨ τ₂ , τ′▸ ⟩ ⟩    | no  τ~̸τ₁    | ⟨ ě′ , e′↬⇐ě′ ⟩ = ⟨ ⊢λ∶⸨ τ ⸩∙ ě′ [ τ′▸ ∙ τ~̸τ₁ ∙ x ] , IALam3 τ′▸ τ~̸τ₁ e′↬⇐ě′ ⟩
     ↬⇐-totality Γ τ′ e@(‵λ x ∶ τ ∙ e′) | no τ′!▸ with ↬⇐-totality (Γ , x ∶ τ) unknown e′
-    ↬⇐-totality Γ τ′ e@(‵λ x ∶ τ ∙ e′) | no τ′!▸    | ⟨ ě′ , e′↬⇐ě′ ⟩ = ⟨ ⊢⸨λ∶ τ ∙ ě′ ⸩[ τ′!▸ ] , IALam2 τ′!▸ e′↬⇐ě′ ⟩
+    ↬⇐-totality Γ τ′ e@(‵λ x ∶ τ ∙ e′) | no τ′!▸    | ⟨ ě′ , e′↬⇐ě′ ⟩ = ⟨ ⊢⸨λ∶ τ ∙ ě′ ⸩[ τ′!▸ ∙ x ] , IALam2 τ′!▸ e′↬⇐ě′ ⟩
     ↬⇐-totality Γ τ′ e@(‵ _ ∙ _)
       with ↬⇒-totality Γ e
     ...  | ⟨ .unknown , ⟨ ě@(⊢⸨ _ ⸩∙ _ [ _ ]) , e↬⇒ě ⟩ ⟩ = ↬⇐-subsume ě τ′ e↬⇒ě SuAp

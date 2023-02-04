@@ -25,7 +25,7 @@ module marking where
 
       ISVar : ∀ {Γ x τ}
         → (∋x : Γ ∋ x ∶ τ)
-        → Γ ⊢ ‵ x ↬⇒ ⊢ (⟦ ∋x ⟧∋)
+        → Γ ⊢ ‵ x ↬⇒ ⊢ (⟦ ∋x ⟧∋) [ x ]
 
       ISUnbound : ∀ {Γ x}
         → (∌x : Γ ∌ x)
@@ -34,7 +34,7 @@ module marking where
       ISLam : ∀ {Γ x τ e τ₁}
         → {ě : ⟦ Γ , x ∶ τ ⟧ ⊢⇒ τ₁}
         → (e↬⇒ě : Γ , x ∶ τ ⊢ e ↬⇒ ě)
-        → Γ ⊢ ‵λ x ∶ τ ∙ e ↬⇒ ⊢λ∶ τ ∙ ě
+        → Γ ⊢ ‵λ x ∶ τ ∙ e ↬⇒ ⊢λ∶ τ ∙ ě [ x ]
 
       ISAp1 : ∀ {Γ e₁ e₂ τ τ₁ τ₂}
         → {ě₁ : ⟦ Γ ⟧ ⊢⇒ τ}
@@ -90,7 +90,7 @@ module marking where
 
     USu→MSu : ∀ {e : UExp} {Γ : UCtx} {τ : Typ} {ě : ⟦ Γ ⟧ ⊢⇒ τ} → USubsumable e → Γ ⊢ e ↬⇒ ě → MSubsumable ě
     USu→MSu {ě = ⊢⦇-⦈^ u}             SuHole  _ = SuHole
-    USu→MSu {ě = ⊢ x}                 SuVar   _ = SuVar
+    USu→MSu {ě = ⊢ x [ _ ]}           SuVar   _ = SuVar
     USu→MSu {ě = ⊢⟦ x ⟧}              SuVar   _ = SuUnbound
     USu→MSu {ě = ⊢ ě₁ ∙ ě₂ [ τ▸ ]}    SuAp    _ = SuAp1
     USu→MSu {ě = ⊢⸨ ě₁ ⸩∙ ě₂ [ τ!▸ ]} SuAp    _ = SuAp2
@@ -106,20 +106,20 @@ module marking where
         → (τ₃▸ : τ₃ ▸ τ₁ -→ τ₂)
         → (τ~τ₁ : τ ~ τ₁)
         → Γ , x ∶ τ ⊢ e ↬⇐ ě
-        → Γ ⊢ (‵λ x ∶ τ ∙ e) ↬⇐ (⊢λ∶ τ ∙ ě [ τ₃▸ ∙ τ~τ₁ ])
+        → Γ ⊢ (‵λ x ∶ τ ∙ e) ↬⇐ (⊢λ∶ τ ∙ ě [ τ₃▸ ∙ τ~τ₁ ∙ x ])
 
       IALam2 : ∀ {Γ x τ e τ′}
         → {ě : ⟦ Γ , x ∶ τ ⟧ ⊢⇐ unknown}
         → (τ′!▸ : τ′ !▸)
         → Γ , x ∶ τ ⊢ e ↬⇐ ě
-        → Γ ⊢ (‵λ x ∶ τ ∙ e) ↬⇐ (⊢⸨λ∶ τ ∙ ě ⸩[ τ′!▸ ])
+        → Γ ⊢ (‵λ x ∶ τ ∙ e) ↬⇐ (⊢⸨λ∶ τ ∙ ě ⸩[ τ′!▸ ∙ x ])
 
       IALam3 : ∀ {Γ x τ e τ₁ τ₂ τ₃}
         → {ě : ⟦ Γ , x ∶ τ ⟧ ⊢⇐ τ₂}
         → (τ₃▸ : τ₃ ▸ τ₁ -→ τ₂)
         → (τ~̸τ₁ : τ ~̸ τ₁)
         → Γ , x ∶ τ ⊢ e ↬⇐ ě
-        → Γ ⊢ (‵λ x ∶ τ ∙ e) ↬⇐ (⊢λ∶⸨ τ ⸩∙ ě [ τ₃▸ ∙ τ~̸τ₁ ])
+        → Γ ⊢ (‵λ x ∶ τ ∙ e) ↬⇐ (⊢λ∶⸨ τ ⸩∙ ě [ τ₃▸ ∙ τ~̸τ₁ ∙ x ])
 
       IAIf : ∀ {Γ e₁ e₂ e₃ τ}
         → {ě₁ : ⟦ Γ ⟧ ⊢⇐ bool}
