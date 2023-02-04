@@ -129,7 +129,7 @@ module typ where
     ~-≡ TCArrUnknown TCArrUnknown = refl
 
     ~̸-≡ : ∀ {τ₁ τ₂} → (τ₁~̸τ₂ : τ₁ ~̸ τ₂) → (τ₁~̸τ₂′ : τ₁ ~̸ τ₂) → τ₁~̸τ₂ ≡ τ₁~̸τ₂′
-    ~̸-≡ τ₁~̸τ₂ τ₁~̸τ₂′ rewrite ¬≡ τ₁~̸τ₂ τ₁~̸τ₂′ = refl
+    ~̸-≡ τ₁~̸τ₂ τ₁~̸τ₂′ rewrite ¬-≡ τ₁~̸τ₂ τ₁~̸τ₂′ = refl
 
     -- arrow type inconsistencies
     -→~̸₁ : ∀ {τ₁ τ₂ τ₁′ τ₂′} → τ₁ ~̸ τ₁′ → τ₁ -→ τ₂ ~̸ τ₁′ -→ τ₂′
@@ -192,7 +192,7 @@ module typ where
 
     -- no matched arrow is unique
     !▸≡ : ∀ {τ} → (τ!▸ : τ !▸) → (τ!▸′ : τ !▸) → τ!▸ ≡ τ!▸′
-    !▸≡ τ!▸ τ!▸′ = ¬≡ τ!▸ τ!▸′
+    !▸≡ τ!▸ τ!▸′ = ¬-≡ τ!▸ τ!▸′
 
     -- equal types produce same matched arrow type
     ≡▸-→→≡ : ∀ {τ τ₁ τ₂ τ′ τ₁′ τ₂′} → τ ≡ τ′ → τ ▸ τ₁ -→ τ₂ → τ′ ▸ τ₁′ -→ τ₂′ → τ₁ ≡ τ₁′ × τ₂ ≡ τ₂′

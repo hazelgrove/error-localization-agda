@@ -16,7 +16,7 @@ module unicity where
   ∋→≡ Z           (S x≢x _)                                                   = ⊥-elim (x≢x refl)
   ∋→≡ (S x≢x _)   Z                                                           = ⊥-elim (x≢x refl)
   ∋→≡ (S x≢x′ ∋x) (S x≢x′′ ∋x′)
-    rewrite ¬≡ x≢x′ x≢x′′
+    rewrite ¬-≡ x≢x′ x≢x′′
           | ∋→≡ ∋x ∋x′ = refl
 
   ↬⇒-τ-unicity : ∀ {Γ : UCtx} {e : UExp} {τ₁ τ₂ : Typ} {ě₁ : ⟦ Γ ⟧ ⊢⇒ τ₁} {ě₂ : ⟦ Γ ⟧ ⊢⇒ τ₂} → Γ ⊢ e ↬⇒ ě₁ → Γ ⊢ e ↬⇒ ě₂ → τ₁ ≡ τ₂

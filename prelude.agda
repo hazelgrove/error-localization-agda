@@ -1,11 +1,9 @@
 module prelude where
+  -- bottom
   data ⊥ : Set where
 
   ⊥-elim : ∀ {A : Set} → ⊥ → A
   ⊥-elim ()
-
-  data Triv : Set where
-    unit : Triv
 
   -- negation
   module negation where
@@ -34,8 +32,8 @@ module prelude where
     _≢_ : ∀ {A : Set} → A → A → Set
     x ≢ y = ¬ (x ≡ y)
 
-    ≡sym : ∀ {A : Set} {x y : A} → x ≡ y → y ≡ x
-    ≡sym refl = refl
+    ≡-sym : ∀ {A : Set} {x y : A} → x ≡ y → y ≡ x
+    ≡-sym refl = refl
 
     postulate
       extensionality : ∀ {A B : Set} {f g : A → B}
@@ -43,8 +41,8 @@ module prelude where
           -----------------------
         → f ≡ g
 
-    ¬≡ : ∀ {A : Set} → (¬a : ¬ A) → (¬a′ : ¬ A) → ¬a ≡ ¬a′
-    ¬≡ ¬a ¬a′ = extensionality λ { a → ⊥-elim (¬a a) }
+    ¬-≡ : ∀ {A : Set} → (¬a : ¬ A) → (¬a′ : ¬ A) → ¬a ≡ ¬a′
+    ¬-≡ ¬a ¬a′ = extensionality λ { a → ⊥-elim (¬a a) }
 
   -- naturals
   module nat where
@@ -56,23 +54,23 @@ module prelude where
       suc  : ℕ → ℕ
     {-# BUILTIN NATURAL ℕ #-}
 
-    ≡suc : ∀ {m n} → m ≡ n → suc m ≡ suc n
-    ≡suc refl = refl
+    suc-≡ : ∀ {m n} → m ≡ n → suc m ≡ suc n
+    suc-≡ refl = refl
 
     suc-inj : ∀ {m n} → suc m ≡ suc n → m ≡ n
     suc-inj refl = refl
 
-    ≢suc : ∀ {m n} → m ≢ n → suc m ≢ suc n
-    ≢suc {zero}  z≢z   refl    = z≢z refl
-    ≢suc {suc m} sm≢sn ssm≡ssn = sm≢sn (suc-inj ssm≡ssn)
+    suc-≢ : ∀ {m n} → m ≢ n → suc m ≢ suc n
+    suc-≢ {zero}  z≢z   refl    = z≢z refl
+    suc-≢ {suc m} sm≢sn ssm≡ssn = sm≢sn (suc-inj ssm≡ssn)
 
     _≡ℕ?_ : (m : ℕ) → (n : ℕ) → Dec (m ≡ n)
     zero  ≡ℕ? zero               = yes refl
     zero  ≡ℕ? suc n              = no (λ ())
     suc m ≡ℕ? zero               = no (λ ())
     suc m ≡ℕ? suc n with m ≡ℕ? n
-    ...                | yes m≡n = yes (≡suc m≡n)
-    ...                | no m≢n  = no  (≢suc m≢n)
+    ...                | yes m≡n = yes (suc-≡ m≡n)
+    ...                | no m≢n  = no  (suc-≢ m≢n)
 
   -- maybe
   module maybe where
