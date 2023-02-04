@@ -3,3 +3,4 @@ module all where
 
   import totality
   import unicity
+  import wellformed
