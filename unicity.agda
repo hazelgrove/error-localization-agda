@@ -28,7 +28,7 @@ module unicity where
   ↬⇒-τ-unicity (ISLam e↬⇒ě) (ISLam e↬⇒ě′)
     rewrite ↬⇒-τ-unicity e↬⇒ě e↬⇒ě′ = refl
   ↬⇒-τ-unicity (ISAp1 e₁↬⇒ě₁ τ▸ e₂↬⇐ě₂) (ISAp1 e₁↬⇒ě₁′ τ′▸ e₂↬⇐ě₂′)
-    with refl ← ↬⇒-τ-unicity e₁↬⇒ě₁ e₁↬⇒ě₁′ = proj₂ (≡▸-→→≡ refl τ▸ τ′▸)
+    with refl ← ↬⇒-τ-unicity e₁↬⇒ě₁ e₁↬⇒ě₁′ = proj₂ (-→-inj (▸-unicity τ▸ τ′▸))
   ↬⇒-τ-unicity (ISAp1 {τ₁ = τ₁} {τ₂ = τ₂} e₁↬⇒ě₁ τ▸ e₂↬⇐ě₂) (ISAp2 e₁↬⇒ě₁′ τ!▸ e₂↬⇐ě₂′)
     with refl ← ↬⇒-τ-unicity e₁↬⇒ě₁ e₁↬⇒ě₁′ = ⊥-elim (τ!▸ ⟨ τ₁ , ⟨ τ₂ , τ▸ ⟩ ⟩)
   ↬⇒-τ-unicity (ISAp2 e₁↬⇒ě₁ τ!▸ e₂↬⇐ě₂) (ISAp1 {τ₁ = τ₁} {τ₂ = τ₂} e₁↬⇒ě₁′ τ▸ e₂↬⇐ě₂′)
@@ -61,8 +61,8 @@ module unicity where
       rewrite ↬⇒-ě-unicity e↬⇒ě e↬⇒ě′ = refl
     ↬⇒-ě-unicity (ISAp1 e₁↬⇒ě₁ τ▸ e₂↬⇐ě₂) (ISAp1 e₁↬⇒ě₁′ τ▸′ e₂↬⇐ě₂′)
       with refl ← ↬⇒-τ-unicity e₁↬⇒ě₁ e₁↬⇒ě₁′
-      with refl ← ▸-→-unicity τ▸ τ▸′
-      with refl ← ▸-→≡ τ▸ τ▸′
+      with refl ← ▸-unicity τ▸ τ▸′
+      with refl ← ▸-≡ τ▸ τ▸′
       rewrite ↬⇒-ě-unicity e₁↬⇒ě₁ e₁↬⇒ě₁′
             | ↬⇐-ě-unicity e₂↬⇐ě₂ e₂↬⇐ě₂′ = refl
     ↬⇒-ě-unicity (ISAp1 {τ₁ = τ₁} e₁↬⇒ě₁ τ▸ e₂↬⇐ě₂) (ISAp2 e₁↬⇒ě₁′ τ!▸ e₂↬⇐ě₂′)
@@ -73,7 +73,7 @@ module unicity where
       with refl ← ↬⇒-τ-unicity e₁↬⇒ě₁ e₁↬⇒ě₁′
       rewrite ↬⇒-ě-unicity e₁↬⇒ě₁ e₁↬⇒ě₁′
             | ↬⇐-ě-unicity e₂↬⇐ě₂ e₂↬⇐ě₂′
-            | !▸≡ τ!▸ τ!▸′ = refl
+            | !▸-≡ τ!▸ τ!▸′ = refl
     ↬⇒-ě-unicity ISNum ISNum = refl
     ↬⇒-ě-unicity (ISPlus e₁↬⇐ě₁ e₂↬⇐ě₂) (ISPlus e₁↬⇐ě₁′ e₂↬⇐ě₂′)
       rewrite ↬⇐-ě-unicity e₁↬⇐ě₁ e₁↬⇐ě₁′
@@ -115,24 +115,24 @@ module unicity where
 
     ↬⇐-ě-unicity : ∀ {Γ : UCtx} {e : UExp} {τ : Typ} {ě₁ : ⟦ Γ ⟧ ⊢⇐ τ} {ě₂ : ⟦ Γ ⟧ ⊢⇐ τ} → Γ ⊢ e ↬⇐ ě₁ → Γ ⊢ e ↬⇐ ě₂ → ě₁ ≡ ě₂
     ↬⇐-ě-unicity (IALam1 τ▸ τ₁~τ₂ e↬⇐ě) (IALam1 τ▸′ τ₁~τ₂′ e↬⇐ě′)
-      with refl ← ▸-→-unicity τ▸ τ▸′
-      rewrite ▸-→≡ τ▸ τ▸′
+      with refl ← ▸-unicity τ▸ τ▸′
+      rewrite ▸-≡ τ▸ τ▸′
             | ~-≡ τ₁~τ₂ τ₁~τ₂′
             | ↬⇐-ě-unicity e↬⇐ě e↬⇐ě′ = refl
     ↬⇐-ě-unicity (IALam1 {τ₁ = τ₁} {τ₂ = τ₂} τ▸ τ~τ₁ e↬⇐ě) (IALam2 τ!▸ e↬⇐ě′) = ⊥-elim (τ!▸ ⟨ τ₁ , ⟨ τ₂ , τ▸ ⟩ ⟩)
     ↬⇐-ě-unicity (IALam1 τ▸ τ~τ₁ e↬⇐ě) (IALam3 τ▸′ τ~̸τ₁ e↬⇐ě′)
-      with refl ← ▸-→-unicity τ▸ τ▸′ = ⊥-elim (τ~̸τ₁ τ~τ₁)
+      with refl ← ▸-unicity τ▸ τ▸′ = ⊥-elim (τ~̸τ₁ τ~τ₁)
     ↬⇐-ě-unicity (IALam2 τ!▸ e↬⇐ě) (IALam1 {τ₁ = τ₁} {τ₂ = τ₂} τ▸ τ~τ₁ e↬⇐ě′) = ⊥-elim (τ!▸ ⟨ τ₁ , ⟨ τ₂ , τ▸ ⟩ ⟩)
     ↬⇐-ě-unicity (IALam2 τ!▸ e↬⇐ě) (IALam2 τ!▸′ e↬⇐ě′)
-      rewrite !▸≡ τ!▸ τ!▸′
+      rewrite !▸-≡ τ!▸ τ!▸′
             | ↬⇐-ě-unicity e↬⇐ě e↬⇐ě′ = refl
     ↬⇐-ě-unicity (IALam2 τ!▸ e↬⇐ě) (IALam3 {τ₁ = τ₁} {τ₂ = τ₂} τ▸ τ~̸τ₁ e↬⇐ě′) = ⊥-elim (τ!▸ ⟨ τ₁ , ⟨ τ₂ , τ▸ ⟩ ⟩)
     ↬⇐-ě-unicity (IALam3 τ▸ τ~̸τ₁ e↬⇐ě) (IALam1 τ▸′ τ~τ₁ e↬⇐ě′)
-      with refl ← ▸-→-unicity τ▸ τ▸′ = ⊥-elim (τ~̸τ₁ τ~τ₁)
+      with refl ← ▸-unicity τ▸ τ▸′ = ⊥-elim (τ~̸τ₁ τ~τ₁)
     ↬⇐-ě-unicity (IALam3 {τ₁ = τ₁} {τ₂ = τ₂} τ▸ τ~̸τ₁ e↬⇐ě) (IALam2 τ!▸ e↬⇐ě′) = ⊥-elim (τ!▸ ⟨ τ₁ , ⟨ τ₂ , τ▸ ⟩ ⟩)
     ↬⇐-ě-unicity (IALam3 τ▸ τ~̸τ₁ e↬⇐ě) (IALam3 τ▸′ τ~̸τ₁′ e↬⇐ě′)
-      with refl ← ▸-→-unicity τ▸ τ▸′
-      rewrite ▸-→≡ τ▸ τ▸′
+      with refl ← ▸-unicity τ▸ τ▸′
+      rewrite ▸-≡ τ▸ τ▸′
             | ~̸-≡ τ~̸τ₁ τ~̸τ₁′
             | ↬⇐-ě-unicity e↬⇐ě e↬⇐ě′ = refl
     ↬⇐-ě-unicity (IAIf e₁↬⇐ě₁ e₂↬⇐ě₂ e₃↬⇐ě₃) (IAIf e₁↬⇐ě₁′ e₂↬⇐ě₂′ e₃↬⇐ě₃′)
