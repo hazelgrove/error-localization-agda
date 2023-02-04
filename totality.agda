@@ -9,8 +9,8 @@ module totality where
     ↬⇒-totality : ∀ (Γ : UCtx) → (e : UExp) → Σ[ τ ∈ Typ ] Σ[ ě ∈ ⟦ Γ ⟧ ⊢⇒ τ ] (Γ ⊢ e ↬⇒ ě)
     ↬⇒-totality Γ (‵⦇-⦈^ x) = ⟨ unknown , ⟨ ⊢⦇-⦈^ x , ISHole ⟩ ⟩
     ↬⇒-totality Γ (‵ x) with Γ ∋?? x
-    ...                    | yes (Z {Γ} {x} {τ}) = ⟨ τ , ⟨ ⊢ Z , ISVar Z ⟩ ⟩
-    ...                    | yes (S {Γ} {x} {x′} {τ} {τ′} x≢x′ ∋x) = ⟨ τ , ⟨ ⊢ (S (⟦ ∋x ⟧∋)) , ISVar (S x≢x′ ∋x) ⟩ ⟩
+    ...                    | yes (Z {Γ} {x} {τ}) = ⟨ τ , ⟨ ⊢ Z [ x ] , ISVar Z ⟩ ⟩
+    ...                    | yes (S {Γ} {x} {x′} {τ} {τ′} x≢x′ ∋x) = ⟨ τ , ⟨ ⊢ (S (⟦ ∋x ⟧∋)) [ x ] , ISVar (S x≢x′ ∋x) ⟩ ⟩
     ...                    | no  ∌x = ⟨ unknown , ⟨ ⊢⟦ x ⟧ , ISUnbound ∌x ⟩ ⟩
     ↬⇒-totality Γ (‵λ x ∶ τ ∙ e) with ↬⇒-totality (Γ , x ∶ τ) e
     ...                             | ⟨ τ′ , ⟨ ě , e↬⇒ě ⟩ ⟩ = ⟨ τ -→ τ′ , ⟨ ⊢λ∶ τ ∙ ě [ x ] , ISLam e↬⇒ě ⟩ ⟩
