@@ -1,7 +1,7 @@
 open import prelude
 open import typ
-open import uexp renaming (Ctx to UCtx; Subsumable to USubsumable)
-open import mexp renaming (Ctx to MCtx; Subsumable to MSubsumable)
+open import uexp
+open import mexp
 
 module erasure where
   mutual
