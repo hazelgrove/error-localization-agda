@@ -5,3 +5,4 @@ module core where
   import uexp
   import mexp
   import marking
+  import erasure
