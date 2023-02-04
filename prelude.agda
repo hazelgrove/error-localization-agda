@@ -72,12 +72,6 @@ module prelude where
     ...                | yes m≡n = yes (suc-≡ m≡n)
     ...                | no m≢n  = no  (suc-≢ m≢n)
 
-  -- maybe
-  module maybe where
-    data Maybe (A : Set) : Set where
-      Some : A → Maybe A
-      None : Maybe A
-
   -- products
   module product where
     open import Agda.Primitive using (Level; _⊔_)
@@ -118,5 +112,4 @@ module prelude where
   open decidability public
   open eq public
   open nat public
-  open maybe public
   open product public
