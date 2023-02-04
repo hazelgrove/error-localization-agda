@@ -132,14 +132,14 @@ module marking where
 
       IAInconsistentTypes : ∀ {Γ e τ τ′}
         → {ě : ⟦ Γ ⟧ ⊢⇒ τ′}
-        → (⊢e↬⇒ě : Γ ⊢ e ↬⇒ ě)
+        → (e↬⇒ě : Γ ⊢ e ↬⇒ ě)
         → (τ~̸τ′ : τ ~̸ τ′)
         → (s : USubsumable e)
-        → Γ ⊢ e ↬⇐ ⊢⸨ ě ⸩[ τ~̸τ′ ∙ USu→MSu s ⊢e↬⇒ě ]
+        → Γ ⊢ e ↬⇐ ⊢⸨ ě ⸩[ τ~̸τ′ ∙ USu→MSu s e↬⇒ě ]
 
       IASubsume : ∀ {Γ e τ τ′}
         → {ě : ⟦ Γ ⟧ ⊢⇒ τ′}
-        → (⊢e↬⇒ě : Γ ⊢ e ↬⇒ ě)
+        → (e↬⇒ě : Γ ⊢ e ↬⇒ ě)
         → (τ~τ′ : τ ~ τ′)
         → (s : USubsumable e)
-        → Γ ⊢ e ↬⇐ ⊢∙ ě [ τ~τ′ ∙ USu→MSu s ⊢e↬⇒ě ]
+        → Γ ⊢ e ↬⇐ ⊢∙ ě [ τ~τ′ ∙ USu→MSu s e↬⇒ě ]
