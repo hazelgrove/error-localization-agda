@@ -5,23 +5,23 @@ open import mexp renaming (Ctx to MCtx; Subsumable to MSubsumable)
 open import marking
 
 module unicity where
-  ∋→τ≡ : ∀ {Γ x τ₁ τ₂} → (Γ ∋ x ∶ τ₁) → (Γ ∋ x ∶ τ₂) → τ₁ ≡ τ₂
-  ∋→τ≡ Z         Z         = refl
-  ∋→τ≡ Z         (S x≢x _) = ⊥-elim (x≢x refl)
-  ∋→τ≡ (S x≢x _) Z         = ⊥-elim (x≢x refl)
-  ∋→τ≡ (S _ ∋x)  (S _ ∋x′) = ∋→τ≡ ∋x ∋x′
+  ∋→τ-≡ : ∀ {Γ x τ₁ τ₂} → (Γ ∋ x ∶ τ₁) → (Γ ∋ x ∶ τ₂) → τ₁ ≡ τ₂
+  ∋→τ-≡ Z         Z         = refl
+  ∋→τ-≡ Z         (S x≢x _) = ⊥-elim (x≢x refl)
+  ∋→τ-≡ (S x≢x _) Z         = ⊥-elim (x≢x refl)
+  ∋→τ-≡ (S _ ∋x)  (S _ ∋x′) = ∋→τ-≡ ∋x ∋x′
 
-  ∋→≡ : ∀ {Γ x τ} → (∋x : Γ ∋ x ∶ τ) → (∋x′ : Γ ∋ x ∶ τ) → ∋x ≡ ∋x′
-  ∋→≡ Z           Z                                                           = refl
-  ∋→≡ Z           (S x≢x _)                                                   = ⊥-elim (x≢x refl)
-  ∋→≡ (S x≢x _)   Z                                                           = ⊥-elim (x≢x refl)
-  ∋→≡ (S x≢x′ ∋x) (S x≢x′′ ∋x′)
+  ∋-≡ : ∀ {Γ x τ} → (∋x : Γ ∋ x ∶ τ) → (∋x′ : Γ ∋ x ∶ τ) → ∋x ≡ ∋x′
+  ∋-≡ Z           Z                                                           = refl
+  ∋-≡ Z           (S x≢x _)                                                   = ⊥-elim (x≢x refl)
+  ∋-≡ (S x≢x _)   Z                                                           = ⊥-elim (x≢x refl)
+  ∋-≡ (S x≢x′ ∋x) (S x≢x′′ ∋x′)
     rewrite ¬-≡ x≢x′ x≢x′′
-          | ∋→≡ ∋x ∋x′ = refl
+          | ∋-≡ ∋x ∋x′ = refl
 
   ↬⇒-τ-unicity : ∀ {Γ : UCtx} {e : UExp} {τ₁ τ₂ : Typ} {ě₁ : ⟦ Γ ⟧ ⊢⇒ τ₁} {ě₂ : ⟦ Γ ⟧ ⊢⇒ τ₂} → Γ ⊢ e ↬⇒ ě₁ → Γ ⊢ e ↬⇒ ě₂ → τ₁ ≡ τ₂
   ↬⇒-τ-unicity ISHole         ISHole          = refl
-  ↬⇒-τ-unicity (ISVar ∋x)     (ISVar ∋x′)     = ∋→τ≡ ∋x ∋x′
+  ↬⇒-τ-unicity (ISVar ∋x)     (ISVar ∋x′)     = ∋→τ-≡ ∋x ∋x′
   ↬⇒-τ-unicity (ISVar ∋x)     (ISUnbound ∌x)  = ⊥-elim (∌x ∋x)
   ↬⇒-τ-unicity (ISUnbound ∌x) (ISVar ∋x)      = ⊥-elim (∌x ∋x)
   ↬⇒-τ-unicity (ISUnbound ∌x) (ISUnbound ∌x′) = refl
@@ -53,7 +53,7 @@ module unicity where
     ↬⇒-ě-unicity : ∀ {Γ : UCtx} {e : UExp} {τ : Typ} {ě₁ : ⟦ Γ ⟧ ⊢⇒ τ} {ě₂ : ⟦ Γ ⟧ ⊢⇒ τ} → Γ ⊢ e ↬⇒ ě₁ → Γ ⊢ e ↬⇒ ě₂ → ě₁ ≡ ě₂
     ↬⇒-ě-unicity ISHole ISHole = refl
     ↬⇒-ě-unicity (ISVar ∋x) (ISVar ∋x′)
-      rewrite ∋→≡ ∋x ∋x′ = refl
+      rewrite ∋-≡ ∋x ∋x′ = refl
     ↬⇒-ě-unicity (ISVar ∋x) (ISUnbound ∌x) = ⊥-elim (∌x ∋x)
     ↬⇒-ě-unicity (ISUnbound ∌x) (ISVar ∋x) = ⊥-elim (∌x ∋x)
     ↬⇒-ě-unicity (ISUnbound ∌x) (ISUnbound ∌x′) = refl
