@@ -19,6 +19,23 @@ module unicity where
     rewrite ¬-≡ x≢x′ x≢x′′
           | ∋-≡ ∋x ∋x′ = refl
 
+  ⇒-unicity : ∀ {Γ : UCtx} {e : UExp} {τ₁ τ₂ : Typ} → Γ ⊢ e ⇒ τ₁ → Γ ⊢ e ⇒ τ₂ → τ₁ ≡ τ₂
+  ⇒-unicity USHole                 USHole                   = refl
+  ⇒-unicity (USVar ∋x)             (USVar ∋x′)              = ∋→τ-≡ ∋x ∋x′
+  ⇒-unicity (USLam e⇒τ₁)           (USLam e⇒τ₂)
+    rewrite ⇒-unicity e⇒τ₁ e⇒τ₂                             = refl
+  ⇒-unicity (USAp e₁⇒τ₁ τ▸ e₂⇐τ₂)  (USAp e₁⇒τ₁′ τ▸′ e₂⇐τ₂′)
+    rewrite ⇒-unicity e₁⇒τ₁ e₁⇒τ₁′
+    with refl ← ▸-unicity τ▸ τ▸′                            = refl
+  ⇒-unicity USNum                  USNum                    = refl
+  ⇒-unicity (USPlus e₁⇐num e₂⇐num) (USPlus e₁⇐num′ e₂⇐num′) = refl
+  ⇒-unicity USTrue                 USTrue                   = refl
+  ⇒-unicity USFalse                USFalse                  = refl
+  ⇒-unicity (USIf e₁⇐bool e₂⇒τ₁ e₃⇒τ₂ τ₁⊔τ₂) (USIf e₁⇐bool′ e₂⇒τ₁′ e₃⇒τ₂′ τ₁⊔τ₂′)
+    rewrite ⇒-unicity e₂⇒τ₁ e₂⇒τ₁′
+          | ⇒-unicity e₃⇒τ₂ e₃⇒τ₂′
+          | ⊔-unicity τ₁⊔τ₂ τ₁⊔τ₂′                          = refl
+
   ↬⇒-τ-unicity : ∀ {Γ : UCtx} {e : UExp} {τ₁ τ₂ : Typ} {ě₁ : ⟦ Γ ⟧ ⊢⇒ τ₁} {ě₂ : ⟦ Γ ⟧ ⊢⇒ τ₂} → Γ ⊢ e ↬⇒ ě₁ → Γ ⊢ e ↬⇒ ě₂ → τ₁ ≡ τ₂
   ↬⇒-τ-unicity ISHole         ISHole          = refl
   ↬⇒-τ-unicity (ISVar ∋x)     (ISVar ∋x′)     = ∋→τ-≡ ∋x ∋x′
