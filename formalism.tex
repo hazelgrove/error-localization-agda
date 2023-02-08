@@ -4,7 +4,7 @@
 
 \begin{document}
 \renewcommand{\thesection}{\Alph{section}}
-\section{Formalism}
+\section{Bidirectional Error Localization}
 Formalization of error localization semantics.
 
 \subsection{Syntax}
@@ -798,5 +798,42 @@ types, e.g. pairs:
     \ctxAnaType{\ctx}{\ECProjR{\ECMV}}{\TMV}
   }{MAProjR}
 \end{mathpar}
+
+\section{Reworked Hazelnut}
+
+\subsection{Syntax}
+\[\begin{array}{rrcl}
+  \ZTMName & \ZTMV & \Coloneqq & \ZTCursor{\TMV} \mid \ZTArrowL{\ZTMV}{\TMV} \mid \ZTArrowR{\TMV}{\ZTMV} \\
+  \ZMName  & \ZMV  & \Coloneqq & \ZCursor{\EMV} \mid \ZLamT{x}{\ZTMV}{\EMV} \mid \ZLamE{x}{\TMV}{\ZMV} \mid \ZApL{\ZMV}{\EMV} \mid \ZApR{\EMV}{\ZMV} \\
+           &       & \mid         & \ZPlusL{\ZMV}{\EMV} \mid \ZPlusR{\EMV}{\ZMV} \\
+           &       & \mid         & \ZIfC{\ZMV}{\EMV}{\EMV} \mid \ZIfL{\EMV}{\ZMV}{\EMV} \mid \ZIfR{\EMV}{\EMV}{\ZMV}
+\end{array}\]
+
+\subsection{Cursor Erasure}
+\subsubsection{Type Cursor Erasure}
+\judgbox{\ensuremath{\cursorErase{\ZTMV}}} is a metafunction defined as follows:
+%
+\newcommand{\cursorErasesToRow}[2]{\ensuremath{\cursorErase{#1} & = & #2}}
+\[\begin{array}{rcl}
+  \cursorErasesToRow{\ZTCursor{\TMV}}{\TMV} \\
+  \cursorErasesToRow{(\ZTArrowL{\ZTMV}{\TMV})}{\TArrow{\cursorErase{\ZTMV}}{\TMV}} \\
+  \cursorErasesToRow{(\ZTArrowR{\TMV}{\ZTMV})}{\TArrow{\TMV}{\cursorErase{\ZTMV}}} \\
+\end{array}\]
+
+\subsubsection{Expression Cursor Erasure}
+\judgbox{\ensuremath{\cursorErase{\ZMV}}} is a metafunction defined as follows:
+%
+\[\begin{array}{rcl}
+  \cursorErasesToRow{\ZCursor{\EMV}}{\EMV} \\
+  \cursorErasesToRow{(\ZLamT{x}{\ZTMV}{\EMV})}{\ELam{x}{\cursorErase{\ZTMV}}{\EMV}} \\
+  \cursorErasesToRow{(\ZLamE{x}{\TMV}{\ZMV})}{\ELam{x}{\TMV}{\cursorErase{\ZMV}}} \\
+  \cursorErasesToRow{(\ZApL{\ZMV}{\EMV})}{\EAp{\cursorErase{\ZMV}}{\EMV}} \\
+  \cursorErasesToRow{(\ZApR{\EMV}{\ZMV})}{\EAp{\EMV}{\cursorErase{\ZMV}}} \\
+  \cursorErasesToRow{(\ZPlusL{\ZMV}{\EMV})}{\EPlus{\cursorErase{\ZMV}}{\EMV}} \\
+  \cursorErasesToRow{(\ZPlusR{\EMV}{\ZMV})}{\EPlus{\EMV}{\cursorErase{\ZMV}}} \\
+  \cursorErasesToRow{(\ZIfC{\ZMV}{\EMV_1}{\EMV_2})}{\EIf{\cursorErase{\ZMV}}{\EMV_1}{\EMV_2}} \\
+  \cursorErasesToRow{(\ZIfL{\EMV_1}{\ZMV}{\EMV_2})}{\EIf{\EMV_1}{\cursorErase{\ZMV}}{\EMV_2}} \\
+  \cursorErasesToRow{(\ZIfL{\EMV_1}{\EMV_2}{\ZMV})}{\EIf{\EMV_1}{\EMV_2}{\cursorErase{\ZMV}}} \\
+\end{array}\]
 
 \end{document}

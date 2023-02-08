@@ -1,7 +1,10 @@
 %
 % Utilities
 %
-\definecolor{lavender}{RGB}{162,85,162}
+\definecolor{hole}{RGB}{162,85,162}
+\definecolor{cursorhighlight}{RGB}{230,255,230}
+\definecolor{cursor}{RGB}{76,170,76}
+\newcommand{\mathcolorbox}[2]{\colorbox{#1}{$\displaystyle #2$}}
 
 %
 % Judgments
@@ -47,20 +50,24 @@
 % Subsumable
 \newcommand{\subsumable}[1]{\ensuremath{#1 ~\textsf{subsumable}}}
 
-% Erasure
+% Mark erasure
 \newcommand{\erase}[1]{\ensuremath{#1^{\square}}}
 \newcommand{\erasesTo}[2]{\ensuremath{#1^{\square} = #2}}
 
-% Hole insertion
+% Marking
 \newcommand{\synFixedInto}[3]{\ensuremath{\synType{#1 \looparrowright #2}{#3}}}
 \newcommand{\ctxSynFixedInto}[4]{\ensuremath{\withCtx{#1}{\synFixedInto{#2}{#3}{#4}}}}
 \newcommand{\anaFixedInto}[3]{\ensuremath{\anaType{#1 \looparrowright #2}{#3}}}
 \newcommand{\ctxAnaFixedInto}[4]{\ensuremath{\withCtx{#1}{\anaFixedInto{#2}{#3}{#4}}}}
 
-% Image
+% Marking image
 \newcommand{\image}[1]{\ensuremath{#1^{\circ}}}
 \newcommand{\imageIs}[2]{\ensuremath{\image{#1} = #2}}
 \newcommand{\imageIsNot}[2]{\ensuremath{\image{#1} \neq #2}}
+
+% Cursor erasure
+\newcommand{\cursorErase}[1]{\ensuremath{#1^{\diamond}}}
+\newcommand{\cursorErasesTo}[2]{\ensuremath{#1^{\diamond} = #2}}
 
 % 
 % Types
@@ -88,27 +95,66 @@
 \newcommand{\EMV}{\ensuremath{e}}
 
 % Holes
-\newcommand{\EEHole}{\ECEHole}
+\newcommand{\EEHole}{\ensuremath{\ECEHole}}
 
 % Integers
-\newcommand{\EInt}[1]{\ECInt{#1}}
-\newcommand{\EIntMV}{\ECIntMV}
-\newcommand{\EOpPlus}{\ECOpPlus}
-\newcommand{\EPlus}[2]{\ECPlus{#1}{#2}}
+\newcommand{\EInt}[1]{\ensuremath{\ECInt{#1}}}
+\newcommand{\EIntMV}{\ensuremath{\ECIntMV}}
+\newcommand{\EOpPlus}{\ensuremath{\ECOpPlus}}
+\newcommand{\EPlus}[2]{\ensuremath{\ECPlus{#1}{#2}}}
 
 % Booleans
-\newcommand{\ETrue}{\ECTrue}
-\newcommand{\EFalse}{\ECFalse}
-\newcommand{\EIf}[3]{\ECIf{#1}{#2}{#3}}
+\newcommand{\ETrue}{\ensuremath{\ECTrue}}
+\newcommand{\EFalse}{\ensuremath{\ECFalse}}
+\newcommand{\EIf}[3]{\ensuremath{\ECIf{#1}{#2}{#3}}}
 
 % Lambdas
-\newcommand{\ELam}[3]{\ECLam{#1}{#2}{#3}}
-\newcommand{\EAp}[2]{\ECAp{#1}{#2}}
+\newcommand{\ELam}[3]{\ensuremath{\ECLam{#1}{#2}{#3}}}
+\newcommand{\EAp}[2]{\ensuremath{\ECAp{#1}{#2}}}
 
 % Pairs
-\newcommand{\EPair}[2]{\ECPair{#1}{#2}}
-\newcommand{\EProjL}[1]{\ECProjL{#1}}
-\newcommand{\EProjR}[1]{\ECProjR{#1}}
+\newcommand{\EPair}[2]{\ensuremath{\ECPair{#1}{#2}}}
+\newcommand{\EProjL}[1]{\ensuremath{\ECProjL{#1}}}
+\newcommand{\EProjR}[1]{\ensuremath{\ECProjR{#1}}}
+
+%
+% Cursor types
+%
+\newcommand{\ZTMName}{\textsf{ZType}}
+\newcommand{\ZTMSet}{\ensuremath{\hat{T}}}
+\newcommand{\ZTMV}{\ensuremath{\hat{\tau}}}
+
+% Cursor
+\newcommand{\ZTCursor}[1]{\ensuremath{\ZCursor{#1}}}
+
+% Arrow
+\newcommand{\ZTArrowL}[2]{\ensuremath{\TArrow{#1}{#2}}}
+\newcommand{\ZTArrowR}[2]{\ensuremath{\TArrow{#1}{#2}}}
+
+%
+% Cursor expressions
+%
+\newcommand{\ZMName}{\textsf{ZExp}}
+\newcommand{\ZMSet}{\ensuremath{\hat{E}}}
+\newcommand{\ZMV}{\ensuremath{\hat{e}}}
+
+% Cursor
+\newcommand{\ZCursor}[1]{\ensuremath{\mathcolorbox{cursorhighlight}{\textcolor{cursor}{\bm{\triangleright}}#1\textcolor{cursor}{\bm{\triangleleft}}}}}
+
+% Integers
+\newcommand{\ZPlusL}[2]{\ensuremath{\ECPlus{#1}{#2}}}
+\newcommand{\ZPlusR}[2]{\ensuremath{\ECPlus{#1}{#2}}}
+
+% Lambdas
+\newcommand{\ZLamT}[3]{\ensuremath{\ECLam{#1}{#2}{#3}}}
+\newcommand{\ZLamE}[3]{\ensuremath{\ECLam{#1}{#2}{#3}}}
+\newcommand{\ZApL}[2]{\ensuremath{\ECAp{#1}{#2}}}
+\newcommand{\ZApR}[2]{\ensuremath{\ECAp{#1}{#2}}}
+
+% Booleans
+\newcommand{\ZIfC}[3]{\ensuremath{\ECIf{#1}{#2}{#3}}}
+\newcommand{\ZIfL}[3]{\ensuremath{\ECIf{#1}{#2}{#3}}}
+\newcommand{\ZIfR}[3]{\ensuremath{\ECIf{#1}{#2}{#3}}}
 
 %
 % Marked expressions
@@ -118,7 +164,7 @@
 \newcommand{\ECMV}{\ensuremath{\check{e}}}
 
 % Holes
-\newcommand{\ECEHole}{\ensuremath{\textcolor{lavender}{\bm{\llparenthesis}}\textcolor{lavender}{\bm{\rrparenthesis}}}}
+\newcommand{\ECEHole}{\ensuremath{\textcolor{hole}{\bm{\llparenthesis}}\textcolor{hole}{\bm{\rrparenthesis}}}}
 
 % Integers
 \newcommand{\ECInt}[1]{\ensuremath{\underline{#1}}}
