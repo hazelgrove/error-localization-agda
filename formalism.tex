@@ -836,4 +836,32 @@ types, e.g. pairs:
   \cursorErasesToRow{(\ZIfL{\EMV_1}{\EMV_2}{\ZMV})}{\EIf{\EMV_1}{\EMV_2}{\cursorErase{\ZMV}}} \\
 \end{array}\]
 
+\subsection{Action Model}
+\subsubsection{Type Actions}
+\paragraph{Type Movement}
+\begin{mathpar}
+  \judgment{ }{
+    \ATMArrowChildL{\TMV_1}{\TMV_2}
+  }{ATMArrChild1}
+
+  \judgment{ }{
+    \ATMArrowChildR{\TMV_1}{\TMV_2}
+  }{ATMArrChild2}
+
+  \judgment{ }{
+    \ATMArrowParentL{\TMV_1}{\TMV_2}
+  }{ATMArrParent1}
+
+  \judgment{ }{
+    \ATMArrowParentR{\TMV_1}{\TMV_2}
+  }{ATMArrParent2}
+\end{mathpar}
+
+\paragraph{Type Deletion}
+\begin{mathpar}
+  \judgment{ }{
+    \ATMDel{\TMV}{\TUnknown}
+  }{ATMDel}
+\end{mathpar}
+
 \end{document}

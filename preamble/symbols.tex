@@ -206,3 +206,22 @@
 \newcommand{\ECInconMatched}[2]{\ensuremath{\ECMarked{#1}{#2}}}
 \newcommand{\ECInconMatchedArrow}[1]{\ensuremath{\ECInconMatched{#1}{\notMatchedArrowRel}}}
 \newcommand{\ECInconMatchedPair}[1]{\ensuremath{\ECInconMatched{#1}{\notMatchedPairRel}}}
+
+%
+% actions
+%
+
+% movement
+\newcommand{\AMChild}[3]{\ensuremath{#1 \xrightarrow{\textsf{move child $#3$}} #2}}
+\newcommand{\AMParent}[2]{\ensuremath{#1 \xrightarrow{\textsf{move parent}} #2}}
+
+\newcommand{\ATMChild}[3]{\ensuremath{\AMChild{\ZTCursor{#1}}{#2}{#3}}}
+\newcommand{\ATMParent}[2]{\ensuremath{\AMParent{#1}{\ZTCursor{#2}}}}
+\newcommand{\ATMArrowChildL}[2]{\ensuremath{\ATMChild{\TArrow{#1}{#2}}{\ZTArrowL{\ZCursor{#1}}{#2}}{1}}}
+\newcommand{\ATMArrowChildR}[2]{\ensuremath{\ATMChild{\TArrow{#1}{#2}}{\ZTArrowR{#2}{\ZCursor{#1}}}{2}}}
+\newcommand{\ATMArrowParentL}[2]{\ensuremath{\ATMParent{\ZTArrowL{\ZCursor{#1}}{#2}}{\TArrow{#1}{#2}}}}
+\newcommand{\ATMArrowParentR}[2]{\ensuremath{\ATMParent{\ZTArrowR{#2}{\ZCursor{#1}}}{\TArrow{#1}{#2}}}}
+
+% deletion
+\newcommand{\AMDel}[2]{\ensuremath{#1 \xrightarrow{\textsf{del}} #2}}
+\newcommand{\ATMDel}[2]{\ensuremath{\AMDel{\ZCursor{#1}}{\ZCursor{#2}}}}
