@@ -210,31 +210,60 @@
 %
 % actions
 %
+
+% actions
 \newcommand{\AMName}{\textsf{Action}}
 \newcommand{\AMV}{\ensuremath{\alpha}}
+\newcommand{\AMove}[1]{\ensuremath{\textsf{move $#1$}}}
+\newcommand{\ADel}{\ensuremath{\textsf{del}}}
+\newcommand{\ACon}[1]{\ensuremath{\textsf{construct $#1$}}}
 
+% iterated actions
 \newcommand{\AIMName}{\textsf{ActionList}}
 \newcommand{\AIMV}{\ensuremath{\overline{\alpha}}}
 \newcommand{\AINil}{\ensuremath{\cdot}}
 \newcommand{\AICons}[2]{\ensuremath{#1; #2}}
 
+% directions
+\newcommand{\MMName}{\textsf{Dir}}
 \newcommand{\MMV}{\ensuremath{\delta}}
+\newcommand{\MChild}[1]{\ensuremath{\textsf{child $#1$}}}
+\newcommand{\MChildNMV}{\ensuremath{n}}
+\newcommand{\MParent}{\ensuremath{\textsf{parent}}}
 
+% shapes
+\newcommand{\SMName}{\textsf{Shape}}
+\newcommand{\SMV}{\ensuremath{\psi}}
+
+\newcommand{\STArrow}{\ensuremath{\textsf{arrow}}}
+\newcommand{\STNum}{\ensuremath{\textsf{num}}}
+\newcommand{\STBool}{\ensuremath{\textsf{bool}}}
+
+\newcommand{\SVar}[1]{\ensuremath{\textsf{var $#1$}}}
+\newcommand{\SLam}[1]{\ensuremath{\textsf{lam $#1$}}}
+\newcommand{\SAp}{\ensuremath{\textsf{ap}}}
+\newcommand{\SNumLit}[1]{\ensuremath{\textsf{num lit $#1$}}}
+\newcommand{\SPlus}{\ensuremath{\textsf{plus}}}
+\newcommand{\STrue}{\ensuremath{\textsf{true}}}
+\newcommand{\SFalse}{\ensuremath{\textsf{false}}}
+\newcommand{\SIf}{\ensuremath{\textsf{if}}}
+
+%
+% action judgments
+%
 \newcommand{\AAction}[3]{\ensuremath{#1 \xrightarrow{#3} #2}}
 \newcommand{\AActionIter}[3]{\ensuremath{#1 \xrightarrow{#3}* #2}}
-
 \newcommand{\movements}[1]{\ensuremath{#1 ~\textsf{movements}}}
 
 % movement
-\newcommand{\AMove}[1]{\ensuremath{\textsf{move $#1$}}}
-\newcommand{\AMChild}[3]{\ensuremath{\AAction{#1}{#2}{\AMove{\textsf{child $#3$}}}}}
-\newcommand{\AMParent}[2]{\ensuremath{\AAction{#1}{#2}{\AMove{\textsf{parent}}}}}
+\newcommand{\AMChild}[3]{\ensuremath{\AAction{#1}{#2}{\AMove{\MChild{#3}}}}}
+\newcommand{\AMParent}[2]{\ensuremath{\AAction{#1}{#2}{\AMove{\MParent}}}}
 
 % deletion
-\newcommand{\ADel}[2]{\ensuremath{\AAction{#1}{#2}{\textsf{del}}}}
+\newcommand{\ADDel}[2]{\ensuremath{\AAction{#1}{#2}{\ADel}}}
 
 % construction
-\newcommand{\ACon}[3]{\ensuremath{\AAction{#1}{#2}{\textsf{construct $#3$}}}}
+\newcommand{\ACCon}[3]{\ensuremath{\AAction{#1}{#2}{\ACon{#3}}}}
 
 %
 % type actions
@@ -251,12 +280,12 @@
 \newcommand{\ATMArrowParentR}[2]{\ensuremath{\ATMParent{\ZTArrowR{#2}{\ZTCursor{#1}}}{\TArrow{#1}{#2}}}}
 
 % deletion
-\newcommand{\ATDel}[1]{\ensuremath{\ADel{\ZTCursor{#1}}{\ZTCursor{\TUnknown}}}}
+\newcommand{\ATDel}[1]{\ensuremath{\ADDel{\ZTCursor{#1}}{\ZTCursor{\TUnknown}}}}
 
 % construction
-\newcommand{\ATConArrow}[1]{\ensuremath{\ACon{\ZTCursor{#1}}{(\ZTArrowR{#1}{\ZTCursor{\TUnknown}})}{\textsf{arrow}}}}
-\newcommand{\ATConNum}{\ensuremath{\ACon{\ZTCursor{\TUnknown}}{\ZTCursor{\TNum}}{\textsf{num}}}}
-\newcommand{\ATConBool}{\ensuremath{\ACon{\ZTCursor{\TUnknown}}{\ZTCursor{\TBool}}{\textsf{bool}}}}
+\newcommand{\ATConArrow}[1]{\ensuremath{\ACCon{\ZTCursor{#1}}{(\ZTArrowR{#1}{\ZTCursor{\TUnknown}})}{\STArrow}}}
+\newcommand{\ATConNum}{\ensuremath{\ACCon{\ZTCursor{\TUnknown}}{\ZTCursor{\TNum}}{\STNum}}}
+\newcommand{\ATConBool}{\ensuremath{\ACCon{\ZTCursor{\TUnknown}}{\ZTCursor{\TBool}}{\STBool}}}
 
 %
 % expression actions
@@ -289,14 +318,14 @@
 \newcommand{\AEMIfParentR}[3]{\ensuremath{\AEMParent{\ZIfR{#1}{#2}{\ZCursor{#3}}}{\EIf{#1}{#2}{#3}}}}
 
 % deletion
-\newcommand{\AEDel}[1]{\ensuremath{\ADel{\ZCursor{#1}}{\ZCursor{\EEHole}}}}
+\newcommand{\AEDel}[1]{\ensuremath{\ADDel{\ZCursor{#1}}{\ZCursor{\EEHole}}}}
 
 % construction
-\newcommand{\AEConVar}[1]{\ensuremath{\ACon{\ZCursor{\EEHole}}{\ZCursor{#1}}{\textsf{var $#1$}}}}
-\newcommand{\AEConLam}[1]{\ensuremath{\ACon{\ZCursor{\EEHole}}{\ZLamT{#1}{\ZTCursor{\TUnknown}}{\EEHole}}{\textsf{lam}}}}
-\newcommand{\AEConAp}[1]{\ensuremath{\ACon{\ZCursor{#1}}{\ZApR{#1}{\ZCursor{\EEHole}}}{\textsf{ap}}}}
-\newcommand{\AEConNum}[1]{\ensuremath{\ACon{\ZCursor{\EEHole}}{\ZCursor{#1}}{\textsf{lit $#1$}}}}
-\newcommand{\AEConPlus}[1]{\ensuremath{\ACon{\ZCursor{#1}}{\ZPlusR{#1}{\ZCursor{\EEHole}}}{\textsf{plus}}}}
-\newcommand{\AEConTrue}{\ensuremath{\ACon{\ZCursor{\EEHole}}{\ZCursor{\ETrue}}{\textsf{lit $\ETrue$}}}}
-\newcommand{\AEConFalse}{\ensuremath{\ACon{\ZCursor{\EEHole}}{\ZCursor{\EFalse}}{\textsf{lit $\EFalse$}}}}
-\newcommand{\AEConIf}{\ensuremath{\ACon{\ZCursor{\EEHole}}{\ZIfC{\ZCursor{\EEHole}}{\EEHole}{\EEHole}}{\textsf{lit $\EFalse$}}}}
+\newcommand{\AEConVar}[1]{\ensuremath{\ACCon{\ZCursor{\EEHole}}{\ZCursor{#1}}{\SVar{#1}}}}
+\newcommand{\AEConLam}[1]{\ensuremath{\ACCon{\ZCursor{\EEHole}}{\ZLamT{#1}{\ZTCursor{\TUnknown}}{\EEHole}}{\SLam{#1}}}}
+\newcommand{\AEConAp}[1]{\ensuremath{\ACCon{\ZCursor{#1}}{\ZApR{#1}{\ZCursor{\EEHole}}}{\SAp}}}
+\newcommand{\AEConNum}[1]{\ensuremath{\ACCon{\ZCursor{\EEHole}}{\ZCursor{#1}}{\SNumLit{#1}}}}
+\newcommand{\AEConPlus}[1]{\ensuremath{\ACCon{\ZCursor{#1}}{\ZPlusR{#1}{\ZCursor{\EEHole}}}{\SPlus}}}
+\newcommand{\AEConTrue}{\ensuremath{\ACCon{\ZCursor{\EEHole}}{\ZCursor{\ETrue}}{\STrue}}}
+\newcommand{\AEConFalse}{\ensuremath{\ACCon{\ZCursor{\EEHole}}{\ZCursor{\EFalse}}{\SFalse}}}
+\newcommand{\AEConIf}{\ensuremath{\ACCon{\ZCursor{\EEHole}}{\ZIfC{\ZCursor{\EEHole}}{\EEHole}{\EEHole}}{\SIf}}}

@@ -837,6 +837,14 @@ types, e.g. pairs:
 \end{array}\]
 
 \subsection{Action Model}
+\[\begin{array}{rrcl}
+  \AMName  & \AMV  & \Coloneqq & \AMove{\MMV} \mid \ACon{\SMV} \mid \ADel \\
+  \AIMName & \AIMV & \Coloneqq & \AINil \mid \AICons{\AMV}{\AIMV} \\
+  \MMName  & \MMV  & \Coloneqq & \MChild{\MChildNMV} \mid \MParent \\
+  \SMName  & \SMV  & \Coloneqq & \STArrow \mid \STNum \mid \STBool \\
+           &       &           & \SVar{x} \mid \SLam{x} \mid \SAp \mid \SNumLit{n} \mid \SPlus
+\end{array}\]
+
 \subsubsection{Type Actions}
 \judgbox{\ensuremath{\ATAction{\ZTMV}{\ZTMV'}{\AMV}}}
 
