@@ -842,7 +842,9 @@ types, e.g. pairs:
   \AIMName & \AIMV & \Coloneqq & \AINil \mid \AICons{\AMV}{\AIMV} \\
   \MMName  & \MMV  & \Coloneqq & \MChild{\MChildNMV} \mid \MParent \\
   \SMName  & \SMV  & \Coloneqq & \STArrow \mid \STNum \mid \STBool \\
-           &       &           & \SVar{x} \mid \SLam{x} \mid \SAp \mid \SNumLit{n} \mid \SPlus
+           &       & \mid         & \SVar{x} \mid \SLam{x} \mid \SAp \\
+           &       & \mid         & \SNumLit{n} \mid \SPlus \\
+           &       & \mid         & \STrue \mid \SFalse \mid \SIf \\
 \end{array}\]
 
 \subsubsection{Type Actions}
