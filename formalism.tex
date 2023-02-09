@@ -1021,6 +1021,67 @@ types, e.g. pairs:
   \judgment{ }{
     \AEConFalse
   }{AEConFalse}
+  
+  \judgment{ }{
+    \AEConIf
+  }{AEConIf}
+\end{mathpar}
+
+\paragraph{Zipper Cases}
+\begin{mathpar}
+  \judgment{
+    \ATAction{\ZTMV}{\ZTMV'}{\AMV}
+  }{
+    \AEAction{\ZLamT{x}{\ZTMV}{\EMV}}{\ZLamT{x}{\ZTMV'}{\EMV}}{\AMV}
+  }{AEZipLam1}
+
+  \judgment{
+    \AEAction{\ZMV}{\ZMV'}{\AMV}
+  }{
+    \AEAction{\ZLamE{x}{\TMV}{\ZMV}}{\ZLamE{x}{\TMV}{\ZMV'}}{\AMV}
+  }{AEZipLam2} \\
+
+  \judgment{
+    \AEAction{\ZMV}{\ZMV'}{\AMV}
+  }{
+    \AEAction{\ZApL{\ZMV}{\EMV}}{\ZApL{\ZMV'}{\EMV}}{\AMV}
+  }{AEZipAp1}
+
+  \judgment{
+    \AEAction{\ZMV}{\ZMV'}{\AMV}
+  }{
+    \AEAction{\ZApR{\EMV}{\ZMV}}{\ZApR{\EMV}{\ZMV'}}{\AMV}
+  }{AEZipAp2} \\
+
+  \judgment{
+    \AEAction{\ZMV}{\ZMV'}{\AMV}
+  }{
+    \AEAction{\ZPlusL{\ZMV}{\EMV}}{\ZPlusL{\ZMV'}{\EMV}}{\AMV}
+  }{AEZipPlus1}
+
+  \judgment{
+    \AEAction{\ZMV}{\ZMV'}{\AMV}
+  }{
+    \AEAction{\ZPlusR{\EMV}{\ZMV}}{\ZPlusR{\EMV}{\ZMV'}}{\AMV}
+  }{AEZipPlus2} \\
+
+  \judgment{
+    \AEAction{\ZMV}{\ZMV'}{\AMV}
+  }{
+    \AEAction{\ZIfC{\ZMV}{\EMV_1}{\EMV_2}}{\ZIfC{\ZMV'}{\EMV_1}{\EMV_2}}{\AMV}
+  }{AEZipIf1}
+
+  \judgment{
+    \AEAction{\ZMV}{\ZMV'}{\AMV}
+  }{
+    \AEAction{\ZIfL{\EMV_1}{\ZMV}{\EMV_2}}{\ZIfL{\EMV_1}{\ZMV'}{\EMV_2}}{\AMV}
+  }{AEZipIf2}
+
+  \judgment{
+    \AEAction{\ZMV}{\ZMV'}{\AMV}
+  }{
+    \AEAction{\ZIfR{\EMV_1}{\EMV_2}{\ZMV}}{\ZIfR{\EMV_1}{\EMV_2}{\ZMV'}}{\AMV}
+  }{AEZipIf3}
 \end{mathpar}
 
 \end{document}
