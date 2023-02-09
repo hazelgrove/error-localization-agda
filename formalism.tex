@@ -1137,4 +1137,64 @@ types, e.g. pairs:
   }{AMICons}
 \end{mathpar}
 
+\begin{theorem}[name=Sensibility]
+\end{theorem}
+
+\begin{theorem}[name=Movement Erasure Invariance] \
+  \begin{enumerate}
+    \item If $\ATAction{\ZTMV}{\ZTMV'}{\AMV}$, then $\cursorErase{\ZTMV} = \cursorErase{\ZTMV'}$.
+    \item If $\AEAction{\ZMV}{\ZMV'}{\AMV}$, then $\cursorErase{\ZMV} = \cursorErase{\ZMV'}$.
+  \end{enumerate}
+\end{theorem}
+
+\begin{theorem}[name=Reachability] \
+  \begin{enumerate}
+    \item If $\cursorErase{\ZTMV} = \cursorErase{\ZTMV'}$, then there exists $\AIMV$ such that
+      $\movements{\AIMV}$ and $\ATActionIter{\ZTMV}{\ZTMV'}{\AIMV}$.
+
+    \item If $\cursorErase{\ZMV} = \cursorErase{\ZMV'}$, then there exists $\AIMV$ such that
+      $\movements{\AIMV}$ and $\AEActionIter{\ZMV}{\ZMV'}{\AIMV}$.
+  \end{enumerate}
+\end{theorem}
+
+\begin{lemma}[name=Reach Up] \
+  \begin{enumerate}
+    \item If $\cursorErase{\ZTMV} = \TMV$, then there exists $\AIMV$ such that $\movements{\AIMV}$
+      and $\ATActionIter{\ZTMV}{\ZTCursor{\TMV}}{\AIMV}$.
+
+    \item If $\cursorErase{\ZMV} = \EMV$, then there exists $\AIMV$ such that $\movements{\AIMV}$
+      and $\AEActionIter{\ZMV}{\ZTCursor{\EMV}}{\AIMV}$.
+  \end{enumerate}
+\end{lemma}
+
+\begin{lemma}[name=Reach Down] \
+  \begin{enumerate}
+    \item If $\cursorErase{\ZTMV} = \TMV$, then there exists $\AIMV$ such that $\movements{\AIMV}$
+      and $\ATActionIter{\ZTCursor{\TMV}}{\ZTMV}{\AIMV}$.
+
+    \item If $\cursorErase{\ZMV} = \EMV$, then there exists $\AIMV$ such that $\movements{\AIMV}$
+      and $\AEActionIter{\ZTCursor{\EMV}}{\ZMV}{\AIMV}$.
+  \end{enumerate}
+\end{lemma}
+
+\begin{theorem}[name=Constructability] \
+  \begin{enumerate}
+    \item For every $\TMV$, there exists $\AIMV$ such that
+      $\ATActionIter{\ZTCursor{\TUnknown}}{\ZTCursor{\TMV}}{\AIMV}$.
+
+    \item For every $\EMV$, there exists $\AIMV$ such that
+      $\AEActionIter{\ZCursor{\EEHole}}{\EMV}{\AIMV}$.
+  \end{enumerate}
+\end{theorem}
+
+\begin{theorem}[name=Action Determinism] \
+  \begin{enumerate}
+    \item If $\ATActionIter{\ZTMV}{\ZTMV'}{\AMV}$ and $\ATActionIter{\ZTMV}{\ZTMV''}{\AMV}$, then
+      $\ZTMV' = \ZTMV''$.
+
+    \item If $\ATActionIter{\ZMV}{\ZMV'}{\AMV}$ and $\ATActionIter{\ZMV}{\ZMV''}{\AMV}$, then $\ZMV'
+      = \ZMV''$.
+  \end{enumerate}
+\end{theorem}
+
 \end{document}
