@@ -15,4 +15,4 @@ jobs:
       - uses: actions/upload-artifact@v3
         with:
           name: formalism
-          path: formalism.pdf
+          path: build/formalism.pdf
