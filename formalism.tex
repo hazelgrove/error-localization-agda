@@ -564,7 +564,7 @@ expressions:
 
 \subsection{Metatheorems}
 \begin{theorem}[name=Mark Insertion] \
-  \begin{enumerate}[label=(\arabic*)]
+  \begin{enumerate}
     \item If $\ctxSynFixedInto{\ctx}{\EMV}{\ECMV}{\TMV}$, then $\ctxSynType{\ctx}{\ECMV}{\TMV}$ and
       $\erasesTo{\ECMV}{\EMV}$.
     \item If $\ctxAnaFixedInto{\ctx}{\EMV}{\ECMV}{\TMV}$, then $\ctxAnaType{\ctx}{\ECMV}{\TMV}$ and
@@ -573,7 +573,7 @@ expressions:
 \end{theorem}
 
 \begin{theorem}[name=Totality] \
-  \begin{enumerate}[label=(\arabic*)]
+  \begin{enumerate}
     \item For all $\ctx$ and $\EMV$, there exist $\ECMV$ and $\TMV$ such that
       $\ctxSynFixedInto{\ctx}{\EMV}{\ECMV}{\TMV}$.
     \item For all $\ctx$, $\EMV$, and $\TMV$, there exists $\ECMV$ such that
@@ -582,7 +582,7 @@ expressions:
 \end{theorem}
 
 \begin{theorem}[name=Unicity] \
-  \begin{enumerate}[label=(\arabic*)]
+  \begin{enumerate}
     \item If $\ctxSynFixedInto{\ctx}{\EMV}{\ECMV_1}{\TMV_1}$ and
       $\ctxSynFixedInto{\ctx}{\EMV}{\ECMV_2}{\TMV_2}$, then $\ECMV_1 = \ECMV_2$ and $\TMV_1 =
       \TMV_2$.
@@ -840,7 +840,7 @@ types, e.g. pairs:
 \subsubsection{Type Actions}
 \judgbox{\ensuremath{\ATAction{\ZTMV}{\ZTMV'}{\AMV}}}
 
-\paragraph{Type Movement}
+\paragraph{Movement}
 \begin{mathpar}
   \judgment{ }{
     \ATMArrowChildL{\TMV_1}{\TMV_2}
@@ -859,14 +859,14 @@ types, e.g. pairs:
   }{ATMArrParent2}
 \end{mathpar}
 
-\paragraph{Type Deletion}
+\paragraph{Deletion}
 \begin{mathpar}
   \judgment{ }{
     \ATDel{\TMV}
   }{ATDel}
 \end{mathpar}
 
-\paragraph{Type Construction}
+\paragraph{Construction}
 \begin{mathpar}
   \judgment{ }{
     \ATConArrow{\TMV}
