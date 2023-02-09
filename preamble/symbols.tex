@@ -213,13 +213,22 @@
 \newcommand{\AMName}{\textsf{Action}}
 \newcommand{\AMV}{\ensuremath{\alpha}}
 
+\newcommand{\AIMName}{\textsf{ActionList}}
+\newcommand{\AIMV}{\ensuremath{\overline{\alpha}}}
+\newcommand{\AINil}{\ensuremath{\cdot}}
+\newcommand{\AICons}[2]{\ensuremath{#1; #2}}
+
 \newcommand{\MMV}{\ensuremath{\delta}}
 
 \newcommand{\AAction}[3]{\ensuremath{#1 \xrightarrow{#3} #2}}
+\newcommand{\AActionIter}[3]{\ensuremath{#1 \xrightarrow{#3}* #2}}
+
+\newcommand{\movements}[1]{\ensuremath{#1 ~\textsf{movements}}}
 
 % movement
-\newcommand{\AMChild}[3]{\ensuremath{\AAction{#1}{#2}{\textsf{move child $#3$}}}}
-\newcommand{\AMParent}[2]{\ensuremath{\AAction{#1}{#2}{\textsf{move parent}}}}
+\newcommand{\AMove}[1]{\ensuremath{\textsf{move $#1$}}}
+\newcommand{\AMChild}[3]{\ensuremath{\AAction{#1}{#2}{\AMove{\textsf{child $#3$}}}}}
+\newcommand{\AMParent}[2]{\ensuremath{\AAction{#1}{#2}{\AMove{\textsf{parent}}}}}
 
 % deletion
 \newcommand{\ADel}[2]{\ensuremath{\AAction{#1}{#2}{\textsf{del}}}}
@@ -231,6 +240,7 @@
 % type actions
 %
 \newcommand{\ATAction}[3]{\ensuremath{\AAction{#1}{#2}{#3}}}
+\newcommand{\ATActionIter}[3]{\ensuremath{\AActionIter{#1}{#2}{#3}}}
 
 % movement
 \newcommand{\ATMChild}[3]{\ensuremath{\AMChild{\ZTCursor{#1}}{#2}{#3}}}
@@ -252,6 +262,7 @@
 % expression actions
 %
 \newcommand{\AEAction}[3]{\ensuremath{\AAction{#1}{#2}{#3}}}
+\newcommand{\AEActionIter}[3]{\ensuremath{\AActionIter{#1}{#2}{#3}}}
 
 % movement
 \newcommand{\AEMAction}[3]{\ensuremath{\AEAction{#1}{#2}{\textsf{move $#3$}}}}

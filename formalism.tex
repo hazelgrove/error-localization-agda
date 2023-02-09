@@ -1084,4 +1084,49 @@ types, e.g. pairs:
   }{AEZipIf3}
 \end{mathpar}
 
+\subsubsection{Iterated Actions}
+\judgbox{\ensuremath{\ATActionIter{\ZTMV}{\ZTMV'}{\AIMV}}}
+%
+\begin{mathpar}
+  \judgment{ }{
+    \ATActionIter{\ZTMV}{\ZTMV}{\AINil}
+  }{ATIRefl}
+
+  \judgment{
+    \ATAction{\ZTMV}{\ZTMV'}{\AMV} \\
+    \ATActionIter{\ZTMV'}{\ZTMV''}{\AIMV}
+  }{
+    \ATActionIter{\ZTMV}{\ZTMV''}{\AICons{\AMV}{\AIMV}}
+  }{ATIType}
+\end{mathpar}
+
+\judgbox{\ensuremath{\AEActionIter{\ZMV}{\ZMV'}{\AIMV}}}
+%
+\begin{mathpar}
+  \judgment{ }{
+    \AEActionIter{\ZMV}{\ZMV}{\AINil}
+  }{AEIRefl}
+
+  \judgment{
+    \AEAction{\ZMV}{\ZMV'}{\AMV} \\
+    \AEActionIter{\ZMV'}{\ZMV''}{\AIMV}
+  }{
+    \AEActionIter{\ZMV}{\ZMV''}{\AICons{\AMV}{\AIMV}}
+  }{AEIExp}
+\end{mathpar}
+
+\judgbox{\ensuremath{\movements{\AIMV}}}
+%
+\begin{mathpar}
+  \judgment{ }{
+    \movements{\AINil}
+  }{AMINil}
+
+  \judgment{
+    \movements{\AIMV}
+  }{
+    \movements{\AICons{\AMove{\MMV}}{\AIMV}}
+  }{AMICons}
+\end{mathpar}
+
 \end{document}
