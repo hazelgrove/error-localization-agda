@@ -1142,8 +1142,11 @@ types, e.g. pairs:
 
 \begin{theorem}[name=Movement Erasure Invariance] \
   \begin{enumerate}
-    \item If $\ATAction{\ZTMV}{\ZTMV'}{\AMV}$, then $\cursorErase{\ZTMV} = \cursorErase{\ZTMV'}$.
-    \item If $\AEAction{\ZMV}{\ZMV'}{\AMV}$, then $\cursorErase{\ZMV} = \cursorErase{\ZMV'}$.
+    \item If $\ATAction{\ZTMV}{\ZTMV'}{\AMove{\MMV}}$, then $\cursorErase{\ZTMV} =
+      \cursorErase{\ZTMV'}$.
+
+    \item If $\AEAction{\ZMV}{\ZMV'}{\AMove{\MMV}}$, then $\cursorErase{\ZMV} =
+      \cursorErase{\ZMV'}$.
   \end{enumerate}
 \end{theorem}
 
