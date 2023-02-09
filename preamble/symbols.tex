@@ -4,7 +4,7 @@
 \definecolor{hole}{RGB}{162,85,162}
 \definecolor{cursorhighlight}{RGB}{230,255,230}
 \definecolor{cursor}{RGB}{76,170,76}
-\newcommand{\mathcolorbox}[2]{\colorbox{#1}{$\displaystyle #2$}}
+\newcommand{\mathcolorbox}[2]{{\fboxsep=1pt\colorbox{#1}{$\displaystyle #2$}}}
 
 %
 % judgments
@@ -82,7 +82,7 @@
 
 \DeclareMathOperator{\?}{?}
 \newcommand{\TUnknown}{\ensuremath{\?}}
-\newcommand{\TInt}{\ensuremath{\textsf{Num}}}
+\newcommand{\TNum}{\ensuremath{\textsf{Num}}}
 \newcommand{\TBool}{\ensuremath{\textsf{Bool}}}
 \newcommand{\TArrow}[2]{\ensuremath{#1 \to #2}}
 \newcommand{\TPair}[2]{\ensuremath{#1 \times #2}}
@@ -98,8 +98,8 @@
 \newcommand{\EEHole}{\ensuremath{\ECEHole}}
 
 % integers
-\newcommand{\EInt}[1]{\ensuremath{\ECInt{#1}}}
-\newcommand{\EIntMV}{\ensuremath{\ECIntMV}}
+\newcommand{\ENum}[1]{\ensuremath{\ECNum{#1}}}
+\newcommand{\ENumMV}{\ensuremath{\ECNumMV}}
 \newcommand{\EOpPlus}{\ensuremath{\ECOpPlus}}
 \newcommand{\EPlus}[2]{\ensuremath{\ECPlus{#1}{#2}}}
 
@@ -167,8 +167,8 @@
 \newcommand{\ECEHole}{\ensuremath{\textcolor{hole}{\bm{\llparenthesis}}\textcolor{hole}{\bm{\rrparenthesis}}}}
 
 % integers
-\newcommand{\ECInt}[1]{\ensuremath{\underline{#1}}}
-\newcommand{\ECIntMV}{\ensuremath{\ECInt{n}}}
+\newcommand{\ECNum}[1]{\ensuremath{\underline{#1}}}
+\newcommand{\ECNumMV}{\ensuremath{\ECNum{n}}}
 \newcommand{\ECOpPlus}{\ensuremath{+}}
 \newcommand{\ECPlus}[2]{\ensuremath{#1 \ECOpPlus #2}}
 
@@ -255,7 +255,7 @@
 
 % construction
 \newcommand{\ATConArrow}[1]{\ensuremath{\ACon{\ZTCursor{#1}}{(\ZTArrowR{#1}{\ZTCursor{\TUnknown}})}{\textsf{arrow}}}}
-\newcommand{\ATConInt}{\ensuremath{\ACon{\ZTCursor{\TUnknown}}{\ZTCursor{\TInt}}{\textsf{num}}}}
+\newcommand{\ATConNum}{\ensuremath{\ACon{\ZTCursor{\TUnknown}}{\ZTCursor{\TNum}}{\textsf{num}}}}
 \newcommand{\ATConBool}{\ensuremath{\ACon{\ZTCursor{\TUnknown}}{\ZTCursor{\TBool}}{\textsf{bool}}}}
 
 %
@@ -295,7 +295,7 @@
 \newcommand{\AEConVar}[1]{\ensuremath{\ACon{\ZCursor{\EEHole}}{\ZCursor{#1}}{\textsf{var $#1$}}}}
 \newcommand{\AEConLam}[1]{\ensuremath{\ACon{\ZCursor{\EEHole}}{\ZLamT{#1}{\ZTCursor{\TUnknown}}{\EEHole}}{\textsf{lam}}}}
 \newcommand{\AEConAp}[1]{\ensuremath{\ACon{\ZCursor{#1}}{\ZApR{#1}{\ZCursor{\EEHole}}}{\textsf{ap}}}}
-\newcommand{\AEConInt}[1]{\ensuremath{\ACon{\ZCursor{\EEHole}}{\ZCursor{#1}}{\textsf{lit $#1$}}}}
+\newcommand{\AEConNum}[1]{\ensuremath{\ACon{\ZCursor{\EEHole}}{\ZCursor{#1}}{\textsf{lit $#1$}}}}
 \newcommand{\AEConPlus}[1]{\ensuremath{\ACon{\ZCursor{#1}}{\ZPlusR{#1}{\ZCursor{\EEHole}}}{\textsf{plus}}}}
 \newcommand{\AEConTrue}{\ensuremath{\ACon{\ZCursor{\EEHole}}{\ZCursor{\ETrue}}{\textsf{lit $\ETrue$}}}}
 \newcommand{\AEConFalse}{\ensuremath{\ACon{\ZCursor{\EEHole}}{\ZCursor{\EFalse}}{\textsf{lit $\EFalse$}}}}

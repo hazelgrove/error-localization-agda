@@ -9,12 +9,12 @@ Formalization of error localization semantics.
 
 \subsection{Syntax}
 \[\begin{array}{rrcl}
-  \TMName  & \TMV  & \Coloneqq & \TUnknown \mid \TInt \mid \TBool \mid \TArrow{\TMV}{\TMV} \\
+  \TMName  & \TMV  & \Coloneqq & \TUnknown \mid \TNum \mid \TBool \mid \TArrow{\TMV}{\TMV} \\
   \EMName  & \EMV  & \Coloneqq & \EEHole \mid x \mid \ELam{x}{\TMV}{\EMV} \mid \EAp{\EMV}{\EMV} \\
-           &       & \mid         & \EIntMV \mid \EPlus{\EMV}{\EMV} \\
+           &       & \mid         & \ENumMV \mid \EPlus{\EMV}{\EMV} \\
            &       & \mid         & \ETrue \mid \EFalse \mid \EIf{\EMV}{\EMV}{\EMV} \\
   \ECMName & \ECMV & \Coloneqq & \ECEHole \mid x \mid \ECLam{x}{\TMV}{\ECMV} \mid \ECAp{\ECMV}{\ECMV} \\
-           &       & \mid         & \ECIntMV \mid \ECPlus{\ECMV}{\ECMV} \\
+           &       & \mid         & \ECNumMV \mid \ECPlus{\ECMV}{\ECMV} \\
            &       & \mid         & \ECTrue \mid \ECFalse \mid \ECIf{\ECMV}{\ECMV}{\ECMV} \\
            &       & \mid         & \ECMarked{x}{\MRMV} \\
   \MRMName & \MRMV & \Coloneqq & \MRUnbound \mid \MRInconType \mid \MRInconBr
@@ -49,12 +49,12 @@ Formalization of error localization semantics.
 \begin{mathpar}
   \judgment{
   }{
-    \inconsistent{\TInt}{\TArrow{\TMV_1}{\TMV_2}}
+    \inconsistent{\TNum}{\TArrow{\TMV_1}{\TMV_2}}
   }{TICNumArr1}
 
   \judgment{
   }{
-    \inconsistent{\TArrow{\TMV_1}{\TMV_2}}{\TInt}
+    \inconsistent{\TArrow{\TMV_1}{\TMV_2}}{\TNum}
   }{TICNumArr2}
 
   \judgment{
@@ -100,7 +100,7 @@ follows (this is a LUB join):
 \[\begin{array}{rcl}
   \joinsTo{\TUnknown}{\TMV}{\TMV} \\
   \joinsTo{\TMV}{\TUnknown}{\TMV} \\
-  \joinsTo{\TInt}{\TInt}{\TInt} \\
+  \joinsTo{\TNum}{\TNum}{\TNum} \\
   \joinsTo{\TBool}{\TBool}{\TBool} \\
   \joinsTo{(\TArrow{\TMV_1}{\TMV_2})}{(\TArrow{\TMV_1'}{\TMV_2'})}{\TArrow{(\TJoin{\TMV_1}{\TMV_1'})}{(\TJoin{\TMV_2}{\TMV_2'})}} \\
 \end{array}\]
@@ -134,14 +134,14 @@ $\judgbox{\ctxSynType{\ctx}{\EMV}{\TMV}}$ $\EMV$ synthesizes type $\TMV$
   }{USAp}
 
   \judgment{ }{
-    \ctxSynType{\ctx}{\ECIntMV}{\TInt}
+    \ctxSynType{\ctx}{\ECNumMV}{\TNum}
   }{USNum}
 
   \judgment{
-    \ctxAnaType{\ctx}{\EMV_1}{\TInt} \\
-    \ctxAnaType{\ctx}{\EMV_2}{\TInt}
+    \ctxAnaType{\ctx}{\EMV_1}{\TNum} \\
+    \ctxAnaType{\ctx}{\EMV_2}{\TNum}
   }{
-    \ctxSynType{\ctx}{\ECPlus{\EMV_1}{\EMV_2}}{\TInt}
+    \ctxSynType{\ctx}{\ECPlus{\EMV_1}{\EMV_2}}{\TNum}
   }{USPlus}
 
   \judgment{ }{
@@ -205,7 +205,7 @@ $\judgbox{\ctxSynType{\ctx}{\EMV}{\TMV}}$ $\EMV$ synthesizes type $\TMV$
   }{UASAp}
 
   \judgment{ }{
-    \subsumable{\EIntMV}
+    \subsumable{\ENumMV}
   }{UASNum}
 
   \judgment{ }{
@@ -266,14 +266,14 @@ synthesizes type $\TMV$
 
   \judgment{
   }{
-    \ctxSynFixedInto{\ctx}{\EIntMV}{\ECIntMV}{\TInt}
+    \ctxSynFixedInto{\ctx}{\ENumMV}{\ECNumMV}{\TNum}
   }{ISNum}
 
   \judgment{
-    \ctxAnaFixedInto{\ctx}{\EMV_1}{\ECMV_1}{\TInt} \\
-    \ctxAnaFixedInto{\ctx}{\EMV_2}{\ECMV_2}{\TInt}
+    \ctxAnaFixedInto{\ctx}{\EMV_1}{\ECMV_1}{\TNum} \\
+    \ctxAnaFixedInto{\ctx}{\EMV_2}{\ECMV_2}{\TNum}
   }{
-    \ctxSynFixedInto{\ctx}{\EPlus{\EMV_1}{\EMV_2}}{\ECPlus{\ECMV_1}{\ECMV_2}}{\TInt}
+    \ctxSynFixedInto{\ctx}{\EPlus{\EMV_1}{\EMV_2}}{\ECPlus{\ECMV_1}{\ECMV_2}}{\TNum}
   }{ISPlus}
 
   \judgment{
@@ -393,14 +393,14 @@ against type $\TMV$
   }{MSAp2}
 
   \judgment{ }{
-    \ctxSynType{\ctx}{\ECIntMV}{\TInt}
+    \ctxSynType{\ctx}{\ECNumMV}{\TNum}
   }{MSNum}
 
   \judgment{
-    \ctxAnaType{\ctx}{\ECMV_1}{\TInt} \\
-    \ctxAnaType{\ctx}{\ECMV_2}{\TInt}
+    \ctxAnaType{\ctx}{\ECMV_1}{\TNum} \\
+    \ctxAnaType{\ctx}{\ECMV_2}{\TNum}
   }{
-    \ctxSynType{\ctx}{\ECPlus{\ECMV_1}{\ECMV_2}}{\TInt}
+    \ctxSynType{\ctx}{\ECPlus{\ECMV_1}{\ECMV_2}}{\TNum}
   }{MSPlus}
 
   \judgment{ }{
@@ -502,7 +502,7 @@ against type $\TMV$
   }{MASAp}
 
   \judgment{ }{
-    \subsumable{\ECIntMV}
+    \subsumable{\ECNumMV}
   }{MASNum}
 
   \judgment{ }{
@@ -535,7 +535,7 @@ $\judgbox{\erase{\ECMV}}$ is a metafunction defined as follows:
   \erasesToRow{x}{x} \\
   \erasesToRow{(\ECLam{x}{\TMV}{\ECMV})}{\ELam{x}{\TMV}{(\erase{\ECMV})}} \\
   \erasesToRow{(\ECAp{\ECMV_1}{\ECMV_2})}{\EAp{(\erase{\ECMV_1})}{(\erase{\ECMV_2})}} \\
-  \erasesToRow{\ECIntMV}{\EIntMV} \\
+  \erasesToRow{\ECNumMV}{\ENumMV} \\
   \erasesToRow{(\ECPlus{\ECMV_1}{\ECMV_2})}{\EPlus{(\erase{\ECMV_1})}{(\erase{\ECMV_2})}} \\
   \erasesToRow{\ECTrue}{\ETrue} \\
   \erasesToRow{\ECFalse}{\EFalse} \\
@@ -555,7 +555,7 @@ expressions:
   \imageIsRow{x}{x} \\
   \imageIsRow{\ELam{x}{\TMV}{\EMV}}{\ECLam{x}{\TMV}{(\image{\ECMV})}} \\
   \imageIsRow{(\EAp{\EMV_1}{\EMV_2})}{\ECAp{(\image{\ECMV_1})}{(\image{\ECMV_2})}} \\
-  \imageIsRow{\EIntMV}{\ECIntMV} \\
+  \imageIsRow{\ENumMV}{\ECNumMV} \\
   \imageIsRow{(\EPlus{\EMV_1}{\EMV_2})}{\ECPlus{(\image{\ECMV_1})}{(\image{\ECMV_2})}} \\
   \imageIsRow{\ETrue}{\ECTrue} \\
   \imageIsRow{\EFalse}{\ECFalse} \\
@@ -873,7 +873,7 @@ types, e.g. pairs:
   }{ATConArrow}
 
   \judgment{ }{
-    \ATConInt
+    \ATConNum
   }{ATConNum}
 
   \judgment{ }{
@@ -1007,7 +1007,7 @@ types, e.g. pairs:
   }{AEConAp} \\
 
   \judgment{ }{
-    \AEConInt{\EIntMV}
+    \AEConNum{\ENumMV}
   }{AEConNum}
 
   \judgment{ }{
