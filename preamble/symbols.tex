@@ -210,11 +210,27 @@
 %
 % actions
 %
+\newcommand{\AMName}{\textsf{Action}}
+\newcommand{\AMV}{\ensuremath{\alpha}}
+
+\newcommand{\AAction}[3]{\ensuremath{#1 \xrightarrow{#3} #2}}
 
 % movement
-\newcommand{\AMChild}[3]{\ensuremath{#1 \xrightarrow{\textsf{move child $#3$}} #2}}
-\newcommand{\AMParent}[2]{\ensuremath{#1 \xrightarrow{\textsf{move parent}} #2}}
+\newcommand{\AMChild}[3]{\ensuremath{\AAction{#1}{#2}{\textsf{move child #3}}}}
+\newcommand{\AMParent}[2]{\ensuremath{\AAction{#1}{#2}{\textsf{move parent}}}}
 
+% deletion
+\newcommand{\ADel}[2]{\ensuremath{\AAction{#1}{#2}{\textsf{del}}}}
+
+% construction
+\newcommand{\ACon}[3]{\ensuremath{\AAction{#1}{#2}{\textsf{construct #3}}}}
+
+%
+% type actions
+%
+\newcommand{\ATAction}[3]{\ensuremath{\AAction{#1}{#2}{#3}}}
+
+% movement
 \newcommand{\ATMChild}[3]{\ensuremath{\AMChild{\ZTCursor{#1}}{#2}{#3}}}
 \newcommand{\ATMParent}[2]{\ensuremath{\AMParent{#1}{\ZTCursor{#2}}}}
 \newcommand{\ATMArrowChildL}[2]{\ensuremath{\ATMChild{\TArrow{#1}{#2}}{\ZTArrowL{\ZCursor{#1}}{#2}}{1}}}
@@ -223,5 +239,9 @@
 \newcommand{\ATMArrowParentR}[2]{\ensuremath{\ATMParent{\ZTArrowR{#2}{\ZCursor{#1}}}{\TArrow{#1}{#2}}}}
 
 % deletion
-\newcommand{\AMDel}[2]{\ensuremath{#1 \xrightarrow{\textsf{del}} #2}}
-\newcommand{\ATMDel}[2]{\ensuremath{\AMDel{\ZCursor{#1}}{\ZCursor{#2}}}}
+\newcommand{\ATDel}[2]{\ensuremath{\ADel{\ZCursor{#1}}{\ZCursor{#2}}}}
+
+% construction
+\newcommand{\ATConArrow}[1]{\ensuremath{\ACon{\ZTCursor{#1}}{(\ZTArrowR{#1}{\ZTCursor{\TUnknown}})}{arrow}}}
+\newcommand{\ATConInt}{\ensuremath{\ACon{\ZTCursor{\TUnknown}}{\ZTCursor{\TInt}}{num}}}
+\newcommand{\ATConBool}{\ensuremath{\ACon{\ZTCursor{\TUnknown}}{\ZTCursor{\TBool}}{bool}}}
