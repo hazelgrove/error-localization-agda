@@ -838,6 +838,8 @@ types, e.g. pairs:
 
 \subsection{Action Model}
 \subsubsection{Type Actions}
+\judgbox{\ensuremath{\ATAction{\ZTMV}{\ZTMV'}{\AMV}}}
+
 \paragraph{Type Movement}
 \begin{mathpar}
   \judgment{ }{
@@ -860,7 +862,7 @@ types, e.g. pairs:
 \paragraph{Type Deletion}
 \begin{mathpar}
   \judgment{ }{
-    \ATDel{\TMV}{\TUnknown}
+    \ATDel{\TMV}
   }{ATDel}
 \end{mathpar}
 
@@ -895,6 +897,8 @@ types, e.g. pairs:
 \end{mathpar}
 
 \subsubsection{Expression Movement}
+\judgbox{\ensuremath{\AEMAction{\ZMV}{\ZMV'}{\MMV}}}
+%
 \begin{mathpar}
   \judgment{ }{
     \AEMLamChildT{x}{\TMV}{\EMV}
@@ -967,6 +971,56 @@ types, e.g. pairs:
   \judgment{ }{
     \AEMIfParentR{\EMV_1}{\EMV_2}{\EMV_3}
   }{AEMIfParent3}
+\end{mathpar}
+
+\subsubsection{Expression Actions}
+\judgbox{\ensuremath{\AEAction{\ZMV}{\ZMV'}{\AMV}}}
+
+\paragraph{Movement}
+\begin{mathpar}
+  \judgment{
+    \AEMAction{\ZMV}{\ZMV'}{\MMV}
+  }{
+    \AEMAction{\ZMV}{\ZMV'}{\MMV}
+  }{AEMove}
+\end{mathpar}
+
+\paragraph{Deletion}
+\begin{mathpar}
+  \judgment{ }{
+    \AEDel{\EMV}
+  }{AEDel}
+\end{mathpar}
+
+\paragraph{Construction}
+\begin{mathpar}
+  \judgment{ }{
+    \AEConVar{x}
+  }{AEConVar} \\
+
+  \judgment{ }{
+    \AEConLam{x}
+  }{AEConLam}
+
+  \judgment{ }{
+    \AEConAp{\EMV}
+  }{AEConAp} \\
+
+  \judgment{ }{
+    \AEConInt{\EIntMV}
+  }{AEConNum}
+
+  \judgment{ }{
+    \AEConPlus{\EMV}
+  }{AEConPlus} \\
+
+  \judgment{ }{
+    \AEConTrue
+  }{AEConTrue}
+
+  \judgment{ }{
+    \AEConFalse
+  }{AEConFalse}
 \end{mathpar}
 
 \end{document}
