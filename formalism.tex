@@ -894,4 +894,79 @@ types, e.g. pairs:
   }{ATZipArr2}
 \end{mathpar}
 
+\subsubsection{Expression Movement}
+\begin{mathpar}
+  \judgment{ }{
+    \AEMLamChildT{x}{\TMV}{\EMV}
+  }{AEMLamChild1}
+
+  \judgment{ }{
+    \AEMLamChildE{x}{\TMV}{\EMV}
+  }{AEMLamChild2} \\
+
+  \judgment{ }{
+    \AEMLamParentT{x}{\TMV}{\EMV}
+  }{AEMLamParent1}
+
+  \judgment{ }{
+    \AEMLamParentE{x}{\TMV}{\EMV}
+  }{AEMLamParent2} \\
+
+  \judgment{ }{
+    \AEMApChildL{\EMV_1}{\EMV_2}
+  }{AEMApChild1}
+
+  \judgment{ }{
+    \AEMApChildR{\EMV_1}{\EMV_2}
+  }{AEMApChild2} \\
+
+  \judgment{ }{
+    \AEMApParentL{\EMV_1}{\EMV_2}
+  }{AEMApParent1}
+
+  \judgment{ }{
+    \AEMApParentR{\EMV_1}{\EMV_2}
+  }{AEMApParent2} \\
+
+  \judgment{ }{
+    \AEMPlusChildL{\EMV_1}{\EMV_2}
+  }{AEMPlusChild1}
+
+  \judgment{ }{
+    \AEMPlusChildR{\EMV_1}{\EMV_2}
+  }{AEMPlusChild2} \\
+
+  \judgment{ }{
+    \AEMPlusParentL{\EMV_1}{\EMV_2}
+  }{AEMPlusParent1}
+
+  \judgment{ }{
+    \AEMPlusParentR{\EMV_1}{\EMV_2}
+  }{AEMPlusParent2} \\
+
+  \judgment{ }{
+    \AEMIfChildC{\EMV_1}{\EMV_2}{\EMV_3}
+  }{AEMIfChild1}
+
+  \judgment{ }{
+    \AEMIfChildL{\EMV_1}{\EMV_2}{\EMV_3}
+  }{AEMIfChild2}
+
+  \judgment{ }{
+    \AEMIfChildR{\EMV_1}{\EMV_2}{\EMV_3}
+  }{AEMIfChild3} \\
+
+  \judgment{ }{
+    \AEMIfParentC{\EMV_1}{\EMV_2}{\EMV_3}
+  }{AEMIfParent1}
+
+  \judgment{ }{
+    \AEMIfParentL{\EMV_1}{\EMV_2}{\EMV_3}
+  }{AEMIfParent2}
+
+  \judgment{ }{
+    \AEMIfParentR{\EMV_1}{\EMV_2}{\EMV_3}
+  }{AEMIfParent3}
+\end{mathpar}
+
 \end{document}

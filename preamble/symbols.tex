@@ -245,3 +245,31 @@
 \newcommand{\ATConArrow}[1]{\ensuremath{\ACon{\ZTCursor{#1}}{(\ZTArrowR{#1}{\ZTCursor{\TUnknown}})}{arrow}}}
 \newcommand{\ATConInt}{\ensuremath{\ACon{\ZTCursor{\TUnknown}}{\ZTCursor{\TInt}}{num}}}
 \newcommand{\ATConBool}{\ensuremath{\ACon{\ZTCursor{\TUnknown}}{\ZTCursor{\TBool}}{bool}}}
+
+%
+% expression actions
+%
+\newcommand{\AEAction}[3]{\ensuremath{\AAction{#1}{#2}{#3}}}
+
+% movement
+\newcommand{\AEMChild}[3]{\ensuremath{\AMChild{\ZCursor{#1}}{#2}{#3}}}
+\newcommand{\AEMParent}[2]{\ensuremath{\AMParent{#1}{\ZCursor{#2}}}}
+
+\newcommand{\AEMLamChildT}[3]{\ensuremath{\AEMChild{\ELam{#1}{#2}{#3}}{\ZLamT{#1}{\ZTCursor{#2}}{#3}}{1}}}
+\newcommand{\AEMLamChildE}[3]{\ensuremath{\AEMChild{\ELam{#1}{#2}{#3}}{\ZLamE{#1}{#2}{\ZCursor{#3}}}{2}}}
+\newcommand{\AEMLamParentT}[3]{\ensuremath{\AEMParent{\ZLamT{#1}{\ZTCursor{#2}}{#3}}{\ELam{#1}{#2}{#3}}}}
+\newcommand{\AEMLamParentE}[3]{\ensuremath{\AEMParent{\ZLamE{#1}{#2}{\ZCursor{#3}}}{\ELam{#1}{#2}{#3}}}}
+\newcommand{\AEMApChildL}[2]{\ensuremath{\AEMChild{\EAp{#1}{#2}}{\ZApL{\ZCursor{#1}}{#2}}{1}}}
+\newcommand{\AEMApChildR}[2]{\ensuremath{\AEMChild{\EAp{#1}{#2}}{\ZApR{#1}{\ZCursor{#2}}}{2}}}
+\newcommand{\AEMApParentL}[2]{\ensuremath{\AEMParent{\ZApL{\ZCursor{#1}}{#2}}{\EAp{#1}{#2}}}}
+\newcommand{\AEMApParentR}[2]{\ensuremath{\AEMParent{\ZApR{#1}{\ZCursor{#2}}}{\EAp{#1}{#2}}}}
+\newcommand{\AEMPlusChildL}[2]{\ensuremath{\AEMChild{\EPlus{#1}{#2}}{\ZPlusL{\ZCursor{#1}}{#2}}{1}}}
+\newcommand{\AEMPlusChildR}[2]{\ensuremath{\AEMChild{\EPlus{#1}{#2}}{\ZPlusR{#1}{\ZCursor{#2}}}{2}}}
+\newcommand{\AEMPlusParentL}[2]{\ensuremath{\AEMParent{\ZPlusL{\ZCursor{#1}}{#2}}{\EPlus{#1}{#2}}}}
+\newcommand{\AEMPlusParentR}[2]{\ensuremath{\AEMParent{\ZPlusR{#1}{\ZCursor{#2}}}{\EPlus{#1}{#2}}}}
+\newcommand{\AEMIfChildC}[3]{\ensuremath{\AEMChild{\EIf{#1}{#2}{#3}}{\ZIfC{\ZCursor{#1}}{#2}{#3}}{1}}}
+\newcommand{\AEMIfChildL}[3]{\ensuremath{\AEMChild{\EIf{#1}{#2}{#3}}{\ZIfL{#1}{\ZCursor{#2}}{#3}}{2}}}
+\newcommand{\AEMIfChildR}[3]{\ensuremath{\AEMChild{\EIf{#1}{#2}{#3}}{\ZIfR{#1}{#2}{\ZCursor{#3}}}{3}}}
+\newcommand{\AEMIfParentC}[3]{\ensuremath{\AEMParent{\ZIfC{\ZCursor{#1}}{#2}{#3}}{\EIf{#1}{#2}{#3}}}}
+\newcommand{\AEMIfParentL}[3]{\ensuremath{\AEMParent{\ZIfL{#1}{\ZCursor{#2}}{#3}}{\EIf{#1}{#2}{#3}}}}
+\newcommand{\AEMIfParentR}[3]{\ensuremath{\AEMParent{\ZIfR{#1}{#2}{\ZCursor{#3}}}{\EIf{#1}{#2}{#3}}}}
