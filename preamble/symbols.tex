@@ -117,6 +117,9 @@
 \newcommand{\EProjL}[1]{\ensuremath{\ECProjL{#1}}}
 \newcommand{\EProjR}[1]{\ensuremath{\ECProjR{#1}}}
 
+% let
+\newcommand{\ELet}[3]{\ensuremath{\ECLet{#1}{#2}{#3}}}
+
 %
 % cursor types
 %
@@ -156,6 +159,9 @@
 \newcommand{\ZIfL}[3]{\ensuremath{\ECIf{#1}{#2}{#3}}}
 \newcommand{\ZIfR}[3]{\ensuremath{\ECIf{#1}{#2}{#3}}}
 
+% let
+\newcommand{\ZLet}[3]{\ensuremath{\ECLet{#1}{#2}{#3}}}
+
 %
 % marked expressions
 %
@@ -186,6 +192,9 @@
 \newcommand{\ECPair}[2]{\ensuremath{(#1, #2)}}
 \newcommand{\ECProjL}[1]{\ensuremath{#1.0}}
 \newcommand{\ECProjR}[1]{\ensuremath{#1.1}}
+
+% let
+\newcommand{\ECLet}[3]{\ensuremath{\textsf{let}~ #1 = #2 ~\textsf{in}~ #3}}
 
 % errors
 \newcommand{\MRMName}{{\normalfont\textsf{MReason}}}
@@ -243,7 +252,7 @@
 \newcommand{\SLam}[1]{\ensuremath{{\normalfont\textsf{lam $#1$}}}}
 \newcommand{\SApL}{\ensuremath{{\normalfont\textsf{ap\textsubscript{L}}}}}
 \newcommand{\SApR}{\ensuremath{{\normalfont\textsf{ap\textsubscript{R}}}}}
-\newcommand{\SNumLit}[1]{\ensuremath{{\normalfont\textsf{num lit $#1$}}}}
+\newcommand{\SNumLit}[1]{\ensuremath{{\normalfont\textsf{lit $#1$}}}}
 \newcommand{\SPlusL}{\ensuremath{{\normalfont\textsf{plus\textsubscript{L}}}}}
 \newcommand{\SPlusR}{\ensuremath{{\normalfont\textsf{plus\textsubscript{R}}}}}
 \newcommand{\STrue}{\ensuremath{{\normalfont\textsf{true}}}}
