@@ -40,36 +40,44 @@ module action where
     ∙   : ActionList
     _∷_ : (α : Action) → (ᾱ : ActionList) → ActionList
 
+  module movements where
+    data _movements : ActionList → Set where
+      AMINil  : ∙ movements
+      AMICons : ∀ {ᾱ : ActionList}
+              → (δ : Dir)
+              → (mv : ᾱ movements)
+              → ((move δ) ∷ ᾱ) movements
+
   module sort where
     -- shape sorts
-    data TShape : Shape → Set where
-      STArrow : TShape tarrow
-      STNum   : TShape tnum
-      STBool  : TShape tbool
+    data _tshape : Shape → Set where
+      STArrow : tarrow tshape
+      STNum   : tnum tshape
+      STBool  : tbool tshape
 
-    data EShape : Shape → Set where
+    data _eshape : Shape → Set where
       SEVar   : (x : Var)
-              → EShape (var x)
+              → (var x) eshape
       SELam   : (x : Var)
-              → EShape (lam x)
-      SEAp₁   : EShape ap₁
-      SEAp₂   : EShape ap₂
+              → (lam x) eshape
+      SEAp₁   : ap₁ eshape
+      SEAp₂   : ap₂ eshape
       SELet₁  : (x : Var)
-              → EShape (let₁ x)
+              → (let₁ x) eshape
       SELet₂  : (x : Var)
-              → EShape (let₂ x)
+              → (let₂ x) eshape
       SENum   : (n : ℕ)
-              → EShape (num n)
-      SEPlus₁ : EShape plus₁
-      SEPlus₂ : EShape plus₂
-      SETrue  : EShape tt
-      SEFalse : EShape ff
-      SEIf₁   : EShape if₁
-      SEIf₂   : EShape if₂
-      SEIf₃   : EShape if₃
+              → (num n) eshape
+      SEPlus₁ : plus₁ eshape
+      SEPlus₂ : plus₂ eshape
+      SETrue  : tt eshape
+      SEFalse : ff eshape
+      SEIf₁   : if₁ eshape
+      SEIf₂   : if₂ eshape
+      SEIf₃   : if₃ eshape
 
     -- sort decidability
-    TShape? : (ψ : Shape) → Dec (TShape ψ)
+    TShape? : (ψ : Shape) → Dec (ψ tshape)
     TShape? tarrow   = yes STArrow
     TShape? tnum     = yes STNum
     TShape? tbool    = yes STBool
@@ -88,7 +96,7 @@ module action where
     TShape? if₂      = no (λ ())
     TShape? if₃      = no (λ ())
 
-    EShape? : (ψ : Shape) → Dec (EShape ψ)
+    EShape? : (ψ : Shape) → Dec (ψ eshape)
     EShape? tarrow   = no (λ ())
     EShape? tnum     = no (λ ())
     EShape? tbool    = no (λ ())
