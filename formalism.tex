@@ -891,9 +891,86 @@ types, e.g. pairs:
   \SMName  & \SMV  & \Coloneqq & \STArrow \mid \STNum \mid \STBool \\
            &       & \mid         & \SVar{x} \mid \SLam{x} \mid \SApL \mid \SApR \\
            &       & \mid         & \SLetL{x} \mid \SLetR{x} \\
-           &       & \mid         & \SNumLit{n} \mid \SPlusL \mid \SPlusR \\
+           &       & \mid         & \SLit{n} \mid \SPlusL \mid \SPlusR \\
            &       & \mid         & \STrue \mid \SFalse \mid \SIfC \mid \SIfL \mid \SIfR \\
 \end{array}\]
+
+\subsubsection{Shape Sort}
+\judgbox{\ensuremath{\tshape{\SMV}}} $\SMV$ is a shape on types
+%
+\begin{mathpar}
+  \judgment{ }{
+    \tshape{\STArrow}
+  }{ASTArrow}
+
+  \judgment{ }{
+    \tshape{\STNum}
+  }{ASTNum}
+
+  \judgment{ }{
+    \tshape{\STBool}
+  }{ASTBool}
+\end{mathpar}
+
+\judgbox{\ensuremath{\eshape{\SMV}}} $\SMV$ is a shape on expressions
+%
+\begin{mathpar}
+  \judgment{ }{
+    \eshape{\SVar{x}}
+  }{ASEVar}
+
+  \judgment{ }{
+    \eshape{\SLam{x}}
+  }{ASELam}
+
+  \judgment{ }{
+    \eshape{\SApL}
+  }{ASEAp1}
+
+  \judgment{ }{
+    \eshape{\SApR}
+  }{ASEAp2}
+
+  \judgment{ }{
+    \eshape{\SLetL{x}}
+  }{ASELet1}
+
+  \judgment{ }{
+    \eshape{\SLetR{x}}
+  }{ASELet2}
+
+  \judgment{ }{
+    \eshape{\SLit{n}}
+  }{ASELit}
+
+  \judgment{ }{
+    \eshape{\SPlusL}
+  }{ASEPlus1}
+
+  \judgment{ }{
+    \eshape{\SPlusR}
+  }{ASEPlus2}
+
+  \judgment{ }{
+    \eshape{\STrue}
+  }{ASETrue}
+
+  \judgment{ }{
+    \eshape{\SFalse}
+  }{ASEFalse}
+
+  \judgment{ }{
+    \eshape{\SIfC}
+  }{ASEIf1}
+
+  \judgment{ }{
+    \eshape{\SIfL}
+  }{ASEIf2}
+
+  \judgment{ }{
+    \eshape{\SIfR}
+  }{ASEIf3}
+\end{mathpar}
 
 \subsubsection{Type Actions}
 \judgbox{\ensuremath{\ATAction{\ZTMV}{\ZTMV'}{\AMV}}}

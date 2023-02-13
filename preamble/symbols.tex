@@ -255,7 +255,7 @@
 \newcommand{\SApR}{\ensuremath{{\normalfont\textsf{ap\textsubscript{R}}}}}
 \newcommand{\SLetL}[1]{\ensuremath{{\normalfont\textsf{let\textsubscript{L} $#1$}}}}
 \newcommand{\SLetR}[1]{\ensuremath{{\normalfont\textsf{let\textsubscript{R} $#1$}}}}
-\newcommand{\SNumLit}[1]{\ensuremath{{\normalfont\textsf{lit $#1$}}}}
+\newcommand{\SLit}[1]{\ensuremath{{\normalfont\textsf{lit $#1$}}}}
 \newcommand{\SPlusL}{\ensuremath{{\normalfont\textsf{plus\textsubscript{L}}}}}
 \newcommand{\SPlusR}{\ensuremath{{\normalfont\textsf{plus\textsubscript{R}}}}}
 \newcommand{\STrue}{\ensuremath{{\normalfont\textsf{true}}}}
@@ -269,7 +269,10 @@
 %
 \newcommand{\AAction}[3]{\ensuremath{#1 \xrightarrow{#3} #2}}
 \newcommand{\AActionIter}[3]{\ensuremath{#1 \xrightarrow{#3}* #2}}
-\newcommand{\movements}[1]{\ensuremath{#1 ~{\normalfont{\normalfont\textsf{movements}}}}}
+\newcommand{\movements}[1]{\ensuremath{#1 ~{\normalfont\textsf{movements}}}}
+
+\newcommand{\tshape}[1]{\ensuremath{#1 ~{\normalfont\textsf{tshape}}}}
+\newcommand{\eshape}[1]{\ensuremath{#1 ~{\normalfont\textsf{eshape}}}}
 
 % movement
 \newcommand{\AMChild}[3]{\ensuremath{\AAction{#1}{#2}{\AMove{\MChild{#3}}}}}
@@ -347,7 +350,7 @@
 \newcommand{\AEConApR}[1]{\ensuremath{\ACCon{\ZCursor{#1}}{\ZApR{\ZCursor{\EEHole}}{#1}}{\SApR}}}
 \newcommand{\AEConLetL}[2]{\ensuremath{\ACCon{\ZCursor{#2}}{\ZLetL{#1}{#2}{\ZCursor{\EEHole}}}{\SLetL{#1}}}}
 \newcommand{\AEConLetR}[2]{\ensuremath{\ACCon{\ZCursor{#2}}{\ZLetR{#1}{\ZCursor{\EEHole}}{#2}}{\SLetR{#1}}}}
-\newcommand{\AEConNum}[1]{\ensuremath{\ACCon{\ZCursor{\EEHole}}{\ZCursor{#1}}{\SNumLit{#1}}}}
+\newcommand{\AEConNum}[1]{\ensuremath{\ACCon{\ZCursor{\EEHole}}{\ZCursor{#1}}{\SLit{#1}}}}
 \newcommand{\AEConPlusL}[1]{\ensuremath{\ACCon{\ZCursor{#1}}{\ZPlusR{#1}{\ZCursor{\EEHole}}}{\SPlusL}}}
 \newcommand{\AEConPlusR}[1]{\ensuremath{\ACCon{\ZCursor{#1}}{\ZPlusR{\ZCursor{\EEHole}}{#1}}{\SPlusR}}}
 \newcommand{\AEConTrue}{\ensuremath{\ACCon{\ZCursor{\EEHole}}{\ZCursor{\ETrue}}{\STrue}}}
