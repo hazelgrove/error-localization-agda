@@ -35,6 +35,11 @@ module action where
     construct : (ψ : Shape) → Action
     del       : Action
 
+  -- action lists
+  data ActionList : Set where
+    ∙   : ActionList
+    _∷_ : (α : Action) → (ᾱ : ActionList) → ActionList
+
   module sort where
     -- shape sorts
     data TShape : Shape → Set where
