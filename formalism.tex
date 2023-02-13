@@ -842,9 +842,9 @@ types, e.g. pairs:
   \AIMName & \AIMV & \Coloneqq & \AINil \mid \AICons{\AMV}{\AIMV} \\
   \MMName  & \MMV  & \Coloneqq & \MChild{\MChildNMV} \mid \MParent \\
   \SMName  & \SMV  & \Coloneqq & \STArrow \mid \STNum \mid \STBool \\
-           &       & \mid         & \SVar{x} \mid \SLam{x} \mid \SAp \\
-           &       & \mid         & \SNumLit{n} \mid \SPlus \\
-           &       & \mid         & \STrue \mid \SFalse \mid \SIf \\
+           &       & \mid         & \SVar{x} \mid \SLam{x} \mid \SApL \mid \SApR \\
+           &       & \mid         & \SNumLit{n} \mid \SPlusL \mid \SPlusR \\
+           &       & \mid         & \STrue \mid \SFalse \mid \SIfC \mid \SIfL \mid \SIfR \\
 \end{array}\]
 
 \subsubsection{Type Actions}
@@ -1009,20 +1009,28 @@ types, e.g. pairs:
   }{AEConVar} \\
 
   \judgment{ }{
-    \AEConLam{x}
-  }{AEConLam}
+    \AEConLam{x}{\EMV}
+  }{AEConLam} \\
 
   \judgment{ }{
-    \AEConAp{\EMV}
-  }{AEConAp} \\
+    \AEConApL{\EMV}
+  }{AEConAp1}
+
+  \judgment{ }{
+    \AEConApR{\EMV}
+  }{AEConAp2} \\
 
   \judgment{ }{
     \AEConNum{\ENumMV}
-  }{AEConNum}
+  }{AEConNum} \\
 
   \judgment{ }{
-    \AEConPlus{\EMV}
-  }{AEConPlus} \\
+    \AEConPlusL{\EMV}
+  }{AEConPlus1}
+
+  \judgment{ }{
+    \AEConPlusR{\EMV}
+  }{AEConPlus2} \\
 
   \judgment{ }{
     \AEConTrue
@@ -1030,11 +1038,19 @@ types, e.g. pairs:
 
   \judgment{ }{
     \AEConFalse
-  }{AEConFalse}
+  }{AEConFalse} \\
   
   \judgment{ }{
-    \AEConIf
-  }{AEConIf}
+    \AEConIfC{\EMV}
+  }{AEConIf1}
+  
+  \judgment{ }{
+    \AEConIfL{\EMV}
+  }{AEConIf2}
+  
+  \judgment{ }{
+    \AEConIfR{\EMV}
+  }{AEConIf3}
 \end{mathpar}
 
 \paragraph{Zipper Cases}
