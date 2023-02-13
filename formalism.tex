@@ -849,6 +849,7 @@ types, e.g. pairs:
 \[\begin{array}{rrcl}
   \ZTMName & \ZTMV & \Coloneqq & \ZTCursor{\TMV} \mid \ZTArrowL{\ZTMV}{\TMV} \mid \ZTArrowR{\TMV}{\ZTMV} \\
   \ZMName  & \ZMV  & \Coloneqq & \ZCursor{\EMV} \mid \ZLamT{x}{\ZTMV}{\EMV} \mid \ZLamE{x}{\TMV}{\ZMV} \mid \ZApL{\ZMV}{\EMV} \mid \ZApR{\EMV}{\ZMV} \\
+           &       & \mid         & \ZLetL{x}{\ZMV}{\EMV} \mid \ZLetR{x}{\EMV}{\ZMV} \\
            &       & \mid         & \ZPlusL{\ZMV}{\EMV} \mid \ZPlusR{\EMV}{\ZMV} \\
            &       & \mid         & \ZIfC{\ZMV}{\EMV}{\EMV} \mid \ZIfL{\EMV}{\ZMV}{\EMV} \mid \ZIfR{\EMV}{\EMV}{\ZMV}
 \end{array}\]
@@ -873,6 +874,8 @@ types, e.g. pairs:
   \cursorErasesToRow{(\ZLamE{x}{\TMV}{\ZMV})}{\ELam{x}{\TMV}{\cursorErase{\ZMV}}} \\
   \cursorErasesToRow{(\ZApL{\ZMV}{\EMV})}{\EAp{\cursorErase{\ZMV}}{\EMV}} \\
   \cursorErasesToRow{(\ZApR{\EMV}{\ZMV})}{\EAp{\EMV}{\cursorErase{\ZMV}}} \\
+  \cursorErasesToRow{(\ZLetL{x}{\ZMV}{\EMV})}{\ELet{x}{\cursorErase{\ZMV}}{\EMV}} \\
+  \cursorErasesToRow{(\ZLetR{x}{\EMV}{\ZMV})}{\ELet{x}{\EMV}{\cursorErase{\ZMV}}} \\
   \cursorErasesToRow{(\ZPlusL{\ZMV}{\EMV})}{\EPlus{\cursorErase{\ZMV}}{\EMV}} \\
   \cursorErasesToRow{(\ZPlusR{\EMV}{\ZMV})}{\EPlus{\EMV}{\cursorErase{\ZMV}}} \\
   \cursorErasesToRow{(\ZIfC{\ZMV}{\EMV_1}{\EMV_2})}{\EIf{\cursorErase{\ZMV}}{\EMV_1}{\EMV_2}} \\
@@ -887,6 +890,7 @@ types, e.g. pairs:
   \MMName  & \MMV  & \Coloneqq & \MChild{\MChildNMV} \mid \MParent \\
   \SMName  & \SMV  & \Coloneqq & \STArrow \mid \STNum \mid \STBool \\
            &       & \mid         & \SVar{x} \mid \SLam{x} \mid \SApL \mid \SApR \\
+           &       & \mid         & \SLetL{x} \mid \SLetR{x} \\
            &       & \mid         & \SNumLit{n} \mid \SPlusL \mid \SPlusR \\
            &       & \mid         & \STrue \mid \SFalse \mid \SIfC \mid \SIfL \mid \SIfR \\
 \end{array}\]
@@ -987,6 +991,22 @@ types, e.g. pairs:
   }{AEMApParent2} \\
 
   \judgment{ }{
+    \AEMLetChildL{x}{\EMV_1}{\EMV_2}
+  }{AEMLetChild1}
+
+  \judgment{ }{
+    \AEMLetChildR{x}{\EMV_1}{\EMV_2}
+  }{AEMLetChild2} \\
+
+  \judgment{ }{
+    \AEMLetParentL{x}{\EMV_1}{\EMV_2}
+  }{AEMLetParent1}
+
+  \judgment{ }{
+    \AEMLetParentR{x}{\EMV_1}{\EMV_2}
+  }{AEMLetParent2} \\
+
+  \judgment{ }{
     \AEMPlusChildL{\EMV_1}{\EMV_2}
   }{AEMPlusChild1}
 
@@ -1065,6 +1085,14 @@ types, e.g. pairs:
   }{AEConAp2} \\
 
   \judgment{ }{
+    \AEConLetL{x}{\EMV}
+  }{AEConLet1}
+
+  \judgment{ }{
+    \AEConLetR{x}{\EMV}
+  }{AEConLet2} \\
+
+  \judgment{ }{
     \AEConNum{\ENumMV}
   }{AEConNum} \\
 
@@ -1122,6 +1150,18 @@ types, e.g. pairs:
   }{
     \AEAction{\ZApR{\EMV}{\ZMV}}{\ZApR{\EMV}{\ZMV'}}{\AMV}
   }{AEZipAp2} \\
+
+  \judgment{
+    \ATAction{\ZMV}{\ZMV'}{\AMV}
+  }{
+    \AEAction{\ZLetL{x}{\ZMV}{\EMV}}{\ZLetL{x}{\ZMV'}{\EMV}}{\AMV}
+  }{AEZipLet1}
+
+  \judgment{
+    \AEAction{\ZMV}{\ZMV'}{\AMV}
+  }{
+    \AEAction{\ZLetR{x}{\EMV}{\ZMV}}{\ZLetR{x}{\EMV}{\ZMV'}}{\AMV}
+  }{AEZipLet2} \\
 
   \judgment{
     \AEAction{\ZMV}{\ZMV'}{\AMV}

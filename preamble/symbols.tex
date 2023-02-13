@@ -160,7 +160,8 @@
 \newcommand{\ZIfR}[3]{\ensuremath{\ECIf{#1}{#2}{#3}}}
 
 % let
-\newcommand{\ZLet}[3]{\ensuremath{\ECLet{#1}{#2}{#3}}}
+\newcommand{\ZLetL}[3]{\ensuremath{\ECLet{#1}{#2}{#3}}}
+\newcommand{\ZLetR}[3]{\ensuremath{\ECLet{#1}{#2}{#3}}}
 
 %
 % marked expressions
@@ -252,6 +253,8 @@
 \newcommand{\SLam}[1]{\ensuremath{{\normalfont\textsf{lam $#1$}}}}
 \newcommand{\SApL}{\ensuremath{{\normalfont\textsf{ap\textsubscript{L}}}}}
 \newcommand{\SApR}{\ensuremath{{\normalfont\textsf{ap\textsubscript{R}}}}}
+\newcommand{\SLetL}[1]{\ensuremath{{\normalfont\textsf{let\textsubscript{L} $#1$}}}}
+\newcommand{\SLetR}[1]{\ensuremath{{\normalfont\textsf{let\textsubscript{R} $#1$}}}}
 \newcommand{\SNumLit}[1]{\ensuremath{{\normalfont\textsf{lit $#1$}}}}
 \newcommand{\SPlusL}{\ensuremath{{\normalfont\textsf{plus\textsubscript{L}}}}}
 \newcommand{\SPlusR}{\ensuremath{{\normalfont\textsf{plus\textsubscript{R}}}}}
@@ -319,6 +322,10 @@
 \newcommand{\AEMApChildR}[2]{\ensuremath{\AEMChild{\EAp{#1}{#2}}{\ZApR{#1}{\ZCursor{#2}}}{2}}}
 \newcommand{\AEMApParentL}[2]{\ensuremath{\AEMParent{\ZApL{\ZCursor{#1}}{#2}}{\EAp{#1}{#2}}}}
 \newcommand{\AEMApParentR}[2]{\ensuremath{\AEMParent{\ZApR{#1}{\ZCursor{#2}}}{\EAp{#1}{#2}}}}
+\newcommand{\AEMLetChildL}[3]{\ensuremath{\AEMChild{\ELet{#1}{#2}{#3}}{\ZLetL{#1}{\ZCursor{#2}}{#3}}{1}}}
+\newcommand{\AEMLetChildR}[3]{\ensuremath{\AEMChild{\ELet{#1}{#2}{#3}}{\ZLetR{#1}{#2}{\ZCursor{#3}}}{2}}}
+\newcommand{\AEMLetParentL}[3]{\ensuremath{\AEMParent{\ZLetL{#1}{\ZCursor{#2}}{#3}}{\ELet{#1}{#2}{#3}}}}
+\newcommand{\AEMLetParentR}[3]{\ensuremath{\AEMParent{\ZLetR{#1}{#2}{\ZCursor{#3}}}{\ELet{#1}{#2}{#3}}}}
 \newcommand{\AEMPlusChildL}[2]{\ensuremath{\AEMChild{\EPlus{#1}{#2}}{\ZPlusL{\ZCursor{#1}}{#2}}{1}}}
 \newcommand{\AEMPlusChildR}[2]{\ensuremath{\AEMChild{\EPlus{#1}{#2}}{\ZPlusR{#1}{\ZCursor{#2}}}{2}}}
 \newcommand{\AEMPlusParentL}[2]{\ensuremath{\AEMParent{\ZPlusL{\ZCursor{#1}}{#2}}{\EPlus{#1}{#2}}}}
@@ -338,6 +345,8 @@
 \newcommand{\AEConLam}[2]{\ensuremath{\ACCon{\ZCursor{#2}}{\ZLamT{#1}{\ZTCursor{\TUnknown}}{#2}}{\SLam{#1}}}}
 \newcommand{\AEConApL}[1]{\ensuremath{\ACCon{\ZCursor{#1}}{\ZApR{#1}{\ZCursor{\EEHole}}}{\SApL}}}
 \newcommand{\AEConApR}[1]{\ensuremath{\ACCon{\ZCursor{#1}}{\ZApR{\ZCursor{\EEHole}}{#1}}{\SApR}}}
+\newcommand{\AEConLetL}[2]{\ensuremath{\ACCon{\ZCursor{#2}}{\ZLetL{#1}{#2}{\ZCursor{\EEHole}}}{\SLetL{#1}}}}
+\newcommand{\AEConLetR}[2]{\ensuremath{\ACCon{\ZCursor{#2}}{\ZLetR{#1}{\ZCursor{\EEHole}}{#2}}{\SLetR{#1}}}}
 \newcommand{\AEConNum}[1]{\ensuremath{\ACCon{\ZCursor{\EEHole}}{\ZCursor{#1}}{\SNumLit{#1}}}}
 \newcommand{\AEConPlusL}[1]{\ensuremath{\ACCon{\ZCursor{#1}}{\ZPlusR{#1}{\ZCursor{\EEHole}}}{\SPlusL}}}
 \newcommand{\AEConPlusR}[1]{\ensuremath{\ACCon{\ZCursor{#1}}{\ZPlusR{\ZCursor{\EEHole}}{#1}}{\SPlusR}}}
