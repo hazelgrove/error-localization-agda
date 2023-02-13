@@ -1,33 +1,36 @@
 open import prelude
 
 module action where
+  Var : Set
+  Var = ℕ
+
   -- movement direction
   data Dir : Set where
-    Child  : (n : ℕ) → Dir
-    Parent : Dir
+    child  : (n : ℕ) → Dir
+    parent : Dir
 
   -- construction shape
   data Shape : Set where
-    Arrow : Shape
-    Num   : Shape
-    Bool  : Shape
-    Var   : (x : ℕ) → Shape
-    Lam   : (x : ℕ) → Shape
-    Ap₁   : Shape
-    Ap₂   : Shape
-    Let₁  : (x : ℕ) → Shape
-    Let₂  : (x : ℕ) → Shape
-    Lit   : (n : ℕ) → Shape
-    Plus₁ : Shape
-    Plus₂ : Shape
-    True  : Shape
-    False : Shape
-    If₁   : Shape
-    If₂   : Shape
-    If₃   : Shape
+    tarrow : Shape
+    tnum   : Shape
+    tbool  : Shape
+    var    : (x : Var) → Shape
+    lam    : (x : Var) → Shape
+    ap₁    : Shape
+    ap₂    : Shape
+    let₁   : (x : Var) → Shape
+    let₂   : (x : Var) → Shape
+    num    : (n : ℕ) → Shape
+    plus₁  : Shape
+    plus₂  : Shape
+    tt     : Shape
+    ff     : Shape
+    if₁    : Shape
+    if₂    : Shape
+    if₃    : Shape
 
   -- actions
   data Action : Set where
-    Move      : (δ : Dir) → Action
-    Construct : (ψ : Shape) → Action
-    Del       : Action
+    move      : (δ : Dir) → Action
+    construct : (ψ : Shape) → Action
+    del       : Action
