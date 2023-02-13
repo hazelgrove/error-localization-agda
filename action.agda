@@ -34,3 +34,30 @@ module action where
     move      : (δ : Dir) → Action
     construct : (ψ : Shape) → Action
     del       : Action
+
+  -- shape sorts
+  data TShape : Shape → Set where
+    STArrow : TShape tarrow
+    STNum   : TShape tnum
+    STBool  : TShape tbool
+
+  data EShape : Shape → Set where
+    SEVar   : (x : Var)
+            → EShape (var x)
+    SELam   : (x : Var)
+            → EShape (lam x)
+    SEAp₁   : EShape ap₁
+    SEAp₂   : EShape ap₂
+    SELet₁  : (x : Var)
+            → EShape (let₁ x)
+    SELet₂  : (x : Var)
+            → EShape (let₂ x)
+    SENum   : (n : ℕ)
+            → EShape (num n)
+    SEPlus₁ : EShape plus₁
+    SEPlus₂ : EShape plus₂
+    SETrue  : EShape tt
+    SEFalse : EShape ff
+    SEIf₁   : EShape if₁
+    SEIf₂   : EShape if₂
+    SEIf₃   : EShape if₃
