@@ -3,3 +3,5 @@ module hazelnut where
   import uexp
   import zexp
   import action
+
+  import untyped
