@@ -120,7 +120,9 @@ module prelude where
       []  : List A
       _∷_ : A → List A → List A
 
-    infixr 5 _∷_
+    infixr 99 _∷_
+    infixr 9 _++_
+
 
     pattern ∣[_] z = z ∷ []
     pattern ∣[_,_] y z = y ∷ z ∷ []
