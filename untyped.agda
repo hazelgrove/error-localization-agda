@@ -299,12 +299,12 @@ module untyped where
   reachup-τ ▹ τ ◃ = ⟨ [] , ⟨ AMINil , TIRefl ⟩ ⟩
   reachup-τ (τ^ -→₁ τ)
     with ⟨ ᾱ , ⟨ ᾱmv , τ^+>* ⟩ ⟩ ← reachup-τ τ^
-       = ⟨ ᾱ ++ [ move parent ] ,
+       = ⟨ ᾱ ++ ∣[ move parent ] ,
          ⟨ movements-++ ᾱmv (AMICons parent AMINil) ,
            +τ>*-++ (ziplem-arr1 τ^+>*) (TITyp TMArrParent1 TIRefl) ⟩ ⟩
   reachup-τ (τ -→₂ τ^)
     with ⟨ ᾱ , ⟨ ᾱmv , τ^+>* ⟩ ⟩ ← reachup-τ τ^
-       = ⟨ ᾱ ++ [ move parent ] ,
+       = ⟨ ᾱ ++ ∣[ move parent ] ,
          ⟨ movements-++ ᾱmv (AMICons parent AMINil) ,
            +τ>*-++ (ziplem-arr2 τ^+>*) (TITyp TMArrParent2 TIRefl) ⟩ ⟩
 
@@ -313,57 +313,57 @@ module untyped where
   reachup-e ‵▹ e ◃ = ⟨ [] , ⟨ AMINil , EIRefl ⟩ ⟩
   reachup-e (‵λ₁ x ∶ τ^ ∙ e)
     with ⟨ ᾱ , ⟨ ᾱmv , τ^+>* ⟩ ⟩ ← reachup-τ τ^
-       = ⟨ ᾱ ++ [ move parent ] ,
+       = ⟨ ᾱ ++ ∣[ move parent ] ,
          ⟨ movements-++ ᾱmv (AMICons parent AMINil) ,
            +e>*-++ (ziplem-lam1 τ^+>*) (EIExp EMLamParent1 EIRefl) ⟩ ⟩
   reachup-e (‵λ₂ x ∶ τ ∙ ê)
     with ⟨ ᾱ , ⟨ ᾱmv , ê+>* ⟩ ⟩ ← reachup-e ê
-       = ⟨ ᾱ ++ [ move parent ] ,
+       = ⟨ ᾱ ++ ∣[ move parent ] ,
          ⟨ movements-++ ᾱmv (AMICons parent AMINil) ,
            +e>*-++ (ziplem-lam2 ê+>*) (EIExp EMLamParent2 EIRefl) ⟩ ⟩
   reachup-e (‵ ê ∙₁ e)
     with ⟨ ᾱ , ⟨ ᾱmv , ê+>* ⟩ ⟩ ← reachup-e ê
-       = ⟨ ᾱ ++ [ move parent ] ,
+       = ⟨ ᾱ ++ ∣[ move parent ] ,
          ⟨ movements-++ ᾱmv (AMICons parent AMINil) ,
            +e>*-++ (ziplem-ap1 ê+>*) (EIExp EMApParent1 EIRefl) ⟩ ⟩
   reachup-e (‵ e ∙₂ ê)
     with ⟨ ᾱ , ⟨ ᾱmv , ê+>* ⟩ ⟩ ← reachup-e ê
-       = ⟨ ᾱ ++ [ move parent ] ,
+       = ⟨ ᾱ ++ ∣[ move parent ] ,
          ⟨ movements-++ ᾱmv (AMICons parent AMINil) ,
            +e>*-++ (ziplem-ap2 ê+>*) (EIExp EMApParent2 EIRefl) ⟩ ⟩
   reachup-e (‵ x ←₁ ê ∙ e)
     with ⟨ ᾱ , ⟨ ᾱmv , ê+>* ⟩ ⟩ ← reachup-e ê
-       = ⟨ ᾱ ++ [ move parent ] ,
+       = ⟨ ᾱ ++ ∣[ move parent ] ,
          ⟨ movements-++ ᾱmv (AMICons parent AMINil) ,
            +e>*-++ (ziplem-let1 ê+>*) (EIExp EMLetParent1 EIRefl) ⟩ ⟩
   reachup-e (‵ x ←₂ e ∙ ê)
     with ⟨ ᾱ , ⟨ ᾱmv , ê+>* ⟩ ⟩ ← reachup-e ê
-       = ⟨ ᾱ ++ [ move parent ] ,
+       = ⟨ ᾱ ++ ∣[ move parent ] ,
          ⟨ movements-++ ᾱmv (AMICons parent AMINil) ,
            +e>*-++ (ziplem-let2 ê+>*) (EIExp EMLetParent2 EIRefl) ⟩ ⟩
   reachup-e (‵ ê +₁ e)
     with ⟨ ᾱ , ⟨ ᾱmv , ê+>* ⟩ ⟩ ← reachup-e ê
-       = ⟨ ᾱ ++ [ move parent ] ,
+       = ⟨ ᾱ ++ ∣[ move parent ] ,
          ⟨ movements-++ ᾱmv (AMICons parent AMINil) ,
            +e>*-++ (ziplem-plus1 ê+>*) (EIExp EMPlusParent1 EIRefl) ⟩ ⟩
   reachup-e (‵ e +₂ ê)
     with ⟨ ᾱ , ⟨ ᾱmv , ê+>* ⟩ ⟩ ← reachup-e ê
-       = ⟨ ᾱ ++ [ move parent ] ,
+       = ⟨ ᾱ ++ ∣[ move parent ] ,
          ⟨ movements-++ ᾱmv (AMICons parent AMINil) ,
            +e>*-++ (ziplem-plus2 ê+>*) (EIExp EMPlusParent2 EIRefl) ⟩ ⟩
   reachup-e (‵ ê ∙₁ e₂ ∙ e₃)
     with ⟨ ᾱ , ⟨ ᾱmv , ê+>* ⟩ ⟩ ← reachup-e ê
-       = ⟨ ᾱ ++ [ move parent ] ,
+       = ⟨ ᾱ ++ ∣[ move parent ] ,
          ⟨ movements-++ ᾱmv (AMICons parent AMINil) ,
            +e>*-++ (ziplem-if1 ê+>*) (EIExp EMIfParent1 EIRefl) ⟩ ⟩
   reachup-e (‵ e₁ ∙₂ ê ∙ e₃)
     with ⟨ ᾱ , ⟨ ᾱmv , ê+>* ⟩ ⟩ ← reachup-e ê
-       = ⟨ ᾱ ++ [ move parent ] ,
+       = ⟨ ᾱ ++ ∣[ move parent ] ,
          ⟨ movements-++ ᾱmv (AMICons parent AMINil) ,
            +e>*-++ (ziplem-if2 ê+>*) (EIExp EMIfParent2 EIRefl) ⟩ ⟩
   reachup-e (‵ e₁ ∙₃ e₂ ∙ ê)
     with ⟨ ᾱ , ⟨ ᾱmv , ê+>* ⟩ ⟩ ← reachup-e ê
-       = ⟨ ᾱ ++ [ move parent ] ,
+       = ⟨ ᾱ ++ ∣[ move parent ] ,
          ⟨ movements-++ ᾱmv (AMICons parent AMINil) ,
            +e>*-++ (ziplem-if3 ê+>*) (EIExp EMIfParent3 EIRefl) ⟩ ⟩
 
@@ -438,3 +438,9 @@ module untyped where
        = ⟨ move (child 3) ∷ ᾱ ,
          ⟨ AMICons (child 3) ᾱmv ,
            EIExp EMIfChild3 (ziplem-if3 +>*ê) ⟩ ⟩
+
+  -- reachability-τ : (τ^ τ^′ : ZTyp) → τ^ ◇τ ≡ τ^′ ◇τ → ∃[ ᾱ ] ᾱ movements × τ^ + ᾱ +τ>* τ^′
+  -- reachability-τ τ^ τ^′ eq
+    -- with ⟨ ᾱ  , ⟨ ᾱmv  , τ^+>*  ⟩ ⟩ ← reachup-τ τ^
+       -- | ⟨ ᾱ′ , ⟨ ᾱmv′ , +>*τ^′ ⟩ ⟩ ← reachdown-τ τ^′
+       -- = ⟨ ᾱ ++ ᾱ′ , ⟨ movements-++ ᾱmv ᾱmv′ , +τ>*-++ τ^+>* (transport (λ { τ → ▹ τ ◃ + ᾱ′ +τ>* τ^′ }) eq ?) ⟩ ⟩
