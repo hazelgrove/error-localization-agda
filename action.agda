@@ -38,12 +38,12 @@ module action where
 
   -- action lists
   data ActionList : Set where
-    ∙   : ActionList
+    ⋯   : ActionList
     _∷_ : (α : Action) → (ᾱ : ActionList) → ActionList
 
   module movements where
     data _movements : ActionList → Set where
-      AMINil  : ∙ movements
+      AMINil  : ⋯ movements
       AMICons : ∀ {ᾱ : ActionList}
               → (δ : Dir)
               → (mv : ᾱ movements)
@@ -119,4 +119,5 @@ module action where
     EShape? if₂      = yes SEIf₂
     EShape? if₃      = yes SEIf₃
 
+  open movements public
   open sort public
