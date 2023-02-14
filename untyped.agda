@@ -175,6 +175,19 @@ module untyped where
             → (ê′+>*ê″ : ê′ + ᾱ +e>* ê″)
             → ê + α ∷ ᾱ +e>* ê″
 
+  +τ>*-++ : ∀ {τ^ τ^′ τ^″ ᾱ₁ ᾱ₂} → τ^ + ᾱ₁ +τ>* τ^′ → τ^′ + ᾱ₂ +τ>* τ^″ → τ^ + (ᾱ₁ ++ ᾱ₂) +τ>* τ^″
+  +τ>*-++ TIRefl τ^+>τ^″ = τ^+>τ^″
+  +τ>*-++ (TITyp τ^+>τ^′ τ^′+>*τ^″) τ^″+>*τ^‴ = TITyp τ^+>τ^′ (+τ>*-++ τ^′+>*τ^″ τ^″+>*τ^‴)
+
+  -- type zippers
+  ziplem-arr1 : ∀ {τ^ τ^′ τ ᾱ} → τ^ + ᾱ +τ>* τ^′ → (τ^ -→₁ τ) + ᾱ +τ>* (τ^′ -→₁ τ)
+  ziplem-arr1 TIRefl = TIRefl
+  ziplem-arr1 (TITyp τ^+>τ^′ τ^′+>*τ^″) = TITyp (TZipArr1 τ^+>τ^′) (ziplem-arr1 τ^′+>*τ^″)
+
+  ziplem-arr2 : ∀ {τ^ τ^′ τ ᾱ} → τ^ + ᾱ +τ>* τ^′ → (τ -→₂ τ^) + ᾱ +τ>* (τ -→₂ τ^′)
+  ziplem-arr2 TIRefl = TIRefl
+  ziplem-arr2 (TITyp τ^+>τ^′ τ^′+>*τ^″) = TITyp (TZipArr2 τ^+>τ^′) (ziplem-arr2 τ^′+>*τ^″)
+
   -- movement erasure invariance
   movement-erasure-invariance-τ : ∀ {τ^ τ^′ δ} → τ^ + move δ +τ> τ^′ → τ^ ◇τ ≡ τ^′ ◇τ
   movement-erasure-invariance-τ TMArrChild1       = refl
@@ -231,3 +244,27 @@ module untyped where
     rewrite movement-erasure-invariance-e ê+>ê′   = refl
   movement-erasure-invariance-e (EZipIf3 ê+>ê′)
     rewrite movement-erasure-invariance-e ê+>ê′   = refl
+
+  -- reach up for types
+  reachup-τ : (τ^ : ZTyp) → ∃[ ᾱ ] ᾱ movements × τ^ + ᾱ +τ>* ▹ τ^ ◇τ ◃
+  reachup-τ ▹ τ ◃ = ⟨ [] , ⟨ AMINil , TIRefl ⟩ ⟩
+  reachup-τ (τ^ -→₁ τ)
+    with ⟨ ᾱ , ⟨ ᾱmv , τ^+>* ⟩ ⟩ ← reachup-τ τ^
+       = ⟨ ᾱ ++ [ move parent ] ,
+         ⟨ movements-++ ᾱmv (AMICons parent AMINil) ,
+           +τ>*-++ (ziplem-arr1 τ^+>*) (TITyp TMArrParent1 TIRefl) ⟩ ⟩
+  reachup-τ (τ -→₂ τ^)
+    with ⟨ ᾱ , ⟨ ᾱmv , τ^+>* ⟩ ⟩ ← reachup-τ τ^
+       = ⟨ ᾱ ++ [ move parent ] ,
+         ⟨ movements-++ ᾱmv (AMICons parent AMINil) ,
+           +τ>*-++ (ziplem-arr2 τ^+>*) (TITyp TMArrParent2 TIRefl) ⟩ ⟩
+
+  -- reach down for types
+  reachdown-τ : (τ^ : ZTyp) → ∃[ ᾱ ] ᾱ movements ×  ▹ τ^ ◇τ ◃ + ᾱ +τ>* τ^
+  reachdown-τ ▹ τ ◃ = ⟨ [] , ⟨ AMINil , TIRefl ⟩ ⟩
+  reachdown-τ (τ^ -→₁ τ)
+    with ⟨ ᾱ , ⟨ ᾱmv , +>*τ^ ⟩ ⟩ ← reachdown-τ τ^
+       = ⟨ move (child 1) ∷ ᾱ , ⟨ AMICons (child 1) ᾱmv , TITyp TMArrChild1 (ziplem-arr1 +>*τ^) ⟩ ⟩
+  reachdown-τ (τ -→₂ τ^)
+    with ⟨ ᾱ , ⟨ ᾱmv , +>*τ^ ⟩ ⟩ ← reachdown-τ τ^
+       = ⟨ move (child 2) ∷ ᾱ , ⟨ AMICons (child 2) ᾱmv , TITyp TMArrChild2 (ziplem-arr2 +>*τ^) ⟩ ⟩
