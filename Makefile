@@ -4,9 +4,9 @@ AGDA    ?= agda
 .PHONY: all
 all : formalism.pdf all.agdai
 
-%.pdf : %.tex
-	$(LATEXMK) $*.tex
-	mv build/$*.pdf $*.pdf
+%.pdf : formalism/%.tex
+	cd formalism && $(LATEXMK) $*.tex
+	mv formalism/build/$*.pdf $*.pdf
 
 %.agdai : %.agda
 	$(AGDA) $*.agda
