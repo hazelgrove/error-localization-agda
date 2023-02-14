@@ -47,6 +47,7 @@ module uexp where
     ‵_      : (x : Var) → UExp
     ‵λ_∶_∙_ : (x : Var) → (τ : Typ) → (e : UExp) → UExp
     ‵_∙_    : (e₁ : UExp) → (e₂ : UExp) → UExp
+    ‵_←_∙_  : (x : Var) → (e₁ : UExp) → (e₂ : UExp) → UExp
     ‵ℕ_     : (n : ℕ) → UExp
     ‵_+_    : (e₁ : UExp) → (e₂ : UExp) → UExp
     ‵tt     : UExp
@@ -95,6 +96,11 @@ module uexp where
         → (e₁⇐τ₁ : Γ ⊢ e₂ ⇐ τ₁)
         → Γ ⊢ ‵ e₁ ∙ e₂ ⇒ τ₂
 
+      USLet : ∀ {Γ x e₁ e₂ τ₁ τ₂}
+        → (e₁⇒τ₁ : Γ ⊢ e₁ ⇒ τ₁)
+        → (e₂⇒τ₂ : Γ , x ∶ τ₁ ⊢ e₂ ⇒ τ₂)
+        → Γ ⊢ ‵ x ← e₁ ∙ e₂ ⇒ τ₂
+
       USNum : ∀ {Γ n}
         → Γ ⊢ ‵ℕ n ⇒ num
 
@@ -123,6 +129,11 @@ module uexp where
         → (τ~τ₁ : τ ~ τ₁)
         → (e⇐τ₂ : Γ , x ∶ τ ⊢ e ⇐ τ₂)
         → Γ ⊢ ‵λ x ∶ τ ∙ e ⇐ τ₃
+
+      UALet : ∀ {Γ x e₁ e₂ τ₁ τ₂}
+        → (e₁⇒τ₁ : Γ ⊢ e₁ ⇒ τ₁)
+        → (e₂⇐τ₂ : Γ , x ∶ τ₁ ⊢ e₂ ⇐ τ₂)
+        → Γ ⊢ ‵ x ← e₁ ∙ e₂ ⇐ τ₂
 
       UAIf : ∀ {Γ e₁ e₂ e₃ τ}
         → (e₁⇐bool : Γ ⊢ e₁ ⇐ bool)

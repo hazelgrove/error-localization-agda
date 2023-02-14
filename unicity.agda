@@ -27,6 +27,9 @@ module unicity where
   ⇒-unicity (USAp e₁⇒τ₁ τ▸ e₂⇐τ₂)  (USAp e₁⇒τ₁′ τ▸′ e₂⇐τ₂′)
     rewrite ⇒-unicity e₁⇒τ₁ e₁⇒τ₁′
     with refl ← ▸-unicity τ▸ τ▸′                            = refl
+  ⇒-unicity (USLet e₁⇒τ₁ e₂⇒τ₂)    (USLet e₁⇒τ₁′ e₂⇒τ₂′)
+    rewrite ⇒-unicity e₁⇒τ₁ e₁⇒τ₁′
+    rewrite ⇒-unicity e₂⇒τ₂ e₂⇒τ₂′                          = refl
   ⇒-unicity USNum                  USNum                    = refl
   ⇒-unicity (USPlus e₁⇐num e₂⇐num) (USPlus e₁⇐num′ e₂⇐num′) = refl
   ⇒-unicity USTrue                 USTrue                   = refl
@@ -51,6 +54,9 @@ module unicity where
   ↬⇒-τ-unicity (ISAp2 e₁↬⇒ě₁ τ!▸ e₂↬⇐ě₂) (ISAp1 {τ₁ = τ₁} {τ₂ = τ₂} e₁↬⇒ě₁′ τ▸ e₂↬⇐ě₂′)
     with refl ← ↬⇒-τ-unicity e₁↬⇒ě₁ e₁↬⇒ě₁′ = ⊥-elim (τ!▸ ⟨ τ₁ , ⟨ τ₂ , τ▸ ⟩ ⟩)
   ↬⇒-τ-unicity (ISAp2 e₁↬⇒ě₁ τ!▸ e₂↬⇐ě₂) (ISAp2 e₁↬⇒ě₁′ τ!▸′ e₂↬⇐ě₂′) = refl
+  ↬⇒-τ-unicity (ISLet e₁↬⇒ě₁ e₂↬⇒ě₂) (ISLet e₁↬⇒ě₁′ e₂↬⇒ě₂′)
+    rewrite ↬⇒-τ-unicity e₁↬⇒ě₁ e₁↬⇒ě₁′
+    rewrite ↬⇒-τ-unicity e₂↬⇒ě₂ e₂↬⇒ě₂′ = refl
   ↬⇒-τ-unicity ISNum                  ISNum                    = refl
   ↬⇒-τ-unicity (ISPlus e₁↬⇐ě₁ e₂↬⇐ě₂) (ISPlus e₁↬⇐ě₁′ e₂↬⇐ě₂′) = refl
   ↬⇒-τ-unicity ISTrue                 ISTrue                   = refl
@@ -91,6 +97,11 @@ module unicity where
       rewrite ↬⇒-ě-unicity e₁↬⇒ě₁ e₁↬⇒ě₁′
             | ↬⇐-ě-unicity e₂↬⇐ě₂ e₂↬⇐ě₂′
             | !▸-≡ τ!▸ τ!▸′ = refl
+    ↬⇒-ě-unicity (ISLet e₁↬⇒ě₁ e₂↬⇒ě₂) (ISLet e₁↬⇒ě₁′ e₂↬⇒ě₂′)
+      with refl ← ↬⇒-τ-unicity e₁↬⇒ě₁ e₁↬⇒ě₁′
+      with refl ← ↬⇒-τ-unicity e₂↬⇒ě₂ e₂↬⇒ě₂′
+      rewrite ↬⇒-ě-unicity e₁↬⇒ě₁ e₁↬⇒ě₁′
+      rewrite ↬⇒-ě-unicity e₂↬⇒ě₂ e₂↬⇒ě₂′ = refl
     ↬⇒-ě-unicity ISNum ISNum = refl
     ↬⇒-ě-unicity (ISPlus e₁↬⇐ě₁ e₂↬⇐ě₂) (ISPlus e₁↬⇐ě₁′ e₂↬⇐ě₂′)
       rewrite ↬⇐-ě-unicity e₁↬⇐ě₁ e₁↬⇐ě₁′
@@ -152,6 +163,10 @@ module unicity where
       rewrite ▸-≡ τ▸ τ▸′
             | ~̸-≡ τ~̸τ₁ τ~̸τ₁′
             | ↬⇐-ě-unicity e↬⇐ě e↬⇐ě′ = refl
+    ↬⇐-ě-unicity (IALet e₁↬⇒ě₁ e₂↬⇐ě₂) (IALet e₁↬⇒ě₁′ e₂↬⇐ě₂′)
+      with refl ← ↬⇒-τ-unicity e₁↬⇒ě₁ e₁↬⇒ě₁′
+      rewrite ↬⇒-ě-unicity e₁↬⇒ě₁ e₁↬⇒ě₁′
+      rewrite ↬⇐-ě-unicity e₂↬⇐ě₂ e₂↬⇐ě₂′ = refl
     ↬⇐-ě-unicity (IAIf e₁↬⇐ě₁ e₂↬⇐ě₂ e₃↬⇐ě₃) (IAIf e₁↬⇐ě₁′ e₂↬⇐ě₂′ e₃↬⇐ě₃′)
       rewrite ↬⇐-ě-unicity e₁↬⇐ě₁ e₁↬⇐ě₁′
             | ↬⇐-ě-unicity e₂↬⇐ě₂ e₂↬⇐ě₂′

@@ -22,6 +22,10 @@ module totality where
     ↬⇒-totality Γ (‵ e₁ ∙ e₂)    | ⟨ τ , ⟨ ě₁ , e₁↬⇒ě₁ ⟩ ⟩    | no τ!▸    | ⟨ ě₂ , e₂↬⇐ě₂ ⟩ = ⟨ unknown , ⟨ ⊢⸨ ě₁ ⸩∙ ě₂ [ τ!▸ ] , ISAp2 e₁↬⇒ě₁ τ!▸ e₂↬⇐ě₂ ⟩ ⟩
     ↬⇒-totality Γ (‵ e₁ ∙ e₂)    | ⟨ τ , ⟨ ě₁ , e₁↬⇒ě₁ ⟩ ⟩    | yes ⟨ τ₁ , ⟨ τ₂ , τ▸τ₁-→τ₂ ⟩ ⟩ with ↬⇐-totality Γ τ₁ e₂
     ↬⇒-totality Γ (‵ e₁ ∙ e₂)    | ⟨ τ , ⟨ ě₁ , e₁↬⇒ě₁ ⟩ ⟩    | yes ⟨ τ₁ , ⟨ τ₂ , τ▸τ₁-→τ₂ ⟩ ⟩    | ⟨ ě₂ , e₂↬⇐ě₂ ⟩ = ⟨ τ₂ , ⟨ ⊢ ě₁ ∙ ě₂ [ τ▸τ₁-→τ₂ ] , ISAp1 e₁↬⇒ě₁ τ▸τ₁-→τ₂ e₂↬⇐ě₂ ⟩ ⟩
+    ↬⇒-totality Γ (‵ x ← e₁ ∙ e₂)
+      with ⟨ τ₁ , ⟨ ě₁ , e₁↬⇒ě₁ ⟩ ⟩ ← ↬⇒-totality Γ e₁ 
+      with ⟨ τ₂ , ⟨ ě₂ , e₂↬⇒ě₂ ⟩ ⟩ ← ↬⇒-totality (Γ , x ∶ τ₁) e₂
+         = ⟨ τ₂ , ⟨ ⊢← ě₁ ∙ ě₂ [ x ] , ISLet e₁↬⇒ě₁ e₂↬⇒ě₂ ⟩ ⟩
     ↬⇒-totality Γ (‵ℕ n) = ⟨ num , ⟨ ⊢ℕ n , ISNum ⟩ ⟩
     ↬⇒-totality Γ (‵ e₁ + e₂)
       with ↬⇐-totality Γ num e₁ | ↬⇐-totality Γ num e₂
@@ -60,6 +64,10 @@ module totality where
       with ↬⇒-totality Γ e
     ...  | ⟨ .unknown , ⟨ ě@(⊢⸨ _ ⸩∙ _ [ _ ]) , e↬⇒ě ⟩ ⟩ = ↬⇐-subsume ě τ′ e↬⇒ě SuAp
     ...  | ⟨ _        , ⟨ ě@(⊢  _  ∙ _ [ _ ]) , e↬⇒ě ⟩ ⟩ = ↬⇐-subsume ě τ′ e↬⇒ě SuAp
+    ↬⇐-totality Γ τ′ (‵ x ← e₁ ∙ e₂)
+      with ⟨ τ₁ , ⟨ ě₁ , e₁↬⇒ě₁ ⟩ ⟩ ← ↬⇒-totality Γ e₁ 
+      with ⟨ ě₂ , e₂↬⇐ě₂ ⟩ ← ↬⇐-totality (Γ , x ∶ τ₁) τ′ e₂
+         = ⟨ ⊢← ě₁ ∙ ě₂ [ x ] , IALet e₁↬⇒ě₁ e₂↬⇐ě₂ ⟩
     ↬⇐-totality Γ τ′ e@(‵ℕ _)
       with ↬⇒-totality Γ e
     ...  | ⟨ _ , ⟨ ě@(⊢ℕ _) , e↬⇒ě ⟩ ⟩ = ↬⇐-subsume ě τ′ e↬⇒ě SuNum

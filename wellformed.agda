@@ -20,6 +20,9 @@ module wellformed where
     ↬⇒□ (ISAp2 e₁↬⇒ě₁ τ!▸ e₂↬⇐ě₂)
       rewrite ↬⇒□ e₁↬⇒ě₁
             | ↬⇐□ e₂↬⇐ě₂ = refl
+    ↬⇒□ (ISLet e₁↬⇒ě₁ e₂↬⇒ě₂)
+      rewrite ↬⇒□ e₁↬⇒ě₁
+            | ↬⇒□ e₂↬⇒ě₂ = refl
     ↬⇒□ ISNum            = refl
     ↬⇒□ (ISPlus e₁↬⇐ě₁ e₂↬⇐ě₂)
       rewrite ↬⇐□ e₁↬⇐ě₁
@@ -42,6 +45,9 @@ module wellformed where
       rewrite ↬⇐□ e↬⇐ě   = refl
     ↬⇐□ (IALam3 τ₁▸ τ~̸τ₁ e↬⇐ě)
       rewrite ↬⇐□ e↬⇐ě   = refl
+    ↬⇐□ (IALet e₁↬⇒ě₁ e₂↬⇐ě₂)
+      rewrite ↬⇒□ e₁↬⇒ě₁
+            | ↬⇐□ e₂↬⇐ě₂ = refl
     ↬⇐□ (IAIf e₁↬⇐ě₁ e₂↬⇐ě₂ e₃↬⇐ě₃)
       rewrite ↬⇐□ e₁↬⇐ě₁
             | ↬⇐□ e₂↬⇐ě₂
@@ -60,6 +66,9 @@ module wellformed where
     ⇒τ→↬⇒τ {e = ‵ e₁ ∙ e₂} (USAp e₁⇒τ τ▸ e₂⇐τ₂)
       with ⟨ ě₁ , e₁↬⇒ě₁ ⟩ ← ⇒τ→↬⇒τ e₁⇒τ
          | ⟨ ě₂ , e₂↬⇐ě₂ ⟩ ← ⇐τ→↬⇐τ e₂⇐τ₂  = ⟨ ⊢ ě₁ ∙ ě₂ [ τ▸ ] , ISAp1 e₁↬⇒ě₁ τ▸ e₂↬⇐ě₂ ⟩
+    ⇒τ→↬⇒τ {e = ‵ x ← e₁ ∙ e₂} (USLet e₁⇒τ e₂⇒τ₂)
+      with ⟨ ě₁ , e₁↬⇒ě₁ ⟩ ← ⇒τ→↬⇒τ e₁⇒τ
+         | ⟨ ě₂ , e₂↬⇒ě₂ ⟩ ← ⇒τ→↬⇒τ e₂⇒τ₂  = ⟨ ⊢← ě₁ ∙ ě₂ [ x ] , ISLet e₁↬⇒ě₁ e₂↬⇒ě₂ ⟩
     ⇒τ→↬⇒τ {e = ‵ℕ n} USNum                = ⟨ ⊢ℕ n , ISNum ⟩
     ⇒τ→↬⇒τ {e = ‵ e₁ + e₂} (USPlus e₁⇐num e₂⇐num)
       with ⟨ ě₁ , e₁↬⇐ě₁ ⟩ ← ⇐τ→↬⇐τ e₁⇐num
@@ -74,6 +83,9 @@ module wellformed where
     ⇐τ→↬⇐τ : ∀ {Γ : UCtx} {e : UExp} {τ : Typ}  → Γ ⊢ e ⇐ τ → Σ[ ě ∈ ⟦ Γ ⟧ ⊢⇐ τ ] Γ ⊢ e ↬⇐ ě
     ⇐τ→↬⇐τ {e = ‵λ x ∶ τ ∙ e} (UALam τ₃▸ τ~τ₁ e⇐τ₂)
       with ⟨ ě , e↬⇐ě ⟩ ← ⇐τ→↬⇐τ e⇐τ₂     = ⟨ ⊢λ∶ τ ∙ ě [ τ₃▸ ∙ τ~τ₁ ∙ x ] , IALam1 τ₃▸ τ~τ₁ e↬⇐ě ⟩
+    ⇐τ→↬⇐τ {e = ‵ x ← e₁ ∙ e₂} (UALet e₁⇒τ e₂⇐τ₂)
+      with ⟨ ě₁ , e₁↬⇒ě₁ ⟩ ← ⇒τ→↬⇒τ e₁⇒τ
+         | ⟨ ě₂ , e₂↬⇐ě₂ ⟩ ← ⇐τ→↬⇐τ e₂⇐τ₂ = ⟨ ⊢← ě₁ ∙ ě₂ [ x ] , IALet e₁↬⇒ě₁ e₂↬⇐ě₂ ⟩
     ⇐τ→↬⇐τ {e = ‵ e₁ ∙ e₂ ∙ e₃} (UAIf e₁⇐τ e₂⇐τ₁ e₃⇐τ₂)
       with ⟨ ě₁ , e₁↬⇐ě₁ ⟩ ← ⇐τ→↬⇐τ e₁⇐τ
          | ⟨ ě₂ , e₂↬⇐ě₂ ⟩ ← ⇐τ→↬⇐τ e₂⇐τ₁
