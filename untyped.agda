@@ -1,5 +1,6 @@
 open import prelude
 open import typ
+open import hole
 open import uexp
 open import zexp
 open import action
@@ -18,8 +19,8 @@ module untyped where
                  → τ₁ -→₂ ▹ τ₂ ◃ + move parent +τ> ▹ τ₁ -→ τ₂ ◃
 
     -- deletion
-    TDel : ∀ {τ : Typ}
-         → ▹ τ ◃ + del +τ> ▹ unknown ◃
+    TDel : ∀ {τ : Typ} {u : Hole}
+         → ▹ τ ◃ + (del u) +τ> ▹ unknown ◃
 
     -- construction
     TConArrow1 : ∀ {τ : Typ}
@@ -91,7 +92,7 @@ module untyped where
 
     -- deletion
     EDel : ∀ {e u}
-         → ‵▹ e ◃ + del +e> ‵▹ ‵⦇-⦈^ u ◃
+         → ‵▹ e ◃ + (del u) +e> ‵▹ ‵⦇-⦈^ u ◃
 
     -- construction
     EConVar   : ∀ {u x}
@@ -99,29 +100,29 @@ module untyped where
     EConLam   : ∀ {e x}
               → ‵▹ e ◃ + construct (lam x) +e> (‵λ₁ x ∶ ▹ unknown ◃ ∙ e)
     EConAp1   : ∀ {e u}
-              → ‵▹ e ◃ + construct ap₁ +e> (‵ e ∙₂ ‵▹ ‵⦇-⦈^ u ◃)
+              → ‵▹ e ◃ + construct (ap₁ u) +e> (‵ e ∙₂ ‵▹ ‵⦇-⦈^ u ◃)
     EConAp2   : ∀ {e u}
-              → ‵▹ e ◃ + construct ap₂ +e> (‵ ‵▹ ‵⦇-⦈^ u ◃ ∙₁ e)
+              → ‵▹ e ◃ + construct (ap₂ u) +e> (‵ ‵▹ ‵⦇-⦈^ u ◃ ∙₁ e)
     EConLet1  : ∀ {e x u}
-              → ‵▹ e ◃ + construct (let₁ x) +e> (‵ x ←₂ e ∙ ‵▹ ‵⦇-⦈^ u ◃)
+              → ‵▹ e ◃ + construct (let₁ x u) +e> (‵ x ←₂ e ∙ ‵▹ ‵⦇-⦈^ u ◃)
     EConLet2  : ∀ {e x u}
-              → ‵▹ e ◃ + construct (let₂ x) +e> (‵ x ←₁ ‵▹ ‵⦇-⦈^ u ◃ ∙ e)
+              → ‵▹ e ◃ + construct (let₂ x u) +e> (‵ x ←₁ ‵▹ ‵⦇-⦈^ u ◃ ∙ e)
     EConNum   : ∀ {u n}
               → ‵▹ ‵⦇-⦈^ u ◃ + construct (num n) +e> ‵▹ ‵ℕ n ◃
     EConPlus1 : ∀ {e u}
-              → ‵▹ e ◃ + construct ap₁ +e> (‵ e +₂ ‵▹ ‵⦇-⦈^ u ◃)
+              → ‵▹ e ◃ + construct (plus₁ u) +e> (‵ e +₂ ‵▹ ‵⦇-⦈^ u ◃)
     EConPlus2 : ∀ {e u}
-              → ‵▹ e ◃ + construct ap₂ +e> (‵ ‵▹ ‵⦇-⦈^ u ◃ +₁ e)
+              → ‵▹ e ◃ + construct (plus₂ u) +e> (‵ ‵▹ ‵⦇-⦈^ u ◃ +₁ e)
     EConTrue  : ∀ {u}
               → ‵▹ ‵⦇-⦈^ u ◃ + construct tt +e> ‵▹ ‵tt ◃
     EConFalse : ∀ {u}
               → ‵▹ ‵⦇-⦈^ u ◃ + construct ff +e> ‵▹ ‵ff ◃
     EConIf1   : ∀ {e u₁ u₂}
-              → ‵▹ e ◃ + construct if₁ +e> (‵ e ∙₂ ‵▹ ‵⦇-⦈^ u₁ ◃ ∙ ‵⦇-⦈^ u₂)
+              → ‵▹ e ◃ + construct (if₁ u₁ u₂) +e> (‵ e ∙₂ ‵▹ ‵⦇-⦈^ u₁ ◃ ∙ ‵⦇-⦈^ u₂)
     EConIf2   : ∀ {e u₁ u₂}
-              → ‵▹ e ◃ + construct if₂ +e> (‵ ‵▹ ‵⦇-⦈^ u₁ ◃ ∙₁ e ∙ ‵⦇-⦈^ u₂)
+              → ‵▹ e ◃ + construct (if₂ u₁ u₂) +e> (‵ ‵▹ ‵⦇-⦈^ u₁ ◃ ∙₁ e ∙ ‵⦇-⦈^ u₂)
     EConIf3   : ∀ {e u₁ u₂}
-              → ‵▹ e ◃ + construct if₃ +e> (‵ ‵▹ ‵⦇-⦈^ u₁ ◃ ∙₁ ‵⦇-⦈^ u₂ ∙ e)
+              → ‵▹ e ◃ + construct (if₃ u₁ u₂) +e> (‵ ‵▹ ‵⦇-⦈^ u₁ ◃ ∙₁ ‵⦇-⦈^ u₂ ∙ e)
 
     -- zipper cases
     EZipLam1 : ∀ {x τ^ e α τ^′}
@@ -461,3 +462,58 @@ module untyped where
        | ⟨ ᾱ₂ , +>*τ₂ ⟩ ← constructability-τ τ₂
        = ⟨ ᾱ₁ ++ construct tarrow₁ ∷ ᾱ₂ ++ ∣[ move parent ] ,
            +τ>*-++ +>*τ₁ (TITyp TConArrow1 (+τ>*-++ (ziplem-tarr2 +>*τ₂) (TITyp TMArrParent2 TIRefl))) ⟩
+
+  uz : Hole
+  uz = 0
+
+  -- constructability of expressions
+  constructability-e : ∀ {u} → (e : UExp) → ∃[ ᾱ ] ‵▹ ‵⦇-⦈^ u ◃ + ᾱ +e>* ‵▹ e ◃
+  constructability-e (‵⦇-⦈^ u) = ⟨ ∣[ del _ ] , EIExp EDel EIRefl ⟩
+  constructability-e (‵ x) = ⟨ ∣[ construct (var x) ] , EIExp EConVar EIRefl ⟩
+  constructability-e (‵λ x ∶ τ ∙ e)
+    with ⟨ ᾱ₁ , +>*e ⟩ ← constructability-e e
+       | ⟨ ᾱ₂ , +>*τ ⟩ ← constructability-τ τ
+       = ⟨ ᾱ₁ ++ construct (lam x) ∷ ᾱ₂ ++ ∣[ move parent ] ,
+           +e>*-++ +>*e
+             (EIExp EConLam
+               (+e>*-++ (ziplem-lam1 +>*τ)
+                 (EIExp EMLamParent1 EIRefl))) ⟩
+  constructability-e (‵ e₁ ∙ e₂)
+    with ⟨ ᾱ₁ , +>*e₁ ⟩ ← constructability-e e₁
+       | ⟨ ᾱ₂ , +>*e₂ ⟩ ← constructability-e e₂
+       = ⟨ ᾱ₁ ++ construct (ap₁ uz) ∷ ᾱ₂ ++ ∣[ move parent ] ,
+           +e>*-++ +>*e₁
+             (EIExp EConAp1
+               (+e>*-++ (ziplem-ap2 +>*e₂)
+                 (EIExp EMApParent2 EIRefl))) ⟩
+  constructability-e (‵ x ← e₁ ∙ e₂)
+    with ⟨ ᾱ₁ , +>*e₁ ⟩ ← constructability-e e₁
+       | ⟨ ᾱ₂ , +>*e₂ ⟩ ← constructability-e e₂
+       = ⟨ ᾱ₁ ++ construct (let₁ x uz) ∷ ᾱ₂ ++ ∣[ move parent ] ,
+           +e>*-++ +>*e₁
+             (EIExp EConLet1
+               (+e>*-++ (ziplem-let2 +>*e₂)
+                 (EIExp EMLetParent2 EIRefl))) ⟩
+  constructability-e (‵ℕ n) = ⟨ ∣[ construct (num n) ] , EIExp EConNum EIRefl ⟩
+  constructability-e (‵ e₁ + e₂)
+    with ⟨ ᾱ₁ , +>*e₁ ⟩ ← constructability-e e₁
+       | ⟨ ᾱ₂ , +>*e₂ ⟩ ← constructability-e e₂
+       = ⟨ ᾱ₁ ++ construct (plus₁ uz) ∷ ᾱ₂ ++ ∣[ move parent ] ,
+           +e>*-++ +>*e₁
+             (EIExp EConPlus1
+               (+e>*-++ (ziplem-plus2 +>*e₂)
+                 (EIExp EMPlusParent2 EIRefl))) ⟩
+  constructability-e ‵tt = ⟨ ∣[ construct tt ] , EIExp EConTrue EIRefl ⟩
+  constructability-e ‵ff = ⟨ ∣[ construct ff ] , EIExp EConFalse EIRefl ⟩
+  constructability-e (‵ e₁ ∙ e₂ ∙ e₃)
+    with ⟨ ᾱ₁ , +>*e₁ ⟩ ← constructability-e e₁
+       | ⟨ ᾱ₂ , +>*e₂ ⟩ ← constructability-e e₂
+       | ⟨ ᾱ₃ , +>*e₃ ⟩ ← constructability-e e₃
+       = ⟨ ᾱ₁ ++ construct (if₁ uz uz) ∷ ᾱ₂ ++ move parent ∷ move (child 3) ∷ ᾱ₃ ++ ∣[ move parent ] ,
+           +e>*-++ +>*e₁
+             (EIExp EConIf1
+               (+e>*-++ (ziplem-if2 +>*e₂)
+                 (EIExp EMIfParent2
+                   (EIExp EMIfChild3
+                     (+e>*-++ (ziplem-if3 +>*e₃)
+                       (EIExp EMIfParent3 EIRefl)))))) ⟩
