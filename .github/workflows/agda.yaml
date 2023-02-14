@@ -3,6 +3,7 @@ name: agda
 on:
   push:
     branches: [master]
+    paths: ['**.agda']
 jobs:
   check:
     name: Check all.agda
