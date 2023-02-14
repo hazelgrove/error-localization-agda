@@ -184,13 +184,13 @@ module untyped where
   +e>*-++ (EIExp ê+>ê′ ê′+>*ê″) ê″+>*ê‴ = EIExp ê+>ê′ (+e>*-++ ê′+>*ê″ ê″+>*ê‴)
 
   -- type zippers
-  ziplem-arr1 : ∀ {τ^ τ^′ τ ᾱ} → τ^ + ᾱ +τ>* τ^′ → (τ^ -→₁ τ) + ᾱ +τ>* (τ^′ -→₁ τ)
-  ziplem-arr1 TIRefl                    = TIRefl
-  ziplem-arr1 (TITyp τ^+>τ^′ τ^′+>*τ^″) = TITyp (TZipArr1 τ^+>τ^′) (ziplem-arr1 τ^′+>*τ^″)
+  ziplem-tarr1 : ∀ {τ^ τ^′ τ ᾱ} → τ^ + ᾱ +τ>* τ^′ → (τ^ -→₁ τ) + ᾱ +τ>* (τ^′ -→₁ τ)
+  ziplem-tarr1 TIRefl                    = TIRefl
+  ziplem-tarr1 (TITyp τ^+>τ^′ τ^′+>*τ^″) = TITyp (TZipArr1 τ^+>τ^′) (ziplem-tarr1 τ^′+>*τ^″)
 
-  ziplem-arr2 : ∀ {τ^ τ^′ τ ᾱ} → τ^ + ᾱ +τ>* τ^′ → (τ -→₂ τ^) + ᾱ +τ>* (τ -→₂ τ^′)
-  ziplem-arr2 TIRefl                    = TIRefl
-  ziplem-arr2 (TITyp τ^+>τ^′ τ^′+>*τ^″) = TITyp (TZipArr2 τ^+>τ^′) (ziplem-arr2 τ^′+>*τ^″)
+  ziplem-tarr2 : ∀ {τ^ τ^′ τ ᾱ} → τ^ + ᾱ +τ>* τ^′ → (τ -→₂ τ^) + ᾱ +τ>* (τ -→₂ τ^′)
+  ziplem-tarr2 TIRefl                    = TIRefl
+  ziplem-tarr2 (TITyp τ^+>τ^′ τ^′+>*τ^″) = TITyp (TZipArr2 τ^+>τ^′) (ziplem-tarr2 τ^′+>*τ^″)
 
   -- expression zippers
   ziplem-lam1 : ∀ {x τ^ τ^′ e ᾱ} → τ^ + ᾱ +τ>* τ^′ → (‵λ₁ x ∶ τ^ ∙ e) + ᾱ +e>* (‵λ₁ x ∶ τ^′ ∙ e)
@@ -301,12 +301,12 @@ module untyped where
     with ⟨ ᾱ , ⟨ ᾱmv , τ^+>* ⟩ ⟩ ← reachup-τ τ^
        = ⟨ ᾱ ++ ∣[ move parent ] ,
          ⟨ movements-++ ᾱmv (AMICons parent AMINil) ,
-           +τ>*-++ (ziplem-arr1 τ^+>*) (TITyp TMArrParent1 TIRefl) ⟩ ⟩
+           +τ>*-++ (ziplem-tarr1 τ^+>*) (TITyp TMArrParent1 TIRefl) ⟩ ⟩
   reachup-τ (τ -→₂ τ^)
     with ⟨ ᾱ , ⟨ ᾱmv , τ^+>* ⟩ ⟩ ← reachup-τ τ^
        = ⟨ ᾱ ++ ∣[ move parent ] ,
          ⟨ movements-++ ᾱmv (AMICons parent AMINil) ,
-           +τ>*-++ (ziplem-arr2 τ^+>*) (TITyp TMArrParent2 TIRefl) ⟩ ⟩
+           +τ>*-++ (ziplem-tarr2 τ^+>*) (TITyp TMArrParent2 TIRefl) ⟩ ⟩
 
   -- reach up for expressions
   reachup-e : (ê : ZExp) → ∃[ ᾱ ] ᾱ movements × ê + ᾱ +e>* ‵▹ ê ◇ ◃
@@ -374,12 +374,12 @@ module untyped where
     with ⟨ ᾱ , ⟨ ᾱmv , +>*τ^ ⟩ ⟩ ← reachdown-τ τ^
        = ⟨ move (child 1) ∷ ᾱ ,
          ⟨ AMICons (child 1) ᾱmv ,
-           TITyp TMArrChild1 (ziplem-arr1 +>*τ^) ⟩ ⟩
+           TITyp TMArrChild1 (ziplem-tarr1 +>*τ^) ⟩ ⟩
   reachdown-τ (τ -→₂ τ^)
     with ⟨ ᾱ , ⟨ ᾱmv , +>*τ^ ⟩ ⟩ ← reachdown-τ τ^
        = ⟨ move (child 2) ∷ ᾱ ,
          ⟨ AMICons (child 2) ᾱmv ,
-           TITyp TMArrChild2 (ziplem-arr2 +>*τ^) ⟩ ⟩
+           TITyp TMArrChild2 (ziplem-tarr2 +>*τ^) ⟩ ⟩
 
   reachdown-e : (ê : ZExp) → ∃[ ᾱ ] ᾱ movements ×  ‵▹ ê ◇ ◃ + ᾱ +e>* ê
   reachdown-e ‵▹ e ◃ = ⟨ [] , ⟨ AMINil , EIRefl ⟩ ⟩
@@ -450,3 +450,14 @@ module untyped where
     with ⟨ ᾱ₁ , ⟨ ᾱ₁mv , ê₁+>*  ⟩ ⟩ ← reachup-e ê₁
        | ⟨ ᾱ₂ , ⟨ ᾱ₂mv , +>*ê₂  ⟩ ⟩ ← reachdown-e ê₂
        = ⟨ ᾱ₁ ++ ᾱ₂ , ⟨ movements-++ ᾱ₁mv ᾱ₂mv , +e>*-++ ê₁+>* (transport (λ { e → ‵▹ e ◃ + ᾱ₂ +e>* ê₂ }) (≡-sym eq) +>*ê₂) ⟩ ⟩
+
+  -- constructability of types
+  constructability-τ : (τ : Typ) → ∃[ ᾱ ] ▹ unknown ◃ + ᾱ +τ>* ▹ τ ◃
+  constructability-τ num = ⟨ ∣[ construct tnum ] , TITyp TConNum TIRefl ⟩
+  constructability-τ bool = ⟨ ∣[ construct tbool ] , TITyp TConBool TIRefl ⟩
+  constructability-τ unknown = ⟨ [] , TIRefl ⟩
+  constructability-τ (τ₁ -→ τ₂)
+    with ⟨ ᾱ₁ , +>*τ₁ ⟩ ← constructability-τ τ₁
+       | ⟨ ᾱ₂ , +>*τ₂ ⟩ ← constructability-τ τ₂
+       = ⟨ ᾱ₁ ++ construct tarrow₁ ∷ ᾱ₂ ++ ∣[ move parent ] ,
+           +τ>*-++ +>*τ₁ (TITyp TConArrow1 (+τ>*-++ (ziplem-tarr2 +>*τ₂) (TITyp TMArrParent2 TIRefl))) ⟩
