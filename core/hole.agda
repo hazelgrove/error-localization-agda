@@ -1,6 +1,6 @@
 open import prelude
 
-module hole where
+module core.hole where
   -- hole identifiers
   Hole : Set
   Hole = ℕ

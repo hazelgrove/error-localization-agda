@@ -1,10 +1,12 @@
 open import prelude
-open import typ
-open import uexp renaming (Ctx to UCtx; Subsumable to Subsumable)
-open import mexp renaming (Ctx to MCtx; Subsumable to MSubsumable)
-open import marking
 
-module totality where
+open import core.typ
+open import core.uexp renaming (Ctx to UCtx; Subsumable to Subsumable)
+open import core.mexp renaming (Ctx to MCtx; Subsumable to MSubsumable)
+
+open import marking.marking
+
+module marking.totality where
   mutual
     ↬⇒-totality : ∀ (Γ : UCtx) → (e : UExp) → Σ[ τ ∈ Typ ] Σ[ ě ∈ ⟦ Γ ⟧ ⊢⇒ τ ] (Γ ⊢ e ↬⇒ ě)
     ↬⇒-totality Γ (‵⦇-⦈^ x) = ⟨ unknown , ⟨ ⊢⦇-⦈^ x , ISHole ⟩ ⟩

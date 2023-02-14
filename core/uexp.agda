@@ -1,10 +1,10 @@
 open import prelude
-open import typ
-open import hole
-open import var
+open import core.typ
+open import core.hole
+open import core.var
 
 -- unmarked expressions
-module uexp where
+module core.uexp where
   infix  4 _⊢_⇒_
   infix  4 _⊢_⇐_
   infix  4 _∋_∶_

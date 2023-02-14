@@ -1,10 +1,10 @@
 open import prelude
-open import typ
-open import hole
-open import var
+open import core.typ
+open import core.hole
+open import core.var
 
 -- instrinsically typed marked expressions
-module mexp where
+module core.mexp where
   infix  4 _⊢⇒_
   infix  4 _⊢⇐_
   infix  4 _∋_

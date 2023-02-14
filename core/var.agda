@@ -1,6 +1,6 @@
 open import prelude
 
-module var where
+module core.var where
   -- variables
   Var : Set
   Var = ℕ

@@ -1,11 +1,13 @@
 open import prelude
-open import typ
-open import uexp renaming (Ctx to UCtx; Subsumable to USubsumable)
-open import mexp renaming (Ctx to MCtx; Subsumable to MSubsumable)
-open import marking
-open import erasure
 
-module wellformed where
+open import core.typ
+open import core.uexp renaming (Ctx to UCtx; Subsumable to USubsumable)
+open import core.mexp renaming (Ctx to MCtx; Subsumable to MSubsumable)
+open import core.erasure
+
+open import marking.marking
+
+module marking.wellformed where
   mutual
     -- marking preserves syntactic structure
     ↬⇒□ : ∀ {Γ : UCtx} {e : UExp} {τ : Typ} {ě : ⟦ Γ ⟧ ⊢⇒ τ} → Γ ⊢ e ↬⇒ ě → ě ⇒□ ≡ e

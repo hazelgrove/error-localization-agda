@@ -1,10 +1,12 @@
 open import prelude
-open import typ
-open import uexp renaming (Ctx to UCtx; Subsumable to USubsumable)
-open import mexp renaming (Ctx to MCtx; Subsumable to MSubsumable)
-open import marking
 
-module unicity where
+open import core.typ
+open import core.uexp renaming (Ctx to UCtx; Subsumable to USubsumable)
+open import core.mexp renaming (Ctx to MCtx; Subsumable to MSubsumable)
+
+open import marking.marking
+
+module marking.unicity where
   ∋→τ-≡ : ∀ {Γ x τ₁ τ₂} → (Γ ∋ x ∶ τ₁) → (Γ ∋ x ∶ τ₂) → τ₁ ≡ τ₂
   ∋→τ-≡ Z         Z         = refl
   ∋→τ-≡ Z         (S x≢x _) = ⊥-elim (x≢x refl)

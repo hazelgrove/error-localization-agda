@@ -1,9 +1,9 @@
 open import prelude
-open import typ
-open import uexp
-open import mexp
+open import core.typ
+open import core.uexp
+open import core.mexp
 
-module erasure where
+module core.erasure where
   mutual
     _⇒□ : ∀ {Γ τ} → (ě : Γ ⊢⇒ τ) → UExp
     (⊢⦇-⦈^ u)                      ⇒□ = ‵⦇-⦈^ u

@@ -1,6 +1,5 @@
 module core where
-  import typ
-  import uexp
-  import mexp
-  import marking
-  import erasure
+  import core.typ
+  import core.uexp
+  import core.mexp
+  import core.erasure

@@ -1,7 +1,7 @@
 open import prelude
 
 -- types
-module typ where
+module core.typ where
   data Typ : Set where
     num     : Typ
     bool    : Typ

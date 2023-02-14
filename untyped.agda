@@ -1,7 +1,9 @@
 open import prelude
-open import typ
-open import hole
-open import uexp
+
+open import core.typ
+open import core.hole
+open import core.uexp
+
 open import zexp
 open import action
 
