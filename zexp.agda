@@ -9,6 +9,9 @@ module zexp where
     _-→₁_ : (τ^ : ZTyp) → (τ : Typ) → ZTyp
     _-→₂_ : (τ : Typ) → (τ^ : ZTyp) → ZTyp
 
+  infixr 25  _-→₁_
+  infixr 25  _-→₂_
+
   data ZExp : Set where
     ‵▹_◃ : (e : UExp) → ZExp
     ‵λ₁_∶_∙_ : (x : Var) → (τ^ : ZTyp) → (e : UExp) → ZExp

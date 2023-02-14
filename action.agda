@@ -11,7 +11,8 @@ module action where
 
   -- construction shape
   data Shape : Set where
-    tarrow : Shape
+    tarrow₁ : Shape
+    tarrow₂ : Shape
     tnum   : Shape
     tbool  : Shape
     var    : (x : Var) → Shape
@@ -51,7 +52,8 @@ module action where
   module sort where
     -- shape sorts
     data _tshape : Shape → Set where
-      STArrow : tarrow tshape
+      STArrow₁ : tarrow₁ tshape
+      STArrow₂ : tarrow₂ tshape
       STNum   : tnum tshape
       STBool  : tbool tshape
 
@@ -78,7 +80,8 @@ module action where
 
     -- sort decidability
     TShape? : (ψ : Shape) → Dec (ψ tshape)
-    TShape? tarrow   = yes STArrow
+    TShape? tarrow₁  = yes STArrow₁
+    TShape? tarrow₂  = yes STArrow₂
     TShape? tnum     = yes STNum
     TShape? tbool    = yes STBool
     TShape? (var x)  = no (λ ())
@@ -97,7 +100,8 @@ module action where
     TShape? if₃      = no (λ ())
 
     EShape? : (ψ : Shape) → Dec (ψ eshape)
-    EShape? tarrow   = no (λ ())
+    EShape? tarrow₁  = no (λ ())
+    EShape? tarrow₂  = no (λ ())
     EShape? tnum     = no (λ ())
     EShape? tbool    = no (λ ())
     EShape? (var x)  = yes (SEVar x)
