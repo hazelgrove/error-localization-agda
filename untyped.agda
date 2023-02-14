@@ -439,8 +439,14 @@ module untyped where
          ⟨ AMICons (child 3) ᾱmv ,
            EIExp EMIfChild3 (ziplem-if3 +>*ê) ⟩ ⟩
 
-  -- reachability-τ : (τ^ τ^′ : ZTyp) → τ^ ◇τ ≡ τ^′ ◇τ → ∃[ ᾱ ] ᾱ movements × τ^ + ᾱ +τ>* τ^′
-  -- reachability-τ τ^ τ^′ eq
-    -- with ⟨ ᾱ  , ⟨ ᾱmv  , τ^+>*  ⟩ ⟩ ← reachup-τ τ^
-       -- | ⟨ ᾱ′ , ⟨ ᾱmv′ , +>*τ^′ ⟩ ⟩ ← reachdown-τ τ^′
-       -- = ⟨ ᾱ ++ ᾱ′ , ⟨ movements-++ ᾱmv ᾱmv′ , +τ>*-++ τ^+>* (transport (λ { τ → ▹ τ ◃ + ᾱ′ +τ>* τ^′ }) eq ?) ⟩ ⟩
+  reachability-τ : (τ₁^ τ₂^ : ZTyp) → τ₁^ ◇τ ≡ τ₂^ ◇τ → ∃[ ᾱ ] ᾱ movements × τ₁^ + ᾱ +τ>* τ₂^
+  reachability-τ τ₁^ τ₂^ eq
+    with ⟨ ᾱ₁ , ⟨ ᾱ₁mv , τ₁^+>*  ⟩ ⟩ ← reachup-τ τ₁^
+       | ⟨ ᾱ₂ , ⟨ ᾱ₂mv , +>*τ₂^  ⟩ ⟩ ← reachdown-τ τ₂^
+       = ⟨ ᾱ₁ ++ ᾱ₂ , ⟨ movements-++ ᾱ₁mv ᾱ₂mv , +τ>*-++ τ₁^+>* (transport (λ { τ → ▹ τ ◃ + ᾱ₂ +τ>* τ₂^ }) (≡-sym eq) +>*τ₂^) ⟩ ⟩
+
+  reachability-e : (ê₁ ê₂ : ZExp) → ê₁ ◇ ≡ ê₂ ◇ → ∃[ ᾱ ] ᾱ movements × ê₁ + ᾱ +e>* ê₂
+  reachability-e ê₁ ê₂ eq
+    with ⟨ ᾱ₁ , ⟨ ᾱ₁mv , ê₁+>*  ⟩ ⟩ ← reachup-e ê₁
+       | ⟨ ᾱ₂ , ⟨ ᾱ₂mv , +>*ê₂  ⟩ ⟩ ← reachdown-e ê₂
+       = ⟨ ᾱ₁ ++ ᾱ₂ , ⟨ movements-++ ᾱ₁mv ᾱ₂mv , +e>*-++ ê₁+>* (transport (λ { e → ‵▹ e ◃ + ᾱ₂ +e>* ê₂ }) (≡-sym eq) +>*ê₂) ⟩ ⟩
