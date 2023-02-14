@@ -31,8 +31,129 @@ module untyped where
 
     -- zipper
     TZipArr1 : ∀ {τ^ τ^′ : ZTyp} {τ : Typ} {α : Action}
-             → τ^ + α +τ> τ^′
+             → (τ^+>τ^′ : τ^ + α +τ> τ^′)
              → τ^ -→₁ τ + α +τ> τ^′ -→₁ τ
     TZipArr2 : ∀ {τ^ τ^′ : ZTyp} {τ : Typ} {α : Action}
-             → τ^ + α +τ> τ^′
+             → (τ^+>τ^′ : τ^ + α +τ> τ^′)
              → τ -→₂ τ^ + α +τ> τ -→₂ τ^′
+
+  -- expression actions
+  data _+_+e>_ : (ê : ZExp) → (α : Action) → (ê′ : ZExp) → Set where
+    -- movement
+    EMLamChild1  : ∀ {x τ e}
+                 → ‵▹ ‵λ x ∶ τ ∙ e ◃ + move (child 1) +e> (‵λ₁ x ∶ ▹ τ ◃ ∙ e)
+    EMLamChild2  : ∀ {x τ e}
+                 → ‵▹ ‵λ x ∶ τ ∙ e ◃ + move (child 2) +e> (‵λ₂ x ∶ τ ∙ ‵▹ e ◃)
+    EMLamParent1 : ∀ {x τ e}
+                 → (‵λ₁ x ∶ ▹ τ ◃ ∙ e) + move parent +e> ‵▹ ‵λ x ∶ τ ∙ e ◃
+    EMLamParent2 : ∀ {x τ e}
+                 → (‵λ₂ x ∶ τ ∙ ‵▹ e ◃) + move parent +e> ‵▹ ‵λ x ∶ τ ∙ e ◃
+
+    EMApChild1  : ∀ {e₁ e₂}
+                → ‵▹ ‵ e₁ ∙ e₂ ◃ + move (child 1) +e> (‵ ‵▹ e₁ ◃ ∙₁ e₂)
+    EMApChild2  : ∀ {e₁ e₂}
+                → ‵▹ ‵ e₁ ∙ e₂ ◃ + move (child 2) +e> (‵ e₁ ∙₂ ‵▹ e₂ ◃)
+    EMApParent1  : ∀ {e₁ e₂}
+                → (‵ ‵▹ e₁ ◃ ∙₁ e₂) + move parent +e> ‵▹ ‵ e₁ ∙ e₂ ◃
+    EMApParent2  : ∀ {e₁ e₂}
+                → (‵ e₁ ∙₂ ‵▹ e₂ ◃) + move parent +e> ‵▹ ‵ e₁ ∙ e₂ ◃
+
+    EMLetChild1  : ∀ {x e₁ e₂}
+                → ‵▹ ‵ x ← e₁ ∙ e₂ ◃ + move (child 1) +e> (‵ x ←₁ ‵▹ e₁ ◃ ∙ e₂)
+    EMLetChild2  : ∀ {x e₁ e₂}
+                → ‵▹ ‵ x ← e₁ ∙ e₂ ◃ + move (child 2) +e> (‵ x ←₂ e₁ ∙ ‵▹ e₂ ◃)
+    EMLetParent1  : ∀ {x e₁ e₂}
+                → (‵ x ←₁ ‵▹ e₁ ◃ ∙ e₂) + move parent +e> ‵▹ ‵ e₁ ∙ e₂ ◃
+    EMLetParent2  : ∀ {x e₁ e₂}
+                → (‵ x ←₂ e₁ ∙ ‵▹ e₂ ◃) + move parent +e> ‵▹ ‵ e₁ ∙ e₂ ◃
+
+    EMPlusChild1  : ∀ {e₁ e₂}
+                → ‵▹ ‵ e₁ + e₂ ◃ + move (child 1) +e> (‵ ‵▹ e₁ ◃ +₁ e₂)
+    EMPlusChild2  : ∀ {e₁ e₂}
+                → ‵▹ ‵ e₁ + e₂ ◃ + move (child 2) +e> (‵ e₁ +₂ ‵▹ e₂ ◃)
+    EMPlusParent1  : ∀ {e₁ e₂}
+                → (‵ ‵▹ e₁ ◃ +₁ e₂) + move parent +e> ‵▹ ‵ e₁ + e₂ ◃
+    EMPlusParent2  : ∀ {e₁ e₂}
+                → (‵ e₁ +₂ ‵▹ e₂ ◃) + move parent +e> ‵▹ ‵ e₁ + e₂ ◃
+
+    EMIfChild1  : ∀ {e₁ e₂ e₃}
+                → ‵▹ ‵ e₁ ∙ e₂ ∙ e₃ ◃ + move (child 1) +e> (‵ ‵▹ e₁ ◃ ∙₁ e₂ ∙ e₃)
+    EMIfChild2  : ∀ {e₁ e₂ e₃}
+                → ‵▹ ‵ e₁ ∙ e₂ ∙ e₃ ◃ + move (child 2) +e> (‵ e₁ ∙₂ ‵▹ e₂ ◃ ∙ e₃)
+    EMIfChild3  : ∀ {e₁ e₂ e₃}
+                → ‵▹ ‵ e₁ ∙ e₂ ∙ e₃ ◃ + move (child 3) +e> (‵ e₁ ∙₃ e₂ ∙ ‵▹ e₃ ◃)
+    EMIfParent1  : ∀ {e₁ e₂ e₃}
+                → (‵ ‵▹ e₁ ◃ ∙₁ e₂ ∙ e₃) + move parent +e> ‵▹ ‵ e₁ ∙ e₂ ∙ e₃ ◃
+    EMIfParent2  : ∀ {e₁ e₂ e₃}
+                → (‵ e₁ ∙₂ ‵▹ e₂ ◃ ∙ e₃) + move parent +e> ‵▹ ‵ e₁ ∙ e₂ ∙ e₃ ◃
+    EMIfParent3  : ∀ {e₁ e₂ e₃}
+                → (‵ e₁ ∙₃ e₂ ∙ ‵▹ e₃ ◃) + move parent +e> ‵▹ ‵ e₁ ∙ e₂ ∙ e₃ ◃
+
+    -- deletion
+    EDel : ∀ {e u}
+         → ‵▹ e ◃ + del +e> ‵▹ ‵⦇-⦈^ u ◃
+
+    -- construction
+    EConVar : ∀ {u x}
+            → ‵▹ ‵⦇-⦈^ u ◃ + construct (var x) +e> ‵▹ ‵ x ◃
+    EConLam : ∀ {e x}
+            → ‵▹ e ◃ + construct (lam x) +e> (‵λ₁ x ∶ ▹ unknown ◃ ∙ e)
+    EConAp1 : ∀ {e u}
+            → ‵▹ e ◃ + construct ap₁ +e> (‵ e ∙₂ ‵▹ ‵⦇-⦈^ u ◃)
+    EConAp2 : ∀ {e u}
+            → ‵▹ e ◃ + construct ap₂ +e> (‵ ‵▹ ‵⦇-⦈^ u ◃ ∙₁ e)
+    EConLet1 : ∀ {e x u}
+            → ‵▹ e ◃ + construct (let₁ x) +e> (‵ x ←₂ e ∙ ‵▹ ‵⦇-⦈^ u ◃)
+    EConLet2 : ∀ {e x u}
+            → ‵▹ e ◃ + construct (let₂ x) +e> (‵ x ←₁ ‵▹ ‵⦇-⦈^ u ◃ ∙ e)
+    EConNum : ∀ {u n}
+            → ‵▹ ‵⦇-⦈^ u ◃ + construct (num n) +e> ‵▹ ‵ℕ n ◃
+    EConPlus1 : ∀ {e u}
+            → ‵▹ e ◃ + construct ap₁ +e> (‵ e +₂ ‵▹ ‵⦇-⦈^ u ◃)
+    EConPlus2 : ∀ {e u}
+            → ‵▹ e ◃ + construct ap₂ +e> (‵ ‵▹ ‵⦇-⦈^ u ◃ +₁ e)
+    EConTrue : ∀ {u}
+            → ‵▹ ‵⦇-⦈^ u ◃ + construct tt +e> ‵▹ ‵tt ◃
+    EConFalse : ∀ {u}
+            → ‵▹ ‵⦇-⦈^ u ◃ + construct ff +e> ‵▹ ‵ff ◃
+    EConIf1 : ∀ {e u₁ u₂}
+            → ‵▹ e ◃ + construct if₁ +e> (‵ e ∙₂ ‵▹ ‵⦇-⦈^ u₁ ◃ ∙ ‵⦇-⦈^ u₂)
+    EConIf2 : ∀ {e u₁ u₂}
+            → ‵▹ e ◃ + construct if₂ +e> (‵ ‵▹ ‵⦇-⦈^ u₁ ◃ ∙₁ e ∙ ‵⦇-⦈^ u₂)
+    EConIf3 : ∀ {e u₁ u₂}
+            → ‵▹ e ◃ + construct if₃ +e> (‵ ‵▹ ‵⦇-⦈^ u₁ ◃ ∙₁ ‵⦇-⦈^ u₂ ∙ e)
+
+    -- zipper cases
+    EZipLam1 : ∀ {x τ^ e α τ^′}
+             → (τ^+>τ^′ : τ^ + α +τ> τ^′)
+             → (‵λ₁ x ∶ τ^ ∙ e) + α +e> (‵λ₁ x ∶ τ^′ ∙ e)
+    EZipLam2 : ∀ {x τ ê α ê′}
+             → (ê+>ê′ : ê + α +e> ê′)
+             → (‵λ₂ x ∶ τ ∙ ê) + α +e> (‵λ₂ x ∶ τ ∙ ê′)
+    EZipAp1 : ∀ {ê e α ê′}
+             → (ê+>ê′ : ê + α +e> ê′)
+             → (‵ ê ∙₁ e) + α +e> (‵ ê′ ∙₁ e)
+    EZipAp2 : ∀ {e ê α ê′}
+             → (ê+>ê′ : ê + α +e> ê′)
+             → (‵ e ∙₂ ê) + α +e> (‵ e ∙₂ ê′)
+    EZipLet1 : ∀ {x ê e α ê′}
+             → (ê+>ê′ : ê + α +e> ê′)
+             → (‵ x ←₁ ê ∙ e) + α +e> (‵ x ←₁ ê′ ∙ e)
+    EZipLet2 : ∀ {x e ê α ê′}
+             → (ê+>ê′ : ê + α +e> ê′)
+             → (‵ x ←₂ e ∙ ê) + α +e> (‵ x ←₂ e ∙ ê′)
+    EZipPlus1 : ∀ {ê e α ê′}
+             → (ê+>ê′ : ê + α +e> ê′)
+             → (‵ ê +₁ e) + α +e> (‵ ê′ +₁ e)
+    EZipPlus2 : ∀ {e ê α ê′}
+             → (ê+>ê′ : ê + α +e> ê′)
+             → (‵ e +₂ ê) + α +e> (‵ e +₂ ê′)
+    EZipIf1 : ∀ {ê e₁ e₂ α ê′}
+             → (ê+>ê′ : ê + α +e> ê′)
+             → (‵ ê ∙₁ e₁ ∙ e₂) + α +e> (‵ ê′ ∙₁ e₁ ∙ e₂)
+    EZipIf2 : ∀ {e₁ ê e₂ α ê′}
+             → (ê+>ê′ : ê + α +e> ê′)
+             → (‵ e₁ ∙₂ ê ∙ e₂) + α +e> (‵ e₁ ∙₂ ê′ ∙ e₂)
+    EZipIf3 : ∀ {e₁ e₂ ê α ê′}
+             → (ê+>ê′ : ê + α +e> ê′)
+             → (‵ e₁ ∙₃ e₂ ∙ ê) + α +e> (‵ e₁ ∙₃ e₂ ∙ ê′)
