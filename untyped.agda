@@ -517,3 +517,25 @@ module untyped where
                    (EIExp EMIfChild3
                      (+e>*-++ (ziplem-if3 +>*e₃)
                        (EIExp EMIfParent3 EIRefl)))))) ⟩
+
+  determinism-τ : ∀ {τ^ τ^′ τ^″ α} → τ^ + α +τ> τ^′ → τ^ + α +τ> τ^″ → τ^′ ≡ τ^″
+  determinism-τ TMArrChild1        TMArrChild1  = refl
+  determinism-τ TMArrChild2        TMArrChild2  = refl
+  determinism-τ TMArrParent1       TMArrParent1 = refl
+  determinism-τ TMArrParent2       TMArrParent2 = refl
+  determinism-τ TMArrParent2       (TZipArr2 ())
+  determinism-τ TDel               TDel         = refl
+  determinism-τ TConArrow1         TConArrow1   = refl
+  determinism-τ TConArrow2         TConArrow2   = refl
+  determinism-τ TConNum            TConNum      = refl
+  determinism-τ TConBool           TConBool     = refl
+  determinism-τ (TZipArr1 τ^+>τ^′) (TZipArr1 τ^+>τ^″)
+    rewrite determinism-τ τ^+>τ^′ τ^+>τ^″       = refl
+  determinism-τ (TZipArr2 τ^+>τ^′) (TZipArr2 τ^+>τ^″)
+    rewrite determinism-τ τ^+>τ^′ τ^+>τ^″       = refl
+
+  determinism*-τ : ∀ {τ^ τ^′ τ^″ ᾱ} → τ^ + ᾱ +τ>* τ^′ → τ^ + ᾱ +τ>* τ^″ → τ^′ ≡ τ^″
+  determinism*-τ TIRefl                     TIRefl = refl
+  determinism*-τ (TITyp τ₁^+>τ₂^ τ₂^+>*τ₃^) (TITyp τ₁^+>τ₂^′ τ₂^+>*τ₃^′)
+    rewrite determinism-τ τ₁^+>τ₂^ τ₁^+>τ₂^′
+    rewrite determinism*-τ τ₂^+>*τ₃^ τ₂^+>*τ₃^′    = refl
