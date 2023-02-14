@@ -94,34 +94,34 @@ module untyped where
          → ‵▹ e ◃ + del +e> ‵▹ ‵⦇-⦈^ u ◃
 
     -- construction
-    EConVar : ∀ {u x}
-            → ‵▹ ‵⦇-⦈^ u ◃ + construct (var x) +e> ‵▹ ‵ x ◃
-    EConLam : ∀ {e x}
-            → ‵▹ e ◃ + construct (lam x) +e> (‵λ₁ x ∶ ▹ unknown ◃ ∙ e)
-    EConAp1 : ∀ {e u}
-            → ‵▹ e ◃ + construct ap₁ +e> (‵ e ∙₂ ‵▹ ‵⦇-⦈^ u ◃)
-    EConAp2 : ∀ {e u}
-            → ‵▹ e ◃ + construct ap₂ +e> (‵ ‵▹ ‵⦇-⦈^ u ◃ ∙₁ e)
-    EConLet1 : ∀ {e x u}
-            → ‵▹ e ◃ + construct (let₁ x) +e> (‵ x ←₂ e ∙ ‵▹ ‵⦇-⦈^ u ◃)
-    EConLet2 : ∀ {e x u}
-            → ‵▹ e ◃ + construct (let₂ x) +e> (‵ x ←₁ ‵▹ ‵⦇-⦈^ u ◃ ∙ e)
-    EConNum : ∀ {u n}
-            → ‵▹ ‵⦇-⦈^ u ◃ + construct (num n) +e> ‵▹ ‵ℕ n ◃
+    EConVar   : ∀ {u x}
+              → ‵▹ ‵⦇-⦈^ u ◃ + construct (var x) +e> ‵▹ ‵ x ◃
+    EConLam   : ∀ {e x}
+              → ‵▹ e ◃ + construct (lam x) +e> (‵λ₁ x ∶ ▹ unknown ◃ ∙ e)
+    EConAp1   : ∀ {e u}
+              → ‵▹ e ◃ + construct ap₁ +e> (‵ e ∙₂ ‵▹ ‵⦇-⦈^ u ◃)
+    EConAp2   : ∀ {e u}
+              → ‵▹ e ◃ + construct ap₂ +e> (‵ ‵▹ ‵⦇-⦈^ u ◃ ∙₁ e)
+    EConLet1  : ∀ {e x u}
+              → ‵▹ e ◃ + construct (let₁ x) +e> (‵ x ←₂ e ∙ ‵▹ ‵⦇-⦈^ u ◃)
+    EConLet2  : ∀ {e x u}
+              → ‵▹ e ◃ + construct (let₂ x) +e> (‵ x ←₁ ‵▹ ‵⦇-⦈^ u ◃ ∙ e)
+    EConNum   : ∀ {u n}
+              → ‵▹ ‵⦇-⦈^ u ◃ + construct (num n) +e> ‵▹ ‵ℕ n ◃
     EConPlus1 : ∀ {e u}
-            → ‵▹ e ◃ + construct ap₁ +e> (‵ e +₂ ‵▹ ‵⦇-⦈^ u ◃)
+              → ‵▹ e ◃ + construct ap₁ +e> (‵ e +₂ ‵▹ ‵⦇-⦈^ u ◃)
     EConPlus2 : ∀ {e u}
-            → ‵▹ e ◃ + construct ap₂ +e> (‵ ‵▹ ‵⦇-⦈^ u ◃ +₁ e)
-    EConTrue : ∀ {u}
-            → ‵▹ ‵⦇-⦈^ u ◃ + construct tt +e> ‵▹ ‵tt ◃
+              → ‵▹ e ◃ + construct ap₂ +e> (‵ ‵▹ ‵⦇-⦈^ u ◃ +₁ e)
+    EConTrue  : ∀ {u}
+              → ‵▹ ‵⦇-⦈^ u ◃ + construct tt +e> ‵▹ ‵tt ◃
     EConFalse : ∀ {u}
-            → ‵▹ ‵⦇-⦈^ u ◃ + construct ff +e> ‵▹ ‵ff ◃
-    EConIf1 : ∀ {e u₁ u₂}
-            → ‵▹ e ◃ + construct if₁ +e> (‵ e ∙₂ ‵▹ ‵⦇-⦈^ u₁ ◃ ∙ ‵⦇-⦈^ u₂)
-    EConIf2 : ∀ {e u₁ u₂}
-            → ‵▹ e ◃ + construct if₂ +e> (‵ ‵▹ ‵⦇-⦈^ u₁ ◃ ∙₁ e ∙ ‵⦇-⦈^ u₂)
-    EConIf3 : ∀ {e u₁ u₂}
-            → ‵▹ e ◃ + construct if₃ +e> (‵ ‵▹ ‵⦇-⦈^ u₁ ◃ ∙₁ ‵⦇-⦈^ u₂ ∙ e)
+              → ‵▹ ‵⦇-⦈^ u ◃ + construct ff +e> ‵▹ ‵ff ◃
+    EConIf1   : ∀ {e u₁ u₂}
+              → ‵▹ e ◃ + construct if₁ +e> (‵ e ∙₂ ‵▹ ‵⦇-⦈^ u₁ ◃ ∙ ‵⦇-⦈^ u₂)
+    EConIf2   : ∀ {e u₁ u₂}
+              → ‵▹ e ◃ + construct if₂ +e> (‵ ‵▹ ‵⦇-⦈^ u₁ ◃ ∙₁ e ∙ ‵⦇-⦈^ u₂)
+    EConIf3   : ∀ {e u₁ u₂}
+              → ‵▹ e ◃ + construct if₃ +e> (‵ ‵▹ ‵⦇-⦈^ u₁ ◃ ∙₁ ‵⦇-⦈^ u₂ ∙ e)
 
     -- zipper cases
     EZipLam1 : ∀ {x τ^ e α τ^′}
@@ -130,10 +130,10 @@ module untyped where
     EZipLam2 : ∀ {x τ ê α ê′}
              → (ê+>ê′ : ê + α +e> ê′)
              → (‵λ₂ x ∶ τ ∙ ê) + α +e> (‵λ₂ x ∶ τ ∙ ê′)
-    EZipAp1 : ∀ {ê e α ê′}
+    EZipAp1  : ∀ {ê e α ê′}
              → (ê+>ê′ : ê + α +e> ê′)
              → (‵ ê ∙₁ e) + α +e> (‵ ê′ ∙₁ e)
-    EZipAp2 : ∀ {e ê α ê′}
+    EZipAp2  : ∀ {e ê α ê′}
              → (ê+>ê′ : ê + α +e> ê′)
              → (‵ e ∙₂ ê) + α +e> (‵ e ∙₂ ê′)
     EZipLet1 : ∀ {x ê e α ê′}
@@ -148,12 +148,29 @@ module untyped where
     EZipPlus2 : ∀ {e ê α ê′}
              → (ê+>ê′ : ê + α +e> ê′)
              → (‵ e +₂ ê) + α +e> (‵ e +₂ ê′)
-    EZipIf1 : ∀ {ê e₁ e₂ α ê′}
+    EZipIf1  : ∀ {ê e₁ e₂ α ê′}
              → (ê+>ê′ : ê + α +e> ê′)
              → (‵ ê ∙₁ e₁ ∙ e₂) + α +e> (‵ ê′ ∙₁ e₁ ∙ e₂)
-    EZipIf2 : ∀ {e₁ ê e₂ α ê′}
+    EZipIf2  : ∀ {e₁ ê e₂ α ê′}
              → (ê+>ê′ : ê + α +e> ê′)
              → (‵ e₁ ∙₂ ê ∙ e₂) + α +e> (‵ e₁ ∙₂ ê′ ∙ e₂)
-    EZipIf3 : ∀ {e₁ e₂ ê α ê′}
+    EZipIf3  : ∀ {e₁ e₂ ê α ê′}
              → (ê+>ê′ : ê + α +e> ê′)
              → (‵ e₁ ∙₃ e₂ ∙ ê) + α +e> (‵ e₁ ∙₃ e₂ ∙ ê′)
+
+  -- iterated actions
+  data _+_+τ>*_ : (τ : ZTyp) → (ᾱ : ActionList) → (τ′ : ZTyp) → Set where
+    TIRefl : ∀ {τ^}
+           → τ^ + ⋯ +τ>* τ^
+    TITyp  : ∀ {τ^ τ^′ τ^″ α ᾱ}
+           → (τ^+>τ^′ : τ^ + α +τ> τ^′)
+           → (τ^′+>*τ^″ : τ^′ + ᾱ +τ>* τ^″)
+           → τ^ + α ∷ ᾱ +τ>* τ^″
+
+  data _+_+e>*_ : (ê : ZExp) → (ᾱ : ActionList) → (ê′ : ZExp) → Set where
+    EIRefil : ∀ {ê}
+            → ê + ⋯ +e>* ê
+    EIExp   : ∀ {ê ê′ ê″ α ᾱ}
+            → (ê+>ê′ : ê + α +e> ê′)
+            → (ê′+>*ê″ : ê′ + ᾱ +e>* ê″)
+            → ê + α ∷ ᾱ +e>* ê″
