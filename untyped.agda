@@ -159,9 +159,9 @@ module untyped where
              → (‵ e₁ ∙₃ e₂ ∙ ê) + α +e> (‵ e₁ ∙₃ e₂ ∙ ê′)
 
   -- iterated actions
-  data _+_+τ>*_ : (τ : ZTyp) → (ᾱ : ActionList) → (τ′ : ZTyp) → Set where
+  data _+_+τ>*_ : (τ^ : ZTyp) → (ᾱ : ActionList) → (τ^′ : ZTyp) → Set where
     TIRefl : ∀ {τ^}
-           → τ^ + ⋯ +τ>* τ^
+           → τ^ + [] +τ>* τ^
     TITyp  : ∀ {τ^ τ^′ τ^″ α ᾱ}
            → (τ^+>τ^′ : τ^ + α +τ> τ^′)
            → (τ^′+>*τ^″ : τ^′ + ᾱ +τ>* τ^″)
@@ -169,7 +169,7 @@ module untyped where
 
   data _+_+e>*_ : (ê : ZExp) → (ᾱ : ActionList) → (ê′ : ZExp) → Set where
     EIRefil : ∀ {ê}
-            → ê + ⋯ +e>* ê
+            → ê + [] +e>* ê
     EIExp   : ∀ {ê ê′ ê″ α ᾱ}
             → (ê+>ê′ : ê + α +e> ê′)
             → (ê′+>*ê″ : ê′ + ᾱ +e>* ê″)

@@ -37,13 +37,12 @@ module action where
     del       : Action
 
   -- action lists
-  data ActionList : Set where
-    ⋯   : ActionList
-    _∷_ : (α : Action) → (ᾱ : ActionList) → ActionList
+  ActionList : Set
+  ActionList = List Action
 
   module movements where
     data _movements : ActionList → Set where
-      AMINil  : ⋯ movements
+      AMINil  : [] movements
       AMICons : ∀ {ᾱ : ActionList}
               → (δ : Dir)
               → (mv : ᾱ movements)
