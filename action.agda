@@ -49,7 +49,7 @@ module action where
               → ((move δ) ∷ ᾱ) movements
 
     movements-++ : ∀ {ᾱ₁ ᾱ₂} → ᾱ₁ movements → ᾱ₂ movements → (ᾱ₁ ++ ᾱ₂) movements
-    movements-++ AMINil ᾱmv = ᾱmv
+    movements-++ AMINil           ᾱmv  = ᾱmv
     movements-++ (AMICons δ ᾱmv₁) ᾱmv₂ = AMICons δ (movements-++ ᾱmv₁ ᾱmv₂)
 
   module sort where

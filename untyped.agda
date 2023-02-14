@@ -168,7 +168,7 @@ module untyped where
            → τ^ + α ∷ ᾱ +τ>* τ^″
 
   data _+_+e>*_ : (ê : ZExp) → (ᾱ : ActionList) → (ê′ : ZExp) → Set where
-    EIRefil : ∀ {ê}
+    EIRefl : ∀ {ê}
             → ê + [] +e>* ê
     EIExp   : ∀ {ê ê′ ê″ α ᾱ}
             → (ê+>ê′ : ê + α +e> ê′)
@@ -176,17 +176,66 @@ module untyped where
             → ê + α ∷ ᾱ +e>* ê″
 
   +τ>*-++ : ∀ {τ^ τ^′ τ^″ ᾱ₁ ᾱ₂} → τ^ + ᾱ₁ +τ>* τ^′ → τ^′ + ᾱ₂ +τ>* τ^″ → τ^ + (ᾱ₁ ++ ᾱ₂) +τ>* τ^″
-  +τ>*-++ TIRefl τ^+>τ^″ = τ^+>τ^″
+  +τ>*-++ TIRefl                    τ^+>*τ^″  = τ^+>*τ^″
   +τ>*-++ (TITyp τ^+>τ^′ τ^′+>*τ^″) τ^″+>*τ^‴ = TITyp τ^+>τ^′ (+τ>*-++ τ^′+>*τ^″ τ^″+>*τ^‴)
+
+  +e>*-++ : ∀ {ê ê′ ê″ ᾱ₁ ᾱ₂} → ê + ᾱ₁ +e>* ê′ → ê′ + ᾱ₂ +e>* ê″ → ê + (ᾱ₁ ++ ᾱ₂) +e>* ê″
+  +e>*-++ EIRefl                ê+>*ê″  = ê+>*ê″
+  +e>*-++ (EIExp ê+>ê′ ê′+>*ê″) ê″+>*ê‴ = EIExp ê+>ê′ (+e>*-++ ê′+>*ê″ ê″+>*ê‴)
 
   -- type zippers
   ziplem-arr1 : ∀ {τ^ τ^′ τ ᾱ} → τ^ + ᾱ +τ>* τ^′ → (τ^ -→₁ τ) + ᾱ +τ>* (τ^′ -→₁ τ)
-  ziplem-arr1 TIRefl = TIRefl
+  ziplem-arr1 TIRefl                    = TIRefl
   ziplem-arr1 (TITyp τ^+>τ^′ τ^′+>*τ^″) = TITyp (TZipArr1 τ^+>τ^′) (ziplem-arr1 τ^′+>*τ^″)
 
   ziplem-arr2 : ∀ {τ^ τ^′ τ ᾱ} → τ^ + ᾱ +τ>* τ^′ → (τ -→₂ τ^) + ᾱ +τ>* (τ -→₂ τ^′)
-  ziplem-arr2 TIRefl = TIRefl
+  ziplem-arr2 TIRefl                    = TIRefl
   ziplem-arr2 (TITyp τ^+>τ^′ τ^′+>*τ^″) = TITyp (TZipArr2 τ^+>τ^′) (ziplem-arr2 τ^′+>*τ^″)
+
+  -- expression zippers
+  ziplem-lam1 : ∀ {x τ^ τ^′ e ᾱ} → τ^ + ᾱ +τ>* τ^′ → (‵λ₁ x ∶ τ^ ∙ e) + ᾱ +e>* (‵λ₁ x ∶ τ^′ ∙ e)
+  ziplem-lam1 TIRefl                    = EIRefl
+  ziplem-lam1 (TITyp τ^+>τ^′ τ^′+>*τ^″) = EIExp (EZipLam1 τ^+>τ^′) (ziplem-lam1 τ^′+>*τ^″)
+
+  ziplem-lam2 : ∀ {x τ ê ê′ ᾱ} → ê + ᾱ +e>* ê′ → (‵λ₂ x ∶ τ ∙ ê) + ᾱ +e>* (‵λ₂ x ∶ τ ∙ ê′)
+  ziplem-lam2 EIRefl                = EIRefl
+  ziplem-lam2 (EIExp ê+>ê′ ê′+>*ê″) = EIExp (EZipLam2 ê+>ê′) (ziplem-lam2 ê′+>*ê″)
+
+  ziplem-ap1 : ∀ {ê e ê′ ᾱ} → ê + ᾱ +e>* ê′ → (‵ ê ∙₁ e) + ᾱ +e>* (‵ ê′ ∙₁ e)
+  ziplem-ap1 EIRefl                = EIRefl
+  ziplem-ap1 (EIExp ê+>ê′ ê′+>*ê″) = EIExp (EZipAp1 ê+>ê′) (ziplem-ap1 ê′+>*ê″)
+
+  ziplem-ap2 : ∀ {e ê ê′ ᾱ} → ê + ᾱ +e>* ê′ → (‵ e ∙₂ ê) + ᾱ +e>* (‵ e ∙₂ ê′)
+  ziplem-ap2 EIRefl                = EIRefl
+  ziplem-ap2 (EIExp ê+>ê′ ê′+>*ê″) = EIExp (EZipAp2 ê+>ê′) (ziplem-ap2 ê′+>*ê″)
+
+  ziplem-let1 : ∀ {x ê e ê′ ᾱ} → ê + ᾱ +e>* ê′ → (‵ x ←₁ ê ∙ e) + ᾱ +e>* (‵ x ←₁ ê′ ∙ e)
+  ziplem-let1 EIRefl                = EIRefl
+  ziplem-let1 (EIExp ê+>ê′ ê′+>*ê″) = EIExp (EZipLet1 ê+>ê′) (ziplem-let1 ê′+>*ê″)
+
+  ziplem-let2 : ∀ {x e ê ê′ ᾱ} → ê + ᾱ +e>* ê′ → (‵ x ←₂ e ∙ ê) + ᾱ +e>* (‵ x ←₂ e ∙ ê′)
+  ziplem-let2 EIRefl                = EIRefl
+  ziplem-let2 (EIExp ê+>ê′ ê′+>*ê″) = EIExp (EZipLet2 ê+>ê′) (ziplem-let2 ê′+>*ê″)
+
+  ziplem-plus1 : ∀ {ê e ê′ ᾱ} → ê + ᾱ +e>* ê′ → (‵ ê +₁ e) + ᾱ +e>* (‵ ê′ +₁ e)
+  ziplem-plus1 EIRefl                = EIRefl
+  ziplem-plus1 (EIExp ê+>ê′ ê′+>*ê″) = EIExp (EZipPlus1 ê+>ê′) (ziplem-plus1 ê′+>*ê″)
+
+  ziplem-plus2 : ∀ {e ê ê′ ᾱ} → ê + ᾱ +e>* ê′ → (‵ e +₂ ê) + ᾱ +e>* (‵ e +₂ ê′)
+  ziplem-plus2 EIRefl                = EIRefl
+  ziplem-plus2 (EIExp ê+>ê′ ê′+>*ê″) = EIExp (EZipPlus2 ê+>ê′) (ziplem-plus2 ê′+>*ê″)
+
+  ziplem-if1 : ∀ {ê e₁ e₂ ê′ ᾱ} → ê + ᾱ +e>* ê′ → (‵ ê ∙₁ e₁ ∙ e₂) + ᾱ +e>* (‵ ê′ ∙₁ e₁ ∙ e₂)
+  ziplem-if1 EIRefl                = EIRefl
+  ziplem-if1 (EIExp ê+>ê′ ê′+>*ê″) = EIExp (EZipIf1 ê+>ê′) (ziplem-if1 ê′+>*ê″)
+
+  ziplem-if2 : ∀ {e₁ ê e₂ ê′ ᾱ} → ê + ᾱ +e>* ê′ → (‵ e₁ ∙₂ ê ∙ e₂) + ᾱ +e>* (‵ e₁ ∙₂ ê′ ∙ e₂)
+  ziplem-if2 EIRefl                = EIRefl
+  ziplem-if2 (EIExp ê+>ê′ ê′+>*ê″) = EIExp (EZipIf2 ê+>ê′) (ziplem-if2 ê′+>*ê″)
+
+  ziplem-if3 : ∀ {ê e₁ e₂ ê′ ᾱ} → ê + ᾱ +e>* ê′ → (‵ e₁ ∙₃ e₂ ∙ ê) + ᾱ +e>* (‵ e₁ ∙₃ e₂ ∙ ê′)
+  ziplem-if3 EIRefl                = EIRefl
+  ziplem-if3 (EIExp ê+>ê′ ê′+>*ê″) = EIExp (EZipIf3 ê+>ê′) (ziplem-if3 ê′+>*ê″)
 
   -- movement erasure invariance
   movement-erasure-invariance-τ : ∀ {τ^ τ^′ δ} → τ^ + move δ +τ> τ^′ → τ^ ◇τ ≡ τ^′ ◇τ
@@ -259,12 +308,133 @@ module untyped where
          ⟨ movements-++ ᾱmv (AMICons parent AMINil) ,
            +τ>*-++ (ziplem-arr2 τ^+>*) (TITyp TMArrParent2 TIRefl) ⟩ ⟩
 
+  -- reach up for expressions
+  reachup-e : (ê : ZExp) → ∃[ ᾱ ] ᾱ movements × ê + ᾱ +e>* ‵▹ ê ◇ ◃
+  reachup-e ‵▹ e ◃ = ⟨ [] , ⟨ AMINil , EIRefl ⟩ ⟩
+  reachup-e (‵λ₁ x ∶ τ^ ∙ e)
+    with ⟨ ᾱ , ⟨ ᾱmv , τ^+>* ⟩ ⟩ ← reachup-τ τ^
+       = ⟨ ᾱ ++ [ move parent ] ,
+         ⟨ movements-++ ᾱmv (AMICons parent AMINil) ,
+           +e>*-++ (ziplem-lam1 τ^+>*) (EIExp EMLamParent1 EIRefl) ⟩ ⟩
+  reachup-e (‵λ₂ x ∶ τ ∙ ê)
+    with ⟨ ᾱ , ⟨ ᾱmv , ê+>* ⟩ ⟩ ← reachup-e ê
+       = ⟨ ᾱ ++ [ move parent ] ,
+         ⟨ movements-++ ᾱmv (AMICons parent AMINil) ,
+           +e>*-++ (ziplem-lam2 ê+>*) (EIExp EMLamParent2 EIRefl) ⟩ ⟩
+  reachup-e (‵ ê ∙₁ e)
+    with ⟨ ᾱ , ⟨ ᾱmv , ê+>* ⟩ ⟩ ← reachup-e ê
+       = ⟨ ᾱ ++ [ move parent ] ,
+         ⟨ movements-++ ᾱmv (AMICons parent AMINil) ,
+           +e>*-++ (ziplem-ap1 ê+>*) (EIExp EMApParent1 EIRefl) ⟩ ⟩
+  reachup-e (‵ e ∙₂ ê)
+    with ⟨ ᾱ , ⟨ ᾱmv , ê+>* ⟩ ⟩ ← reachup-e ê
+       = ⟨ ᾱ ++ [ move parent ] ,
+         ⟨ movements-++ ᾱmv (AMICons parent AMINil) ,
+           +e>*-++ (ziplem-ap2 ê+>*) (EIExp EMApParent2 EIRefl) ⟩ ⟩
+  reachup-e (‵ x ←₁ ê ∙ e)
+    with ⟨ ᾱ , ⟨ ᾱmv , ê+>* ⟩ ⟩ ← reachup-e ê
+       = ⟨ ᾱ ++ [ move parent ] ,
+         ⟨ movements-++ ᾱmv (AMICons parent AMINil) ,
+           +e>*-++ (ziplem-let1 ê+>*) (EIExp EMLetParent1 EIRefl) ⟩ ⟩
+  reachup-e (‵ x ←₂ e ∙ ê)
+    with ⟨ ᾱ , ⟨ ᾱmv , ê+>* ⟩ ⟩ ← reachup-e ê
+       = ⟨ ᾱ ++ [ move parent ] ,
+         ⟨ movements-++ ᾱmv (AMICons parent AMINil) ,
+           +e>*-++ (ziplem-let2 ê+>*) (EIExp EMLetParent2 EIRefl) ⟩ ⟩
+  reachup-e (‵ ê +₁ e)
+    with ⟨ ᾱ , ⟨ ᾱmv , ê+>* ⟩ ⟩ ← reachup-e ê
+       = ⟨ ᾱ ++ [ move parent ] ,
+         ⟨ movements-++ ᾱmv (AMICons parent AMINil) ,
+           +e>*-++ (ziplem-plus1 ê+>*) (EIExp EMPlusParent1 EIRefl) ⟩ ⟩
+  reachup-e (‵ e +₂ ê)
+    with ⟨ ᾱ , ⟨ ᾱmv , ê+>* ⟩ ⟩ ← reachup-e ê
+       = ⟨ ᾱ ++ [ move parent ] ,
+         ⟨ movements-++ ᾱmv (AMICons parent AMINil) ,
+           +e>*-++ (ziplem-plus2 ê+>*) (EIExp EMPlusParent2 EIRefl) ⟩ ⟩
+  reachup-e (‵ ê ∙₁ e₂ ∙ e₃)
+    with ⟨ ᾱ , ⟨ ᾱmv , ê+>* ⟩ ⟩ ← reachup-e ê
+       = ⟨ ᾱ ++ [ move parent ] ,
+         ⟨ movements-++ ᾱmv (AMICons parent AMINil) ,
+           +e>*-++ (ziplem-if1 ê+>*) (EIExp EMIfParent1 EIRefl) ⟩ ⟩
+  reachup-e (‵ e₁ ∙₂ ê ∙ e₃)
+    with ⟨ ᾱ , ⟨ ᾱmv , ê+>* ⟩ ⟩ ← reachup-e ê
+       = ⟨ ᾱ ++ [ move parent ] ,
+         ⟨ movements-++ ᾱmv (AMICons parent AMINil) ,
+           +e>*-++ (ziplem-if2 ê+>*) (EIExp EMIfParent2 EIRefl) ⟩ ⟩
+  reachup-e (‵ e₁ ∙₃ e₂ ∙ ê)
+    with ⟨ ᾱ , ⟨ ᾱmv , ê+>* ⟩ ⟩ ← reachup-e ê
+       = ⟨ ᾱ ++ [ move parent ] ,
+         ⟨ movements-++ ᾱmv (AMICons parent AMINil) ,
+           +e>*-++ (ziplem-if3 ê+>*) (EIExp EMIfParent3 EIRefl) ⟩ ⟩
+
   -- reach down for types
   reachdown-τ : (τ^ : ZTyp) → ∃[ ᾱ ] ᾱ movements ×  ▹ τ^ ◇τ ◃ + ᾱ +τ>* τ^
   reachdown-τ ▹ τ ◃ = ⟨ [] , ⟨ AMINil , TIRefl ⟩ ⟩
   reachdown-τ (τ^ -→₁ τ)
     with ⟨ ᾱ , ⟨ ᾱmv , +>*τ^ ⟩ ⟩ ← reachdown-τ τ^
-       = ⟨ move (child 1) ∷ ᾱ , ⟨ AMICons (child 1) ᾱmv , TITyp TMArrChild1 (ziplem-arr1 +>*τ^) ⟩ ⟩
+       = ⟨ move (child 1) ∷ ᾱ ,
+         ⟨ AMICons (child 1) ᾱmv ,
+           TITyp TMArrChild1 (ziplem-arr1 +>*τ^) ⟩ ⟩
   reachdown-τ (τ -→₂ τ^)
     with ⟨ ᾱ , ⟨ ᾱmv , +>*τ^ ⟩ ⟩ ← reachdown-τ τ^
-       = ⟨ move (child 2) ∷ ᾱ , ⟨ AMICons (child 2) ᾱmv , TITyp TMArrChild2 (ziplem-arr2 +>*τ^) ⟩ ⟩
+       = ⟨ move (child 2) ∷ ᾱ ,
+         ⟨ AMICons (child 2) ᾱmv ,
+           TITyp TMArrChild2 (ziplem-arr2 +>*τ^) ⟩ ⟩
+
+  reachdown-e : (ê : ZExp) → ∃[ ᾱ ] ᾱ movements ×  ‵▹ ê ◇ ◃ + ᾱ +e>* ê
+  reachdown-e ‵▹ e ◃ = ⟨ [] , ⟨ AMINil , EIRefl ⟩ ⟩
+  reachdown-e (‵λ₁ x ∶ τ^ ∙ e)
+    with ⟨ ᾱ , ⟨ ᾱmv , +>*τ^ ⟩ ⟩ ← reachdown-τ τ^
+       = ⟨ move (child 1) ∷ ᾱ ,
+         ⟨ AMICons (child 1) ᾱmv ,
+           EIExp EMLamChild1 (ziplem-lam1 +>*τ^) ⟩ ⟩
+  reachdown-e (‵λ₂ x ∶ τ ∙ ê)
+    with ⟨ ᾱ , ⟨ ᾱmv , +>*ê ⟩ ⟩ ← reachdown-e ê
+       = ⟨ move (child 2) ∷ ᾱ ,
+         ⟨ AMICons (child 2) ᾱmv ,
+           EIExp EMLamChild2 (ziplem-lam2 +>*ê) ⟩ ⟩
+  reachdown-e (‵ ê ∙₁ e)
+    with ⟨ ᾱ , ⟨ ᾱmv , +>*ê ⟩ ⟩ ← reachdown-e ê
+       = ⟨ move (child 1) ∷ ᾱ ,
+         ⟨ AMICons (child 1) ᾱmv ,
+           EIExp EMApChild1 (ziplem-ap1 +>*ê) ⟩ ⟩
+  reachdown-e (‵ e ∙₂ ê)
+    with ⟨ ᾱ , ⟨ ᾱmv , +>*ê ⟩ ⟩ ← reachdown-e ê
+       = ⟨ move (child 2) ∷ ᾱ ,
+         ⟨ AMICons (child 2) ᾱmv ,
+           EIExp EMApChild2 (ziplem-ap2 +>*ê) ⟩ ⟩
+  reachdown-e (‵ x ←₁ ê ∙ e)
+    with ⟨ ᾱ , ⟨ ᾱmv , +>*ê ⟩ ⟩ ← reachdown-e ê
+       = ⟨ move (child 1) ∷ ᾱ ,
+         ⟨ AMICons (child 1) ᾱmv ,
+           EIExp EMLetChild1 (ziplem-let1 +>*ê) ⟩ ⟩
+  reachdown-e (‵ x ←₂ e ∙ ê)
+    with ⟨ ᾱ , ⟨ ᾱmv , +>*ê ⟩ ⟩ ← reachdown-e ê
+       = ⟨ move (child 2) ∷ ᾱ ,
+         ⟨ AMICons (child 2) ᾱmv ,
+           EIExp EMLetChild2 (ziplem-let2 +>*ê) ⟩ ⟩
+  reachdown-e (‵ ê +₁ e)
+    with ⟨ ᾱ , ⟨ ᾱmv , +>*ê ⟩ ⟩ ← reachdown-e ê
+       = ⟨ move (child 1) ∷ ᾱ ,
+         ⟨ AMICons (child 1) ᾱmv ,
+           EIExp EMPlusChild1 (ziplem-plus1 +>*ê) ⟩ ⟩
+  reachdown-e (‵ e +₂ ê)
+    with ⟨ ᾱ , ⟨ ᾱmv , +>*ê ⟩ ⟩ ← reachdown-e ê
+       = ⟨ move (child 2) ∷ ᾱ ,
+         ⟨ AMICons (child 2) ᾱmv ,
+           EIExp EMPlusChild2 (ziplem-plus2 +>*ê) ⟩ ⟩
+  reachdown-e (‵ ê ∙₁ e₂ ∙ e₃)
+    with ⟨ ᾱ , ⟨ ᾱmv , +>*ê ⟩ ⟩ ← reachdown-e ê
+       = ⟨ move (child 1) ∷ ᾱ ,
+         ⟨ AMICons (child 1) ᾱmv ,
+           EIExp EMIfChild1 (ziplem-if1 +>*ê) ⟩ ⟩
+  reachdown-e (‵ e₁ ∙₂ ê ∙ e₃)
+    with ⟨ ᾱ , ⟨ ᾱmv , +>*ê ⟩ ⟩ ← reachdown-e ê
+       = ⟨ move (child 2) ∷ ᾱ ,
+         ⟨ AMICons (child 2) ᾱmv ,
+           EIExp EMIfChild2 (ziplem-if2 +>*ê) ⟩ ⟩
+  reachdown-e (‵ e₁ ∙₃ e₂ ∙ ê)
+    with ⟨ ᾱ , ⟨ ᾱmv , +>*ê ⟩ ⟩ ← reachdown-e ê
+       = ⟨ move (child 3) ∷ ᾱ ,
+         ⟨ AMICons (child 3) ᾱmv ,
+           EIExp EMIfChild3 (ziplem-if3 +>*ê) ⟩ ⟩
