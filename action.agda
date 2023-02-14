@@ -13,22 +13,22 @@ module action where
   data Shape : Set where
     tarrow₁ : Shape
     tarrow₂ : Shape
-    tnum   : Shape
-    tbool  : Shape
-    var    : (x : Var) → Shape
-    lam    : (x : Var) → Shape
-    ap₁    : Shape
-    ap₂    : Shape
-    let₁   : (x : Var) → Shape
-    let₂   : (x : Var) → Shape
-    num    : (n : ℕ) → Shape
-    plus₁  : Shape
-    plus₂  : Shape
-    tt     : Shape
-    ff     : Shape
-    if₁    : Shape
-    if₂    : Shape
-    if₃    : Shape
+    tnum    : Shape
+    tbool   : Shape
+    var     : (x : Var) → Shape
+    lam     : (x : Var) → Shape
+    ap₁     : Shape
+    ap₂     : Shape
+    let₁    : (x : Var) → Shape
+    let₂    : (x : Var) → Shape
+    num     : (n : ℕ) → Shape
+    plus₁   : Shape
+    plus₂   : Shape
+    tt      : Shape
+    ff      : Shape
+    if₁     : Shape
+    if₂     : Shape
+    if₃     : Shape
 
   -- actions
   data Action : Set where
@@ -54,8 +54,8 @@ module action where
     data _tshape : Shape → Set where
       STArrow₁ : tarrow₁ tshape
       STArrow₂ : tarrow₂ tshape
-      STNum   : tnum tshape
-      STBool  : tbool tshape
+      STNum    : tnum tshape
+      STBool   : tbool tshape
 
     data _eshape : Shape → Set where
       SEVar   : (x : Var)
