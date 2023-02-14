@@ -1,4 +1,5 @@
 open import prelude
+
 open import core.typ
 open import core.hole
 open import core.var
