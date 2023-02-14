@@ -18,6 +18,8 @@ module zexp where
     ‵λ₂_∶_∙_ : (x : Var) → (τ : Typ) → (ê : ZExp) → ZExp
     ‵_∙₁_ : (ê : ZExp) → (e : UExp) → ZExp
     ‵_∙₂_ : (e : UExp) → (ê : ZExp) → ZExp
+    ‵_←₁_∙_ : (x : Var) → (ê : ZExp) → (e : UExp) → ZExp
+    ‵_←₂_∙_ : (x : Var) → (e : UExp) → (ê : ZExp) → ZExp
     ‵_+₁_ : (ê : ZExp) → (e : UExp) → ZExp
     ‵_+₂_ : (e : UExp) → (ê : ZExp) → ZExp
     ‵_∙₁_∙_ : (ê : ZExp) → (e₂ : UExp) → (e₃ : UExp) → ZExp
@@ -35,6 +37,8 @@ module zexp where
   (‵λ₂ x ∶ τ ∙ ê) ◇ = ‵λ x ∶ τ ∙ (ê ◇)
   (‵ ê ∙₁ e) ◇ = ‵ (ê ◇) ∙ e
   (‵ e ∙₂ ê) ◇ = ‵ e ∙ (ê ◇)
+  (‵ x ←₁ ê ∙ e) ◇ = ‵ x ← (ê ◇) ∙ e
+  (‵ x ←₂ e ∙ ê) ◇ = ‵ x ← e ∙ (ê ◇)
   (‵ ê +₁ e) ◇ = ‵ (ê ◇) + e
   (‵ e +₂ ê) ◇ = ‵ e + (ê ◇)
   (‵ ê ∙₁ e₂ ∙ e₃) ◇ = ‵ (ê ◇) ∙ e₂ ∙ e₃
