@@ -1,5 +1,7 @@
 open import prelude
 open import typ
+open import hole
+open import var
 
 -- unmarked expressions
 module uexp where
@@ -7,14 +9,6 @@ module uexp where
   infix  4 _⊢_⇐_
   infix  4 _∋_∶_
   infixl 5 _,_∶_
-
-  -- variables
-  Var : Set
-  Var = ℕ
-
-  -- hole identifiers
-  Hole : Set
-  Hole = ℕ
 
   -- contexts
   data Ctx : Set where

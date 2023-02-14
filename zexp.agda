@@ -1,6 +1,7 @@
 open import prelude
 open import typ
 open import uexp
+open import var
 
 -- cursor expressions
 module zexp where

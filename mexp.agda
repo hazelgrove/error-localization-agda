@@ -1,5 +1,7 @@
 open import prelude
 open import typ
+open import hole
+open import var
 
 -- instrinsically typed marked expressions
 module mexp where
@@ -7,17 +9,6 @@ module mexp where
   infix  4 _⊢⇐_
   infix  4 _∋_
   infixl 5 _,_
-
-  -- variables
-  Var : Set
-  Var = ℕ
-
-  FreeVar : Set
-  FreeVar = ℕ
-
-  -- hole identifiers
-  Hole : Set
-  Hole = ℕ
 
   data Ctx : Set where
     ∅   : Ctx
