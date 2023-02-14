@@ -888,7 +888,7 @@ types, e.g. pairs:
   \AMName  & \AMV  & \Coloneqq & \AMove{\MMV} \mid \ACon{\SMV} \mid \ADel \\
   \AIMName & \AIMV & \Coloneqq & \AINil \mid \AICons{\AMV}{\AIMV} \\
   \MMName  & \MMV  & \Coloneqq & \MChild{\MChildNMV} \mid \MParent \\
-  \SMName  & \SMV  & \Coloneqq & \STArrow \mid \STNum \mid \STBool \\
+  \SMName  & \SMV  & \Coloneqq & \STArrowL \mid \STArrowR \mid \STNum \mid \STBool \\
            &       & \mid         & \SVar{x} \mid \SLam{x} \mid \SApL \mid \SApR \\
            &       & \mid         & \SLetL{x} \mid \SLetR{x} \\
            &       & \mid         & \SLit{n} \mid \SPlusL \mid \SPlusR \\
@@ -900,8 +900,12 @@ types, e.g. pairs:
 %
 \begin{mathpar}
   \judgment{ }{
-    \tshape{\STArrow}
-  }{ASTArrow}
+    \tshape{\STArrowL}
+  }{ASTArrow1}
+
+  \judgment{ }{
+    \tshape{\STArrowR}
+  }{ASTArrow2}
 
   \judgment{ }{
     \tshape{\STNum}
@@ -1004,8 +1008,12 @@ types, e.g. pairs:
 \paragraph{Construction}
 \begin{mathpar}
   \judgment{ }{
-    \ATConArrow{\TMV}
-  }{ATConArrow}
+    \ATConArrowL{\TMV}
+  }{ATConArrow1}
+
+  \judgment{ }{
+    \ATConArrowR{\TMV}
+  }{ATConArrow2}
 
   \judgment{ }{
     \ATConNum
@@ -1019,13 +1027,13 @@ types, e.g. pairs:
 \paragraph{Zipper Cases}
 \begin{mathpar}
   \judgment{
-    \ATAction{\ZTMV}{\ZTMV}{\AMV}
+    \ATAction{\ZTMV}{\ZTMV'}{\AMV}
   }{
     \ATAction{\ZTArrowL{\ZTMV}{\TMV}}{\ZTArrowL{\ZTMV'}{\TMV}}{\AMV}
   }{ATZipArr1}
 
   \judgment{
-    \ATAction{\ZTMV}{\ZTMV}{\AMV}
+    \ATAction{\ZTMV}{\ZTMV'}{\AMV}
   }{
     \ATAction{\ZTArrowR{\TMV}{\ZTMV}}{\ZTArrowR{\TMV}{\ZTMV'}}{\AMV}
   }{ATZipArr2}

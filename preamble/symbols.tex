@@ -245,7 +245,8 @@
 \newcommand{\SMName}{{\normalfont\textsf{Shape}}}
 \newcommand{\SMV}{\ensuremath{\psi}}
 
-\newcommand{\STArrow}{\ensuremath{{\normalfont\textsf{arrow}}}}
+\newcommand{\STArrowL}{\ensuremath{{\normalfont\textsf{arrow\textsubscript{L}}}}}
+\newcommand{\STArrowR}{\ensuremath{{\normalfont\textsf{arrow\textsubscript{R}}}}}
 \newcommand{\STNum}{\ensuremath{{\normalfont\textsf{num}}}}
 \newcommand{\STBool}{\ensuremath{{\normalfont\textsf{bool}}}}
 
@@ -302,7 +303,8 @@
 \newcommand{\ATDel}[1]{\ensuremath{\ADDel{\ZTCursor{#1}}{\ZTCursor{\TUnknown}}}}
 
 % construction
-\newcommand{\ATConArrow}[1]{\ensuremath{\ACCon{\ZTCursor{#1}}{(\ZTArrowR{#1}{\ZTCursor{\TUnknown}})}{\STArrow}}}
+\newcommand{\ATConArrowL}[1]{\ensuremath{\ACCon{\ZTCursor{#1}}{\ZTArrowR{#1}{\ZTCursor{\TUnknown}}}{\STArrowL}}}
+\newcommand{\ATConArrowR}[1]{\ensuremath{\ACCon{\ZTCursor{#1}}{\ZTArrowR{\ZTCursor{\TUnknown}}{#1}}{\STArrowR}}}
 \newcommand{\ATConNum}{\ensuremath{\ACCon{\ZTCursor{\TUnknown}}{\ZTCursor{\TNum}}{\STNum}}}
 \newcommand{\ATConBool}{\ensuremath{\ACCon{\ZTCursor{\TUnknown}}{\ZTCursor{\TBool}}{\STBool}}}
 
