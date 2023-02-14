@@ -8,12 +8,14 @@ module totality where
   mutual
     ↬⇒-totality : ∀ (Γ : UCtx) → (e : UExp) → Σ[ τ ∈ Typ ] Σ[ ě ∈ ⟦ Γ ⟧ ⊢⇒ τ ] (Γ ⊢ e ↬⇒ ě)
     ↬⇒-totality Γ (‵⦇-⦈^ x) = ⟨ unknown , ⟨ ⊢⦇-⦈^ x , ISHole ⟩ ⟩
-    ↬⇒-totality Γ (‵ x) with Γ ∋?? x
-    ...                    | yes (Z {Γ} {x} {τ}) = ⟨ τ , ⟨ ⊢ Z [ x ] , ISVar Z ⟩ ⟩
-    ...                    | yes (S {Γ} {x} {x′} {τ} {τ′} x≢x′ ∋x) = ⟨ τ , ⟨ ⊢ (S (⟦ ∋x ⟧∋)) [ x ] , ISVar (S x≢x′ ∋x) ⟩ ⟩
-    ...                    | no  ∌x = ⟨ unknown , ⟨ ⊢⟦ x ⟧ , ISUnbound ∌x ⟩ ⟩
-    ↬⇒-totality Γ (‵λ x ∶ τ ∙ e) with ↬⇒-totality (Γ , x ∶ τ) e
-    ...                             | ⟨ τ′ , ⟨ ě , e↬⇒ě ⟩ ⟩ = ⟨ τ -→ τ′ , ⟨ ⊢λ∶ τ ∙ ě [ x ] , ISLam e↬⇒ě ⟩ ⟩
+    ↬⇒-totality Γ (‵ x)
+      with Γ ∋?? x
+    ...  | yes (Z {Γ} {x} {τ}) = ⟨ τ , ⟨ ⊢ Z [ x ] , ISVar Z ⟩ ⟩
+    ...  | yes (S {Γ} {x} {x′} {τ} {τ′} x≢x′ ∋x) = ⟨ τ , ⟨ ⊢ (S (⟦ ∋x ⟧∋)) [ x ] , ISVar (S x≢x′ ∋x) ⟩ ⟩
+    ...  | no  ∌x = ⟨ unknown , ⟨ ⊢⟦ x ⟧ , ISUnbound ∌x ⟩ ⟩
+    ↬⇒-totality Γ (‵λ x ∶ τ ∙ e)
+      with ↬⇒-totality (Γ , x ∶ τ) e
+    ...  | ⟨ τ′ , ⟨ ě , e↬⇒ě ⟩ ⟩ = ⟨ τ -→ τ′ , ⟨ ⊢λ∶ τ ∙ ě [ x ] , ISLam e↬⇒ě ⟩ ⟩
     ↬⇒-totality Γ (‵ e₁ ∙ e₂) with ↬⇒-totality Γ e₁
     ↬⇒-totality Γ (‵ e₁ ∙ e₂)    | ⟨ τ , ⟨ ě₁ , e₁↬⇒ě₁ ⟩ ⟩ with τ ▸?
     ↬⇒-totality Γ (‵ e₁ ∙ e₂)    | ⟨ τ , ⟨ ě₁ , e₁↬⇒ě₁ ⟩ ⟩    | no τ!▸ with ↬⇐-totality Γ unknown e₂
@@ -21,8 +23,9 @@ module totality where
     ↬⇒-totality Γ (‵ e₁ ∙ e₂)    | ⟨ τ , ⟨ ě₁ , e₁↬⇒ě₁ ⟩ ⟩    | yes ⟨ τ₁ , ⟨ τ₂ , τ▸τ₁-→τ₂ ⟩ ⟩ with ↬⇐-totality Γ τ₁ e₂
     ↬⇒-totality Γ (‵ e₁ ∙ e₂)    | ⟨ τ , ⟨ ě₁ , e₁↬⇒ě₁ ⟩ ⟩    | yes ⟨ τ₁ , ⟨ τ₂ , τ▸τ₁-→τ₂ ⟩ ⟩    | ⟨ ě₂ , e₂↬⇐ě₂ ⟩ = ⟨ τ₂ , ⟨ ⊢ ě₁ ∙ ě₂ [ τ▸τ₁-→τ₂ ] , ISAp1 e₁↬⇒ě₁ τ▸τ₁-→τ₂ e₂↬⇐ě₂ ⟩ ⟩
     ↬⇒-totality Γ (‵ℕ n) = ⟨ num , ⟨ ⊢ℕ n , ISNum ⟩ ⟩
-    ↬⇒-totality Γ (‵ e₁ + e₂) with ↬⇐-totality Γ num e₁ | ↬⇐-totality Γ num e₂
-    ...                          | ⟨ ě₁ , e₁↬⇐ě₁ ⟩      | ⟨ ě₂ , e₂↬⇐ě₂ ⟩ = ⟨ num , ⟨ ⊢ ě₁ + ě₂ , ISPlus e₁↬⇐ě₁ e₂↬⇐ě₂ ⟩ ⟩
+    ↬⇒-totality Γ (‵ e₁ + e₂)
+      with ↬⇐-totality Γ num e₁ | ↬⇐-totality Γ num e₂
+    ...  | ⟨ ě₁ , e₁↬⇐ě₁ ⟩      | ⟨ ě₂ , e₂↬⇐ě₂ ⟩ = ⟨ num , ⟨ ⊢ ě₁ + ě₂ , ISPlus e₁↬⇐ě₁ e₂↬⇐ě₂ ⟩ ⟩
     ↬⇒-totality Γ ‵tt = ⟨ bool , ⟨ ⊢tt , ISTrue ⟩ ⟩
     ↬⇒-totality Γ ‵ff = ⟨ bool , ⟨ ⊢ff , ISFalse ⟩ ⟩
     ↬⇒-totality Γ (‵ e₁ ∙ e₂ ∙ e₃) with ↬⇐-totality Γ bool e₁ | ↬⇒-totality Γ e₂         | ↬⇒-totality Γ e₃
