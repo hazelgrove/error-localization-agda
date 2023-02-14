@@ -7,7 +7,9 @@ module prelude where
 
   -- negation
   module negation where
-    ¬_ : Set → Set
+    open import Agda.Primitive using (Level)
+
+    ¬_ : ∀ {ℓ : Level} → Set ℓ → Set ℓ
     ¬ A = A → ⊥
 
   -- decidability
@@ -20,19 +22,20 @@ module prelude where
 
   -- equality
   module eq where
+    open import Agda.Primitive using (Level)
     open negation
 
     infix 4 _≡_
     infix 4 _≢_
 
-    data _≡_ {A : Set} (x : A) : A → Set where
+    data _≡_ {ℓ : Level} {A : Set ℓ} (x : A) : A → Set ℓ where
       refl : x ≡ x
     {-# BUILTIN EQUALITY _≡_ #-}
 
-    _≢_ : ∀ {A : Set} → A → A → Set
+    _≢_ : ∀ {ℓ : Level} {A : Set ℓ} → A → A → Set ℓ
     x ≢ y = ¬ (x ≡ y)
 
-    ≡-sym : ∀ {A : Set} {x y : A} → x ≡ y → y ≡ x
+    ≡-sym : ∀ {ℓ : Level} {A : Set ℓ} {x y : A} → x ≡ y → y ≡ x
     ≡-sym refl = refl
 
     postulate
@@ -43,6 +46,10 @@ module prelude where
 
     ¬-≡ : ∀ {A : Set} → (¬a : ¬ A) → (¬a′ : ¬ A) → ¬a ≡ ¬a′
     ¬-≡ ¬a ¬a′ = extensionality λ { a → ⊥-elim (¬a a) }
+
+    transport : {ℓ ℓ′ : Level} {A : Set ℓ} {x y : A}
+              → (B : A → Set ℓ′) → x ≡ y → B x → B y
+    transport B refl x = x
 
   -- naturals
   module nat where
