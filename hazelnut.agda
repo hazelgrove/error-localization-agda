@@ -1,2 +1,3 @@
 module hazelnut where
-  import untyped
+  import hazelnut.action
+  import hazelnut.untyped

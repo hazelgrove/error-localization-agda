@@ -2,7 +2,7 @@ open import prelude
 open import core
 
 -- cursor expressions
-module zexp where
+module hazelnut.untyped.zexp where
   -- zippered types
   data ZTyp : Set where
     ▹_◃   : (τ : Typ) → ZTyp

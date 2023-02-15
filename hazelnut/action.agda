@@ -1,7 +1,7 @@
 open import prelude
 open import core
 
-module action where
+module hazelnut.action where
   -- movement direction
   data Dir : Set where
     child  : (n : ℕ) → Dir

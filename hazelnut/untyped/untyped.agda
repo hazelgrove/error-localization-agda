@@ -1,10 +1,10 @@
 open import prelude
 open import core
 
-open import zexp
-open import action
+open import hazelnut.action
+open import hazelnut.untyped.zexp
 
-module untyped where
+module hazelnut.untyped.untyped where
   -- type actions
   data _+_+τ>_ : (τ : ZTyp) → (α : Action) → (τ′ : ZTyp) → Set where
     -- movement
