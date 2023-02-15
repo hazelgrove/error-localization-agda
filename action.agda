@@ -1,7 +1,5 @@
 open import prelude
-
-open import core.hole
-open import core.var
+open import core
 
 module action where
   -- movement direction

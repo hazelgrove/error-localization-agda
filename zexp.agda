@@ -1,8 +1,5 @@
 open import prelude
-
-open import core.typ
-open import core.var
-open import core.uexp
+open import core
 
 -- cursor expressions
 module zexp where

@@ -1,9 +1,5 @@
 open import prelude
-
-open import core.typ
-open import core.uexp
-open import core.mexp
-open import core.erasure
+open import core
 
 open import marking.marking
 

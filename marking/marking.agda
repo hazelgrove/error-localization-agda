@@ -1,8 +1,5 @@
 open import prelude
-
-open import core.typ
-open import core.uexp
-open import core.mexp
+open import core
 
 module marking.marking where
   infix 4 _⊢_↬⇒_
