@@ -11,17 +11,17 @@ module core.mexp where
   infix  4 _∋_
   infixl 5 _,_
 
-  data Ctx : Set where
-    ∅   : Ctx
-    _,_ : Ctx → Typ → Ctx
+  data MCtx : Set where
+    ∅   : MCtx
+    _,_ : MCtx → Typ → MCtx
 
-  data _∋_ : (Γ : Ctx) (τ : Typ) → Set where
+  data _∋_ : (Γ : MCtx) (τ : Typ) → Set where
     Z  : ∀ {Γ τ}            → Γ , τ  ∋ τ
     S  : ∀ {Γ τ τ′} → Γ ∋ τ → Γ , τ′ ∋ τ
 
   mutual
     -- synthesis
-    data _⊢⇒_ : (Γ : Ctx) (τ : Typ) → Set where
+    data _⊢⇒_ : (Γ : MCtx) (τ : Typ) → Set where
       -- MSHole
       ⊢⦇-⦈^_ : ∀ {Γ}
         → (u : Hole)
@@ -101,7 +101,7 @@ module core.mexp where
         → (τ₁~̸τ₂ : τ₁ ~̸ τ₂)
         → Γ ⊢⇒ unknown
 
-    data MSubsumable : {Γ : Ctx} {τ : Typ} → (ě : Γ ⊢⇒ τ) → Set where
+    data MSubsumable : {Γ : MCtx} {τ : Typ} → (ě : Γ ⊢⇒ τ) → Set where
       MSuHole : ∀ {Γ}
         → {u : Hole}
         → MSubsumable {Γ} (⊢⦇-⦈^ u)
@@ -150,7 +150,7 @@ module core.mexp where
         → MSubsumable {Γ} (⊢⦉ ě₁ ∙ ě₂ ∙ ě₃ ⦊[ τ₁~̸τ₂ ])
 
     -- analysis
-    data _⊢⇐_ : (Γ : Ctx) (τ : Typ) → Set where
+    data _⊢⇐_ : (Γ : MCtx) (τ : Typ) → Set where
       -- MALam1
       ⊢λ∶_∙_[_∙_∙_] : ∀ {Γ τ₁ τ₂ τ₃}
         → (τ : Typ)

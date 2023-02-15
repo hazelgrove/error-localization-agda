@@ -1,8 +1,8 @@
 open import prelude
 
 open import core.typ
-open import core.uexp renaming (Ctx to UCtx)
-open import core.mexp renaming (Ctx to MCtx)
+open import core.uexp
+open import core.mexp
 
 module marking.marking where
   infix 4 _⊢_↬⇒_

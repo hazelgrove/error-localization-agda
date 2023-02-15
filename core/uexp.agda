@@ -12,24 +12,24 @@ module core.uexp where
   infixl 5 _,_∶_
 
   -- contexts
-  data Ctx : Set where
-    ∅     : Ctx
-    _,_∶_ : Ctx → Var → Typ → Ctx
+  data UCtx : Set where
+    ∅     : UCtx
+    _,_∶_ : UCtx → Var → Typ → UCtx
 
   -- context membership
-  data _∋_∶_ : (Γ : Ctx) (x : Var) (τ : Typ) → Set where
+  data _∋_∶_ : (Γ : UCtx) (x : Var) (τ : Typ) → Set where
     Z : ∀ {Γ x τ}                            → Γ , x  ∶ τ  ∋ x ∶ τ
     S : ∀ {Γ x x′ τ τ′} → x ≢ x′ → Γ ∋ x ∶ τ → Γ , x′ ∶ τ′ ∋ x ∶ τ
 
-  _∌_ : (Γ : Ctx) → (x : Var) → Set
+  _∌_ : (Γ : UCtx) → (x : Var) → Set
   Γ ∌ x = ∀ {τ} → ¬ (Γ ∋ x ∶ τ)
 
   -- decidable context membership
-  data _∋?_ : (Γ : Ctx) (x : Var) → Set where
+  data _∋?_ : (Γ : UCtx) (x : Var) → Set where
     yes : ∀ {Γ x τ} → Γ ∋ x ∶ τ → Γ ∋? x
     no  : ∀ {Γ x}   → Γ ∌ x     → Γ ∋? x
 
-  _∋??_ : (Γ : Ctx) → (x : Var) → Γ ∋? x
+  _∋??_ : (Γ : UCtx) → (x : Var) → Γ ∋? x
   ∅ ∋?? x                                      = no (λ ())
   (Γ , x′ ∶ τ) ∋?? x with x ≡ℕ? x′
   ...                   | yes refl             = yes Z
@@ -73,7 +73,7 @@ module core.uexp where
 
   mutual
     -- synthesis
-    data _⊢_⇒_ : (Γ : Ctx) (e : UExp) (τ : Typ) → Set where
+    data _⊢_⇒_ : (Γ : UCtx) (e : UExp) (τ : Typ) → Set where
       USHole : ∀ {Γ u}
         → Γ ⊢ ‵⦇-⦈^ u  ⇒ unknown
 
@@ -118,7 +118,7 @@ module core.uexp where
         → Γ ⊢ ‵ e₁ ∙ e₂ ∙ e₃ ⇒ τ
 
     -- analysis
-    data _⊢_⇐_ : (Γ : Ctx) (e : UExp) (τ : Typ) → Set where
+    data _⊢_⇐_ : (Γ : UCtx) (e : UExp) (τ : Typ) → Set where
       UALam : ∀ {Γ x τ e τ₁ τ₂ τ₃}
         → (τ₃▸ : τ₃ ▸ τ₁ -→ τ₂)
         → (τ~τ₁ : τ ~ τ₁)
