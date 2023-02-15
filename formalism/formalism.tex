@@ -1467,7 +1467,7 @@ Type actions are the same as in untyped Hazelnut.
   }{ASEConLet1}
 
   \judgment{
-    \ctxSynFixedInto{\extendCtx{\ctx}{x}{\TUnknown}}{\ECMV}{\ECMV'}{\TMV'}
+    \ctxSynFixedInto{\extendCtx{\ctx}{x}{\TUnknown}}{\erase{\ECMV}}{\ECMV'}{\TMV'}
   }{
     \ASEConLetR{\ctx}{\ECMV}{\TMV}{\ECMV'}{\TMV'}{x}
   }{ASEConLet2} \\
@@ -1533,7 +1533,7 @@ Type actions are the same as in untyped Hazelnut.
   \judgment{
     \AUTAction{\ZTMV_1}{\ZTMV_1'}{\AMV} \\
     \notEqual{\cursorErase{\ZTMV_1}}{\cursorErase{\ZTMV_1'}} \\
-    \ctxSynFixedInto{\extendCtx{\ctx}{x}{\ZTMV_1'}}{\ECMV}{\ECMV'}{\TMV_2'}
+    \ctxSynFixedInto{\extendCtx{\ctx}{x}{\ZTMV_1'}}{\erase{\ECMV}}{\ECMV'}{\TMV_2'}
   }{
     \ASEAction{\ctx}{\ZLamT{x}{\ZTMV_1}{\ECMV}}{\TArrow{\cursorErase{\ZTMV_1}}{\TMV_2}}{\ZLamT{x}{\ZTMV_1'}{\ECMV'}}{\TArrow{\cursorErase{\ZTMV_1'}}{\TMV_2'}}{\AMV}
   }{ASEZipLamT2}
@@ -1591,16 +1591,16 @@ Type actions are the same as in untyped Hazelnut.
     \ctxSynType{\ctx}{\cursorErase{\ZMV}}{\TMV_1} \\
     \ASEAction{\ctx}{\ZMV}{\TMV_1}{\ZMV'}{\TMV_1}{\AMV}
   }{
-    \ASEAction{\ctx}{\ZLetL{x}{\ZMV}{\ECMV}}{\TMV_2}{\ZLetL{x}{\ZMV'}{\EMV'}}{\TMV_2'}{\AMV}
+    \ASEAction{\ctx}{\ZLetL{x}{\ZMV}{\ECMV}}{\TMV_2}{\ZLetL{x}{\ZMV'}{\ECMV'}}{\TMV_2'}{\AMV}
   }{ASELetL1}
 
   \judgment{
     \ctxSynType{\ctx}{\cursorErase{\ZMV}}{\TMV_1} \\
     \ASEAction{\ctx}{\ZMV}{\TMV_1}{\ZMV'}{\TMV_1'}{\AMV} \\\\
     \notEqual{\TMV_1}{\TMV_1'} \\
-    \ctxSynFixedInto{\extendCtx{\ctx}{x}{\TMV_1'}}{\EMV_2}{\EMV_2'}{\TMV_2'}
+    \ctxSynFixedInto{\extendCtx{\ctx}{x}{\TMV_1'}}{\erase{\ECMV_2}}{\ECMV_2'}{\TMV_2'}
   }{
-    \ASEAction{\ctx}{\ZLetL{x}{\ZMV}{\ECMV}}{\TMV_2}{\ZLetL{x}{\ZMV'}{\EMV'}}{\TMV_2'}{\AMV}
+    \ASEAction{\ctx}{\ZLetL{x}{\ZMV}{\ECMV}}{\TMV_2}{\ZLetL{x}{\ZMV'}{\ECMV'}}{\TMV_2'}{\AMV}
   }{ASELetL2}
 
   \judgment{
