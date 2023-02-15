@@ -1,8 +1,8 @@
 open import prelude
 
 open import core.typ
-open import core.uexp renaming (Ctx to UCtx; Subsumable to USubsumable)
-open import core.mexp renaming (Ctx to MCtx; Subsumable to MSubsumable)
+open import core.uexp renaming (Ctx to UCtx)
+open import core.mexp renaming (Ctx to MCtx)
 
 open import marking.marking
 
@@ -133,15 +133,15 @@ module marking.unicity where
 
     USu→MSu-unicity : ∀ {e : UExp} {Γ : UCtx} {τ : Typ} {ě : ⟦ Γ ⟧ ⊢⇒ τ}
                       → (s : USubsumable e) → (e↬⇒ě : Γ ⊢ e ↬⇒ ě) → (e↬⇒ě′ : Γ ⊢ e ↬⇒ ě) → USu→MSu s e↬⇒ě ≡ USu→MSu s e↬⇒ě′
-    USu→MSu-unicity SuHole  ISHole      _   = refl
-    USu→MSu-unicity SuVar   (ISVar _)     _ = refl
-    USu→MSu-unicity SuVar   (ISUnbound _) _ = refl
-    USu→MSu-unicity SuAp    (ISAp1 _ _ _) _ = refl
-    USu→MSu-unicity SuAp    (ISAp2 _ _ _) _ = refl
-    USu→MSu-unicity SuNum   ISNum       _   = refl
-    USu→MSu-unicity SuPlus  (ISPlus _ _)  _ = refl
-    USu→MSu-unicity SuTrue  ISTrue      _   = refl
-    USu→MSu-unicity SuFalse ISFalse     _   = refl
+    USu→MSu-unicity USuHole  ISHole      _   = refl
+    USu→MSu-unicity USuVar   (ISVar _)     _ = refl
+    USu→MSu-unicity USuVar   (ISUnbound _) _ = refl
+    USu→MSu-unicity USuAp    (ISAp1 _ _ _) _ = refl
+    USu→MSu-unicity USuAp    (ISAp2 _ _ _) _ = refl
+    USu→MSu-unicity USuNum   ISNum       _   = refl
+    USu→MSu-unicity USuPlus  (ISPlus _ _)  _ = refl
+    USu→MSu-unicity USuTrue  ISTrue      _   = refl
+    USu→MSu-unicity USuFalse ISFalse     _   = refl
 
     ↬⇐-ě-unicity : ∀ {Γ : UCtx} {e : UExp} {τ : Typ} {ě₁ : ⟦ Γ ⟧ ⊢⇐ τ} {ě₂ : ⟦ Γ ⟧ ⊢⇐ τ} → Γ ⊢ e ↬⇐ ě₁ → Γ ⊢ e ↬⇐ ě₂ → ě₁ ≡ ě₂
     ↬⇐-ě-unicity (IALam1 τ▸ τ₁~τ₂ e↬⇐ě) (IALam1 τ▸′ τ₁~τ₂′ e↬⇐ě′)
@@ -173,77 +173,77 @@ module marking.unicity where
       rewrite ↬⇐-ě-unicity e₁↬⇐ě₁ e₁↬⇐ě₁′
             | ↬⇐-ě-unicity e₂↬⇐ě₂ e₂↬⇐ě₂′
             | ↬⇐-ě-unicity e₃↬⇐ě₃ e₃↬⇐ě₃′ = refl
-    ↬⇐-ě-unicity (IAInconsistentTypes e↬⇒ě τ~̸τ′ SuHole) (IAInconsistentTypes e↬⇒ě′ τ~̸τ′′ SuHole)
+    ↬⇐-ě-unicity (IAInconsistentTypes e↬⇒ě τ~̸τ′ USuHole) (IAInconsistentTypes e↬⇒ě′ τ~̸τ′′ USuHole)
       with refl ← ↬⇒-τ-unicity e↬⇒ě e↬⇒ě′
       with refl ← ↬⇒-ě-unicity e↬⇒ě e↬⇒ě′
          | refl ← ~̸-≡ τ~̸τ′ τ~̸τ′′
-      rewrite USu→MSu-unicity SuHole e↬⇒ě e↬⇒ě′ = refl
-    ↬⇐-ě-unicity (IAInconsistentTypes e↬⇒ě τ~̸τ′ SuVar) (IAInconsistentTypes e↬⇒ě′ τ~̸τ′′ SuVar)
+      rewrite USu→MSu-unicity USuHole e↬⇒ě e↬⇒ě′ = refl
+    ↬⇐-ě-unicity (IAInconsistentTypes e↬⇒ě τ~̸τ′ USuVar) (IAInconsistentTypes e↬⇒ě′ τ~̸τ′′ USuVar)
       with refl ← ↬⇒-τ-unicity e↬⇒ě e↬⇒ě′
       with refl ← ↬⇒-ě-unicity e↬⇒ě e↬⇒ě′
          | refl ← ~̸-≡ τ~̸τ′ τ~̸τ′′
-      rewrite USu→MSu-unicity SuVar e↬⇒ě e↬⇒ě′ = refl
-    ↬⇐-ě-unicity (IAInconsistentTypes e↬⇒ě τ~̸τ′ SuAp) (IAInconsistentTypes e↬⇒ě′ τ~̸τ′′ SuAp)
+      rewrite USu→MSu-unicity USuVar e↬⇒ě e↬⇒ě′ = refl
+    ↬⇐-ě-unicity (IAInconsistentTypes e↬⇒ě τ~̸τ′ USuAp) (IAInconsistentTypes e↬⇒ě′ τ~̸τ′′ USuAp)
       with refl ← ↬⇒-τ-unicity e↬⇒ě e↬⇒ě′
       with refl ← ↬⇒-ě-unicity e↬⇒ě e↬⇒ě′
          | refl ← ~̸-≡ τ~̸τ′ τ~̸τ′′
-      rewrite USu→MSu-unicity SuAp e↬⇒ě e↬⇒ě′ = refl
-    ↬⇐-ě-unicity (IAInconsistentTypes e↬⇒ě τ~̸τ′ SuNum) (IAInconsistentTypes e↬⇒ě′ τ~̸τ′′ SuNum)
+      rewrite USu→MSu-unicity USuAp e↬⇒ě e↬⇒ě′ = refl
+    ↬⇐-ě-unicity (IAInconsistentTypes e↬⇒ě τ~̸τ′ USuNum) (IAInconsistentTypes e↬⇒ě′ τ~̸τ′′ USuNum)
       with refl ← ↬⇒-τ-unicity e↬⇒ě e↬⇒ě′
       with refl ← ↬⇒-ě-unicity e↬⇒ě e↬⇒ě′
          | refl ← ~̸-≡ τ~̸τ′ τ~̸τ′′
-      rewrite USu→MSu-unicity SuNum e↬⇒ě e↬⇒ě′ = refl
-    ↬⇐-ě-unicity (IAInconsistentTypes e↬⇒ě τ~̸τ′ SuPlus) (IAInconsistentTypes e↬⇒ě′ τ~̸τ′′ SuPlus)
+      rewrite USu→MSu-unicity USuNum e↬⇒ě e↬⇒ě′ = refl
+    ↬⇐-ě-unicity (IAInconsistentTypes e↬⇒ě τ~̸τ′ USuPlus) (IAInconsistentTypes e↬⇒ě′ τ~̸τ′′ USuPlus)
       with refl ← ↬⇒-τ-unicity e↬⇒ě e↬⇒ě′
       with refl ← ↬⇒-ě-unicity e↬⇒ě e↬⇒ě′
          | refl ← ~̸-≡ τ~̸τ′ τ~̸τ′′
-      rewrite USu→MSu-unicity SuPlus e↬⇒ě e↬⇒ě′ = refl
-    ↬⇐-ě-unicity (IAInconsistentTypes e↬⇒ě τ~̸τ′ SuTrue) (IAInconsistentTypes e↬⇒ě′ τ~̸τ′′ SuTrue)
+      rewrite USu→MSu-unicity USuPlus e↬⇒ě e↬⇒ě′ = refl
+    ↬⇐-ě-unicity (IAInconsistentTypes e↬⇒ě τ~̸τ′ USuTrue) (IAInconsistentTypes e↬⇒ě′ τ~̸τ′′ USuTrue)
       with refl ← ↬⇒-τ-unicity e↬⇒ě e↬⇒ě′
       with refl ← ↬⇒-ě-unicity e↬⇒ě e↬⇒ě′
          | refl ← ~̸-≡ τ~̸τ′ τ~̸τ′′
-      rewrite USu→MSu-unicity SuTrue e↬⇒ě e↬⇒ě′ = refl
-    ↬⇐-ě-unicity (IAInconsistentTypes e↬⇒ě τ~̸τ′ SuFalse) (IAInconsistentTypes e↬⇒ě′ τ~̸τ′′ SuFalse)
+      rewrite USu→MSu-unicity USuTrue e↬⇒ě e↬⇒ě′ = refl
+    ↬⇐-ě-unicity (IAInconsistentTypes e↬⇒ě τ~̸τ′ USuFalse) (IAInconsistentTypes e↬⇒ě′ τ~̸τ′′ USuFalse)
       with refl ← ↬⇒-τ-unicity e↬⇒ě e↬⇒ě′
       with refl ← ↬⇒-ě-unicity e↬⇒ě e↬⇒ě′
          | refl ← ~̸-≡ τ~̸τ′ τ~̸τ′′
-      rewrite USu→MSu-unicity SuFalse e↬⇒ě e↬⇒ě′ = refl
+      rewrite USu→MSu-unicity USuFalse e↬⇒ě e↬⇒ě′ = refl
     ↬⇐-ě-unicity (IAInconsistentTypes e↬⇒ě τ~̸τ′ s) (IASubsume e↬⇒ě′ τ~τ′ s′)
       with refl ← ↬⇒-τ-unicity e↬⇒ě e↬⇒ě′ = ⊥-elim (τ~̸τ′ τ~τ′)
     ↬⇐-ě-unicity (IASubsume e↬⇒ě τ~τ′ s) (IAInconsistentTypes e↬⇒ě′ τ~̸τ′ s′)
       with refl ← ↬⇒-τ-unicity e↬⇒ě e↬⇒ě′ = ⊥-elim (τ~̸τ′ τ~τ′)
-    ↬⇐-ě-unicity (IASubsume e↬⇒ě τ~τ′ SuHole) (IASubsume e↬⇒ě′ τ~τ′′ SuHole)
+    ↬⇐-ě-unicity (IASubsume e↬⇒ě τ~τ′ USuHole) (IASubsume e↬⇒ě′ τ~τ′′ USuHole)
       with refl ← ↬⇒-τ-unicity e↬⇒ě e↬⇒ě′
       with refl ← ↬⇒-ě-unicity e↬⇒ě e↬⇒ě′
          | refl ← ~-≡ τ~τ′ τ~τ′′
-      rewrite USu→MSu-unicity SuHole e↬⇒ě e↬⇒ě′ = refl
-    ↬⇐-ě-unicity (IASubsume e↬⇒ě τ~τ′ SuVar) (IASubsume e↬⇒ě′ τ~τ′′ SuVar)
+      rewrite USu→MSu-unicity USuHole e↬⇒ě e↬⇒ě′ = refl
+    ↬⇐-ě-unicity (IASubsume e↬⇒ě τ~τ′ USuVar) (IASubsume e↬⇒ě′ τ~τ′′ USuVar)
       with refl ← ↬⇒-τ-unicity e↬⇒ě e↬⇒ě′
       with refl ← ↬⇒-ě-unicity e↬⇒ě e↬⇒ě′
          | refl ← ~-≡ τ~τ′ τ~τ′′
-      rewrite USu→MSu-unicity SuVar e↬⇒ě e↬⇒ě′ = refl
-    ↬⇐-ě-unicity (IASubsume e↬⇒ě τ~τ′ SuAp) (IASubsume e↬⇒ě′ τ~τ′′ SuAp)
+      rewrite USu→MSu-unicity USuVar e↬⇒ě e↬⇒ě′ = refl
+    ↬⇐-ě-unicity (IASubsume e↬⇒ě τ~τ′ USuAp) (IASubsume e↬⇒ě′ τ~τ′′ USuAp)
       with refl ← ↬⇒-τ-unicity e↬⇒ě e↬⇒ě′
       with refl ← ↬⇒-ě-unicity e↬⇒ě e↬⇒ě′
          | refl ← ~-≡ τ~τ′ τ~τ′′
-      rewrite USu→MSu-unicity SuAp e↬⇒ě e↬⇒ě′ = refl
-    ↬⇐-ě-unicity (IASubsume e↬⇒ě τ~τ′ SuNum) (IASubsume e↬⇒ě′ τ~τ′′ SuNum)
+      rewrite USu→MSu-unicity USuAp e↬⇒ě e↬⇒ě′ = refl
+    ↬⇐-ě-unicity (IASubsume e↬⇒ě τ~τ′ USuNum) (IASubsume e↬⇒ě′ τ~τ′′ USuNum)
       with refl ← ↬⇒-τ-unicity e↬⇒ě e↬⇒ě′
       with refl ← ↬⇒-ě-unicity e↬⇒ě e↬⇒ě′
          | refl ← ~-≡ τ~τ′ τ~τ′′
-      rewrite USu→MSu-unicity SuNum e↬⇒ě e↬⇒ě′ = refl
-    ↬⇐-ě-unicity (IASubsume e↬⇒ě τ~τ′ SuPlus) (IASubsume e↬⇒ě′ τ~τ′′ SuPlus)
+      rewrite USu→MSu-unicity USuNum e↬⇒ě e↬⇒ě′ = refl
+    ↬⇐-ě-unicity (IASubsume e↬⇒ě τ~τ′ USuPlus) (IASubsume e↬⇒ě′ τ~τ′′ USuPlus)
       with refl ← ↬⇒-τ-unicity e↬⇒ě e↬⇒ě′
       with refl ← ↬⇒-ě-unicity e↬⇒ě e↬⇒ě′
          | refl ← ~-≡ τ~τ′ τ~τ′′
-      rewrite USu→MSu-unicity SuPlus e↬⇒ě e↬⇒ě′ = refl
-    ↬⇐-ě-unicity (IASubsume e↬⇒ě τ~τ′ SuTrue) (IASubsume e↬⇒ě′ τ~τ′′ SuTrue)
+      rewrite USu→MSu-unicity USuPlus e↬⇒ě e↬⇒ě′ = refl
+    ↬⇐-ě-unicity (IASubsume e↬⇒ě τ~τ′ USuTrue) (IASubsume e↬⇒ě′ τ~τ′′ USuTrue)
       with refl ← ↬⇒-τ-unicity e↬⇒ě e↬⇒ě′
       with refl ← ↬⇒-ě-unicity e↬⇒ě e↬⇒ě′
          | refl ← ~-≡ τ~τ′ τ~τ′′
-      rewrite USu→MSu-unicity SuTrue e↬⇒ě e↬⇒ě′ = refl
-    ↬⇐-ě-unicity (IASubsume e↬⇒ě τ~τ′ SuFalse) (IASubsume e↬⇒ě′ τ~τ′′ SuFalse)
+      rewrite USu→MSu-unicity USuTrue e↬⇒ě e↬⇒ě′ = refl
+    ↬⇐-ě-unicity (IASubsume e↬⇒ě τ~τ′ USuFalse) (IASubsume e↬⇒ě′ τ~τ′′ USuFalse)
       with refl ← ↬⇒-τ-unicity e↬⇒ě e↬⇒ě′
       with refl ← ↬⇒-ě-unicity e↬⇒ě e↬⇒ě′
          | refl ← ~-≡ τ~τ′ τ~τ′′
-      rewrite USu→MSu-unicity SuFalse e↬⇒ě e↬⇒ě′ = refl
+      rewrite USu→MSu-unicity USuFalse e↬⇒ě e↬⇒ě′ = refl

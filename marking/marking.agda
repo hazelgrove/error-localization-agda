@@ -1,7 +1,8 @@
 open import prelude
+
 open import core.typ
-open import core.uexp renaming (Ctx to UCtx; Subsumable to USubsumable)
-open import core.mexp renaming (Ctx to MCtx; Subsumable to MSubsumable)
+open import core.uexp renaming (Ctx to UCtx)
+open import core.mexp renaming (Ctx to MCtx)
 
 module marking.marking where
   infix 4 _⊢_↬⇒_
@@ -96,15 +97,15 @@ module marking.marking where
         → Γ ⊢ ‵ e₁ ∙ e₂ ∙ e₃ ↬⇒ ⊢⦉ ě₁ ∙ ě₂ ∙ ě₃ ⦊[ τ₁~̸τ₂ ]
 
     USu→MSu : ∀ {e : UExp} {Γ : UCtx} {τ : Typ} {ě : ⟦ Γ ⟧ ⊢⇒ τ} → USubsumable e → Γ ⊢ e ↬⇒ ě → MSubsumable ě
-    USu→MSu {ě = ⊢⦇-⦈^ u}             SuHole  _ = SuHole
-    USu→MSu {ě = ⊢ x [ _ ]}           SuVar   _ = SuVar
-    USu→MSu {ě = ⊢⟦ x ⟧}              SuVar   _ = SuUnbound
-    USu→MSu {ě = ⊢ ě₁ ∙ ě₂ [ τ▸ ]}    SuAp    _ = SuAp1
-    USu→MSu {ě = ⊢⸨ ě₁ ⸩∙ ě₂ [ τ!▸ ]} SuAp    _ = SuAp2
-    USu→MSu {ě = ⊢ℕ n}                SuNum   _ = SuNum
-    USu→MSu {ě = ⊢ ě₁ + ě₂}           SuPlus  _ = SuPlus
-    USu→MSu {ě = ⊢tt}                 SuTrue  _ = SuTrue
-    USu→MSu {ě = ⊢ff}                 SuFalse _ = SuFalse
+    USu→MSu {ě = ⊢⦇-⦈^ u}             USuHole  _ = MSuHole
+    USu→MSu {ě = ⊢ x [ _ ]}           USuVar   _ = MSuVar
+    USu→MSu {ě = ⊢⟦ x ⟧}              USuVar   _ = MSuUnbound
+    USu→MSu {ě = ⊢ ě₁ ∙ ě₂ [ τ▸ ]}    USuAp    _ = MSuAp1
+    USu→MSu {ě = ⊢⸨ ě₁ ⸩∙ ě₂ [ τ!▸ ]} USuAp    _ = MSuAp2
+    USu→MSu {ě = ⊢ℕ n}                USuNum   _ = MSuNum
+    USu→MSu {ě = ⊢ ě₁ + ě₂}           USuPlus  _ = MSuPlus
+    USu→MSu {ě = ⊢tt}                 USuTrue  _ = MSuTrue
+    USu→MSu {ě = ⊢ff}                 USuFalse _ = MSuFalse
 
     -- analysis
     data _⊢_↬⇐_ : {τ : Typ} (Γ : UCtx) → (e : UExp) → (⟦ Γ ⟧ ⊢⇐ τ) → Set where

@@ -49,27 +49,27 @@ module core.uexp where
     ‵ff     : UExp
     ‵_∙_∙_  : (e₁ : UExp) → (e₂ : UExp) → (e₃ : UExp) → UExp
 
-  data Subsumable : UExp → Set where
-    SuHole : ∀ {u}
-      → Subsumable (‵⦇-⦈^ u)
+  data USubsumable : UExp → Set where
+    USuHole : ∀ {u}
+      → USubsumable (‵⦇-⦈^ u)
 
-    SuVar : ∀ {x}
-      → Subsumable (‵ x)
+    USuVar : ∀ {x}
+      → USubsumable (‵ x)
 
-    SuAp : ∀ {e₁ e₂}
-      → Subsumable (‵ e₁ ∙ e₂)
+    USuAp : ∀ {e₁ e₂}
+      → USubsumable (‵ e₁ ∙ e₂)
 
-    SuNum : ∀ {n}
-      → Subsumable (‵ℕ n)
+    USuNum : ∀ {n}
+      → USubsumable (‵ℕ n)
 
-    SuPlus : ∀ {e₁ e₂}
-      → Subsumable (‵ e₁ + e₂)
+    USuPlus : ∀ {e₁ e₂}
+      → USubsumable (‵ e₁ + e₂)
 
-    SuTrue :
-        Subsumable ‵tt
+    USuTrue :
+        USubsumable ‵tt
 
-    SuFalse :
-        Subsumable ‵ff
+    USuFalse :
+        USubsumable ‵ff
 
   mutual
     -- synthesis
@@ -139,5 +139,5 @@ module core.uexp where
       UASubsume : ∀ {Γ e τ τ′}
         → (e⇒τ′ : Γ ⊢ e ⇒ τ′)
         → (τ~τ′ : τ ~ τ′)
-        → (su : Subsumable e)
+        → (su : USubsumable e)
         → Γ ⊢ e ⇐ τ

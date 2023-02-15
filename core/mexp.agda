@@ -101,53 +101,53 @@ module core.mexp where
         → (τ₁~̸τ₂ : τ₁ ~̸ τ₂)
         → Γ ⊢⇒ unknown
 
-    data Subsumable : {Γ : Ctx} {τ : Typ} → (ě : Γ ⊢⇒ τ) → Set where
-      SuHole : ∀ {Γ}
+    data MSubsumable : {Γ : Ctx} {τ : Typ} → (ě : Γ ⊢⇒ τ) → Set where
+      MSuHole : ∀ {Γ}
         → {u : Hole}
-        → Subsumable {Γ} (⊢⦇-⦈^ u)
+        → MSubsumable {Γ} (⊢⦇-⦈^ u)
 
-      SuVar : ∀ {Γ τ}
+      MSuVar : ∀ {Γ τ}
         → {∋x : Γ ∋ τ}
         → {x : Var}
-        → Subsumable {Γ} (⊢ ∋x [ x ])
+        → MSubsumable {Γ} (⊢ ∋x [ x ])
 
-      SuAp1 : ∀ {Γ τ τ₁ τ₂}
+      MSuAp1 : ∀ {Γ τ τ₁ τ₂}
         → {ě₁ : Γ ⊢⇒ τ}
         → {ě₂ : Γ ⊢⇐ τ₁}
         → {τ▸ : τ ▸ τ₁ -→ τ₂}
-        → Subsumable {Γ} (⊢ ě₁ ∙ ě₂ [ τ▸ ])
+        → MSubsumable {Γ} (⊢ ě₁ ∙ ě₂ [ τ▸ ])
 
-      SuAp2 : ∀ {Γ τ}
+      MSuAp2 : ∀ {Γ τ}
         → {ě₁ : Γ ⊢⇒ τ}
         → {ě₂ : Γ ⊢⇐ unknown}
         → {τ!▸ : τ !▸}
-        → Subsumable {Γ} (⊢⸨ ě₁ ⸩∙ ě₂ [ τ!▸ ])
+        → MSubsumable {Γ} (⊢⸨ ě₁ ⸩∙ ě₂ [ τ!▸ ])
 
-      SuNum : ∀ {Γ}
+      MSuNum : ∀ {Γ}
         → {n : ℕ}
-        → Subsumable {Γ} (⊢ℕ n)
+        → MSubsumable {Γ} (⊢ℕ n)
 
-      SuPlus : ∀ {Γ}
+      MSuPlus : ∀ {Γ}
         → {ě₁ : Γ ⊢⇐ num}
         → {ě₂ : Γ ⊢⇐ num}
-        → Subsumable {Γ} (⊢ ě₁ + ě₂)
+        → MSubsumable {Γ} (⊢ ě₁ + ě₂)
 
-      SuTrue : ∀ {Γ}
-        → Subsumable {Γ} (⊢tt)
+      MSuTrue : ∀ {Γ}
+        → MSubsumable {Γ} (⊢tt)
 
-      SuFalse : ∀ {Γ}
-        → Subsumable {Γ} (⊢ff)
+      MSuFalse : ∀ {Γ}
+        → MSubsumable {Γ} (⊢ff)
 
-      SuUnbound : ∀ {Γ}
+      MSuUnbound : ∀ {Γ}
         → {x : FreeVar}
-        → Subsumable {Γ} (⊢⟦ x ⟧)
+        → MSubsumable {Γ} (⊢⟦ x ⟧)
 
-      SuInconsistentBranches : ∀ {Γ τ₁ τ₂}
+      MSuInconsistentBranches : ∀ {Γ τ₁ τ₂}
         → {ě₁ : Γ ⊢⇐ bool}
         → {ě₂ : Γ ⊢⇒ τ₁}
         → {ě₃ : Γ ⊢⇒ τ₂}
         → {τ₁~̸τ₂ : τ₁ ~̸ τ₂}
-        → Subsumable {Γ} (⊢⦉ ě₁ ∙ ě₂ ∙ ě₃ ⦊[ τ₁~̸τ₂ ])
+        → MSubsumable {Γ} (⊢⦉ ě₁ ∙ ě₂ ∙ ě₃ ⦊[ τ₁~̸τ₂ ])
 
     -- analysis
     data _⊢⇐_ : (Γ : Ctx) (τ : Typ) → Set where
@@ -195,12 +195,12 @@ module core.mexp where
       ⊢⸨_⸩[_∙_] : ∀ {Γ τ τ′}
         → (ě : Γ ⊢⇒ τ′)
         → (τ~̸τ′ : τ ~̸ τ′)
-        → (su : Subsumable ě)
+        → (su : MSubsumable ě)
         → Γ ⊢⇐ τ
 
-      -- MASubsume
+      -- MAMSubsume
       ⊢∙_[_∙_] : ∀ {Γ τ τ′}
         → (ě : Γ ⊢⇒ τ′)
         → (τ~τ′ : τ ~ τ′)
-        → (su : Subsumable ě)
+        → (su : MSubsumable ě)
         → Γ ⊢⇐ τ
