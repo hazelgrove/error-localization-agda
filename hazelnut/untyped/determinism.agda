@@ -29,52 +29,69 @@ module hazelnut.untyped.determinism where
     rewrite determinism-τ τ₁^+>τ₂^ τ₁^+>τ₂^′
     rewrite determinism*-τ τ₂^+>*τ₃^ τ₂^+>*τ₃^′    = refl
 
-  -- determinism-e : ∀ {ê ê′ ê″ α} → ê + α +e> ê′ → ê + α +e> ê″ → ê′ ≡ ê″
-  -- determinism-e EMLamChild1 EMLamChild1 = {! !}
-  -- determinism-e EMLamChild2 EMLamChild2 = {! !}
-  -- determinism-e EMLamParent1 EMLamParent1 = {! !}
-  -- determinism-e EMLamParent2 EMLamParent2 = {! !}
-  -- determinism-e EMApChild1 EMApChild1 = {! !}
-  -- determinism-e EMApChild2 EMApChild2 = {! !}
-  -- determinism-e EMApParent1 EMApParent1 = {! !}
-  -- determinism-e EMApParent2 EMApParent2 = {! !}
-  -- determinism-e EMLetChild1 EMLetChild1 = {! !}
-  -- determinism-e EMLetChild2 EMLetChild2 = {! !}
-  -- determinism-e EMLetParent1 EMLetParent1 = {! !}
-  -- determinism-e EMLetParent2 EMLetParent2 = {! !}
-  -- determinism-e EMPlusChild1 EMPlusChild1 = {! !}
-  -- determinism-e EMPlusChild2 EMPlusChild2 = {! !}
-  -- determinism-e EMPlusParent1 EMPlusParent1 = {! !}
-  -- determinism-e EMPlusParent2 EMPlusParent2 = {! !}
-  -- determinism-e EMIfChild1 EMIfChild1 = {! !}
-  -- determinism-e EMIfChild2 EMIfChild2 = {! !}
-  -- determinism-e EMIfChild3 EMIfChild3 = {! !}
-  -- determinism-e EMIfParent1 EMIfParent1 = {! !}
-  -- determinism-e EMIfParent2 EMIfParent2 = {! !}
-  -- determinism-e EMIfParent3 EMIfParent3 = {! !}
-  -- determinism-e EDel EDel = {! !}
-  -- determinism-e EConVar EConVar = {! !}
-  -- determinism-e EConLam EConLam = {! !}
-  -- determinism-e EConAp1 EConAp1 = {! !}
-  -- determinism-e EConAp2 EConAp2 = {! !}
-  -- determinism-e EConLet1 EConLet1 = {! !}
-  -- determinism-e EConLet2 EConLet2 = {! !}
-  -- determinism-e EConNum EConNum = {! !}
-  -- determinism-e EConPlus1 EConPlus1 = {! !}
-  -- determinism-e EConPlus2 EConPlus2 = {! !}
-  -- determinism-e EConTrue EConTrue = {! !}
-  -- determinism-e EConFalse EConFalse = {! !}
-  -- determinism-e EConIf1 EConIf1 = {! !}
-  -- determinism-e EConIf2 EConIf2 = {! !}
-  -- determinism-e EConIf3 EConIf3 = {! !}
-  -- determinism-e (EZipLam1 τ^+>τ^′) y = {! !}
-  -- determinism-e (EZipLam2 x) y = {! !}
-  -- determinism-e (EZipAp1 x) y = {! !}
-  -- determinism-e (EZipAp2 x) y = {! !}
-  -- determinism-e (EZipLet1 x) y = {! !}
-  -- determinism-e (EZipLet2 x) y = {! !}
-  -- determinism-e (EZipPlus1 x) y = {! !}
-  -- determinism-e (EZipPlus2 x) y = {! !}
-  -- determinism-e (EZipIf1 x) y = {! !}
-  -- determinism-e (EZipIf2 x) y = {! !}
-  -- determinism-e (EZipIf3 x) y = {! !}
+  determinism-e : ∀ {ê ê′ ê″ α} → ê + α +e> ê′ → ê + α +e> ê″ → ê′ ≡ ê″
+  determinism-e EMLamChild1        EMLamChild1   = refl
+  determinism-e EMLamChild2        EMLamChild2   = refl
+  determinism-e EMLamParent1       EMLamParent1  = refl
+  determinism-e EMLamParent2       EMLamParent2  = refl
+  determinism-e EMApChild1         EMApChild1    = refl
+  determinism-e EMApChild2         EMApChild2    = refl
+  determinism-e EMApParent1        EMApParent1   = refl
+  determinism-e EMApParent2        EMApParent2   = refl
+  determinism-e EMLetChild1        EMLetChild1   = refl
+  determinism-e EMLetChild2        EMLetChild2   = refl
+  determinism-e EMLetParent1       EMLetParent1  = refl
+  determinism-e EMLetParent2       EMLetParent2  = refl
+  determinism-e EMPlusChild1       EMPlusChild1  = refl
+  determinism-e EMPlusChild2       EMPlusChild2  = refl
+  determinism-e EMPlusParent1      EMPlusParent1 = refl
+  determinism-e EMPlusParent2      EMPlusParent2 = refl
+  determinism-e EMIfChild1         EMIfChild1    = refl
+  determinism-e EMIfChild2         EMIfChild2    = refl
+  determinism-e EMIfChild3         EMIfChild3    = refl
+  determinism-e EMIfParent1        EMIfParent1   = refl
+  determinism-e EMIfParent2        EMIfParent2   = refl
+  determinism-e EMIfParent3        EMIfParent3   = refl
+  determinism-e EDel               EDel          = refl
+  determinism-e EConVar            EConVar       = refl
+  determinism-e EConLam            EConLam       = refl
+  determinism-e EConAp1            EConAp1       = refl
+  determinism-e EConAp2            EConAp2       = refl
+  determinism-e EConLet1           EConLet1      = refl
+  determinism-e EConLet2           EConLet2      = refl
+  determinism-e EConNum            EConNum       = refl
+  determinism-e EConPlus1          EConPlus1     = refl
+  determinism-e EConPlus2          EConPlus2     = refl
+  determinism-e EConTrue           EConTrue      = refl
+  determinism-e EConFalse          EConFalse     = refl
+  determinism-e EConIf1            EConIf1       = refl
+  determinism-e EConIf2            EConIf2       = refl
+  determinism-e EConIf3            EConIf3       = refl
+  determinism-e (EZipLam1 τ^+>τ^′) (EZipLam1 τ^+>τ^″)
+    rewrite determinism-τ τ^+>τ^′ τ^+>τ^″        = refl
+  determinism-e (EZipLam2 ê+>ê′)   (EZipLam2 ê+>ê″)
+    rewrite determinism-e ê+>ê′ ê+>ê″            = refl
+  determinism-e (EZipAp1 ê+>ê′)    (EZipAp1 ê+>ê″)
+    rewrite determinism-e ê+>ê′ ê+>ê″            = refl
+  determinism-e (EZipAp2 ê+>ê′)    (EZipAp2 ê+>ê″)
+    rewrite determinism-e ê+>ê′ ê+>ê″            = refl
+  determinism-e (EZipLet1 ê+>ê′)   (EZipLet1 ê+>ê″)
+    rewrite determinism-e ê+>ê′ ê+>ê″            = refl
+  determinism-e (EZipLet2 ê+>ê′)   (EZipLet2 ê+>ê″)
+    rewrite determinism-e ê+>ê′ ê+>ê″            = refl
+  determinism-e (EZipPlus1 ê+>ê′)  (EZipPlus1 ê+>ê″)
+    rewrite determinism-e ê+>ê′ ê+>ê″            = refl
+  determinism-e (EZipPlus2 ê+>ê′)  (EZipPlus2 ê+>ê″)
+    rewrite determinism-e ê+>ê′ ê+>ê″            = refl
+  determinism-e (EZipIf1 ê+>ê′)    (EZipIf1 ê+>ê″)
+    rewrite determinism-e ê+>ê′ ê+>ê″            = refl
+  determinism-e (EZipIf2 ê+>ê′)    (EZipIf2 ê+>ê″)
+    rewrite determinism-e ê+>ê′ ê+>ê″            = refl
+  determinism-e (EZipIf3 ê+>ê′)    (EZipIf3 ê+>ê″)
+    rewrite determinism-e ê+>ê′ ê+>ê″            = refl
+
+  determinism*-e : ∀ {ê ê′ ê″ ᾱ} → ê + ᾱ +e>* ê′ → ê + ᾱ +e>* ê″ → ê′ ≡ ê″
+  determinism*-e EIRefl                 EIRefl = refl
+  determinism*-e (EIExp ê₁+>ê₂ ê₂+>*ê₃) (EIExp ê₁+>ê₂′ ê₂+>*ê₃′)
+    rewrite determinism-e ê₁+>ê₂ ê₁+>ê₂′
+    rewrite determinism*-e ê₂+>*ê₃ ê₂+>*ê₃′    = refl
