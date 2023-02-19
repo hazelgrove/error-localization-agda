@@ -5,7 +5,9 @@ open import marking.marking
 
 module marking.totality where
   mutual
-    ↬⇒-totality : ∀ (Γ : UCtx) → (e : UExp) → Σ[ τ ∈ Typ ] Σ[ ě ∈ ⟦ Γ ⟧ ⊢⇒ τ ] (Γ ⊢ e ↬⇒ ě)
+    ↬⇒-totality : (Γ : UCtx)
+                → (e : UExp)
+                → Σ[ τ ∈ Typ ] Σ[ ě ∈ ⟦ Γ ⟧ ⊢⇒ τ ] (Γ ⊢ e ↬⇒ ě)
     ↬⇒-totality Γ (‵⦇-⦈^ x) = ⟨ unknown , ⟨ ⊢⦇-⦈^ x , ISHole ⟩ ⟩
     ↬⇒-totality Γ (‵ x)
       with Γ ∋?? x
@@ -46,12 +48,20 @@ module marking.totality where
                 = ⟨ τ , ⟨ ⊢ ě₁ ∙ ě₂ ∙ ě₃ [ ⊔⇒τ ] , ISIf e₁↬⇐ě₁ e₂↬⇐ě₂ e₃↬⇒ě₃ ⊔⇒τ ⟩ ⟩
     ...  | no  τ₁~̸τ₂  = ⟨ unknown , ⟨ ⊢⦉ ě₁ ∙ ě₂ ∙ ě₃ ⦊[ τ₁~̸τ₂ ] , ISInconsistentBranches e₁↬⇐ě₁ e₂↬⇐ě₂ e₃↬⇒ě₃ τ₁~̸τ₂ ⟩ ⟩
 
-    ↬⇐-subsume : ∀ {Γ e τ} → (ě : ⟦ Γ ⟧ ⊢⇒ τ) → (τ′ : Typ) → (Γ ⊢ e ↬⇒ ě) → (∙e : USubsumable e) → Σ[ ě ∈ ⟦ Γ ⟧ ⊢⇐ τ′ ] (Γ ⊢ e ↬⇐ ě)
-    ↬⇐-subsume {_} {_} {τ} ě τ′ e↬⇒ě ∙e with τ′ ~? τ
-    ...   | yes τ′~τ = ⟨ ⊢∙ ě  [ τ′~τ ∙ USu→MSu ∙e e↬⇒ě ] , IASubsume e↬⇒ě τ′~τ ∙e ⟩
-    ...   | no  τ′~̸τ = ⟨ ⊢⸨ ě ⸩[ τ′~̸τ ∙ USu→MSu ∙e e↬⇒ě ] , IAInconsistentTypes e↬⇒ě τ′~̸τ ∙e ⟩
+    ↬⇐-subsume : ∀ {Γ e τ}
+               → (ě : ⟦ Γ ⟧ ⊢⇒ τ)
+               → (τ′ : Typ)
+               → (Γ ⊢ e ↬⇒ ě)
+               → (s : USubsumable e)
+               → Σ[ ě ∈ ⟦ Γ ⟧ ⊢⇐ τ′ ] (Γ ⊢ e ↬⇐ ě)
+    ↬⇐-subsume {τ = τ} ě τ′ e↬⇒ě s with τ′ ~? τ
+    ...   | yes τ′~τ = ⟨ ⊢∙ ě  [ τ′~τ ∙ USu→MSu s e↬⇒ě ] , IASubsume e↬⇒ě τ′~τ s ⟩
+    ...   | no  τ′~̸τ = ⟨ ⊢⸨ ě ⸩[ τ′~̸τ ∙ USu→MSu s e↬⇒ě ] , IAInconsistentTypes e↬⇒ě τ′~̸τ s ⟩
 
-    ↬⇐-totality : ∀ (Γ : UCtx) → (τ′ : Typ) → (e : UExp) → Σ[ ě ∈ ⟦ Γ ⟧ ⊢⇐ τ′ ] (Γ ⊢ e ↬⇐ ě)
+    ↬⇐-totality : (Γ : UCtx)
+                → (τ′ : Typ)
+                → (e : UExp)
+                → Σ[ ě ∈ ⟦ Γ ⟧ ⊢⇐ τ′ ] (Γ ⊢ e ↬⇐ ě)
     ↬⇐-totality Γ τ′ e@(‵⦇-⦈^ u)
       with ⟨ .unknown , ⟨ ě@(⊢⦇-⦈^ _) , e↬⇒ě ⟩ ⟩ ← ↬⇒-totality Γ e
          = ↬⇐-subsume ě τ′ e↬⇒ě USuHole

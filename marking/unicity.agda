@@ -4,13 +4,19 @@ open import core
 open import marking.marking
 
 module marking.unicity where
-  ∋→τ-≡ : ∀ {Γ x τ₁ τ₂} → (Γ ∋ x ∶ τ₁) → (Γ ∋ x ∶ τ₂) → τ₁ ≡ τ₂
+  ∋→τ-≡ : ∀ {Γ x τ₁ τ₂}
+        → (Γ ∋ x ∶ τ₁)
+        → (Γ ∋ x ∶ τ₂)
+        → τ₁ ≡ τ₂
   ∋→τ-≡ Z         Z         = refl
   ∋→τ-≡ Z         (S x≢x _) = ⊥-elim (x≢x refl)
   ∋→τ-≡ (S x≢x _) Z         = ⊥-elim (x≢x refl)
   ∋→τ-≡ (S _ ∋x)  (S _ ∋x′) = ∋→τ-≡ ∋x ∋x′
 
-  ∋-≡ : ∀ {Γ x τ} → (∋x : Γ ∋ x ∶ τ) → (∋x′ : Γ ∋ x ∶ τ) → ∋x ≡ ∋x′
+  ∋-≡ : ∀ {Γ x τ}
+      → (∋x : Γ ∋ x ∶ τ)
+      → (∋x′ : Γ ∋ x ∶ τ)
+      → ∋x ≡ ∋x′
   ∋-≡ Z           Z                                                           = refl
   ∋-≡ Z           (S x≢x _)                                                   = ⊥-elim (x≢x refl)
   ∋-≡ (S x≢x _)   Z                                                           = ⊥-elim (x≢x refl)
@@ -18,7 +24,10 @@ module marking.unicity where
     rewrite ¬-≡ x≢x′ x≢x′′
           | ∋-≡ ∋x ∋x′ = refl
 
-  ⇒-unicity : ∀ {Γ : UCtx} {e : UExp} {τ₁ τ₂ : Typ} → Γ ⊢ e ⇒ τ₁ → Γ ⊢ e ⇒ τ₂ → τ₁ ≡ τ₂
+  ⇒-unicity : ∀ {Γ : UCtx} {e : UExp} {τ₁ τ₂ : Typ}
+            → Γ ⊢ e ⇒ τ₁
+            → Γ ⊢ e ⇒ τ₂
+            → τ₁ ≡ τ₂
   ⇒-unicity USHole                 USHole                   = refl
   ⇒-unicity (USVar ∋x)             (USVar ∋x′)              = ∋→τ-≡ ∋x ∋x′
   ⇒-unicity (USLam e⇒τ₁)           (USLam e⇒τ₂)
@@ -38,7 +47,10 @@ module marking.unicity where
           | ⇒-unicity e₃⇒τ₂ e₃⇒τ₂′
           | ⊔-unicity τ₁⊔τ₂ τ₁⊔τ₂′                          = refl
 
-  ↬⇒-τ-unicity : ∀ {Γ : UCtx} {e : UExp} {τ₁ τ₂ : Typ} {ě₁ : ⟦ Γ ⟧ ⊢⇒ τ₁} {ě₂ : ⟦ Γ ⟧ ⊢⇒ τ₂} → Γ ⊢ e ↬⇒ ě₁ → Γ ⊢ e ↬⇒ ě₂ → τ₁ ≡ τ₂
+  ↬⇒-τ-unicity : ∀ {Γ : UCtx} {e : UExp} {τ₁ τ₂ : Typ} {ě₁ : ⟦ Γ ⟧ ⊢⇒ τ₁} {ě₂ : ⟦ Γ ⟧ ⊢⇒ τ₂}
+               → Γ ⊢ e ↬⇒ ě₁
+               → Γ ⊢ e ↬⇒ ě₂
+               → τ₁ ≡ τ₂
   ↬⇒-τ-unicity ISHole         ISHole          = refl
   ↬⇒-τ-unicity (ISVar ∋x)     (ISVar ∋x′)     = ∋→τ-≡ ∋x ∋x′
   ↬⇒-τ-unicity (ISVar ∋x)     (ISUnbound ∌x)  = ⊥-elim (∌x ∋x)
@@ -72,7 +84,10 @@ module marking.unicity where
   ↬⇒-τ-unicity (ISInconsistentBranches e₁↬⇐ě₁ e₂↬⇒ě₂ e₃↬⇒ě₃ τ₁~̸τ₂) (ISInconsistentBranches e₁↬⇐ě₁′ e₂↬⇒ě₂′ e₃↬⇒ě₃′ τ₁~̸τ₂′) = refl
 
   mutual
-    ↬⇒-ě-unicity : ∀ {Γ : UCtx} {e : UExp} {τ : Typ} {ě₁ : ⟦ Γ ⟧ ⊢⇒ τ} {ě₂ : ⟦ Γ ⟧ ⊢⇒ τ} → Γ ⊢ e ↬⇒ ě₁ → Γ ⊢ e ↬⇒ ě₂ → ě₁ ≡ ě₂
+    ↬⇒-ě-unicity : ∀ {Γ : UCtx} {e : UExp} {τ : Typ} {ě₁ : ⟦ Γ ⟧ ⊢⇒ τ} {ě₂ : ⟦ Γ ⟧ ⊢⇒ τ}
+                 → Γ ⊢ e ↬⇒ ě₁
+                 → Γ ⊢ e ↬⇒ ě₂
+                 → ě₁ ≡ ě₂
     ↬⇒-ě-unicity ISHole ISHole = refl
     ↬⇒-ě-unicity (ISVar ∋x) (ISVar ∋x′)
       rewrite ∋-≡ ∋x ∋x′ = refl
@@ -129,7 +144,10 @@ module marking.unicity where
             | ~̸-≡ τ₁~̸τ₂ τ₁~̸τ₂′ = refl
 
     USu→MSu-unicity : ∀ {e : UExp} {Γ : UCtx} {τ : Typ} {ě : ⟦ Γ ⟧ ⊢⇒ τ}
-                      → (s : USubsumable e) → (e↬⇒ě : Γ ⊢ e ↬⇒ ě) → (e↬⇒ě′ : Γ ⊢ e ↬⇒ ě) → USu→MSu s e↬⇒ě ≡ USu→MSu s e↬⇒ě′
+                      → (s : USubsumable e)
+                      → (e↬⇒ě : Γ ⊢ e ↬⇒ ě)
+                      → (e↬⇒ě′ : Γ ⊢ e ↬⇒ ě)
+                      → USu→MSu s e↬⇒ě ≡ USu→MSu s e↬⇒ě′
     USu→MSu-unicity USuHole  ISHole      _   = refl
     USu→MSu-unicity USuVar   (ISVar _)     _ = refl
     USu→MSu-unicity USuVar   (ISUnbound _) _ = refl
@@ -140,7 +158,10 @@ module marking.unicity where
     USu→MSu-unicity USuTrue  ISTrue      _   = refl
     USu→MSu-unicity USuFalse ISFalse     _   = refl
 
-    ↬⇐-ě-unicity : ∀ {Γ : UCtx} {e : UExp} {τ : Typ} {ě₁ : ⟦ Γ ⟧ ⊢⇐ τ} {ě₂ : ⟦ Γ ⟧ ⊢⇐ τ} → Γ ⊢ e ↬⇐ ě₁ → Γ ⊢ e ↬⇐ ě₂ → ě₁ ≡ ě₂
+    ↬⇐-ě-unicity : ∀ {Γ : UCtx} {e : UExp} {τ : Typ} {ě₁ : ⟦ Γ ⟧ ⊢⇐ τ} {ě₂ : ⟦ Γ ⟧ ⊢⇐ τ}
+                 → Γ ⊢ e ↬⇐ ě₁
+                 → Γ ⊢ e ↬⇐ ě₂
+                 → ě₁ ≡ ě₂
     ↬⇐-ě-unicity (IALam1 τ▸ τ₁~τ₂ e↬⇐ě) (IALam1 τ▸′ τ₁~τ₂′ e↬⇐ě′)
       with refl ← ▸-unicity τ▸ τ▸′
       rewrite ▸-≡ τ▸ τ▸′
@@ -249,11 +270,15 @@ module marking.unicity where
   ↬⇒-unicity-sig refl e₁ e₂ = e₁ ≡ e₂
 
   ↬⇒-unicity : ∀ {Γ : UCtx} {e : UExp} {τ₁ τ₂ : Typ} {ě₁ : ⟦ Γ ⟧ ⊢⇒ τ₁} {ě₂ : ⟦ Γ ⟧ ⊢⇒ τ₂}
-             → (e↬⇒ě₁ : Γ ⊢ e ↬⇒ ě₁) → (e↬⇒ě₂ : Γ ⊢ e ↬⇒ ě₂) → Σ[ τ₁≡τ₂ ∈ τ₁ ≡ τ₂ ] ↬⇒-unicity-sig τ₁≡τ₂ ě₁ ě₂
+             → (e↬⇒ě₁ : Γ ⊢ e ↬⇒ ě₁)
+             → (e↬⇒ě₂ : Γ ⊢ e ↬⇒ ě₂)
+             → Σ[ τ₁≡τ₂ ∈ τ₁ ≡ τ₂ ] ↬⇒-unicity-sig τ₁≡τ₂ ě₁ ě₂
   ↬⇒-unicity e↬⇒ě₁ e↬⇒ě₂
     with refl ← ↬⇒-τ-unicity e↬⇒ě₁ e↬⇒ě₂
        = ⟨ refl , ↬⇒-ě-unicity e↬⇒ě₁ e↬⇒ě₂ ⟩
 
   ↬⇐-unicity : ∀ {Γ : UCtx} {e : UExp} {τ : Typ} {ě₁ : ⟦ Γ ⟧ ⊢⇐ τ} {ě₂ : ⟦ Γ ⟧ ⊢⇐ τ}
-             → Γ ⊢ e ↬⇐ ě₁ → Γ ⊢ e ↬⇐ ě₂ → ě₁ ≡ ě₂
+             → Γ ⊢ e ↬⇐ ě₁
+             → Γ ⊢ e ↬⇐ ě₂
+             → ě₁ ≡ ě₂
   ↬⇐-unicity = ↬⇐-ě-unicity
