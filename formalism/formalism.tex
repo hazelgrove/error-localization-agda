@@ -1915,7 +1915,6 @@ Type actions are the same as in the untyped model.
   }{ASEPlusR}
 \end{mathpar}
 
-% TODO: Oops, some of these are analytic cases, actually.
 \begin{mathpar}
   \judgment{
     \AAEAction{\ctx}{\ZMV}{\ZMV'}{\TBool}{\AMV}
@@ -2003,6 +2002,41 @@ Type actions are the same as in the untyped model.
 \subsubsection{Analytic Expression Actions}
 \judgbox{\ensuremath{\AAAction{\ctx}{\ZMV}{\ZMV'}{\TMV'}{\AMV}}}
 
+\paragraph{Subsumption}
+\begin{mathpar}
+  \judgment{
+    \ctxSynType{\ctx}{\cursorErase{\ZMV}}{\TMV'} \\
+    \ASAction{\ctx}{\ZMV}{\TMV'}{\ZMV'}{\TMV''}{\AMV} \\
+    \consistent{\TMV}{\TMV''}
+  }{
+    \AAAction{\ctx}{\ZMV}{\ZMV'}{\TMV}{\AMV}
+  }{AAESubsume1}
+
+  \judgment{
+    \ctxSynType{\ctx}{\cursorErase{\ZMV}}{\TMV'} \\
+    \ASAction{\ctx}{\ZMV}{\TMV'}{\ZMV'}{\TMV''}{\AMV} \\
+    \inconsistent{\TMV}{\TMV''}
+  }{
+    \AAAction{\ctx}{\ZMV}{\ZInconType{\ZMV'}}{\TMV}{\AMV}
+  }{AAESubsume2}
+
+  \judgment{
+    \ctxSynType{\ctx}{\cursorErase{\ZMV}}{\TMV'} \\
+    \ASAction{\ctx}{\ZMV}{\TMV'}{\ZMV'}{\TMV''}{\AMV} \\
+    \inconsistent{\TMV}{\TMV''}
+  }{
+    \AAAction{\ctx}{\ZInconType{\ZMV}}{\ZInconType{\ZMV'}}{\TMV}{\AMV}
+  }{AAEInconsistentTypes1}
+
+  \judgment{
+    \ctxSynType{\ctx}{\cursorErase{\ZMV}}{\TMV'} \\
+    \ASAction{\ctx}{\ZMV}{\TMV'}{\ZMV'}{\TMV''}{\AMV} \\
+    \consistent{\TMV}{\TMV''}
+  }{
+    \AAAction{\ctx}{\ZInconType{\ZMV}}{\ZMV'}{\TMV}{\AMV}
+  }{AAEInconsistentTypes2}
+\end{mathpar}
+
 \paragraph{Movement}
 \begin{mathpar}
   \judgment{
@@ -2017,6 +2051,62 @@ Type actions are the same as in the untyped model.
   \judgment{ }{
     \AAEDel{\ctx}{\ECMV}{\TMV}
   }{AAEDel}
+\end{mathpar}
+
+\paragraph{Construction}
+\begin{mathpar}
+  \judgment{
+    \matchedArrow{\TMV}{\TMV_1}{\TMV_2} \\
+    \ctxAnaFixedInto{\extendCtx{\ctx}{x}{\TUnknown}}{\ECMV}{\ECMV'}{\TMV_2}
+  }{
+    \AACon{\ctx}{\ZCursor{\ECMV}}{\ZLamT{x}{\ZTCursor{\TUnknown}}{\ECMV'}}{\TMV}{\SLam{x}}
+  }{AAEConLam1}
+
+  \judgment{
+    \notMatchedArrow{\TMV}{\TMV_1}{\TMV_2} \\
+    \ctxAnaFixedInto{\extendCtx{\ctx}{x}{\TUnknown}}{\ECMV}{\ECMV'}{\TUnknown}
+  }{
+    \AACon{\ctx}{\ZCursor{\ECMV}}{\ZInconType{\ZLamT{x}{\ZTCursor{\TUnknown}}{\ECMV'}}}{\TMV}{\SLam{x}}
+  }{AAEConLam2}
+\end{mathpar}
+
+\begin{mathpar}
+  \judgment{
+  }{
+    \AACon{\ctx}{\ZCursor{\ECMV}}{\ZLetL{x}{\ECMV}{\ZCursor{\ECEHole}}}{\TMV}{\SLetL{x}}
+  }{AAEConLetL}
+
+  \judgment{
+    \ctxAnaFixedInto{\extendCtx{\ctx}{x}{\TUnknown}}{\erase{\ECMV}}{\ECMV'}{\TMV}
+  }{
+    \AACon{\ctx}{\ZCursor{\ECMV}}{\ZLetR{x}{\ZCursor{\ECEHole}}{\ECMV'}}{\TMV}{\SLetR{x}}
+  }{AAEConLetR}
+\end{mathpar}
+
+\begin{mathpar}
+  \judgment{
+    \ctxAnaType{\ctx}{\ECMV}{\TMV}
+  }{
+    \AACon{\ctx}{\ZCursor{\ECMV}}{\ZIfC{\ZCursor{\ECEHole}}{\ECMV}{\ECEHole}}{\TMV}{\SIfL}
+  }{AAEConIfL1}
+
+  \judgment{
+    \ctxNotAnaType{\ctx}{\ECMV}{\TMV}
+  }{
+    \AACon{\ctx}{\ZCursor{\ECMV}}{\ZIfC{\ZCursor{\ECEHole}}{\ECInconType{\ECMV}}{\ECEHole}}{\TMV}{\SIfL}
+  }{AAEConIfL2}
+
+  \judgment{
+    \ctxAnaType{\ctx}{\ECMV}{\TMV}
+  }{
+    \AACon{\ctx}{\ZCursor{\ECMV}}{\ZIfC{\ZCursor{\ECEHole}}{\ECEHole}{\ECMV}}{\TMV}{\SIfR}
+  }{AAEConIfR1}
+
+  \judgment{
+    \ctxNotAnaType{\ctx}{\ECMV}{\TMV}
+  }{
+    \AACon{\ctx}{\ZCursor{\ECMV}}{\ZIfC{\ZCursor{\ECEHole}}{\ECEHole}{\ECInconType{\ECMV}}}{\TMV}{\SIfR}
+  }{AAEConIfR2}
 \end{mathpar}
 
 \subsubsection{Iterated Actions}

@@ -47,9 +47,13 @@
 \newcommand{\assignType}[2]{\ensuremath{#1 : #2}}
 \newcommand{\ctxAssignType}[3]{\ensuremath{\withCtx{#1}{\assignType{#2}{#3}}}}
 \newcommand{\synType}[2]{\ensuremath{#1 \Rightarrow #2}}
+\newcommand{\notSynType}[2]{\ensuremath{#1 \not\Rightarrow #2}}
 \newcommand{\ctxSynType}[3]{\ensuremath{\withCtx{#1}{\synType{#2}{#3}}}}
+\newcommand{\ctxNotSynType}[3]{\ensuremath{\withCtx{#1}{\notSynType{#2}{#3}}}}
 \newcommand{\anaType}[2]{\ensuremath{#1 \Leftarrow #2}}
+\newcommand{\notAnaType}[2]{\ensuremath{#1 \not\Leftarrow #2}}
 \newcommand{\ctxAnaType}[3]{\ensuremath{\withCtx{#1}{\anaType{#2}{#3}}}}
+\newcommand{\ctxNotAnaType}[3]{\ensuremath{\withCtx{#1}{\notAnaType{#2}{#3}}}}
 
 % subsumable
 \newcommand{\subsumable}[1]{\ensuremath{#1 ~{\normalfont{\normalfont\textsf{subsumable}}}}}
