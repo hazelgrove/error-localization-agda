@@ -203,6 +203,9 @@
 % cursor
 \newcommand{\ZCursor}[1]{\ensuremath{\mathcolorbox{cursorhighlight}{\textcolor{cursor}{\bm{\triangleright}}#1\textcolor{cursor}{\bm{\triangleleft}}}}}
 
+% variables
+\newcommand{\ZUnbound}[1]{\ensuremath{\ECUnbound{#1}}}
+
 % integers
 \newcommand{\ZPlusL}[2]{\ensuremath{\ECPlus{#1}{#2}}}
 \newcommand{\ZPlusR}[2]{\ensuremath{\ECPlus{#1}{#2}}}
@@ -219,15 +222,17 @@
 \newcommand{\ZIfC}[3]{\ensuremath{\ECIf{#1}{#2}{#3}}}
 \newcommand{\ZIfL}[3]{\ensuremath{\ECIf{#1}{#2}{#3}}}
 \newcommand{\ZIfR}[3]{\ensuremath{\ECIf{#1}{#2}{#3}}}
+\newcommand{\ZInconBrC}[3]{\ensuremath{\ECInconBr{#1}{#2}{#3}}}
+\newcommand{\ZInconBrL}[3]{\ensuremath{\ECInconBr{#1}{#2}{#3}}}
+\newcommand{\ZInconBrR}[3]{\ensuremath{\ECInconBr{#1}{#2}{#3}}}
 
 % let
 \newcommand{\ZLetL}[3]{\ensuremath{\ECLet{#1}{#2}{#3}}}
 \newcommand{\ZLetR}[3]{\ensuremath{\ECLet{#1}{#2}{#3}}}
 
 % errors
-\newcommand{\ZInconBrC}[3]{\ensuremath{\ECInconBr{#1}{#2}{#3}}}
-\newcommand{\ZInconBrL}[3]{\ensuremath{\ECInconBr{#1}{#2}{#3}}}
-\newcommand{\ZInconBrR}[3]{\ensuremath{\ECInconBr{#1}{#2}{#3}}}
+\newcommand{\ZMarked}[2]{\ensuremath{\ECMarked{#1}{#2}}}
+\newcommand{\ZInconType}[1]{\ensuremath{\ECInconType{#1}}}
 
 %
 % actions
@@ -401,7 +406,7 @@
 
 % construction
 \newcommand{\ASEConBoundVar}[2]{\ensuremath{\ASCon{#1}{\ZCursor{\ECEHole}}{\TUnknown}{\ZCursor{x}}{\TMV}{\SVar{#2}}}}
-\newcommand{\ASEConUnboundVar}[2]{\ensuremath{\ASCon{#1}{\ZCursor{\ECEHole}}{\TUnknown}{\ZCursor{\ECMarkedUnbound{x}}}{\TUnknown}{\SVar{#2}}}}
+\newcommand{\ASEConUnboundVar}[2]{\ensuremath{\ASCon{#1}{\ZCursor{\ECEHole}}{\TUnknown}{\ZCursor{\ZUnbound{x}}}{\TUnknown}{\SVar{#2}}}}
 \newcommand{\ASEConLam}[6]{\ensuremath{\ASCon{#1}{#2}{#3}{\ZLamT{#6}{\ZTCursor{\TUnknown}}{#4}}{\TArrow{\TUnknown}{#5}}{\SLam{#6}}}}
 \newcommand{\ASEConApL}[5]{\ensuremath{\ASCon{#1}{#2}{#3}{\ZApL{#4}{\ZCursor{\ECEHole}}}{#5}{\SApL}}}
 \newcommand{\ASEConApR}[5]{\ensuremath{\ASCon{#1}{#2}{#3}{\ZApR{\ZCursor{\ECEHole}}{#4}}{#5}{\SApR}}}

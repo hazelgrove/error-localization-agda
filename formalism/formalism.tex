@@ -1400,6 +1400,16 @@ types, e.g. pairs:
 
 \section{Typed Hazelnut}
 
+\subsection{Syntax}
+\[\begin{array}{rrcl}
+  \ZTMName & \ZTMV & \Coloneqq & \ZTCursor{\TMV} \mid \ZTArrowL{\ZTMV}{\TMV} \mid \ZTArrowR{\TMV}{\ZTMV} \\
+  \ZMName  & \ZMV  & \Coloneqq & \ZCursor{\ECMV} \mid \ZLamT{x}{\ZTMV}{\ECMV} \mid \ZLamE{x}{\TMV}{\ZMV} \mid \ZApL{\ZMV}{\ECMV} \mid \ZApR{\ECMV}{\ZMV} \\
+           &       & \mid         & \ZLetL{x}{\ZMV}{\ECMV} \mid \ZLetR{x}{\ECMV}{\ZMV} \\
+           &       & \mid         & \ZPlusL{\ZMV}{\ECMV} \mid \ZPlusR{\ECMV}{\ZMV} \\
+           &       & \mid         & \ZIfC{\ZMV}{\ECMV}{\ECMV} \mid \ZIfL{\ECMV}{\ZMV}{\ECMV} \mid \ZIfR{\ECMV}{\ECMV}{\ZMV} \\
+           &       & \mid         & \ZMarked{\ZMV}{\MRMV}
+\end{array}\]
+
 \subsection{Action Model}
 
 \subsubsection{Type Actions}
