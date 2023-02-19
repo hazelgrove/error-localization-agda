@@ -16,8 +16,7 @@ Formalization of error localization semantics.
   \ECMName & \ECMV & \Coloneqq & \ECEHole \mid x \mid \ECLam{x}{\TMV}{\ECMV} \mid \ECAp{\ECMV}{\ECMV} \mid \ECLet{x}{\ECMV}{\ECMV} \\
            &       & \mid         & \ECNumMV \mid \ECPlus{\ECMV}{\ECMV} \\
            &       & \mid         & \ECTrue \mid \ECFalse \mid \ECIf{\ECMV}{\ECMV}{\ECMV} \\
-           &       & \mid         & \ECMarked{x}{\MRMV} \\
-  \MRMName & \MRMV & \Coloneqq & \MRUnbound \mid \MRInconType \mid \MRInconBr
+           &       & \mid         & \ECUnbound{x} \mid \ECInconType{\ECMV} \mid \ECInconBr{\ECMV}{\ECMV}{\ECMV} \\
 \end{array}\]
 
 \subsection{Types}
@@ -1465,7 +1464,7 @@ Type actions are the same as in untyped Hazelnut.
   \judgment{
     \notMatchedArrow{\TMV}{\TMV_1}{\TMV_2}
   }{
-    \ASEConApL{\ctx}{\ECMV}{\TMV}{\ECMarkedInconType{\ECMV}}{\TUnknown}
+    \ASEConApL{\ctx}{\ECMV}{\TMV}{\ECInconType{\ECMV}}{\TUnknown}
   }{ASEConApL2}
 
   \judgment{
@@ -1501,7 +1500,7 @@ Type actions are the same as in untyped Hazelnut.
   \judgment{
     \inconsistent{\TMV}{\TNum}
   }{
-    \ASEConPlusL{\ctx}{\ECMV}{\TMV}{\ECMarkedInconType{\ECMV}}
+    \ASEConPlusL{\ctx}{\ECMV}{\TMV}{\ECInconType{\ECMV}}
   }{ASEConPlusL2} \\
 
   \judgment{
@@ -1513,7 +1512,7 @@ Type actions are the same as in untyped Hazelnut.
   \judgment{
     \inconsistent{\TMV}{\TNum}
   }{
-    \ASEConPlusR{\ctx}{\ECMV}{\TMV}{\ECMarkedInconType{\ECMV}}
+    \ASEConPlusR{\ctx}{\ECMV}{\TMV}{\ECInconType{\ECMV}}
   }{ASEConPlusR2}
 \end{mathpar}
 
@@ -1527,7 +1526,7 @@ Type actions are the same as in untyped Hazelnut.
   \judgment{
     \inconsistent{\TMV}{\TBool}
   }{
-    \ASEConIfC{\ctx}{\ECMV}{\TMV}{\ECMarkedInconType{\ECMV}}
+    \ASEConIfC{\ctx}{\ECMV}{\TMV}{\ECInconType{\ECMV}}
   }{ASEConIfC2}
 
   \judgment{ }{
