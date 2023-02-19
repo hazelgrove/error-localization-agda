@@ -440,19 +440,19 @@
 \newcommand{\ASEDel}[3]{\ensuremath{\ASDel{#1}{\ZCursor{#2}}{#3}{\ZCursor{\ECEHole}}{\TUnknown}}}
 
 % construction
-\newcommand{\ASEConBoundVar}[2]{\ensuremath{\ASCon{#1}{\ZCursor{\ECEHole}}{\TUnknown}{\ZCursor{x}}{\TMV}{\SVar{#2}}}}
+\newcommand{\ASEConBoundVar}[3]{\ensuremath{\ASCon{#1}{\ZCursor{\ECEHole}}{\TUnknown}{\ZCursor{x}}{#3}{\SVar{#2}}}}
 \newcommand{\ASEConUnboundVar}[2]{\ensuremath{\ASCon{#1}{\ZCursor{\ECEHole}}{\TUnknown}{\ZCursor{\ZUnbound{x}}}{\TUnknown}{\SVar{#2}}}}
-\newcommand{\ASEConLam}[6]{\ensuremath{\ASCon{#1}{#2}{#3}{\ZLamT{#6}{\ZTCursor{\TUnknown}}{#4}}{\TArrow{\TUnknown}{#5}}{\SLam{#6}}}}
-\newcommand{\ASEConApL}[5]{\ensuremath{\ASCon{#1}{#2}{#3}{\ZApL{#4}{\ZCursor{\ECEHole}}}{#5}{\SApL}}}
-\newcommand{\ASEConApR}[5]{\ensuremath{\ASCon{#1}{#2}{#3}{\ZApR{\ZCursor{\ECEHole}}{#4}}{#5}{\SApR}}}
-\newcommand{\ASEConLetL}[5]{\ensuremath{\ASCon{#1}{#2}{#3}{\ZLetL{#5}{#4}{\ZCursor{\ECEHole}}}{\TUnknown}{\SLetL{#5}}}}
-\newcommand{\ASEConLetR}[6]{\ensuremath{\ASCon{#1}{#2}{#3}{\ZLetR{#6}{\ZCursor{\ECEHole}}{#4}}{#5}{\SLetL{#6}}}}
+\newcommand{\ASEConLam}[6]{\ensuremath{\ASCon{#1}{\ZCursor{#2}}{#3}{\ZLamT{#6}{\ZTCursor{\TUnknown}}{#4}}{\TArrow{\TUnknown}{#5}}{\SLam{#6}}}}
+\newcommand{\ASEConApL}[5]{\ensuremath{\ASCon{#1}{\ZCursor{#2}}{#3}{\ZApL{#4}{\ZCursor{\ECEHole}}}{#5}{\SApL}}}
+\newcommand{\ASEConApR}[5]{\ensuremath{\ASCon{#1}{\ZCursor{#2}}{#3}{\ZApR{\ZCursor{\ECEHole}}{#4}}{#5}{\SApR}}}
+\newcommand{\ASEConLetL}[5]{\ensuremath{\ASCon{#1}{\ZCursor{#2}}{#3}{\ZLetL{#5}{#4}{\ZCursor{\ECEHole}}}{\TUnknown}{\SLetL{#5}}}}
+\newcommand{\ASEConLetR}[6]{\ensuremath{\ASCon{#1}{\ZCursor{#2}}{#3}{\ZLetR{#6}{\ZCursor{\ECEHole}}{#4}}{#5}{\SLetL{#6}}}}
 \newcommand{\ASEConNum}[2]{\ensuremath{\ASCon{#1}{\ZCursor{\ECEHole}}{\TUnknown}{\ZCursor{#2}}{\TNum}{\SLit{#2}}}}
-\newcommand{\ASEConPlusL}[4]{\ensuremath{\ASCon{#1}{#2}{#3}{\ZPlusR{#4}{\ZCursor{\ECEHole}}}{\TNum}{\SPlusL}}}
-\newcommand{\ASEConPlusR}[4]{\ensuremath{\ASCon{#1}{#2}{#3}{\ZPlusL{\ZCursor{\ECEHole}}{#4}}{\TNum}{\SPlusL}}}
-\newcommand{\ASEConIfC}[4]{\ensuremath{\ASCon{#1}{#2}{#3}{\ZIfL{#4}{\ZCursor{\ECEHole}}{\ECEHole}}{\TUnknown}{\SIfC}}}
-\newcommand{\ASEConIfL}[5]{\ensuremath{\ASCon{#1}{#2}{#3}{\ZIfC{\ZCursor{\ECEHole}}{#4}{\ECEHole}}{\TJoin{#5}{\TUnknown}}{\SIfL}}}
-\newcommand{\ASEConIfR}[5]{\ensuremath{\ASCon{#1}{#2}{#3}{\ZIfC{\ZCursor{\ECEHole}}{\ECEHole}{#4}}{\TJoin{\TUnknown}{#5}}{\SIfR}}}
+\newcommand{\ASEConPlusL}[4]{\ensuremath{\ASCon{#1}{\ZCursor{#2}}{#3}{\ZPlusR{#4}{\ZCursor{\ECEHole}}}{\TNum}{\SPlusL}}}
+\newcommand{\ASEConPlusR}[4]{\ensuremath{\ASCon{#1}{\ZCursor{#2}}{#3}{\ZPlusL{\ZCursor{\ECEHole}}{#4}}{\TNum}{\SPlusL}}}
+\newcommand{\ASEConIfC}[4]{\ensuremath{\ASCon{#1}{\ZCursor{#2}}{#3}{\ZIfL{#4}{\ZCursor{\ECEHole}}{\ECEHole}}{\TUnknown}{\SIfC}}}
+\newcommand{\ASEConIfL}[5]{\ensuremath{\ASCon{#1}{\ZCursor{#2}}{#3}{\ZIfC{\ZCursor{\ECEHole}}{#4}{\ECEHole}}{\TJoin{#5}{\TUnknown}}{\SIfL}}}
+\newcommand{\ASEConIfR}[5]{\ensuremath{\ASCon{#1}{\ZCursor{#2}}{#3}{\ZIfC{\ZCursor{\ECEHole}}{\ECEHole}{#4}}{\TJoin{\TUnknown}{#5}}{\SIfR}}}
 
 %
 % analytic action judgments
