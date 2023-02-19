@@ -2115,6 +2115,58 @@ Type actions are the same as in the untyped model.
   }{AAEConIfR2}
 \end{mathpar}
 
+\paragraph{Zipper Cases}
+\begin{mathpar}
+  \judgment{
+    \AUTAction{\ZTMV}{\ZTMV'}{\AMV} \\
+    \matchedArrow{\TMV}{\TMV_1}{\TMV_2} \\\\
+    \consistent{\cursorErase{\ZTMV'}}{\TMV_1} \\
+    \ctxAnaFixedInto{\extendCtx{\ctx}{x}{\cursorErase{\ZTMV'}}}{\erase{\ECMV}}{\ECMV'}{\TMV_2}
+  }{
+    \AAAction{\ctx}{\ZLamT{x}{\ZTMV}{\ECMV}}{\ZLamT{x}{\ZTMV'}{\ECMV'}}{\TMV}{\AMV}
+  }{AAEZipLamT1}
+
+  \judgment{
+    \AUTAction{\ZTMV}{\ZTMV'}{\AMV} \\
+    \notMatchedArrow{\TMV}{\TMV_1}{\TMV_2} \\\\
+    \ctxAnaFixedInto{\extendCtx{\ctx}{x}{\cursorErase{\ZTMV'}}}{\erase{\ECMV}}{\ECMV'}{\TUnknown}
+  }{
+    \AAAction{\ctx}{\ZLamT{x}{\ZTMV}{\ECMV}}{\ZInconType{\ZLamT{x}{\ZTMV'}{\ECMV'}}}{\TMV}{\AMV}
+  }{AAEZipLamT2}
+
+  \judgment{
+    \AUTAction{\ZTMV}{\ZTMV'}{\AMV} \\
+    \matchedArrow{\TMV}{\TMV_1}{\TMV_2} \\\\
+    \inconsistent{\cursorErase{\ZTMV'}}{\TMV_1} \\
+    \ctxAnaFixedInto{\extendCtx{\ctx}{x}{\TMV_1}}{\erase{\ECMV}}{\ECMV'}{\TMV_2}
+  }{
+    \AAAction{\ctx}{\ZLamT{x}{\ZTMV}{\ECMV}}{\ZInconType{\ZLamT{x}{\ZTMV'}{\ECMV'}}}{\TMV}{\AMV}
+  }{AAEZipLamT3}
+
+  \judgment{
+    \matchedArrow{\TMV}{\TMV_1}{\TMV_2} \\
+    \consistent{\TMV_1}{\TMV_3} \\\\
+    \AAAction{\extendCtx{\ctx}{x}{\TMV_3}}{\ZMV}{\ZMV'}{\TMV_2}{\AMV}
+  }{
+    \AAAction{\ctx}{\ZLamE{x}{\TMV_3}{\ZMV}}{\ZLamE{x}{\TMV_3}{\ZMV'}}{\TMV}{\AMV}
+  }{AAEZipLamE1}
+
+  \judgment{
+    \notMatchedArrow{\TMV}{\TMV_1}{\TMV_2} \\
+    \AAAction{\extendCtx{\ctx}{x}{\TMV_3}}{\ZMV}{\ZMV'}{\TUnknown}{\AMV}
+  }{
+    \AAAction{\ctx}{\ZLamE{x}{\TMV_3}{\ZMV}}{\ZInconType{\ZLamE{x}{\TMV_3}{\ZMV'}}}{\TMV}{\AMV}
+  }{AAEZipLamE2}
+
+  \judgment{
+    \matchedArrow{\TMV}{\TMV_1}{\TMV_2} \\
+    \inconsistent{\TMV_1}{\TMV_3} \\\\
+    \AAAction{\extendCtx{\ctx}{x}{\TMV_1}}{\ZMV}{\ZMV'}{\TMV_2}{\AMV}
+  }{
+    \AAAction{\ctx}{\ZLamE{x}{\TMV_3}{\ZMV}}{\ZInconType{\ZLamE{x}{\TMV_3}{\ZMV'}}}{\TMV}{\AMV}
+  }{AAEZipLamE3}
+\end{mathpar}
+
 \subsubsection{Iterated Actions}
 The iterated action judgments are the same as in the untyped model.
 
