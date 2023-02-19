@@ -1406,7 +1406,8 @@ types, e.g. pairs:
            &       & \mid         & \ZLetL{x}{\ZMV}{\ECMV} \mid \ZLetR{x}{\ECMV}{\ZMV} \\
            &       & \mid         & \ZPlusL{\ZMV}{\ECMV} \mid \ZPlusR{\ECMV}{\ZMV} \\
            &       & \mid         & \ZIfC{\ZMV}{\ECMV}{\ECMV} \mid \ZIfL{\ECMV}{\ZMV}{\ECMV} \mid \ZIfR{\ECMV}{\ECMV}{\ZMV} \\
-           &       & \mid         & \ZMarked{\ZMV}{\MRMV}
+           &       & \mid         & \ZUnbound{x} \mid \ZInconType{\ZMV} \\
+           &       & \mid         & \ZInconBrC{\ZMV}{\ECMV}{\ECMV} \mid \ZInconBrL{\ECMV}{\ZMV}{\ECMV} \mid \ZInconBrR{\ECMV}{\ECMV}{\ZMV} \\
 \end{array}\]
 
 \subsection{Action Model}
