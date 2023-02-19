@@ -2205,7 +2205,37 @@ Type actions are the same as in the untyped model.
 \end{mathpar}
 
 \subsubsection{Iterated Actions}
-The iterated action judgments are the same as in the untyped model.
+The iterated type action and movements judgments are the same as in the untyped model. \\
+
+\judgbox{\ensuremath{\ASEActionIter{\ctx}{\ZMV}{\TMV}{\ZMV'}{\TMV'}{\AIMV}}}
+%
+\begin{mathpar}
+  \judgment{ }{
+    \ASEActionIter{\ctx}{\ZMV}{\TMV}{\ZMV}{\TMV}{\AINil}
+  }{ASEIRefl}
+
+  \judgment{
+    \ASEAction{\ctx}{\ZMV}{\TMV}{\ZMV'}{\TMV'}{\AMV} \\
+    \ASEActionIter{\ctx}{\ZMV'}{\TMV'}{\ZMV''}{\TMV''}{\AIMV}
+  }{
+    \ASEActionIter{\ctx}{\ZMV}{\TMV}{\ZMV''}{\TMV''}{\AICons{\AMV}{\AIMV}}
+  }{ASEIExp}
+\end{mathpar}
+
+\judgbox{\ensuremath{\AAEActionIter{\ctx}{\ZMV}{\ZMV'}{\TMV}{\AIMV}}}
+%
+\begin{mathpar}
+  \judgment{ }{
+    \AAEActionIter{\ctx}{\ZMV}{\ZMV}{\TMV}{\AINil}
+  }{AAEIRefl}
+
+  \judgment{
+    \AAEAction{\ctx}{\ZMV}{\ZMV'}{\TMV'}{\AMV} \\
+    \AAEActionIter{\ctx}{\ZMV'}{\ZMV''}{\TMV''}{\AIMV}
+  }{
+    \AAEActionIter{\ctx}{\ZMV}{\ZMV''}{\TMV''}{\AICons{\AMV}{\AIMV}}
+  }{AAEIExp}
+\end{mathpar}
 
 \subsubsection{Metatheorems}
 \begin{theorem}[name=Sensibility]
