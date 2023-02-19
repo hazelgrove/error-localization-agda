@@ -1382,8 +1382,8 @@ types, e.g. pairs:
     \item If $\AUTActionIter{\ZTMV}{\ZTMV'}{\AMV}$ and $\AUTActionIter{\ZTMV}{\ZTMV''}{\AMV}$, then
       $\ZTMV' = \ZTMV''$.
 
-    \item If $\AUTActionIter{\ZMV}{\ZMV'}{\AMV}$ and $\AUTActionIter{\ZMV}{\ZMV''}{\AMV}$, then $\ZMV'
-      = \ZMV''$.
+    \item If $\AUEActionIter{\ZMV}{\ZMV'}{\AMV}$ and $\AUEActionIter{\ZMV}{\ZMV''}{\AMV}$, then
+      $\ZMV' = \ZMV''$.
   \end{enumerate}
 \end{theorem}
 
@@ -2238,7 +2238,105 @@ The iterated type action and movements judgments are the same as in the untyped 
 \end{mathpar}
 
 \subsubsection{Metatheorems}
-\begin{theorem}[name=Sensibility]
+\begin{theorem}[name=Sensibility] \
+  \begin{enumerate}
+    \item If $\ctxSynType{\ctx}{\cursorErase{\ZMV}}{\TMV}$ and
+      $\ASEAction{\ctx}{\ZMV}{\TMV}{\ZMV'}{\TMV'}{\AMV}$, then
+      $\ctxSynType{\ctx}{\cursorErase{\ZMV'}}{\TMV'}$.
+
+    \item If $\ctxAnaType{\ctx}{\cursorErase{\ZMV}}{\TMV}$ and
+      $\AAEAction{\ctx}{\ZMV}{\ZMV'}{\TMV}{\AMV}$, then
+      $\ctxAnaType{\ctx}{\cursorErase{\ZMV'}}{\TMV}$.
+  \end{enumerate}
+\end{theorem}
+
+\begin{theorem}[name=Movement Erasure Invariance] \
+  \begin{enumerate}
+    \item If $\AUTAction{\ZTMV}{\ZTMV'}{\AMove{\MMV}}$, then $\cursorErase{\ZTMV} =
+      \cursorErase{\ZTMV'}$.
+
+    \item If $\ctxSynType{\ctx}{\cursorErase{\ZMV}}{\TMV}$ and
+      $\ASEAction{\ctx}{\ZMV}{\TMV}{\ZMV'}{\TMV'}{\AMove{\MMV}}$, then $\cursorErase{\ZMV} =
+      \cursorErase{\ZMV'}$ and $\equal{\TMV}{\TMV'}$.
+
+    \item If $\ctxAnaType{\ctx}{\cursorErase{\ZMV}}{\TMV}$ and
+      $\AAEAction{\ctx}{\ZMV}{\ZMV'}{\TMV}{\AMove{\MMV}}$, then $\cursorErase{\ZMV} =
+      \cursorErase{\ZMV'}$.
+  \end{enumerate}
+\end{theorem}
+
+\begin{theorem}[name=Reachability] \
+  \begin{enumerate}
+    \item If $\cursorErase{\ZTMV} = \cursorErase{\ZTMV'}$, then there exists $\AIMV$ such that
+      $\movements{\AIMV}$ and $\AUTActionIter{\ZTMV}{\ZTMV'}{\AIMV}$.
+
+    \item If $\ctxSynType{\ctx}{\cursorErase{\ZMV}}{\TMV}$ and $\cursorErase{\ZMV} =
+      \cursorErase{\ZMV'}$, then there exists $\AIMV$ such that $\movements{\AIMV}$ and
+      $\ASEActionIter{\ctx}{\ZMV}{\TMV}{\ZMV'}{\TMV}{\AIMV}$.
+
+    \item If $\ctxAnaType{\ctx}{\cursorErase{\ZMV}}{\TMV}$ and $\cursorErase{\ZMV} =
+      \cursorErase{\ZMV'}$, then there exists $\AIMV$ such that $\movements{\AIMV}$ and
+      $\AAEActionIter{\ctx}{\ZMV}{\ZMV'}{\TMV}{\AIMV}$.
+  \end{enumerate}
+\end{theorem}
+
+\begin{lemma}[name=Reach Up] \
+  \begin{enumerate}
+    \item If $\cursorErase{\ZTMV} = \TMV$, then there exists $\AIMV$ such that $\movements{\AIMV}$
+      and $\AUTActionIter{\ZTMV}{\ZTCursor{\TMV}}{\AIMV}$.
+
+    \item If $\ctxSynType{\ctx}{\cursorErase{\ZMV}}{\TMV}$ and $\cursorErase{\ZMV} = \ECMV$, then
+      there exists $\AIMV$ such that $\movements{\AIMV}$ and
+      $\ASEActionIter{\ctx}{\ZMV}{\TMV}{\ZTCursor{\ECMV}}{\TMV}{\AIMV}$.
+
+    \item If $\ctxAnaType{\ctx}{\cursorErase{\ZMV}}{\TMV}$ and $\cursorErase{\ZMV} = \ECMV$, then
+      there exists $\AIMV$ such that $\movements{\AIMV}$ and
+      $\AAEActionIter{\ctx}{\ZMV}{\ZTCursor{\ECMV}}{\TMV}{\AIMV}$.
+  \end{enumerate}
+\end{lemma}
+
+\begin{lemma}[name=Reach Down] \
+  \begin{enumerate}
+    \item If $\cursorErase{\ZTMV} = \TMV$, then there exists $\AIMV$ such that $\movements{\AIMV}$
+      and $\AUTActionIter{\ZTCursor{\TMV}}{\ZTMV}{\AIMV}$.
+
+    \item If $\ctxSynType{\ctx}{\cursorErase{\ZMV}}{\TMV}$ and $\cursorErase{\ZMV} = \ECMV$, then
+      there exists $\AIMV$ such that $\movements{\AIMV}$ and
+      $\ASEActionIter{\ctx}{\ZTCursor{\ECMV}}{\TMV}{\ZMV}{\TMV}{\AIMV}$.
+
+    \item If $\ctxAnaType{\ctx}{\cursorErase{\ZMV}}{\TMV}$ and $\cursorErase{\ZMV} = \ECMV$, then
+      there exists $\AIMV$ such that $\movements{\AIMV}$ and
+      $\AAEActionIter{\ctx}{\ZTCursor{\ECMV}}{\ZMV}{\TMV}{\AIMV}$.
+  \end{enumerate}
+\end{lemma}
+
+\begin{theorem}[name=Constructability] \
+  \begin{enumerate}
+    \item For every $\TMV$, there exists $\AIMV$ such that
+      $\AUTActionIter{\ZTCursor{\TUnknown}}{\ZTCursor{\TMV}}{\AIMV}$.
+
+    \item If $\ctxSynType{\ctx}{\ECMV}{\TMV}$, then there exists $\AIMV$ such that
+      $\ASEActionIter{\ctx}{\ZCursor{\EEHole}}{\TUnknown}{\ZCursor{\ECMV}}{\TMV}{\AIMV}$.
+
+    \item If $\ctxAnaType{\ctx}{\ECMV}{\TMV}$, then there exists $\AIMV$ such that
+      $\AAEActionIter{\ctx}{\ZCursor{\EEHole}}{\ZCursor{\ECMV}}{\TMV}{\AIMV}$.
+  \end{enumerate}
+\end{theorem}
+
+\begin{theorem}[name=Determinism] \
+  \begin{enumerate}
+    \item If $\AUTActionIter{\ZTMV}{\ZTMV'}{\AMV}$ and $\AUTActionIter{\ZTMV}{\ZTMV''}{\AMV}$, then
+      $\ZTMV' = \ZTMV''$.
+
+    \item If $\ctxSynType{\ctx}{\cursorErase{\ZMV}}{\TMV}$ and
+      $\ASEActionIter{\ctx}{\ZMV}{\TMV}{\ZMV'}{\TMV'}{\AMV}$ and
+      $\ASEActionIter{\ctx}{\ZMV}{\TMV}{\ZMV''}{\TMV''}{\AMV}$, then $\ZMV' = \ZMV''$ and
+      $\equal{\TMV'}{\TMV''}$.
+
+    \item If $\ctxAnaType{\ctx}{\cursorErase{\ZMV}}{\TMV}$ and
+      $\AAEActionIter{\ctx}{\ZMV}{\ZMV'}{\TMV}{\AMV}$ and
+      $\AAEActionIter{\ctx}{\ZMV}{\ZMV''}{\TMV}{\AMV}$, then $\ZMV' = \ZMV''$.
+  \end{enumerate}
 \end{theorem}
 
 \end{document}
