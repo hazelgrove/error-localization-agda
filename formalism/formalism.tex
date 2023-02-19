@@ -1406,9 +1406,106 @@ types, e.g. pairs:
            &       & \mid         & \ZLetL{x}{\ZMV}{\ECMV} \mid \ZLetR{x}{\ECMV}{\ZMV} \\
            &       & \mid         & \ZPlusL{\ZMV}{\ECMV} \mid \ZPlusR{\ECMV}{\ZMV} \\
            &       & \mid         & \ZIfC{\ZMV}{\ECMV}{\ECMV} \mid \ZIfL{\ECMV}{\ZMV}{\ECMV} \mid \ZIfR{\ECMV}{\ECMV}{\ZMV} \\
-           &       & \mid         & \ZUnbound{x} \mid \ZInconType{\ZMV} \\
-           &       & \mid         & \ZInconBrC{\ZMV}{\ECMV}{\ECMV} \mid \ZInconBrL{\ECMV}{\ZMV}{\ECMV} \mid \ZInconBrR{\ECMV}{\ECMV}{\ZMV} \\
+           &       & \mid         & \ZInconType{\ZMV} \mid \ZInconBrC{\ZMV}{\ECMV}{\ECMV} \mid \ZInconBrL{\ECMV}{\ZMV}{\ECMV} \mid \ZInconBrR{\ECMV}{\ECMV}{\ZMV} \\
 \end{array}\]
+
+\subsubsection{Well-Formedness}
+\judgbox{\ensuremath{\zWellFormed{\ZMV}}} $\ZMV$ is well-formed
+%
+\begin{mathpar}
+  \judgment{ }{
+    \zWellFormed{\ZCursor{\ECMV}}
+  }{WFCursor}
+
+  \judgment{ }{
+    \zWellFormed{\ZLamT{x}{\ZTMV}{\ECMV}}
+  }{WFLam1}
+
+  \judgment{
+    \zWellFormed{\ZMV}
+  }{
+    \zWellFormed{\ZLamE{x}{\TMV}{\ZMV}}
+  }{WFLam2}
+
+  \judgment{
+    \zWellFormed{\ZMV}
+  }{
+    \zWellFormed{\ZApL{\ZMV}{\ECMV}}
+  }{WFAp1}
+
+  \judgment{
+    \zWellFormed{\ZMV}
+  }{
+    \zWellFormed{\ZApR{\ECMV}{\ZMV}}
+  }{WFAp2}
+
+  \judgment{
+    \zWellFormed{\ZMV}
+  }{
+    \zWellFormed{\ZLetL{x}{\ZMV}{\ECMV}}
+  }{WFLet1}
+
+  \judgment{
+    \zWellFormed{\ZMV}
+  }{
+    \zWellFormed{\ZLetR{x}{\ECMV}{\ZMV}}
+  }{WFLet2}
+
+  \judgment{
+    \zWellFormed{\ZMV}
+  }{
+    \zWellFormed{\ZPlusL{\ZMV}{\ECMV}}
+  }{WFPlus1}
+
+  \judgment{
+    \zWellFormed{\ZMV}
+  }{
+    \zWellFormed{\ZPlusR{\ECMV}{\ZMV}}
+  }{WFPlus2}
+
+  \judgment{
+    \zWellFormed{\ZMV}
+  }{
+    \zWellFormed{\ZIfC{\ZMV}{\ECMV_1}{\ECMV_2}}
+  }{WFIf1}
+
+  \judgment{
+    \zWellFormed{\ZMV}
+  }{
+    \zWellFormed{\ZIfL{\ECMV_1}{\ZMV}{\ECMV_2}}
+  }{WFIf2}
+
+  \judgment{
+    \zWellFormed{\ZMV}
+  }{
+    \zWellFormed{\ZIfL{\ZMV}{\ECMV_1}{\ECMV_2}}
+  }{WFIf3}
+
+  \judgment{
+    \zWellFormed{\ZMV}
+  }{
+    \zWellFormed{\ZInconBrC{\ZMV}{\ECMV_1}{\ECMV_2}}
+  }{WFInconsistentBranches1}
+
+  \judgment{
+    \zWellFormed{\ZMV}
+  }{
+    \zWellFormed{\ZInconBrL{\ECMV_1}{\ZMV}{\ECMV_2}}
+  }{WFInconsistentBranches2}
+
+  \judgment{
+    \zWellFormed{\ZMV}
+  }{
+    \zWellFormed{\ZInconBrL{\ZMV}{\ECMV_1}{\ECMV_2}}
+  }{WFInconsistentBranches3}
+
+  \judgment{
+    \notEqual{\ZMV}{\ZCursor{\ECMV}} \\
+    \zWellFormed{\ZMV}
+  }{
+    \zWellFormed{\ZInconType{\ZMV}}
+  }{WFInconsistentType}
+\end{mathpar}
 
 \subsection{Action Model}
 
