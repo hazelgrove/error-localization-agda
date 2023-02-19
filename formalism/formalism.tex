@@ -1400,8 +1400,9 @@ types, e.g. pairs:
 \section{Typed Hazelnut}
 
 \subsection{Syntax}
+Zippered types are the same as in the untyped model.
+
 \[\begin{array}{rrcl}
-  \ZTMName & \ZTMV & \Coloneqq & \ZTCursor{\TMV} \mid \ZTArrowL{\ZTMV}{\TMV} \mid \ZTArrowR{\TMV}{\ZTMV} \\
   \ZMName  & \ZMV  & \Coloneqq & \ZCursor{\ECMV} \mid \ZLamT{x}{\ZTMV}{\ECMV} \mid \ZLamE{x}{\TMV}{\ZMV} \mid \ZApL{\ZMV}{\ECMV} \mid \ZApR{\ECMV}{\ZMV} \\
            &       & \mid         & \ZLetL{x}{\ZMV}{\ECMV} \mid \ZLetR{x}{\ECMV}{\ZMV} \\
            &       & \mid         & \ZPlusL{\ZMV}{\ECMV} \mid \ZPlusR{\ECMV}{\ZMV} \\
@@ -1506,6 +1507,32 @@ types, e.g. pairs:
     \zWellFormed{\ZInconType{\ZMV}}
   }{WFInconsistentType}
 \end{mathpar}
+
+\subsection{Cursor Erasure}
+\subsubsection{Type Cursor Erasure}
+Type cursor erasure is the same as in the untyped model.
+
+\subsubsection{Expression Cursor Erasure}
+\judgbox{\ensuremath{\cursorErase{\ZMV}}} is a metafunction defined as follows:
+%
+\[\begin{array}{rcl}
+  \cursorErasesToRow{\ZCursor{\ECMV}}{\ECMV} \\
+  \cursorErasesToRow{(\ZLamT{x}{\ZTMV}{\ECMV})}{\ECLam{x}{\cursorErase{\ZTMV}}{\ECMV}} \\
+  \cursorErasesToRow{(\ZLamE{x}{\TMV}{\ZMV})}{\ECLam{x}{\TMV}{\cursorErase{\ZMV}}} \\
+  \cursorErasesToRow{(\ZApL{\ZMV}{\ECMV})}{\ECAp{\cursorErase{\ZMV}}{\ECMV}} \\
+  \cursorErasesToRow{(\ZApR{\ECMV}{\ZMV})}{\ECAp{\ECMV}{\cursorErase{\ZMV}}} \\
+  \cursorErasesToRow{(\ZLetL{x}{\ZMV}{\ECMV})}{\ECLet{x}{\cursorErase{\ZMV}}{\ECMV}} \\
+  \cursorErasesToRow{(\ZLetR{x}{\ECMV}{\ZMV})}{\ECLet{x}{\ECMV}{\cursorErase{\ZMV}}} \\
+  \cursorErasesToRow{(\ZPlusL{\ZMV}{\ECMV})}{\ECPlus{\cursorErase{\ZMV}}{\ECMV}} \\
+  \cursorErasesToRow{(\ZPlusR{\ECMV}{\ZMV})}{\ECPlus{\ECMV}{\cursorErase{\ZMV}}} \\
+  \cursorErasesToRow{(\ZIfC{\ZMV}{\ECMV_1}{\ECMV_2})}{\ECIf{\cursorErase{\ZMV}}{\ECMV_1}{\ECMV_2}} \\
+  \cursorErasesToRow{(\ZIfL{\ECMV_1}{\ZMV}{\ECMV_2})}{\ECIf{\ECMV_1}{\cursorErase{\ZMV}}{\ECMV_2}} \\
+  \cursorErasesToRow{(\ZIfL{\ECMV_1}{\ECMV_2}{\ZMV})}{\ECIf{\ECMV_1}{\ECMV_2}{\cursorErase{\ZMV}}} \\
+  \cursorErasesToRow{\ZInconType{\ZMV}}{\cursorErase{\ZMV}} \\
+  \cursorErasesToRow{\ZInconBrC{\ZMV}{\ECMV_1}{\ECMV_2}}{\ECIf{\cursorErase{\ZMV}}{\ECMV_1}{\ECMV_2}} \\
+  \cursorErasesToRow{\ZInconBrL{\ECMV_1}{\ZMV}{\ECMV_2}}{\ECIf{\ECMV_1}{\cursorErase{\ZMV}}{\ECMV_2}} \\
+  \cursorErasesToRow{\ZInconBrR{\ECMV_1}{\ECMV_2}{\ZMV}}{\ECIf{\ECMV_1}{\ECMV_2}{\cursorErase{\ZMV}}} \\
+\end{array}\]
 
 \subsection{Action Model}
 
