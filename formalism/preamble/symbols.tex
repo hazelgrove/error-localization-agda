@@ -162,7 +162,8 @@
 % lambdas
 \newcommand{\ECLam}[3]{\ensuremath{\lambda #1 : #2. ~#3}}
 \newcommand{\ECAp}[2]{\ensuremath{#1 ~#2}}
-\newcommand{\ECNonMatchedAp}[2]{\ensuremath{\textcolor{red}{[}\ECAp{#1}{#2}\textcolor{red}{]}}}
+\newcommand{\ECApNonMatched}[2]{\ensuremath{\ECAp{\ECInconType{#1}}{#2}}}
+\newcommand{\ECApNonMatchedAlt}[2]{\ensuremath{\textcolor{red}{[}\ECAp{#1}{#2}\textcolor{red}{]}}}
 
 % pairs
 \newcommand{\ECPair}[2]{\ensuremath{(#1, #2)}}

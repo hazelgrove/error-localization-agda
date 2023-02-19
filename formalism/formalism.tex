@@ -275,7 +275,7 @@ synthesizes type $\TMV$
     \notMatchedArrow{\TMV}{\TMV_1}{\TMV_2} \\
     \ctxAnaFixedInto{\ctx}{\EMV_2}{\ECMV_2}{\TUnknown}
   }{
-    \ctxSynFixedInto{\ctx}{\EAp{\EMV_1}{\EMV_2}}{\ECAp{\ECInconType{\ECMV_1}}{\ECMV_2}}{\TUnknown}
+    \ctxSynFixedInto{\ctx}{\EAp{\EMV_1}{\EMV_2}}{\ECApNonMatched{\ECMV_1}{\ECMV_2}}{\TUnknown}
   }{ISAp2}
 
   \judgment{
@@ -417,7 +417,7 @@ against type $\TMV$
     \notMatchedArrow{\TMV}{\TMV_1}{\TMV_2} \\
     \ctxAnaType{\ctx}{\ECMV_2}{\TUnknown}
   }{
-    \ctxSynType{\ctx}{\ECAp{\ECInconType{\ECMV_1}}{\ECMV_2}}{\TUnknown}
+    \ctxSynType{\ctx}{\ECApNonMatched{\ECMV_1}{\ECMV_2}}{\TUnknown}
   }{MSAp2}
 
   \judgment{
@@ -665,7 +665,7 @@ As an alternative to overloading the meaning of type inconsistency errors, we ma
 a special error case for such applications:
 %
 \[\begin{array}{rrcl}
-  \ECMName & \ECMV & \Coloneqq & \cdots \mid \ECNonMatchedAp{\ECMV}{\ECMV}
+  \ECMName & \ECMV & \Coloneqq & \cdots \mid \ECApNonMatchedAlt{\ECMV}{\ECMV}
 \end{array}\]
 %
 This gives rise to similar marking and typing judgments (the premises of each are identical):
@@ -676,7 +676,7 @@ This gives rise to similar marking and typing judgments (the premises of each ar
     \notMatchedArrow{\TMV}{\TMV_1}{\TMV_2} \\
     \ctxAnaFixedInto{\ctx}{\EMV_2}{\ECMV_2}{\TUnknown}
   }{
-    \ctxSynFixedInto{\ctx}{\EAp{\EMV_1}{\EMV_2}}{\ECNonMatchedAp{\ECMV_1}{\ECMV_2}}{\TUnknown}
+    \ctxSynFixedInto{\ctx}{\EAp{\EMV_1}{\EMV_2}}{\ECApNonMatchedAlt{\ECMV_1}{\ECMV_2}}{\TUnknown}
   }{ISAp2'}
 
   \judgment{
@@ -684,7 +684,7 @@ This gives rise to similar marking and typing judgments (the premises of each ar
     \notMatchedArrow{\TMV}{\TMV_1}{\TMV_2} \\
     \ctxAnaType{\ctx}{\ECMV_2}{\TUnknown}
   }{
-    \ctxSynType{\ctx}{\ECNonMatchedAp{\ECMV}{\ECMV}}{\TUnknown}
+    \ctxSynType{\ctx}{\ECApNonMatchedAlt{\ECMV}{\ECMV}}{\TUnknown}
   }{MSAp2'}
 \end{mathpar}
 
@@ -1559,7 +1559,7 @@ Type actions are the same as in untyped Hazelnut.
     \ASEAction{\ctx}{\ZMV}{\TMV_2}{\ZMV'}{\TMV_3}{\AMV} \\\\
     \notMatchedArrow{\TMV_3}{\TMV_4}{\TMV_5}
   }{
-    \ASEAction{\ctx}{\ZApL{\ZMV}{\ECMV}}{\TMV_1}{\ZApL{\ECMarkedInconType{\ZMV'}}{\ECMV}}{\TUnknown}{\AMV}
+    \ASEAction{\ctx}{\ZApL{\ZMV}{\ECMV}}{\TMV_1}{\ZApL{\ECInconType{\ZMV'}}{\ECMV}}{\TUnknown}{\AMV}
   }{ASEApL2}
 
   \judgment{
@@ -1568,7 +1568,7 @@ Type actions are the same as in untyped Hazelnut.
     \matchedArrow{\TMV_2}{\TMV_3}{\TMV_4} \\
     \ctxAnaType{\ctx}{\ECMV}{\TMV_4}
   }{
-    \ASEAction{\ctx}{\ZApL{\ECMarkedInconType{\ZMV}}{\ECMV}}{\TUnknown}{\ZApL{\ZMV'}{\ECMV}}{\TMV_4}{\AMV}
+    \ASEAction{\ctx}{\ZApL{\ECInconType{\ZMV}}{\ECMV}}{\TUnknown}{\ZApL{\ZMV'}{\ECMV}}{\TMV_4}{\AMV}
   }{ASEApL3}
 
   \judgment{
@@ -1576,7 +1576,7 @@ Type actions are the same as in untyped Hazelnut.
     \ASEAction{\ctx}{\ZMV}{\TMV_1}{\ZMV'}{\TMV_2}{\AMV} \\\\
     \notMatchedArrow{\TMV_2}{\TMV_3}{\TMV_4}
   }{
-    \ASEAction{\ctx}{\ZApL{\ECMarkedInconType{\ZMV}}{\ECMV}}{\TUnknown}{\ZApL{\ECMarkedInconType{\ZMV'}}{\ECMV}}{\TMV_4}{\AMV}
+    \ASEAction{\ctx}{\ZApL{\ECInconType{\ZMV}}{\ECMV}}{\TUnknown}{\ZApL{\ECInconType{\ZMV'}}{\ECMV}}{\TMV_4}{\AMV}
   }{ASEApL4}
 
   \judgment{
