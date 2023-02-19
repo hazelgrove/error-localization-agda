@@ -2008,32 +2008,36 @@ Type actions are the same as in the untyped model.
 \begin{mathpar}
   \judgment{
     \ctxSynType{\ctx}{\cursorErase{\ZMV}}{\TMV'} \\
-    \ASAction{\ctx}{\ZMV}{\TMV'}{\ZMV'}{\TMV''}{\AMV} \\
-    \consistent{\TMV}{\TMV''}
+    \ASAction{\ctx}{\ZMV}{\TMV'}{\ZMV'}{\TMV''}{\AMV} \\\\
+    \consistent{\TMV}{\TMV''} \\
+    \subsumable{\cursorErase{\ZMV}}
   }{
     \AAAction{\ctx}{\ZMV}{\ZMV'}{\TMV}{\AMV}
   }{AAESubsume1}
 
   \judgment{
     \ctxSynType{\ctx}{\cursorErase{\ZMV}}{\TMV'} \\
-    \ASAction{\ctx}{\ZMV}{\TMV'}{\ZMV'}{\TMV''}{\AMV} \\
-    \inconsistent{\TMV}{\TMV''}
+    \ASAction{\ctx}{\ZMV}{\TMV'}{\ZMV'}{\TMV''}{\AMV} \\\\
+    \inconsistent{\TMV}{\TMV''} \\
+    \subsumable{\cursorErase{\ZMV}}
   }{
     \AAAction{\ctx}{\ZMV}{\ZInconType{\ZMV'}}{\TMV}{\AMV}
   }{AAESubsume2}
 
   \judgment{
     \ctxSynType{\ctx}{\cursorErase{\ZMV}}{\TMV'} \\
-    \ASAction{\ctx}{\ZMV}{\TMV'}{\ZMV'}{\TMV''}{\AMV} \\
-    \inconsistent{\TMV}{\TMV''}
+    \ASAction{\ctx}{\ZMV}{\TMV'}{\ZMV'}{\TMV''}{\AMV} \\\\
+    \inconsistent{\TMV}{\TMV''} \\
+    \subsumable{\cursorErase{\ZMV}}
   }{
     \AAAction{\ctx}{\ZInconType{\ZMV}}{\ZInconType{\ZMV'}}{\TMV}{\AMV}
   }{AAEInconsistentTypes1}
 
   \judgment{
     \ctxSynType{\ctx}{\cursorErase{\ZMV}}{\TMV'} \\
-    \ASAction{\ctx}{\ZMV}{\TMV'}{\ZMV'}{\TMV''}{\AMV} \\
-    \consistent{\TMV}{\TMV''}
+    \ASAction{\ctx}{\ZMV}{\TMV'}{\ZMV'}{\TMV''}{\AMV} \\\\
+    \consistent{\TMV}{\TMV''} \\
+    \subsumable{\cursorErase{\ZMV}}
   }{
     \AAAction{\ctx}{\ZInconType{\ZMV}}{\ZMV'}{\TMV}{\AMV}
   }{AAEInconsistentTypes2}
