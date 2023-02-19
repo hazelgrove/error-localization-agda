@@ -2184,6 +2184,26 @@ Type actions are the same as in the untyped model.
   }{AAEZipLetR}
 \end{mathpar}
 
+\begin{mathpar}
+  \judgment{
+    \AAAction{\ctx}{\ZMV}{\ZMV'}{\TBool}{\AMV}
+  }{
+    \AAAction{\ctx}{\ZIfC{\ZMV}{\ECMV_1}{\ECMV_2}}{\ZIfC{\ZMV'}{\ECMV_1}{\ECMV_2}}{\TMV}{\AMV}
+  }{AAEZipIfC}
+
+  \judgment{
+    \AAAction{\ctx}{\ZMV}{\ZMV'}{\TMV}{\AMV}
+  }{
+    \AAAction{\ctx}{\ZIfL{\ECMV_1}{\ZMV}{\ECMV_2}}{\ZIfL{\ECMV_1}{\ZMV'}{\ECMV_2}}{\TMV}{\AMV}
+  }{AAEZipIfL}
+
+  \judgment{
+    \AAAction{\ctx}{\ZMV}{\ZMV'}{\TMV}{\AMV}
+  }{
+    \AAAction{\ctx}{\ZIfR{\ECMV_1}{\ECMV_2}{\ZMV}}{\ZIfR{\ECMV_1}{\ECMV_2}{\ZMV'}}{\TMV}{\AMV}
+  }{AAEZipIfR}
+\end{mathpar}
+
 \subsubsection{Iterated Actions}
 The iterated action judgments are the same as in the untyped model.
 
