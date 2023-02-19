@@ -1684,7 +1684,7 @@ Type actions are the same as in the untyped model.
   }{AEMInconsistentBranchesParent3}
 \end{mathpar}
 
-\subsubsection{Expression Actions}
+\subsubsection{Synthetic Expression Actions}
 \judgbox{\ensuremath{\ASAction{\ctx}{\ZMV}{\TMV}{\ZMV'}{\TMV'}{\AMV}}}
 
 \paragraph{Movement}
@@ -1915,6 +1915,7 @@ Type actions are the same as in the untyped model.
   }{ASEPlusR}
 \end{mathpar}
 
+% TODO: Oops, some of these are analytic cases, actually.
 \begin{mathpar}
   \judgment{
     \AAEAction{\ctx}{\ZMV}{\ZMV'}{\TBool}{\AMV}
@@ -1997,8 +1998,25 @@ Type actions are the same as in the untyped model.
   }{
     \ASEAction{\ctx}{\ZInconBrR{\ECMV_1}{\ECMV_2}{\ZMV}}{\TMV}{\ZInconBrR{\ECMV_1}{\ECMV_2}{\ZMV'}}{\TUnknown}{\AMV}
   }{ASEInconsistentBranchesR2}
+\end{mathpar}
 
-  % TODO: Zipper cases for error cases
+\subsubsection{Analytic Expression Actions}
+\judgbox{\ensuremath{\AAAction{\ctx}{\ZMV}{\ZMV'}{\TMV'}{\AMV}}}
+
+\paragraph{Movement}
+\begin{mathpar}
+  \judgment{
+    \ASEMove{\ZMV}{\ZMV'}{\MMV}
+  }{
+    \AAMove{\ctx}{\ZMV}{\ZMV'}{\TMV}{\MMV}
+  }{AAEMove}
+\end{mathpar}
+
+\paragraph{Deletion}
+\begin{mathpar}
+  \judgment{ }{
+    \AAEDel{\ctx}{\ECMV}{\TMV}
+  }{AAEDel}
 \end{mathpar}
 
 \subsubsection{Iterated Actions}
