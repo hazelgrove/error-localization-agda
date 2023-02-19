@@ -2167,6 +2167,23 @@ Type actions are the same as in the untyped model.
   }{AAEZipLamE3}
 \end{mathpar}
 
+\begin{mathpar}
+  \judgment{
+    \ctxSynType{\ctx}{\cursorErase{\ZMV}}{\TMV_1} \\
+    \ASEAction{\ctx}{\ZMV}{\TMV_1}{\ZMV'}{\TMV_1'}{\AMV} \\\\
+    \ctxAnaFixedInto{\extendCtx{\ctx}{x}{\TMV_1'}}{\erase{\ECMV}}{\ECMV'}{\TMV}
+  }{
+    \AAAction{\ctx}{\ZLetL{x}{\ZMV}{\ECMV}}{\ZLetL{x}{\ZMV'}{\ECMV'}}{\TMV}{\AMV}
+  }{AAEZipLetL}
+
+  \judgment{
+    \ctxSynType{\ctx}{\ECMV}{\TMV'} \\
+    \AAAction{\extendCtx{\ctx}{x}{\TMV'}}{\ZMV}{\ZMV'}{\TMV}{\AMV}
+  }{
+    \AAAction{\ctx}{\ZLetR{x}{\ECMV}{\ZMV}}{\ZLetL{x}{\ECMV}{\ZMV'}}{\TMV}{\AMV}
+  }{AAEZipLetR}
+\end{mathpar}
+
 \subsubsection{Iterated Actions}
 The iterated action judgments are the same as in the untyped model.
 
