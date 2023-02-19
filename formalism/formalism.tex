@@ -1535,9 +1535,151 @@ Type cursor erasure is the same as in the untyped model.
 \end{array}\]
 
 \subsection{Action Model}
+The action syntax is the same in the untyped model.
 
 \subsubsection{Type Actions}
-Type actions are the same as in untyped Hazelnut.
+Type actions are the same as in the untyped model.
+
+\subsubsection{Expression Movement}
+\judgbox{\ensuremath{\AUEMove{\ZMV}{\ZMV'}{\MMV}}}
+%
+\begin{mathpar}
+  \judgment{ }{
+    \ASEMLamChildT{x}{\TMV}{\ECMV}
+  }{AEMLamChild1}
+
+  \judgment{ }{
+    \ASEMLamChildE{x}{\TMV}{\ECMV}
+  }{AEMLamChild2} \\
+
+  \judgment{ }{
+    \ASEMLamParentT{x}{\TMV}{\ECMV}
+  }{AEMLamParent1}
+
+  \judgment{ }{
+    \ASEMLamParentE{x}{\TMV}{\ECMV}
+  }{AEMLamParent2}
+\end{mathpar}
+
+\begin{mathpar}
+  \judgment{ }{
+    \ASEMApChildL{\ECMV_1}{\ECMV_2}
+  }{AEMApChild1}
+
+  \judgment{ }{
+    \ASEMApChildR{\ECMV_1}{\ECMV_2}
+  }{AEMApChild2} \\
+
+  \judgment{ }{
+    \ASEMApParentL{\ECMV_1}{\ECMV_2}
+  }{AEMApParent1}
+
+  \judgment{ }{
+    \ASEMApParentR{\ECMV_1}{\ECMV_2}
+  }{AEMApParent2}
+\end{mathpar}
+
+\begin{mathpar}
+  \judgment{ }{
+    \ASEMLetChildL{x}{\ECMV_1}{\ECMV_2}
+  }{AEMLetChild1}
+
+  \judgment{ }{
+    \ASEMLetChildR{x}{\ECMV_1}{\ECMV_2}
+  }{AEMLetChild2} \\
+
+  \judgment{ }{
+    \ASEMLetParentL{x}{\ECMV_1}{\ECMV_2}
+  }{AEMLetParent1}
+
+  \judgment{ }{
+    \ASEMLetParentR{x}{\ECMV_1}{\ECMV_2}
+  }{AEMLetParent2}
+\end{mathpar}
+
+\begin{mathpar}
+  \judgment{ }{
+    \ASEMPlusChildL{\ECMV_1}{\ECMV_2}
+  }{AEMPlusChild1}
+
+  \judgment{ }{
+    \ASEMPlusChildR{\ECMV_1}{\ECMV_2}
+  }{AEMPlusChild2} \\
+
+  \judgment{ }{
+    \ASEMPlusParentL{\ECMV_1}{\ECMV_2}
+  }{AEMPlusParent1}
+
+  \judgment{ }{
+    \ASEMPlusParentR{\ECMV_1}{\ECMV_2}
+  }{AEMPlusParent2}
+\end{mathpar}
+
+\begin{mathpar}
+  \judgment{ }{
+    \ASEMIfChildC{\ECMV_1}{\ECMV_2}{\ECMV_3}
+  }{AEMIfChild1}
+
+  \judgment{ }{
+    \ASEMIfChildL{\ECMV_1}{\ECMV_2}{\ECMV_3}
+  }{AEMIfChild2}
+
+  \judgment{ }{
+    \ASEMIfChildR{\ECMV_1}{\ECMV_2}{\ECMV_3}
+  }{AEMIfChild3} \\
+
+  \judgment{ }{
+    \ASEMIfParentC{\ECMV_1}{\ECMV_2}{\ECMV_3}
+  }{AEMIfParent1}
+
+  \judgment{ }{
+    \ASEMIfParentL{\ECMV_1}{\ECMV_2}{\ECMV_3}
+  }{AEMIfParent2}
+
+  \judgment{ }{
+    \ASEMIfParentR{\ECMV_1}{\ECMV_2}{\ECMV_3}
+  }{AEMIfParent3}
+\end{mathpar}
+
+\begin{mathpar}
+  \judgment{
+    \ASEMChild{\ZMV}{\ZMV'}{\MChildNMV}
+  }{
+    \ASEMInconTypeChild{\ZMV}{\ZMV'}{\MChildNMV}
+  }{AEMInconsistentTypesChild}
+
+  \judgment{
+    \ASEMParent{\ZMV}{\ZMV'}
+  }{
+    \ASEMInconTypeParent{\ZMV}{\ZMV'}
+  }{AEMInconsistentTypesParent}
+\end{mathpar}
+
+\begin{mathpar}
+  \judgment{ }{
+    \ASEMInconBrChildC{\ECMV_1}{\ECMV_2}{\ECMV_3}
+  }{AEMInconsistentBranchesChild1}
+
+  \judgment{ }{
+    \ASEMInconBrChildL{\ECMV_1}{\ECMV_2}{\ECMV_3}
+  }{AEMInconsistentBranchesChild2}
+
+  \judgment{ }{
+    \ASEMInconBrChildR{\ECMV_1}{\ECMV_2}{\ECMV_3}
+  }{AEMInconsistentBranchesChild3} \\
+
+  \judgment{ }{
+    \ASEMInconBrParentC{\ECMV_1}{\ECMV_2}{\ECMV_3}
+  }{AEMInconsistentBranchesParent1}
+
+  \judgment{ }{
+    \ASEMInconBrParentL{\ECMV_1}{\ECMV_2}{\ECMV_3}
+  }{AEMInconsistentBranchesParent2}
+
+  \judgment{ }{
+    \ASEMInconBrParentR{\ECMV_1}{\ECMV_2}{\ECMV_3}
+  }{AEMInconsistentBranchesParent3}
+\end{mathpar}
 
 \subsubsection{Expression Actions}
 \judgbox{\ensuremath{\ASAction{\ctx}{\ZMV}{\TMV}{\ZMV'}{\TMV'}{\AMV}}}
@@ -1545,7 +1687,7 @@ Type actions are the same as in untyped Hazelnut.
 \paragraph{Movement}
 \begin{mathpar}
   \judgment{
-    \AUEMove{\ZMV}{\ZMV'}{\MMV}
+    \ASEMove{\ZMV}{\ZMV'}{\MMV}
   }{
     \ASMove{\ctx}{\ZMV}{\TMV}{\ZMV'}{\TMV}{\MMV}
   }{ASEMove}

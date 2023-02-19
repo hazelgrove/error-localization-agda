@@ -377,6 +377,42 @@
 \newcommand{\AUEConIfL}[1]{\ensuremath{\AUCon{\ZCursor{#1}}{\ZIfC{\ZCursor{\EEHole}}{#1}{\EEHole}}{\SIfC}}}
 \newcommand{\AUEConIfR}[1]{\ensuremath{\AUCon{\ZCursor{#1}}{\ZIfC{\ZCursor{\EEHole}}{\EEHole}{#1}}{\SIfC}}}
 
+% typed movement actions
+\newcommand{\ASEMove}[3]{\ensuremath{\AUEMove{#1}{#2}{#3}}}
+\newcommand{\ASEMChild}[3]{\ensuremath{\AUEMChild{#1}{#2}{#3}}}
+\newcommand{\ASEMParent}[2]{\ensuremath{\AUEMParent{#1}{#2}}}
+
+\newcommand{\ASEMLamChildT}[3]{\ensuremath{\ASEMChild{\ECLam{#1}{#2}{#3}}{\ZLamT{#1}{\ZTCursor{#2}}{#3}}{1}}}
+\newcommand{\ASEMLamChildE}[3]{\ensuremath{\ASEMChild{\ECLam{#1}{#2}{#3}}{\ZLamE{#1}{#2}{\ZCursor{#3}}}{2}}}
+\newcommand{\ASEMLamParentT}[3]{\ensuremath{\ASEMParent{\ZLamT{#1}{\ZTCursor{#2}}{#3}}{\ECLam{#1}{#2}{#3}}}}
+\newcommand{\ASEMLamParentE}[3]{\ensuremath{\ASEMParent{\ZLamE{#1}{#2}{\ZCursor{#3}}}{\ECLam{#1}{#2}{#3}}}}
+\newcommand{\ASEMApChildL}[2]{\ensuremath{\ASEMChild{\ECAp{#1}{#2}}{\ZApL{\ZCursor{#1}}{#2}}{1}}}
+\newcommand{\ASEMApChildR}[2]{\ensuremath{\ASEMChild{\ECAp{#1}{#2}}{\ZApR{#1}{\ZCursor{#2}}}{2}}}
+\newcommand{\ASEMApParentL}[2]{\ensuremath{\ASEMParent{\ZApL{\ZCursor{#1}}{#2}}{\ECAp{#1}{#2}}}}
+\newcommand{\ASEMApParentR}[2]{\ensuremath{\ASEMParent{\ZApR{#1}{\ZCursor{#2}}}{\ECAp{#1}{#2}}}}
+\newcommand{\ASEMLetChildL}[3]{\ensuremath{\ASEMChild{\ECLet{#1}{#2}{#3}}{\ZLetL{#1}{\ZCursor{#2}}{#3}}{1}}}
+\newcommand{\ASEMLetChildR}[3]{\ensuremath{\ASEMChild{\ECLet{#1}{#2}{#3}}{\ZLetR{#1}{#2}{\ZCursor{#3}}}{2}}}
+\newcommand{\ASEMLetParentL}[3]{\ensuremath{\ASEMParent{\ZLetL{#1}{\ZCursor{#2}}{#3}}{\ECLet{#1}{#2}{#3}}}}
+\newcommand{\ASEMLetParentR}[3]{\ensuremath{\ASEMParent{\ZLetR{#1}{#2}{\ZCursor{#3}}}{\ECLet{#1}{#2}{#3}}}}
+\newcommand{\ASEMPlusChildL}[2]{\ensuremath{\ASEMChild{\ECPlus{#1}{#2}}{\ZPlusL{\ZCursor{#1}}{#2}}{1}}}
+\newcommand{\ASEMPlusChildR}[2]{\ensuremath{\ASEMChild{\ECPlus{#1}{#2}}{\ZPlusR{#1}{\ZCursor{#2}}}{2}}}
+\newcommand{\ASEMPlusParentL}[2]{\ensuremath{\ASEMParent{\ZPlusL{\ZCursor{#1}}{#2}}{\ECPlus{#1}{#2}}}}
+\newcommand{\ASEMPlusParentR}[2]{\ensuremath{\ASEMParent{\ZPlusR{#1}{\ZCursor{#2}}}{\ECPlus{#1}{#2}}}}
+\newcommand{\ASEMIfChildC}[3]{\ensuremath{\ASEMChild{\ECIf{#1}{#2}{#3}}{\ZIfC{\ZCursor{#1}}{#2}{#3}}{1}}}
+\newcommand{\ASEMIfChildL}[3]{\ensuremath{\ASEMChild{\ECIf{#1}{#2}{#3}}{\ZIfL{#1}{\ZCursor{#2}}{#3}}{2}}}
+\newcommand{\ASEMIfChildR}[3]{\ensuremath{\ASEMChild{\ECIf{#1}{#2}{#3}}{\ZIfR{#1}{#2}{\ZCursor{#3}}}{3}}}
+\newcommand{\ASEMIfParentC}[3]{\ensuremath{\ASEMParent{\ZIfC{\ZCursor{#1}}{#2}{#3}}{\ECIf{#1}{#2}{#3}}}}
+\newcommand{\ASEMIfParentL}[3]{\ensuremath{\ASEMParent{\ZIfL{#1}{\ZCursor{#2}}{#3}}{\ECIf{#1}{#2}{#3}}}}
+\newcommand{\ASEMIfParentR}[3]{\ensuremath{\ASEMParent{\ZIfR{#1}{#2}{\ZCursor{#3}}}{\ECIf{#1}{#2}{#3}}}}
+\newcommand{\ASEMInconTypeChild}[3]{\ensuremath{\ASEMChild{\ZInconType{#1}}{\ZInconType{#2}}{#3}}}
+\newcommand{\ASEMInconTypeParent}[2]{\ensuremath{\ASEMParent{\ZInconType{#1}}{\ZInconType{#2}}}}
+\newcommand{\ASEMInconBrChildC}[3]{\ensuremath{\ASEMChild{\ECIf{#1}{#2}{#3}}{\ZInconBrC{\ZCursor{#1}}{#2}{#3}}{1}}}
+\newcommand{\ASEMInconBrChildL}[3]{\ensuremath{\ASEMChild{\ECInconBr{#1}{#2}{#3}}{\ZInconBrL{#1}{\ZCursor{#2}}{#3}}{2}}}
+\newcommand{\ASEMInconBrChildR}[3]{\ensuremath{\ASEMChild{\ECInconBr{#1}{#2}{#3}}{\ZInconBrR{#1}{#2}{\ZCursor{#3}}}{3}}}
+\newcommand{\ASEMInconBrParentC}[3]{\ensuremath{\ASEMParent{\ZInconBrC{\ZCursor{#1}}{#2}{#3}}{\ECInconBr{#1}{#2}{#3}}}}
+\newcommand{\ASEMInconBrParentL}[3]{\ensuremath{\ASEMParent{\ZInconBrC{#1}{\ZCursor{#2}}{#3}}{\ECInconBr{#1}{#2}{#3}}}}
+\newcommand{\ASEMInconBrParentR}[3]{\ensuremath{\ASEMParent{\ZInconBrC{#1}{#2}{\ZCursor{#3}}}{\ECInconBr{#1}{#2}{#3}}}}
+
 %
 % synthetic action judgments
 %
