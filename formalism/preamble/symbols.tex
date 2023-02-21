@@ -37,9 +37,9 @@
 
 % contexts
 \newcommand{\ctx}{\ensuremath{\Gamma}}
-\newcommand{\extendCtx}[3]{\ensuremath{#1 ; ~\assignType{#2}{#3}}}
+\newcommand{\extendCtx}[3]{\ensuremath{#1 , ~\assignType{#2}{#3}}}
 \DeclareMathOperator{\dom}{dom}
-\newcommand{\inCtx}[3]{\ensuremath{#2, #3 \in #1}}
+\newcommand{\inCtx}[3]{\ensuremath{\assignType{#2}{#3} \in #1}}
 \newcommand{\notInCtx}[2]{\ensuremath{#2 \not\in \dom(#1)}}
 \newcommand{\withCtx}[2]{\ensuremath{#1 \vdash #2}}
 
