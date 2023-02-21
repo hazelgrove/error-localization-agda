@@ -271,7 +271,7 @@ synthesizes type $\TMV$
 
   \judgment{
     \ctxSynFixedInto{\ctx}{\EMV_1}{\ECMV_1}{\TMV} \\
-    \notMatchedArrow{\TMV}{\TMV_1}{\TMV_2} \\
+    \notMatchedArrow{\TMV} \\
     \ctxAnaFixedInto{\ctx}{\EMV_2}{\ECMV_2}{\TUnknown}
   }{
     \ctxSynFixedInto{\ctx}{\EAp{\EMV_1}{\EMV_2}}{\ECApNonMatched{\ECMV_1}{\ECMV_2}}{\TUnknown}
@@ -337,7 +337,7 @@ against type $\TMV$
   }{IALam1}
 
   \judgment{
-    \notMatchedArrow{\TMV_3}{\TMV_1}{\TMV_2} \\
+    \notMatchedArrow{\TMV_3} \\
     \ctxAnaFixedInto{\extendCtx{\ctx}{x}{\TMV}}{\EMV}{\ECMV}{\TUnknown}
   }{
     \ctxAnaFixedInto{\ctx}{\ELam{x}{\TMV}{\EMV}}{\ECInconType{\ECLam{x}{\TMV}{\ECMV}}}{\TMV_3}
@@ -413,7 +413,7 @@ against type $\TMV$
 
   \judgment{
     \ctxSynType{\ctx}{\ECMV_1}{\TMV} \\
-    \notMatchedArrow{\TMV}{\TMV_1}{\TMV_2} \\
+    \notMatchedArrow{\TMV} \\
     \ctxAnaType{\ctx}{\ECMV_2}{\TUnknown}
   }{
     \ctxSynType{\ctx}{\ECApNonMatched{\ECMV_1}{\ECMV_2}}{\TUnknown}
@@ -481,7 +481,7 @@ against type $\TMV$
   }{MALam1}
 
   \judgment{
-    \notMatchedArrow{\TMV_3}{\TMV_1}{\TMV_2} \\
+    \notMatchedArrow{\TMV_3} \\
     \ctxAnaType{\extendCtx{\ctx}{x}{\TMV}}{\ECMV}{\TUnknown}
   }{
     \ctxAnaType{\ctx}{\ECInconType{\ECLam{x}{\TMV}{\ECMV}}}{\TMV_3}
@@ -672,7 +672,7 @@ This gives rise to similar marking and typing judgments (the premises of each ar
 \begin{mathpar}
   \judgment{
     \ctxSynFixedInto{\ctx}{\EMV_1}{\ECMV_1}{\TMV} \\
-    \notMatchedArrow{\TMV}{\TMV_1}{\TMV_2} \\
+    \notMatchedArrow{\TMV} \\
     \ctxAnaFixedInto{\ctx}{\EMV_2}{\ECMV_2}{\TUnknown}
   }{
     \ctxSynFixedInto{\ctx}{\EAp{\EMV_1}{\EMV_2}}{\ECApNonMatchedAlt{\ECMV_1}{\ECMV_2}}{\TUnknown}
@@ -680,7 +680,7 @@ This gives rise to similar marking and typing judgments (the premises of each ar
 
   \judgment{
     \ctxSynType{\ctx}{\ECMV_1}{\TMV} \\
-    \notMatchedArrow{\TMV}{\TMV_1}{\TMV_2} \\
+    \notMatchedArrow{\TMV} \\
     \ctxAnaType{\ctx}{\ECMV_2}{\TUnknown}
   }{
     \ctxSynType{\ctx}{\ECApNonMatchedAlt{\ECMV}{\ECMV}}{\TUnknown}
@@ -699,7 +699,7 @@ The rules remain much the same (the premises are again identical):
 \begin{mathpar}
   \judgment{
     \ctxSynFixedInto{\ctx}{\EMV_1}{\ECMV_1}{\TMV} \\
-    \notMatchedArrow{\TMV}{\TMV_1}{\TMV_2} \\
+    \notMatchedArrow{\TMV} \\
     \ctxAnaFixedInto{\ctx}{\EMV_2}{\ECMV_2}{\TUnknown}
   }{
     \ctxSynFixedInto{\ctx}{\EAp{\EMV_1}{\EMV_2}}{\ECAp{\ECInconMatchedArrow{\ECMV_1}}{\ECMV_2}}{\TUnknown}
@@ -707,7 +707,7 @@ The rules remain much the same (the premises are again identical):
 
   \judgment{
     \ctxSynType{\ctx}{\ECMV_1}{\TMV} \\
-    \notMatchedArrow{\TMV}{\TMV_1}{\TMV_2} \\
+    \notMatchedArrow{\TMV} \\
     \ctxAnaType{\ctx}{\ECMV_2}{\TUnknown}
   }{
     \ctxSynType{\ctx}{\ECAp{\ECInconMatchedArrow{\ECMV}}{\ECMV}}{\TUnknown}
@@ -1732,7 +1732,7 @@ Type actions are the same as in the untyped model.
   }{ASEConApL1}
 
   \judgment{
-    \notMatchedArrow{\TMV}{\TMV_1}{\TMV_2}
+    \notMatchedArrow{\TMV}
   }{
     \ASEConApL{\ctx}{\ECMV}{\TMV}{\ECInconType{\ECMV}}{\TUnknown}
   }{ASEConApL2}
@@ -1846,7 +1846,7 @@ Type actions are the same as in the untyped model.
   \judgment{
     \ctxSynType{\ctx}{\cursorErase{\ZMV}}{\TMV_2} \\
     \ASEAction{\ctx}{\ZMV}{\TMV_2}{\ZMV'}{\TMV_3}{\AMV} \\\\
-    \notMatchedArrow{\TMV_3}{\TMV_4}{\TMV_5}
+    \notMatchedArrow{\TMV_3}
   }{
     \ASEAction{\ctx}{\ZApL{\ZMV}{\ECMV}}{\TMV_1}{\ZApL{\ECInconType{\ZMV'}}{\ECMV}}{\TUnknown}{\AMV}
   }{ASEZipApL2}
@@ -1863,7 +1863,7 @@ Type actions are the same as in the untyped model.
   \judgment{
     \ctxSynType{\ctx}{\cursorErase{\ZMV}}{\TMV_1} \\
     \ASEAction{\ctx}{\ZMV}{\TMV_1}{\ZMV'}{\TMV_2}{\AMV} \\\\
-    \notMatchedArrow{\TMV_2}{\TMV_3}{\TMV_4}
+    \notMatchedArrow{\TMV_2}
   }{
     \ASEAction{\ctx}{\ZApL{\ECInconType{\ZMV}}{\ECMV}}{\TUnknown}{\ZApL{\ECInconType{\ZMV'}}{\ECMV}}{\TMV_4}{\AMV}
   }{ASEZipApL4}
@@ -2069,7 +2069,7 @@ Type actions are the same as in the untyped model.
   }{AAEConLam1}
 
   \judgment{
-    \notMatchedArrow{\TMV}{\TMV_1}{\TMV_2} \\
+    \notMatchedArrow{\TMV} \\
     \ctxAnaFixedInto{\extendCtx{\ctx}{x}{\TUnknown}}{\ECMV}{\ECMV'}{\TUnknown}
   }{
     \AACon{\ctx}{\ZCursor{\ECMV}}{\ZInconType{\ZLamT{x}{\ZTCursor{\TUnknown}}{\ECMV'}}}{\TMV}{\SLam{x}}
@@ -2128,7 +2128,7 @@ Type actions are the same as in the untyped model.
 
   \judgment{
     \AUTAction{\ZTMV}{\ZTMV'}{\AMV} \\
-    \notMatchedArrow{\TMV}{\TMV_1}{\TMV_2} \\\\
+    \notMatchedArrow{\TMV} \\\\
     \ctxAnaFixedInto{\extendCtx{\ctx}{x}{\cursorErase{\ZTMV'}}}{\erase{\ECMV}}{\ECMV'}{\TUnknown}
   }{
     \AAAction{\ctx}{\ZLamT{x}{\ZTMV}{\ECMV}}{\ZInconType{\ZLamT{x}{\ZTMV'}{\ECMV'}}}{\TMV}{\AMV}
@@ -2152,7 +2152,7 @@ Type actions are the same as in the untyped model.
   }{AAEZipLamE1}
 
   \judgment{
-    \notMatchedArrow{\TMV}{\TMV_1}{\TMV_2} \\
+    \notMatchedArrow{\TMV} \\
     \AAAction{\extendCtx{\ctx}{x}{\TMV_3}}{\ZMV}{\ZMV'}{\TUnknown}{\AMV}
   }{
     \AAAction{\ctx}{\ZLamE{x}{\TMV_3}{\ZMV}}{\ZInconType{\ZLamE{x}{\TMV_3}{\ZMV'}}}{\TMV}{\AMV}
