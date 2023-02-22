@@ -230,3 +230,164 @@ module hazelnut.typed.action where
         → {ě₃ : Γ ⊢⇒ τ₂}
         → {τ₁~̸τ₂ : τ₁ ~̸ τ₂}
         → ⊢⦉ ě₁ ∙₃ ě₂ ∙ ⊢▹ ě₃ ◃ ⦊[ τ₁~̸τ₂ ] + parent +⇒ ⊢▹ ⊢⦉ ě₁ ∙ ě₂ ∙ ě₃ ⦊[ τ₁~̸τ₂ ] ◃
+
+    MSu-+⇒ : ∀ {Γ τ} {ě : Γ ⊢⇒ τ} {n : ℕ} {ê : - Γ ⊢⇒ τ} → MSubsumable ě → ⊢▹ ě ◃ + child n +⇒ ê → ZSubsumable ê
+    MSu-+⇒ MSuAp1                  ESMAp1Child1                  = ZSuZipApL1
+    MSu-+⇒ MSuAp1                  ESMAp1Child2                  = ZSuZipApR1
+    MSu-+⇒ MSuAp2                  ESMAp2Child1                  = ZSuZipApL2
+    MSu-+⇒ MSuAp2                  ESMAp2Child2                  = ZSuZipApR2
+    MSu-+⇒ MSuPlus                 ESMPlusChild1                 = ZSuPlus1
+    MSu-+⇒ MSuPlus                 ESMPlusChild2                 = ZSuPlus2
+    MSu-+⇒ MSuInconsistentBranches ESMInconsistentBranchesChild1 = ZSuInconsistentBranchesC
+    MSu-+⇒ MSuInconsistentBranches ESMInconsistentBranchesChild2 = ZSuInconsistentBranchesL
+    MSu-+⇒ MSuInconsistentBranches ESMInconsistentBranchesChild3 = ZSuInconsistentBranchesR
+
+    ZSu-+⇒ : ∀ {Γ τ} {ê : - Γ ⊢⇒ τ} {ě : Γ ⊢⇒ τ} → ZSubsumable ê → ê + parent +⇒ ⊢▹ ě ◃ → MSubsumable ě
+    ZSu-+⇒ ZSuZipApL1               ESMAp1Parent1                  = MSuAp1
+    ZSu-+⇒ ZSuZipApR1               ESMAp1Parent2                  = MSuAp1
+    ZSu-+⇒ ZSuZipApL2               ESMAp2Parent1                  = MSuAp2
+    ZSu-+⇒ ZSuZipApR2               ESMAp2Parent2                  = MSuAp2
+    ZSu-+⇒ ZSuPlus1                 ESMPlusParent1                 = MSuPlus
+    ZSu-+⇒ ZSuPlus2                 ESMPlusParent2                 = MSuPlus
+    ZSu-+⇒ ZSuInconsistentBranchesC ESMInconsistentBranchesParent1 = MSuInconsistentBranches
+    ZSu-+⇒ ZSuInconsistentBranchesL ESMInconsistentBranchesParent2 = MSuInconsistentBranches
+    ZSu-+⇒ ZSuInconsistentBranchesR ESMInconsistentBranchesParent3 = MSuInconsistentBranches
+
+    -- analytic expression movements
+    data _+_+⇐_ : ∀ {Γ τ} → (ê : - Γ ⊢⇐ τ) → (δ : Dir) → (ê′ : - Γ ⊢⇐ τ) → Set where
+      EAMLam1Child1 : ∀ {Γ x τ τ₁ τ₂ τ₃}
+        → {ě : Γ , τ ⊢⇐ τ₂}
+        → {τ₃▸ : τ₃ ▸ τ₁ -→ τ₂}
+        → {τ~τ₁ : τ ~ τ₁}
+        → ⊢▹ ⊢λ∶ τ ∙ ě [ τ₃▸ ∙ τ~τ₁ ∙ x ] ◃ + child 1 +⇐ ⊢λ₁∶ ▹ τ ◃ ∙ ě [ τ₃▸ ∙ τ~τ₁ ∙ x ]
+      EAMLam1Child2 : ∀ {Γ x τ τ₁ τ₂ τ₃}
+        → {ě : Γ , τ ⊢⇐ τ₂}
+        → {τ₃▸ : τ₃ ▸ τ₁ -→ τ₂}
+        → {τ~τ₁ : τ ~ τ₁}
+        → ⊢▹ ⊢λ∶ τ ∙ ě [ τ₃▸ ∙ τ~τ₁ ∙ x ] ◃ + child 2 +⇐ ⊢λ₂∶ τ ∙ ⊢▹ ě ◃ [ τ₃▸ ∙ τ~τ₁ ∙ x ]
+      EAMLam1Parent1 : ∀ {Γ x τ τ₁ τ₂ τ₃}
+        → {ě : Γ , τ ⊢⇐ τ₂}
+        → {τ₃▸ : τ₃ ▸ τ₁ -→ τ₂}
+        → {τ~τ₁ : τ ~ τ₁}
+        → ⊢λ₁∶ ▹ τ ◃ ∙ ě [ τ₃▸ ∙ τ~τ₁ ∙ x ] + parent +⇐ ⊢▹ ⊢λ∶ τ ∙ ě [ τ₃▸ ∙ τ~τ₁ ∙ x ] ◃
+      EAMLam1Parent2 : ∀ {Γ x τ τ₁ τ₂ τ₃}
+        → {ě : Γ , τ ⊢⇐ τ₂}
+        → {τ₃▸ : τ₃ ▸ τ₁ -→ τ₂}
+        → {τ~τ₁ : τ ~ τ₁}
+        → ⊢λ₂∶ τ ∙ ⊢▹ ě ◃ [ τ₃▸ ∙ τ~τ₁ ∙ x ] + parent +⇐ ⊢▹ ⊢λ∶ τ ∙ ě [ τ₃▸ ∙ τ~τ₁ ∙ x ] ◃
+
+      EAMLam2Child1 : ∀ {Γ x τ τ′}
+        → {ě : Γ , τ ⊢⇐ unknown}
+        → {τ′!▸ : τ′ !▸}
+        → ⊢▹ ⊢⸨λ∶ τ ∙ ě ⸩[ τ′!▸ ∙ x ] ◃ + child 1 +⇐ ⊢⸨λ₁∶ ▹ τ ◃ ∙ ě ⸩[ τ′!▸ ∙ x ]
+      EAMLam2Child2 : ∀ {Γ x τ τ′}
+        → {ě : Γ , τ ⊢⇐ unknown}
+        → {τ′!▸ : τ′ !▸}
+        → ⊢▹ ⊢⸨λ∶ τ ∙ ě ⸩[ τ′!▸ ∙ x ] ◃ + child 2 +⇐ ⊢⸨λ₂∶ τ ∙ ⊢▹ ě ◃ ⸩[ τ′!▸ ∙ x ]
+      EAMLam2Parent1 : ∀ {Γ x τ τ′}
+        → {ě : Γ , τ ⊢⇐ unknown}
+        → {τ′!▸ : τ′ !▸}
+        → ⊢⸨λ₁∶ ▹ τ ◃ ∙ ě ⸩[ τ′!▸ ∙ x ] + parent +⇐ ⊢▹ ⊢⸨λ∶ τ ∙ ě ⸩[ τ′!▸ ∙ x ] ◃
+      EAMLam2Parent2 : ∀ {Γ x τ τ′}
+        → {ě : Γ , τ ⊢⇐ unknown}
+        → {τ′!▸ : τ′ !▸}
+        → ⊢⸨λ₂∶ τ ∙ ⊢▹ ě ◃ ⸩[ τ′!▸ ∙ x ] + parent +⇐ ⊢▹ ⊢⸨λ∶ τ ∙ ě ⸩[ τ′!▸ ∙ x ] ◃
+
+      EAMLam3Child1 : ∀ {Γ x τ τ₁ τ₂ τ₃}
+        → {ě : Γ , τ ⊢⇐ τ₂}
+        → {τ₃▸ : τ₃ ▸ τ₁ -→ τ₂}
+        → {τ~̸τ₁ : τ ~̸ τ₁}
+        → ⊢▹ ⊢λ∶⸨ τ ⸩∙ ě [ τ₃▸ ∙ τ~̸τ₁ ∙ x ] ◃ + child 1 +⇐ ⊢λ₁∶⸨ ▹ τ ◃ ⸩∙ ě [ τ₃▸ ∙ τ~̸τ₁ ∙ x ]
+      EAMLam3Child2 : ∀ {Γ x τ τ₁ τ₂ τ₃}
+        → {ě : Γ , τ ⊢⇐ τ₂}
+        → {τ₃▸ : τ₃ ▸ τ₁ -→ τ₂}
+        → {τ~̸τ₁ : τ ~̸ τ₁}
+        → ⊢▹ ⊢λ∶⸨ τ ⸩∙ ě [ τ₃▸ ∙ τ~̸τ₁ ∙ x ] ◃ + child 2 +⇐ ⊢λ₂∶⸨ τ ⸩∙ ⊢▹ ě ◃ [ τ₃▸ ∙ τ~̸τ₁ ∙ x ]
+      EAMLam3Parent1 : ∀ {Γ x τ τ₁ τ₂ τ₃}
+        → {ě : Γ , τ ⊢⇐ τ₂}
+        → {τ₃▸ : τ₃ ▸ τ₁ -→ τ₂}
+        → {τ~̸τ₁ : τ ~̸ τ₁}
+        → ⊢λ₁∶⸨ ▹ τ ◃ ⸩∙ ě [ τ₃▸ ∙ τ~̸τ₁ ∙ x ] + parent +⇐ ⊢▹ ⊢λ∶⸨ τ ⸩∙ ě [ τ₃▸ ∙ τ~̸τ₁ ∙ x ] ◃
+      EAMLam3Parent2 : ∀ {Γ x τ τ₁ τ₂ τ₃}
+        → {ě : Γ , τ ⊢⇐ τ₂}
+        → {τ₃▸ : τ₃ ▸ τ₁ -→ τ₂}
+        → {τ~̸τ₁ : τ ~̸ τ₁}
+        → ⊢λ₂∶⸨ τ ⸩∙ ⊢▹ ě ◃ [ τ₃▸ ∙ τ~̸τ₁ ∙ x ] + parent +⇐ ⊢▹ ⊢λ∶⸨ τ ⸩∙ ě [ τ₃▸ ∙ τ~̸τ₁ ∙ x ] ◃
+
+      EAMLetChild1 : ∀ {Γ x τ₁ τ₂}
+        → {ě₁ : Γ ⊢⇒ τ₁}
+        → {ě₂ : Γ , τ₁ ⊢⇐ τ₂}
+        → ⊢▹ ⊢← ě₁ ∙ ě₂ [ x ] ◃ + child 1 +⇐ ⊢←₁ ⊢▹ ě₁ ◃ ∙ ě₂ [ x ]
+      EAMLetChild2 : ∀ {Γ x τ₁ τ₂}
+        → {ě₁ : Γ ⊢⇒ τ₁}
+        → {ě₂ : Γ , τ₁ ⊢⇐ τ₂}
+        → ⊢▹ ⊢← ě₁ ∙ ě₂ [ x ] ◃ + child 2 +⇐ ⊢←₂ ě₁ ∙ ⊢▹ ě₂ ◃ [ x ]
+      EAMLetParent1 : ∀ {Γ x τ₁ τ₂}
+        → {ě₁ : Γ ⊢⇒ τ₁}
+        → {ě₂ : Γ , τ₁ ⊢⇐ τ₂}
+        → ⊢←₁ ⊢▹ ě₁ ◃ ∙ ě₂ [ x ] + parent +⇐ ⊢▹ ⊢← ě₁ ∙ ě₂ [ x ] ◃
+      EAMLetParent2 : ∀ {Γ x τ₁ τ₂}
+        → {ě₁ : Γ ⊢⇒ τ₁}
+        → {ě₂ : Γ , τ₁ ⊢⇐ τ₂}
+        → ⊢←₂ ě₁ ∙ ⊢▹ ě₂ ◃ [ x ] + parent +⇐ ⊢▹ ⊢← ě₁ ∙ ě₂ [ x ] ◃
+
+      EAMIfChild1 : ∀ {Γ τ}
+        → {ě₁ : Γ ⊢⇐ bool}
+        → {ě₂ : Γ ⊢⇐ τ}
+        → {ě₃ : Γ ⊢⇐ τ}
+        → ⊢▹ ⊢ ě₁ ∙ ě₂ ∙ ě₃ ◃ + child 1 +⇐ (⊢ ⊢▹ ě₁ ◃ ∙₁ ě₂ ∙ ě₃)
+      EAMIfChild2 : ∀ {Γ τ}
+        → {ě₁ : Γ ⊢⇐ bool}
+        → {ě₂ : Γ ⊢⇐ τ}
+        → {ě₃ : Γ ⊢⇐ τ}
+        → ⊢▹ ⊢ ě₁ ∙ ě₂ ∙ ě₃ ◃ + child 2 +⇐ (⊢ ě₁ ∙₂ ⊢▹ ě₂ ◃ ∙ ě₃)
+      EAMIfChild3 : ∀ {Γ τ}
+        → {ě₁ : Γ ⊢⇐ bool}
+        → {ě₂ : Γ ⊢⇐ τ}
+        → {ě₃ : Γ ⊢⇐ τ}
+        → ⊢▹ ⊢ ě₁ ∙ ě₂ ∙ ě₃ ◃ + child 3 +⇐ (⊢ ě₁ ∙₃ ě₂ ∙ ⊢▹ ě₃ ◃)
+      EAMIfParent1 : ∀ {Γ τ}
+        → {ě₁ : Γ ⊢⇐ bool}
+        → {ě₂ : Γ ⊢⇐ τ}
+        → {ě₃ : Γ ⊢⇐ τ}
+        → (⊢ ⊢▹ ě₁ ◃ ∙₁ ě₂ ∙ ě₃) + parent +⇐ ⊢▹ ⊢ ě₁ ∙ ě₂ ∙ ě₃ ◃
+      EAMIfParent2 : ∀ {Γ τ}
+        → {ě₁ : Γ ⊢⇐ bool}
+        → {ě₂ : Γ ⊢⇐ τ}
+        → {ě₃ : Γ ⊢⇐ τ}
+        → (⊢ ě₁ ∙₂ ⊢▹ ě₂ ◃ ∙ ě₃) + parent +⇐ ⊢▹ ⊢ ě₁ ∙ ě₂ ∙ ě₃ ◃
+      EAMIfParent3 : ∀ {Γ τ}
+        → {ě₁ : Γ ⊢⇐ bool}
+        → {ě₂ : Γ ⊢⇐ τ}
+        → {ě₃ : Γ ⊢⇐ τ}
+        → (⊢ ě₁ ∙₃ ě₂ ∙ ⊢▹ ě₃ ◃) + parent +⇐ ⊢▹ ⊢ ě₁ ∙ ě₂ ∙ ě₃ ◃
+
+      EAMInconsistentTypesChild : ∀ {Γ τ τ′ n}
+        → {ě : Γ ⊢⇒ τ′}
+        → {ê : - Γ ⊢⇒ τ′}
+        → {+⇒ê : ⊢▹ ě ◃ + child n +⇒ ê}
+        → {τ~̸τ′ : τ ~̸ τ′}
+        → {su : MSubsumable ě}
+        → ⊢▹ ⊢⸨ ě ⸩[ τ~̸τ′ ∙ su ] ◃ + child n +⇐ ⊢⸨ ê ⸩[ τ~̸τ′ ∙ MSu-+⇒ su +⇒ê ]
+      EAMInconsistentTypesParent : ∀ {Γ τ τ′}
+        → {ê : - Γ ⊢⇒ τ′}
+        → {ě : Γ ⊢⇒ τ′}
+        → {ê+⇒ : ê + parent +⇒ ⊢▹ ě ◃}
+        → {τ~̸τ′ : τ ~̸ τ′}
+        → {zsu : ZSubsumable ê}
+        → ⊢⸨ ê ⸩[ τ~̸τ′ ∙ zsu ] + parent +⇐ ⊢▹ ⊢⸨ ě ⸩[ τ~̸τ′ ∙ ZSu-+⇒ zsu ê+⇒ ] ◃
+
+      EAMSubsumeChild : ∀ {Γ τ τ′ n}
+        → {ě : Γ ⊢⇒ τ′}
+        → {ê : - Γ ⊢⇒ τ′}
+        → {+⇒ê : ⊢▹ ě ◃ + child n +⇒ ê}
+        → {τ~τ′ : τ ~ τ′}
+        → {su : MSubsumable ě}
+        → ⊢▹ ⊢∙ ě [ τ~τ′ ∙ su ] ◃ + child n +⇐ ⊢∙ ê [ τ~τ′ ∙ MSu-+⇒ su +⇒ê ]
+      EAMSubsumeParent : ∀ {Γ τ τ′}
+        → {ê : - Γ ⊢⇒ τ′}
+        → {ě : Γ ⊢⇒ τ′}
+        → {ê+⇒ : ê + parent +⇒ ⊢▹ ě ◃}
+        → {τ~τ′ : τ ~ τ′}
+        → {zsu : ZSubsumable ê}
+        → ⊢∙ ê [ τ~τ′ ∙ zsu ] + parent +⇐ ⊢▹ ⊢∙ ě [ τ~τ′ ∙ ZSu-+⇒ zsu ê+⇒ ] ◃
