@@ -1,4 +1,8 @@
 module prelude where
+  -- top
+  data ⊤ : Set where
+    ⟨⟩ : ⊤
+
   -- bottom
   data ⊥ : Set where
 
