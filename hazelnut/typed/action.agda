@@ -418,12 +418,56 @@ module hazelnut.typed.action where
         → Γ ⊢ ⊢▹ ě ◃ ~ construct (lam x) ~⇒ (⊢λ₁ x ∶ ▹ unknown ◃ ∙ ě′)
       ESConApL1 : ∀ {Γ τ τ₁ τ₂ u}
         → {ě : Γ ⊢⇒ τ}
-        → {τ▸ : τ ▸ τ₁ -→ τ₂}
-        → Γ ⊢ ⊢▹ ě ◃ ~ construct (ap₁ u) ~⇒ ⊢ ě ∙₂ ⊢▹ ⊢∙ ⊢⦇-⦈^ u [ ~-unknown₂ ∙ MSuHole ] ◃ [ τ▸ ]
+        → (τ▸ : τ ▸ τ₁ -→ τ₂)
+        → Γ ⊢ ⊢▹ ě ◃ ~ construct (ap₁ u) ~⇒ ⊢ ě ∙₂ (⊢▹ ⊢∙ ⊢⦇-⦈^ u [ ~-unknown₂ ∙ MSuHole ] ◃) [ τ▸ ]
       ESConApL2 : ∀ {Γ τ u}
         → {ě : Γ ⊢⇒ τ}
-        → {τ!▸ : τ !▸}
-        → Γ ⊢ ⊢▹ ě ◃ ~ construct (ap₁ u) ~⇒ ⊢⸨ ě ⸩∙₂ ⊢▹ ⊢∙ ⊢⦇-⦈^ u [ ~-unknown₂ ∙ MSuHole ] ◃ [ τ!▸ ]
+        → (τ!▸ : τ !▸)
+        → Γ ⊢ ⊢▹ ě ◃ ~ construct (ap₁ u) ~⇒ ⊢⸨ ě ⸩∙₂ (⊢▹ ⊢∙ ⊢⦇-⦈^ u [ ~-unknown₂ ∙ MSuHole ] ◃) [ τ!▸ ]
+      ESConApR : ∀ {Γ τ u}
+        → {ě : Γ ⊢⇒ τ}
+        → Γ ⊢ ⊢▹ ě ◃ ~ construct (ap₂ u) ~⇒ ⊢ (⊢▹ ⊢⦇-⦈^ u ◃) ∙₁ (proj₁ (⊢⇐-totality ě)) [ TMAHole ]
+      ESConLet1 : ∀ {Γ τ x u}
+        → {ě : Γ ⊢⇒ τ}
+        → Γ ⊢ ⊢▹ ě ◃ ~ construct (let₁ x u) ~⇒ (⊢ x ←₂ ě ∙ ⊢▹ ⊢⦇-⦈^ u ◃)
+      ESConLet2 : ∀ {Γ τ x u τ′}
+        → {ě : Γ ⊢⇒ τ}
+        → {ě′ : Γ , x ∶ unknown ⊢⇒ τ′}
+        → (↬⇒ě′ : Γ , x ∶ unknown ⊢ (ě ⇒□) ↬⇒ ě′)
+        → Γ ⊢ ⊢▹ ě ◃ ~ construct (let₂ x u) ~⇒ (⊢ x ←₁ ⊢▹ ⊢⦇-⦈^ u ◃ ∙ ě′)
+      ESConNum : ∀ {Γ u n}
+        → Γ ⊢ ⊢▹ ⊢⦇-⦈^ u ◃ ~ construct (num n) ~⇒ ⊢▹ ⊢ℕ n ◃
+      ESConPlusL1 : ∀ {Γ τ u}
+        → {ě : Γ ⊢⇒ τ}
+        → (τ~num : τ ~ num)
+        → Γ ⊢ ⊢▹ ě ◃ ~ construct (plus₁ u) ~⇒ (⊢ (proj₁ (⊢⇐-totality ě)) +₂ (⊢▹ ⊢∙ ⊢⦇-⦈^ u [ ~-unknown₂ ∙ MSuHole ] ◃))
+      ESConPlusL2 : ∀ {Γ τ u}
+        → {ě : Γ ⊢⇒ τ}
+        → (τ~̸num : τ ~̸ num)
+        → Γ ⊢ ⊢▹ ě ◃ ~ construct (plus₁ u) ~⇒ (⊢ (proj₁ (⊢⇐-totality ě)) +₂ (⊢▹ ⊢∙ ⊢⦇-⦈^ u [ ~-unknown₂ ∙ MSuHole ] ◃))
+      ESConPlusR1 : ∀ {Γ τ u}
+        → {ě : Γ ⊢⇒ τ}
+        → (τ~num : τ ~ num)
+        → Γ ⊢ ⊢▹ ě ◃ ~ construct (plus₂ u) ~⇒ (⊢ (⊢▹ ⊢∙ ⊢⦇-⦈^ u [ ~-unknown₂ ∙ MSuHole ] ◃) +₁ (proj₁ (⊢⇐-totality ě)))
+      ESConPlusR2 : ∀ {Γ τ u}
+        → {ě : Γ ⊢⇒ τ}
+        → (τ~̸num : τ ~̸ num)
+        → Γ ⊢ ⊢▹ ě ◃ ~ construct (plus₂ u) ~⇒ (⊢ (⊢▹ ⊢∙ ⊢⦇-⦈^ u [ ~-unknown₂ ∙ MSuHole ] ◃) +₁ (proj₁ (⊢⇐-totality ě)))
+      ESConIfC1 : ∀ {Γ τ u₁ u₂}
+        → {ě : Γ ⊢⇒ τ}
+        → (τ~bool : τ ~ bool)
+        → Γ ⊢ ⊢▹ ě ◃ ~ construct (if₁ u₁ u₂) ~⇒ (⊢ (proj₁ (⊢⇐-totality ě)) ∙₂ (⊢▹ ⊢⦇-⦈^ u₁ ◃) ∙ (⊢⦇-⦈^ u₂) [ TJUnknown ])
+      ESConIfC2 : ∀ {Γ τ u₁ u₂}
+        → {ě : Γ ⊢⇒ τ}
+        → (τ~̸bool : τ ~̸ bool)
+        → Γ ⊢ ⊢▹ ě ◃ ~ construct (if₁ u₁ u₂) ~⇒ (⊢ (proj₁ (⊢⇐-totality ě)) ∙₂ (⊢▹ ⊢⦇-⦈^ u₁ ◃) ∙ (⊢⦇-⦈^ u₂) [ TJUnknown ])
+      ESConIfL : ∀ {Γ τ u₁ u₂}
+        → {ě : Γ ⊢⇒ τ}
+        → Γ ⊢ ⊢▹ ě ◃ ~ construct (if₂ u₁ u₂) ~⇒ (⊢ (⊢▹ ⊢∙ ⊢⦇-⦈^ u₁ [ ~-unknown₂ ∙ MSuHole ] ◃) ∙₁ ě ∙ (⊢⦇-⦈^ u₂) [ ⊔-unknown₂ ])
+      ESConIfR : ∀ {Γ τ u₁ u₂}
+        → {ě : Γ ⊢⇒ τ}
+        → Γ ⊢ ⊢▹ ě ◃ ~ construct (if₃ u₁ u₂) ~⇒ (⊢ (⊢▹ ⊢∙ ⊢⦇-⦈^ u₁ [ ~-unknown₂ ∙ MSuHole ] ◃) ∙₁ (⊢⦇-⦈^ u₂) ∙ ě [ ⊔-unknown₁ ])
+
     -- analytic expression actions
     data _⊢_~_~⇐_ : ∀ {τ : Typ} → (Γ : Ctx) → (ê : - Γ ⊢⇐ τ) → (α : Action) → (ê : - Γ ⊢⇐ τ) → Set where
       -- movement
