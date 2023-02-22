@@ -24,7 +24,7 @@ module marking.unicity where
     rewrite ¬-≡ x≢x′ x≢x′′
           | ∋-≡ ∋x ∋x′ = refl
 
-  ⇒-unicity : ∀ {Γ : UCtx} {e : UExp} {τ₁ τ₂ : Typ}
+  ⇒-unicity : ∀ {Γ : Ctx} {e : UExp} {τ₁ τ₂ : Typ}
             → Γ ⊢ e ⇒ τ₁
             → Γ ⊢ e ⇒ τ₂
             → τ₁ ≡ τ₂
@@ -47,7 +47,7 @@ module marking.unicity where
           | ⇒-unicity e₃⇒τ₂ e₃⇒τ₂′
           | ⊔-unicity τ₁⊔τ₂ τ₁⊔τ₂′                          = refl
 
-  ↬⇒-τ-unicity : ∀ {Γ : UCtx} {e : UExp} {τ₁ τ₂ : Typ} {ě₁ : ⟦ Γ ⟧ ⊢⇒ τ₁} {ě₂ : ⟦ Γ ⟧ ⊢⇒ τ₂}
+  ↬⇒-τ-unicity : ∀ {Γ : Ctx} {e : UExp} {τ₁ τ₂ : Typ} {ě₁ : Γ ⊢⇒ τ₁} {ě₂ : Γ ⊢⇒ τ₂}
                → Γ ⊢ e ↬⇒ ě₁
                → Γ ⊢ e ↬⇒ ě₂
                → τ₁ ≡ τ₂
@@ -84,7 +84,7 @@ module marking.unicity where
   ↬⇒-τ-unicity (ISInconsistentBranches e₁↬⇐ě₁ e₂↬⇒ě₂ e₃↬⇒ě₃ τ₁~̸τ₂) (ISInconsistentBranches e₁↬⇐ě₁′ e₂↬⇒ě₂′ e₃↬⇒ě₃′ τ₁~̸τ₂′) = refl
 
   mutual
-    ↬⇒-ě-unicity : ∀ {Γ : UCtx} {e : UExp} {τ : Typ} {ě₁ : ⟦ Γ ⟧ ⊢⇒ τ} {ě₂ : ⟦ Γ ⟧ ⊢⇒ τ}
+    ↬⇒-ě-unicity : ∀ {Γ : Ctx} {e : UExp} {τ : Typ} {ě₁ : Γ ⊢⇒ τ} {ě₂ : Γ ⊢⇒ τ}
                  → Γ ⊢ e ↬⇒ ě₁
                  → Γ ⊢ e ↬⇒ ě₂
                  → ě₁ ≡ ě₂
@@ -143,7 +143,7 @@ module marking.unicity where
             | ↬⇒-ě-unicity e₃↬⇒ě₃ e₃↬⇒ě₃′
             | ~̸-≡ τ₁~̸τ₂ τ₁~̸τ₂′ = refl
 
-    USu→MSu-unicity : ∀ {e : UExp} {Γ : UCtx} {τ : Typ} {ě : ⟦ Γ ⟧ ⊢⇒ τ}
+    USu→MSu-unicity : ∀ {e : UExp} {Γ : Ctx} {τ : Typ} {ě : Γ ⊢⇒ τ}
                       → (s : USubsumable e)
                       → (e↬⇒ě : Γ ⊢ e ↬⇒ ě)
                       → (e↬⇒ě′ : Γ ⊢ e ↬⇒ ě)
@@ -158,7 +158,7 @@ module marking.unicity where
     USu→MSu-unicity USuTrue  ISTrue      _   = refl
     USu→MSu-unicity USuFalse ISFalse     _   = refl
 
-    ↬⇐-ě-unicity : ∀ {Γ : UCtx} {e : UExp} {τ : Typ} {ě₁ : ⟦ Γ ⟧ ⊢⇐ τ} {ě₂ : ⟦ Γ ⟧ ⊢⇐ τ}
+    ↬⇐-ě-unicity : ∀ {Γ : Ctx} {e : UExp} {τ : Typ} {ě₁ : Γ ⊢⇐ τ} {ě₂ : Γ ⊢⇐ τ}
                  → Γ ⊢ e ↬⇐ ě₁
                  → Γ ⊢ e ↬⇐ ě₂
                  → ě₁ ≡ ě₂
@@ -266,10 +266,10 @@ module marking.unicity where
          | refl ← ~-≡ τ~τ′ τ~τ′′
       rewrite USu→MSu-unicity USuFalse e↬⇒ě e↬⇒ě′ = refl
 
-  ↬⇒-unicity-sig : ∀ {Γ : UCtx} {τ₁ τ₂ : Typ} → τ₁ ≡ τ₂ → ⟦ Γ ⟧ ⊢⇒ τ₁ → ⟦ Γ ⟧ ⊢⇒ τ₂ → Set
+  ↬⇒-unicity-sig : ∀ {Γ : Ctx} {τ₁ τ₂ : Typ} → τ₁ ≡ τ₂ → Γ ⊢⇒ τ₁ → Γ ⊢⇒ τ₂ → Set
   ↬⇒-unicity-sig refl e₁ e₂ = e₁ ≡ e₂
 
-  ↬⇒-unicity : ∀ {Γ : UCtx} {e : UExp} {τ₁ τ₂ : Typ} {ě₁ : ⟦ Γ ⟧ ⊢⇒ τ₁} {ě₂ : ⟦ Γ ⟧ ⊢⇒ τ₂}
+  ↬⇒-unicity : ∀ {Γ : Ctx} {e : UExp} {τ₁ τ₂ : Typ} {ě₁ : Γ ⊢⇒ τ₁} {ě₂ : Γ ⊢⇒ τ₂}
              → (e↬⇒ě₁ : Γ ⊢ e ↬⇒ ě₁)
              → (e↬⇒ě₂ : Γ ⊢ e ↬⇒ ě₂)
              → Σ[ τ₁≡τ₂ ∈ τ₁ ≡ τ₂ ] ↬⇒-unicity-sig τ₁≡τ₂ ě₁ ě₂
@@ -277,7 +277,7 @@ module marking.unicity where
     with refl ← ↬⇒-τ-unicity e↬⇒ě₁ e↬⇒ě₂
        = ⟨ refl , ↬⇒-ě-unicity e↬⇒ě₁ e↬⇒ě₂ ⟩
 
-  ↬⇐-unicity : ∀ {Γ : UCtx} {e : UExp} {τ : Typ} {ě₁ : ⟦ Γ ⟧ ⊢⇐ τ} {ě₂ : ⟦ Γ ⟧ ⊢⇐ τ}
+  ↬⇐-unicity : ∀ {Γ : Ctx} {e : UExp} {τ : Typ} {ě₁ : Γ ⊢⇐ τ} {ě₂ : Γ ⊢⇐ τ}
              → Γ ⊢ e ↬⇐ ě₁
              → Γ ⊢ e ↬⇐ ě₂
              → ě₁ ≡ ě₂

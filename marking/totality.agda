@@ -5,18 +5,18 @@ open import marking.marking
 
 module marking.totality where
   mutual
-    ↬⇒-totality : (Γ : UCtx)
+    ↬⇒-totality : (Γ : Ctx)
                 → (e : UExp)
-                → Σ[ τ ∈ Typ ] Σ[ ě ∈ ⟦ Γ ⟧ ⊢⇒ τ ] (Γ ⊢ e ↬⇒ ě)
+                → Σ[ τ ∈ Typ ] Σ[ ě ∈ Γ ⊢⇒ τ ] (Γ ⊢ e ↬⇒ ě)
     ↬⇒-totality Γ (‵⦇-⦈^ x) = ⟨ unknown , ⟨ ⊢⦇-⦈^ x , ISHole ⟩ ⟩
     ↬⇒-totality Γ (‵ x)
       with Γ ∋?? x
-    ...  | yes (Z {Γ} {x} {τ})                   = ⟨ τ       , ⟨ ⊢ Z [ x ]             , ISVar Z           ⟩ ⟩
-    ...  | yes (S {Γ} {x} {x′} {τ} {τ′} x≢x′ ∋x) = ⟨ τ       , ⟨ ⊢ (S (⟦ ∋x ⟧∋)) [ x ] , ISVar (S x≢x′ ∋x) ⟩ ⟩
-    ...  | no  ∌x                                = ⟨ unknown , ⟨ ⊢⟦ x ⟧                , ISUnbound ∌x      ⟩ ⟩
+    ...  | yes (Z {Γ} {x} {τ})                   = ⟨ τ       , ⟨ ⊢ Z [ x ]           , ISVar Z           ⟩ ⟩
+    ...  | yes (S {Γ} {x} {x′} {τ} {τ′} x≢x′ ∋x) = ⟨ τ       , ⟨ ⊢ (S x≢x′ ∋x) [ x ] , ISVar (S x≢x′ ∋x) ⟩ ⟩
+    ...  | no  ∌x                                = ⟨ unknown , ⟨ ⊢⟦ x ⟧              , ISUnbound ∌x      ⟩ ⟩
     ↬⇒-totality Γ (‵λ x ∶ τ ∙ e)
       with ⟨ τ′ , ⟨ ě , e↬⇒ě ⟩ ⟩ ← ↬⇒-totality (Γ , x ∶ τ) e
-         = ⟨ τ -→ τ′ , ⟨ ⊢λ∶ τ ∙ ě [ x ] , ISLam e↬⇒ě ⟩ ⟩
+         = ⟨ τ -→ τ′ , ⟨ ⊢λ x ∶ τ ∙ ě , ISLam e↬⇒ě ⟩ ⟩
     ↬⇒-totality Γ (‵ e₁ ∙ e₂)
       with ↬⇒-totality Γ e₁
     ...  | ⟨ τ , ⟨ ě₁ , e₁↬⇒ě₁ ⟩ ⟩
@@ -30,7 +30,7 @@ module marking.totality where
     ↬⇒-totality Γ (‵ x ← e₁ ∙ e₂)
       with ⟨ τ₁ , ⟨ ě₁ , e₁↬⇒ě₁ ⟩ ⟩ ← ↬⇒-totality Γ e₁ 
       with ⟨ τ₂ , ⟨ ě₂ , e₂↬⇒ě₂ ⟩ ⟩ ← ↬⇒-totality (Γ , x ∶ τ₁) e₂
-         = ⟨ τ₂ , ⟨ ⊢← ě₁ ∙ ě₂ [ x ] , ISLet e₁↬⇒ě₁ e₂↬⇒ě₂ ⟩ ⟩
+         = ⟨ τ₂ , ⟨ ⊢ x ← ě₁ ∙ ě₂ , ISLet e₁↬⇒ě₁ e₂↬⇒ě₂ ⟩ ⟩
     ↬⇒-totality Γ (‵ℕ n) = ⟨ num , ⟨ ⊢ℕ n , ISNum ⟩ ⟩
     ↬⇒-totality Γ (‵ e₁ + e₂)
       with ⟨ ě₁ , e₁↬⇐ě₁ ⟩ ← ↬⇐-totality Γ num e₁
@@ -49,19 +49,19 @@ module marking.totality where
     ...  | no  τ₁~̸τ₂  = ⟨ unknown , ⟨ ⊢⦉ ě₁ ∙ ě₂ ∙ ě₃ ⦊[ τ₁~̸τ₂ ] , ISInconsistentBranches e₁↬⇐ě₁ e₂↬⇐ě₂ e₃↬⇒ě₃ τ₁~̸τ₂ ⟩ ⟩
 
     ↬⇐-subsume : ∀ {Γ e τ}
-               → (ě : ⟦ Γ ⟧ ⊢⇒ τ)
+               → (ě : Γ ⊢⇒ τ)
                → (τ′ : Typ)
                → (Γ ⊢ e ↬⇒ ě)
                → (s : USubsumable e)
-               → Σ[ ě ∈ ⟦ Γ ⟧ ⊢⇐ τ′ ] (Γ ⊢ e ↬⇐ ě)
+               → Σ[ ě ∈ Γ ⊢⇐ τ′ ] (Γ ⊢ e ↬⇐ ě)
     ↬⇐-subsume {τ = τ} ě τ′ e↬⇒ě s with τ′ ~? τ
     ...   | yes τ′~τ = ⟨ ⊢∙ ě  [ τ′~τ ∙ USu→MSu s e↬⇒ě ] , IASubsume e↬⇒ě τ′~τ s ⟩
     ...   | no  τ′~̸τ = ⟨ ⊢⸨ ě ⸩[ τ′~̸τ ∙ USu→MSu s e↬⇒ě ] , IAInconsistentTypes e↬⇒ě τ′~̸τ s ⟩
 
-    ↬⇐-totality : (Γ : UCtx)
+    ↬⇐-totality : (Γ : Ctx)
                 → (τ′ : Typ)
                 → (e : UExp)
-                → Σ[ ě ∈ ⟦ Γ ⟧ ⊢⇐ τ′ ] (Γ ⊢ e ↬⇐ ě)
+                → Σ[ ě ∈ Γ ⊢⇐ τ′ ] (Γ ⊢ e ↬⇐ ě)
     ↬⇐-totality Γ τ′ e@(‵⦇-⦈^ u)
       with ⟨ .unknown , ⟨ ě@(⊢⦇-⦈^ _) , e↬⇒ě ⟩ ⟩ ← ↬⇒-totality Γ e
          = ↬⇐-subsume ě τ′ e↬⇒ě USuHole
@@ -75,14 +75,14 @@ module marking.totality where
              with τ ~? τ₁
     ...         | yes τ~τ₁
                     with ⟨ ě′ , e′↬⇐ě′ ⟩ ← ↬⇐-totality (Γ , x ∶ τ) τ₂ e′
-                       = ⟨ ⊢λ∶ τ ∙ ě′ [ τ′▸ ∙ τ~τ₁ ∙ x ] , IALam1 τ′▸ τ~τ₁ e′↬⇐ě′ ⟩
+                       = ⟨ ⊢λ x ∶ τ ∙ ě′ [ τ′▸ ∙ τ~τ₁ ] , IALam1 τ′▸ τ~τ₁ e′↬⇐ě′ ⟩
     ...         | no  τ~̸τ₁
                     with ⟨ ě′ , e′↬⇐ě′ ⟩ ← ↬⇐-totality (Γ , x ∶ τ) τ₂ e′
-                       = ⟨ ⊢λ∶⸨ τ ⸩∙ ě′ [ τ′▸ ∙ τ~̸τ₁ ∙ x ] , IALam3 τ′▸ τ~̸τ₁ e′↬⇐ě′ ⟩
+                       = ⟨ ⊢λ x ∶⸨ τ ⸩∙ ě′ [ τ′▸ ∙ τ~̸τ₁ ] , IALam3 τ′▸ τ~̸τ₁ e′↬⇐ě′ ⟩
     ↬⇐-totality Γ τ′ e@(‵λ x ∶ τ ∙ e′)
          | no τ′!▸
              with ⟨ ě′ , e′↬⇐ě′ ⟩ ← ↬⇐-totality (Γ , x ∶ τ) unknown e′
-                = ⟨ ⊢⸨λ∶ τ ∙ ě′ ⸩[ τ′!▸ ∙ x ] , IALam2 τ′!▸ e′↬⇐ě′ ⟩
+                = ⟨ ⊢⸨λ x ∶ τ ∙ ě′ ⸩[ τ′!▸ ] , IALam2 τ′!▸ e′↬⇐ě′ ⟩
     ↬⇐-totality Γ τ′ e@(‵ _ ∙ _)
       with ↬⇒-totality Γ e
     ...  | ⟨ .unknown , ⟨ ě@(⊢⸨ _ ⸩∙ _ [ _ ]) , e↬⇒ě ⟩ ⟩ = ↬⇐-subsume ě τ′ e↬⇒ě USuAp
@@ -90,7 +90,7 @@ module marking.totality where
     ↬⇐-totality Γ τ′ (‵ x ← e₁ ∙ e₂)
       with ⟨ τ₁ , ⟨ ě₁ , e₁↬⇒ě₁ ⟩ ⟩ ← ↬⇒-totality Γ e₁ 
       with ⟨ ě₂ , e₂↬⇐ě₂ ⟩ ← ↬⇐-totality (Γ , x ∶ τ₁) τ′ e₂
-         = ⟨ ⊢← ě₁ ∙ ě₂ [ x ] , IALet e₁↬⇒ě₁ e₂↬⇐ě₂ ⟩
+         = ⟨ ⊢ x ← ě₁ ∙ ě₂ , IALet e₁↬⇒ě₁ e₂↬⇐ě₂ ⟩
     ↬⇐-totality Γ τ′ e@(‵ℕ _)
       with ⟨ _ , ⟨ ě@(⊢ℕ _) , e↬⇒ě ⟩ ⟩ ← ↬⇒-totality Γ e
          = ↬⇐-subsume ě τ′ e↬⇒ě USuNum

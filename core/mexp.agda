@@ -3,41 +3,32 @@ open import prelude
 open import core.typ
 open import core.hole
 open import core.var
+open import core.ctx
 
 -- instrinsically typed marked expressions
 module core.mexp where
   infix  4 _⊢⇒_
   infix  4 _⊢⇐_
-  infix  4 _∋_
-  infixl 5 _,_
-
-  data MCtx : Set where
-    ∅   : MCtx
-    _,_ : MCtx → Typ → MCtx
-
-  data _∋_ : (Γ : MCtx) (τ : Typ) → Set where
-    Z  : ∀ {Γ τ}            → Γ , τ  ∋ τ
-    S  : ∀ {Γ τ τ′} → Γ ∋ τ → Γ , τ′ ∋ τ
 
   mutual
     -- synthesis
-    data _⊢⇒_ : (Γ : MCtx) (τ : Typ) → Set where
+    data _⊢⇒_ : (Γ : Ctx) (τ : Typ) → Set where
       -- MSHole
       ⊢⦇-⦈^_ : ∀ {Γ}
         → (u : Hole)
         → Γ ⊢⇒ unknown
 
       -- MSVar
-      ⊢_[_] : ∀ {Γ τ}
-        → (∋x : Γ ∋ τ)
+      ⊢_[_] : ∀ {Γ x τ}
+        → (∋x : Γ ∋ x ∶ τ)
         → (x : Var)
         → Γ ⊢⇒ τ
 
       -- MSLam
-      ⊢λ∶_∙_[_] : ∀ {Γ τ′}
-        → (τ : Typ)
-        → (ě : Γ , τ ⊢⇒ τ′)
+      ⊢λ_∶_∙_ : ∀ {Γ τ′}
         → (x : Var)
+        → (τ : Typ)
+        → (ě : Γ , x ∶ τ ⊢⇒ τ′)
         → Γ ⊢⇒ τ -→ τ′
 
       -- MSAp1
@@ -55,10 +46,10 @@ module core.mexp where
         → Γ ⊢⇒ unknown
 
       -- MSLet
-      ⊢←_∙_[_] : ∀ {Γ τ₁ τ₂}
-        → (ě₁ : Γ ⊢⇒ τ₁)
-        → (ě₂ : Γ , τ₁ ⊢⇒ τ₂)
+      ⊢_←_∙_ : ∀ {Γ τ₁ τ₂}
         → (x : Var)
+        → (ě₁ : Γ ⊢⇒ τ₁)
+        → (ě₂ : Γ , x ∶ τ₁ ⊢⇒ τ₂)
         → Γ ⊢⇒ τ₂
 
       -- MSNum
@@ -89,6 +80,7 @@ module core.mexp where
         → Γ ⊢⇒ τ
 
       -- MSUnbound
+      -- TODO Enforce that y is unboudnd in Γ
       ⊢⟦_⟧ : ∀ {Γ}
         → (y : FreeVar)
         → Γ ⊢⇒ unknown
@@ -101,13 +93,13 @@ module core.mexp where
         → (τ₁~̸τ₂ : τ₁ ~̸ τ₂)
         → Γ ⊢⇒ unknown
 
-    data MSubsumable : {Γ : MCtx} {τ : Typ} → (ě : Γ ⊢⇒ τ) → Set where
+    data MSubsumable : {Γ : Ctx} {τ : Typ} → (ě : Γ ⊢⇒ τ) → Set where
       MSuHole : ∀ {Γ}
         → {u : Hole}
         → MSubsumable {Γ} (⊢⦇-⦈^ u)
 
-      MSuVar : ∀ {Γ τ}
-        → {∋x : Γ ∋ τ}
+      MSuVar : ∀ {Γ x τ}
+        → {∋x : Γ ∋ x ∶ τ}
         → {x : Var}
         → MSubsumable {Γ} (⊢ ∋x [ x ])
 
@@ -150,38 +142,38 @@ module core.mexp where
         → MSubsumable {Γ} (⊢⦉ ě₁ ∙ ě₂ ∙ ě₃ ⦊[ τ₁~̸τ₂ ])
 
     -- analysis
-    data _⊢⇐_ : (Γ : MCtx) (τ : Typ) → Set where
+    data _⊢⇐_ : (Γ : Ctx) (τ : Typ) → Set where
       -- MALam1
-      ⊢λ∶_∙_[_∙_∙_] : ∀ {Γ τ₁ τ₂ τ₃}
+      ⊢λ_∶_∙_[_∙_] : ∀ {Γ τ₁ τ₂ τ₃}
+        → (x : Var)
         → (τ : Typ)
-        → (ě : Γ , τ ⊢⇐ τ₂)
+        → (ě : Γ , x ∶ τ ⊢⇐ τ₂)
         → (τ₃▸ : τ₃ ▸ τ₁ -→ τ₂)
         → (τ~τ₁ : τ ~ τ₁)
-        → (x : Var)
         → Γ ⊢⇐ τ₃
 
       -- MALam2
-      ⊢⸨λ∶_∙_⸩[_∙_] : ∀ {Γ τ′}
-        → (τ : Typ)
-        → (ě : Γ , τ ⊢⇐ unknown)
-        → (τ′!▸ : τ′ !▸)
+      ⊢⸨λ_∶_∙_⸩[_] : ∀ {Γ τ′}
         → (x : Var)
+        → (τ : Typ)
+        → (ě : Γ , x ∶ τ ⊢⇐ unknown)
+        → (τ′!▸ : τ′ !▸)
         → Γ ⊢⇐ τ′
 
       -- MALam3
-      ⊢λ∶⸨_⸩∙_[_∙_∙_] : ∀ {Γ τ₁ τ₂ τ₃}
+      ⊢λ_∶⸨_⸩∙_[_∙_] : ∀ {Γ τ₁ τ₂ τ₃}
+        → (x : Var)
         → (τ : Typ)
-        → (ě : Γ , τ ⊢⇐ τ₂)
+        → (ě : Γ , x ∶ τ ⊢⇐ τ₂)
         → (τ₃▸ : τ₃ ▸ τ₁ -→ τ₂)
         → (τ~̸τ₁ : τ ~̸ τ₁)
-        → (x : Var)
         → Γ ⊢⇐ τ₃
 
       -- MALet
-      ⊢←_∙_[_] : ∀ {Γ τ₁ τ₂}
-        → (ě₁ : Γ ⊢⇒ τ₁)
-        → (ě₂ : Γ , τ₁ ⊢⇐ τ₂)
+      ⊢_←_∙_ : ∀ {Γ τ₁ τ₂}
         → (x : Var)
+        → (ě₁ : Γ ⊢⇒ τ₁)
+        → (ě₂ : Γ , x ∶ τ₁ ⊢⇐ τ₂)
         → Γ ⊢⇐ τ₂
 
       -- MAIf
