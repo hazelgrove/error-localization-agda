@@ -6,3 +6,5 @@ module core where
   open import core.uexp public
   open import core.mexp public
   open import core.erasure public
+
+  open import core.lemmas public
