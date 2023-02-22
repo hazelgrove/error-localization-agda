@@ -391,3 +391,32 @@ module hazelnut.typed.action where
         → {τ~τ′ : τ ~ τ′}
         → {zsu : ZSubsumable ê}
         → ⊢∙ ê [ τ~τ′ ∙ zsu ] + parent +⇐ ⊢▹ ⊢∙ ě [ τ~τ′ ∙ ZSu-+⇒ zsu ê+⇒ ] ◃
+
+  mutual
+    -- synthetic expression actions
+    data _⊢_~_~⇒_ : ∀ {τ τ′ : Typ} → (Γ : MCtx) → (ê : - Γ ⊢⇒ τ) → (α : Action) → (ê : - Γ ⊢⇒ τ′) → Set where
+      -- movement
+      ESMove : ∀ {Γ τ δ}
+        → {ê : - Γ ⊢⇒ τ}
+        → {ê′ : - Γ ⊢⇒ τ}
+        → {ê+⇒ê′ : ê + δ +⇒ ê′}
+        → Γ ⊢ ê ~ move δ ~⇒ ê′
+
+      -- deletion
+      ESDel : ∀ {Γ τ u}
+        → {ě : Γ ⊢⇒ τ}
+        → Γ ⊢ ⊢▹ ě ◃ ~ del u ~⇒ ⊢▹ ⊢⦇-⦈^ u ◃
+
+    -- analytic expression actions
+    data _⊢_~_~⇐_ : ∀ {τ : Typ} → (Γ : MCtx) → (ê : - Γ ⊢⇐ τ) → (α : Action) → (ê : - Γ ⊢⇐ τ) → Set where
+      -- movement
+      EAMove : ∀ {Γ τ δ}
+        → {ê : - Γ ⊢⇐ τ}
+        → {ê′ : - Γ ⊢⇐ τ}
+        → {ê+⇐ê′ : ê + δ +⇐ ê′}
+        → Γ ⊢ ê ~ move δ ~⇐ ê′
+
+      -- deletion
+      EADel : ∀ {Γ τ u}
+        → {ě : Γ ⊢⇐ τ}
+        → Γ ⊢ ⊢▹ ě ◃ ~ del u ~⇐ ⊢▹ ⊢∙ ⊢⦇-⦈^ u [ ~-unknown₂ ∙ MSuHole ] ◃
