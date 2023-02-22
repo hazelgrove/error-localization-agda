@@ -404,6 +404,26 @@ module hazelnut.typed.action where
         → {ě : Γ ⊢⇒ τ}
         → Γ ⊢ ⊢▹ ě ◃ ~ del u ~⇒ ⊢▹ ⊢⦇-⦈^ u ◃
 
+      -- construction
+      ESConBoundVar : ∀ {Γ u τ x}
+        → (∋x : Γ ∋ x ∶ τ)
+        → Γ ⊢ ⊢▹ ⊢⦇-⦈^ u ◃ ~ construct (var x) ~⇒ ⊢▹ ⊢ ∋x ◃
+      ESConUnboundVar : ∀ {Γ u y}
+        → (∌y : Γ ∌ y)
+        → Γ ⊢ ⊢▹ ⊢⦇-⦈^ u ◃ ~ construct (var y) ~⇒ ⊢▹ ⊢⟦ ∌y ⟧ ◃
+      ESConLam : ∀ {Γ τ x τ′}
+        → {ě : Γ ⊢⇒ τ}
+        → {ě′ : Γ , x ∶ unknown ⊢⇒ τ′}
+        → (↬⇒ě′ : Γ , x ∶ unknown ⊢ (ě ⇒□) ↬⇒ ě′)
+        → Γ ⊢ ⊢▹ ě ◃ ~ construct (lam x) ~⇒ (⊢λ₁ x ∶ ▹ unknown ◃ ∙ ě′)
+      ESConApL1 : ∀ {Γ τ τ₁ τ₂ u}
+        → {ě : Γ ⊢⇒ τ}
+        → {τ▸ : τ ▸ τ₁ -→ τ₂}
+        → Γ ⊢ ⊢▹ ě ◃ ~ construct (ap₁ u) ~⇒ ⊢ ě ∙₂ ⊢▹ ⊢∙ ⊢⦇-⦈^ u [ ~-unknown₂ ∙ MSuHole ] ◃ [ τ▸ ]
+      ESConApL2 : ∀ {Γ τ u}
+        → {ě : Γ ⊢⇒ τ}
+        → {τ!▸ : τ !▸}
+        → Γ ⊢ ⊢▹ ě ◃ ~ construct (ap₁ u) ~⇒ ⊢⸨ ě ⸩∙₂ ⊢▹ ⊢∙ ⊢⦇-⦈^ u [ ~-unknown₂ ∙ MSuHole ] ◃ [ τ!▸ ]
     -- analytic expression actions
     data _⊢_~_~⇐_ : ∀ {τ : Typ} → (Γ : Ctx) → (ê : - Γ ⊢⇐ τ) → (α : Action) → (ê : - Γ ⊢⇐ τ) → Set where
       -- movement
