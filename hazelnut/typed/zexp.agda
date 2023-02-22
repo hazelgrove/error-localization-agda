@@ -482,6 +482,7 @@ module hazelnut.typed.zexp where
         → {τ~̸τ′ : τ ~̸ τ′}
         → {zsu : ZSubsumable ê}
         → (wf : ê WF⇒)
+        → (nc : ¬ (∃[ ě ] ê ≡ ⊢▹ ě ◃))
         → ⊢⸨ ê ⸩[ τ~̸τ′ ∙ zsu ] WF⇐
 
       WFSubsume : ∀ {Γ τ τ′}
@@ -490,6 +491,139 @@ module hazelnut.typed.zexp where
         → {zsu : ZSubsumable ê}
         → (wf : ê WF⇒)
         → ⊢∙ ê [ τ~τ′ ∙ zsu ] WF⇐
+
+  -- well-formedness decidability
+  is-cursor? : ∀ {Γ τ} → (ê : - Γ ⊢⇒ τ) → Dec (∃[ ě ] ê ≡ ⊢▹ ě ◃)
+  is-cursor? ⊢▹ ě ◃                      = yes ⟨ ě , refl ⟩
+  is-cursor? ⊢λ₁∶ τ^ ∙ ě [ x ]           = no λ()
+  is-cursor? ⊢λ₂∶ τ ∙ ê [ x ]            = no λ()
+  is-cursor? ⊢ ê ∙₁ ě₂ [ τ▸ ]            = no λ()
+  is-cursor? ⊢ ě₁ ∙₂ ê₂ [ τ▸ ]           = no λ()
+  is-cursor? ⊢⸨ ê ⸩∙₁ ě₂ [ τ!▸ ]         = no λ()
+  is-cursor? ⊢⸨ ě₁ ⸩∙₂ ê₂ [ τ!▸ ]        = no λ()
+  is-cursor? ⊢←₁ ê ∙ ě₂ [ x ]            = no λ()
+  is-cursor? ⊢←₂ ě₁ ∙ ê [ x ]            = no λ()
+  is-cursor? (⊢ ê₁ +₁ ě₂)                = no λ()
+  is-cursor? (⊢ ě₁ +₂ ê₂)                = no λ()
+  is-cursor? ⊢ ê₁ ∙₁ ě₂ ∙ ě₃ [ τ₁⊔τ₂ ]   = no λ()
+  is-cursor? ⊢ ě₁ ∙₂ ê ∙ ě₃ [ τ₁⊔τ₂ ]    = no λ()
+  is-cursor? ⊢ ě₁ ∙₃ ě₂ ∙ ê [ τ₁⊔τ₂ ]    = no λ()
+  is-cursor? ⊢⦉ ê₁ ∙₁ ě₂ ∙ ě₃ ⦊[ τ₁~̸τ₂ ] = no λ()
+  is-cursor? ⊢⦉ ě₁ ∙₂ ê ∙ ě₃ ⦊[ τ₁~̸τ₂ ]  = no λ()
+  is-cursor? ⊢⦉ ě₁ ∙₃ ě₂ ∙ ê ⦊[ τ₁~̸τ₂ ]  = no λ()
+
+  mutual
+    _WF⇒? : ∀ {Γ τ} → (ê : - Γ ⊢⇒ τ) → Dec (ê WF⇒)
+    ⊢▹ ě ◃ WF⇒? = yes WFCursor
+    ⊢λ₁∶ τ^ ∙ ě [ x ] WF⇒? = yes WFLamT
+    ⊢λ₂∶ τ ∙ ê [ x ] WF⇒?
+      with ê WF⇒?
+    ...  | yes wf = yes (WFLamE wf)
+    ...  | no !wf = no λ { (WFLamE wf) → !wf wf }
+    ⊢ ê₁ ∙₁ ě₂ [ τ▸ ] WF⇒?
+      with ê₁ WF⇒?
+    ...  | yes wf = yes (WFApL1 wf)
+    ...  | no !wf = no λ { (WFApL1 wf) → !wf wf }
+    ⊢ ě₁ ∙₂ ê₂ [ τ▸ ] WF⇒?
+      with ê₂ WF⇐?
+    ...  | yes wf = yes (WFApR1 wf)
+    ...  | no !wf = no λ { (WFApR1 wf) → !wf wf }
+    ⊢⸨ ê₁ ⸩∙₁ ě₂ [ τ!▸ ] WF⇒?
+      with ê₁ WF⇒?
+    ...  | yes wf = yes (WFApL2 wf)
+    ...  | no !wf = no λ { (WFApL2 wf) → !wf wf }
+    ⊢⸨ ě₁ ⸩∙₂ ê₂ [ τ!▸ ] WF⇒?
+      with ê₂ WF⇐?
+    ...  | yes wf = yes (WFApR2 wf)
+    ...  | no !wf = no λ { (WFApR2 wf) → !wf wf }
+    ⊢←₁ ê₁ ∙ ě₂ [ x ] WF⇒?
+      with ê₁ WF⇒?
+    ...  | yes wf = yes (WFLetL wf)
+    ...  | no !wf = no λ { (WFLetL wf) → !wf wf }
+    ⊢←₂ ě₁ ∙ ê₂ [ x ] WF⇒?
+      with ê₂ WF⇒?
+    ...  | yes wf = yes (WFLetR wf)
+    ...  | no !wf = no λ { (WFLetR wf) → !wf wf }
+    (⊢ ê₁ +₁ ě₂) WF⇒?
+      with ê₁ WF⇐?
+    ...  | yes wf = yes (WFPlusL wf)
+    ...  | no !wf = no λ { (WFPlusL wf) → !wf wf }
+    (⊢ ě₁ +₂ ê₂) WF⇒?
+      with ê₂ WF⇐?
+    ...  | yes wf = yes (WFPlusR wf)
+    ...  | no !wf = no λ { (WFPlusR wf) → !wf wf }
+    ⊢ ê₁ ∙₁ ě₂ ∙ ě₃ [ τ₁⊔τ₂ ] WF⇒?
+      with ê₁ WF⇐?
+    ...  | yes wf = yes (WFIfC wf)
+    ...  | no !wf = no λ { (WFIfC wf) → !wf wf }
+    ⊢ ě₁ ∙₂ ê₂ ∙ ě₃ [ τ₁⊔τ₂ ] WF⇒?
+      with ê₂ WF⇒?
+    ...  | yes wf = yes (WFIfL wf)
+    ...  | no !wf = no λ { (WFIfL wf) → !wf wf }
+    ⊢ ě₁ ∙₃ ě₂ ∙ ê₃ [ τ₁⊔τ₂ ] WF⇒?
+      with ê₃ WF⇒?
+    ...  | yes wf = yes (WFIfR wf)
+    ...  | no !wf = no λ { (WFIfR wf) → !wf wf }
+    ⊢⦉ ê₁ ∙₁ ě₂ ∙ ě₃ ⦊[ τ₁~̸τ₂ ] WF⇒?
+      with ê₁ WF⇐?
+    ...  | yes wf = yes (WFInconsistentBranchesC wf)
+    ...  | no !wf = no λ { (WFInconsistentBranchesC wf) → !wf wf }
+    ⊢⦉ ě₁ ∙₂ ê₂ ∙ ě₃ ⦊[ τ₁~̸τ₂ ] WF⇒?
+      with ê₂ WF⇒?
+    ...  | yes wf = yes (WFInconsistentBranchesL wf)
+    ...  | no !wf = no λ { (WFInconsistentBranchesL wf) → !wf wf }
+    ⊢⦉ ě₁ ∙₃ ě₂ ∙ ê₃ ⦊[ τ₁~̸τ₂ ] WF⇒?
+      with ê₃ WF⇒?
+    ...  | yes wf = yes (WFInconsistentBranchesR wf)
+    ...  | no !wf = no λ { (WFInconsistentBranchesR wf) → !wf wf }
+
+    _WF⇐? : ∀ {Γ τ} → (ê : - Γ ⊢⇐ τ) → Dec (ê WF⇐)
+    ⊢▹ ě ◃ WF⇐? = yes WFCursor
+    ⊢λ₁∶ τ^ ∙ ě [ τ₃▸ ∙ τ~τ₁ ∙ x ] WF⇐? = yes WFLamT1
+    ⊢λ₂∶ τ ∙ ê [ τ₃▸ ∙ τ~τ₁ ∙ x ] WF⇐?
+      with ê WF⇐?
+    ...  | yes wf = yes (WFLamE1 wf)
+    ...  | no !wf = no λ { (WFLamE1 wf) → !wf wf }
+    ⊢⸨λ₁∶ τ^ ∙ ě ⸩[ τ′!▸ ∙ x ] WF⇐? = yes WFLamT2
+    ⊢⸨λ₂∶ τ ∙ ê ⸩[ τ′!▸ ∙ x ] WF⇐?
+      with ê WF⇐?
+    ...  | yes wf = yes (WFLamE2 wf)
+    ...  | no !wf = no λ { (WFLamE2 wf) → !wf wf }
+    ⊢λ₁∶⸨ τ^ ⸩∙ ě [ τ₃▸ ∙ τ~̸τ₁ ∙ x ] WF⇐? = yes WFLamT3
+    ⊢λ₂∶⸨ τ ⸩∙ ê [ τ₃▸ ∙ τ~̸τ₁ ∙ x ] WF⇐?
+      with ê WF⇐?
+    ...  | yes wf = yes (WFLamE3 wf)
+    ...  | no !wf = no λ { (WFLamE3 wf) → !wf wf }
+    ⊢←₁ ê₁ ∙ ě₂ [ x ] WF⇐?
+      with ê₁ WF⇒?
+    ...  | yes wf = yes (WFLetL wf)
+    ...  | no !wf = no λ { (WFLetL wf) → !wf wf }
+    ⊢←₂ ě₁ ∙ ê₂ [ x ] WF⇐?
+      with ê₂ WF⇐?
+    ...  | yes wf = yes (WFLetR wf)
+    ...  | no !wf = no λ { (WFLetR wf) → !wf wf }
+    (⊢ ê₁ ∙₁ ě₂ ∙ ě₃) WF⇐?
+      with ê₁ WF⇐?
+    ...  | yes wf = yes (WFIfC wf)
+    ...  | no !wf = no λ { (WFIfC wf) → !wf wf }
+    (⊢ ě₁ ∙₂ ê₂ ∙ ě₃) WF⇐?
+      with ê₂ WF⇐?
+    ...  | yes wf = yes (WFIfL wf)
+    ...  | no !wf = no λ { (WFIfL wf) → !wf wf }
+    (⊢ ě₁ ∙₃ ě₂ ∙ ê₃) WF⇐?
+      with ê₃ WF⇐?
+    ...  | yes wf = yes (WFIfR wf)
+    ...  | no !wf = no λ { (WFIfR wf) → !wf wf }
+    ⊢⸨ ê ⸩[ τ~̸τ′ ∙ zsu ] WF⇐?
+      with ê WF⇒?
+    ...  | no !wf = no λ { (WFInconsistentTypes wf nc) → !wf wf }
+    ...  | yes wf with is-cursor? ê
+    ...              | yes ic = no λ { (WFInconsistentTypes wf nc) → nc ic }
+    ...              | no  nc = yes (WFInconsistentTypes wf nc)
+    ⊢∙ ê [ τ~τ′ ∙ zsu ] WF⇐?
+      with ê WF⇒?
+    ...  | yes wf = yes (WFSubsume wf)
+    ...  | no !wf = no λ { (WFSubsume wf) → !wf wf }
 
   -- functional cursor erasure
   mutual
