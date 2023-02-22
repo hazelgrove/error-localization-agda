@@ -55,6 +55,9 @@ module prelude where
               → (B : A → Set ℓ′) → x ≡ y → B x → B y
     transport B refl x = x
 
+    assimilation : ∀ {A : Set} (¬x ¬x′ : ¬ A) → ¬x ≡ ¬x′
+    assimilation ¬x ¬x′ = extensionality (λ x → ⊥-elim (¬x x))
+
   -- naturals
   module nat where
     open eq

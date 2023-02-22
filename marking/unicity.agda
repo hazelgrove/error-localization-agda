@@ -17,12 +17,18 @@ module marking.unicity where
       → (∋x : Γ ∋ x ∶ τ)
       → (∋x′ : Γ ∋ x ∶ τ)
       → ∋x ≡ ∋x′
-  ∋-≡ Z           Z                                                           = refl
-  ∋-≡ Z           (S x≢x _)                                                   = ⊥-elim (x≢x refl)
-  ∋-≡ (S x≢x _)   Z                                                           = ⊥-elim (x≢x refl)
+  ∋-≡ Z           Z         = refl
+  ∋-≡ Z           (S x≢x _) = ⊥-elim (x≢x refl)
+  ∋-≡ (S x≢x _)   Z         = ⊥-elim (x≢x refl)
   ∋-≡ (S x≢x′ ∋x) (S x≢x′′ ∋x′)
     rewrite ¬-≡ x≢x′ x≢x′′
           | ∋-≡ ∋x ∋x′ = refl
+
+  ∌-≡ : ∀ {Γ y}
+      → (∌y : Γ ∌ y)
+      → (∌y′ : Γ ∌ y)
+      → ∌y ≡ ∌y′
+  ∌-≡ ∌y ∌y′ = assimilation ∌y ∌y′
 
   ⇒-unicity : ∀ {Γ : Ctx} {e : UExp} {τ₁ τ₂ : Typ}
             → Γ ⊢ e ⇒ τ₁
@@ -51,11 +57,11 @@ module marking.unicity where
                → Γ ⊢ e ↬⇒ ě₁
                → Γ ⊢ e ↬⇒ ě₂
                → τ₁ ≡ τ₂
-  ↬⇒-τ-unicity ISHole         ISHole          = refl
-  ↬⇒-τ-unicity (ISVar ∋x)     (ISVar ∋x′)     = ∋→τ-≡ ∋x ∋x′
-  ↬⇒-τ-unicity (ISVar ∋x)     (ISUnbound ∌x)  = ⊥-elim (∌x ∋x)
-  ↬⇒-τ-unicity (ISUnbound ∌x) (ISVar ∋x)      = ⊥-elim (∌x ∋x)
-  ↬⇒-τ-unicity (ISUnbound ∌x) (ISUnbound ∌x′) = refl
+  ↬⇒-τ-unicity           ISHole         ISHole          = refl
+  ↬⇒-τ-unicity           (ISVar ∋x)     (ISVar ∋x′)     = ∋→τ-≡ ∋x ∋x′
+  ↬⇒-τ-unicity {τ₁ = τ₁} (ISVar ∋x)     (ISUnbound ∌x)  = ⊥-elim (∌x ⟨ τ₁ , ∋x ⟩)
+  ↬⇒-τ-unicity {τ₂ = τ₂} (ISUnbound ∌x) (ISVar ∋x)      = ⊥-elim (∌x ⟨ τ₂ , ∋x ⟩)
+  ↬⇒-τ-unicity           (ISUnbound ∌x) (ISUnbound ∌x′) = refl
   ↬⇒-τ-unicity (ISLam e↬⇒ě) (ISLam e↬⇒ě′)
     rewrite ↬⇒-τ-unicity e↬⇒ě e↬⇒ě′ = refl
   ↬⇒-τ-unicity (ISAp1 e₁↬⇒ě₁ τ▸ e₂↬⇐ě₂) (ISAp1 e₁↬⇒ě₁′ τ′▸ e₂↬⇐ě₂′)
@@ -91,9 +97,10 @@ module marking.unicity where
     ↬⇒-ě-unicity ISHole ISHole = refl
     ↬⇒-ě-unicity (ISVar ∋x) (ISVar ∋x′)
       rewrite ∋-≡ ∋x ∋x′ = refl
-    ↬⇒-ě-unicity (ISVar ∋x) (ISUnbound ∌x) = ⊥-elim (∌x ∋x)
-    ↬⇒-ě-unicity (ISUnbound ∌x) (ISVar ∋x) = ⊥-elim (∌x ∋x)
-    ↬⇒-ě-unicity (ISUnbound ∌x) (ISUnbound ∌x′) = refl
+    ↬⇒-ě-unicity (ISVar ∋x) (ISUnbound ∌x) = ⊥-elim (∌x ⟨ unknown , ∋x ⟩)
+    ↬⇒-ě-unicity (ISUnbound ∌x) (ISVar ∋x) = ⊥-elim (∌x ⟨ unknown , ∋x ⟩)
+    ↬⇒-ě-unicity (ISUnbound ∌x) (ISUnbound ∌x′)
+      rewrite assimilation ∌x ∌x′ = refl
     ↬⇒-ě-unicity (ISLam e↬⇒ě) (ISLam e↬⇒ě′)
       rewrite ↬⇒-ě-unicity e↬⇒ě e↬⇒ě′ = refl
     ↬⇒-ě-unicity (ISAp1 e₁↬⇒ě₁ τ▸ e₂↬⇐ě₂) (ISAp1 e₁↬⇒ě₁′ τ▸′ e₂↬⇐ě₂′)

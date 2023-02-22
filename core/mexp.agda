@@ -19,9 +19,8 @@ module core.mexp where
         → Γ ⊢⇒ unknown
 
       -- MSVar
-      ⊢_[_] : ∀ {Γ x τ}
+      ⊢_ : ∀ {Γ x τ}
         → (∋x : Γ ∋ x ∶ τ)
-        → (x : Var)
         → Γ ⊢⇒ τ
 
       -- MSLam
@@ -80,9 +79,8 @@ module core.mexp where
         → Γ ⊢⇒ τ
 
       -- MSUnbound
-      -- TODO Enforce that y is unboudnd in Γ
-      ⊢⟦_⟧ : ∀ {Γ}
-        → (y : FreeVar)
+      ⊢⟦_⟧ : ∀ {Γ y}
+        → (∌y : Γ ∌ y)
         → Γ ⊢⇒ unknown
 
       -- MSInconsistentBranches
@@ -100,8 +98,7 @@ module core.mexp where
 
       MSuVar : ∀ {Γ x τ}
         → {∋x : Γ ∋ x ∶ τ}
-        → {x : Var}
-        → MSubsumable {Γ} (⊢ ∋x [ x ])
+        → MSubsumable {Γ} (⊢ ∋x)
 
       MSuAp1 : ∀ {Γ τ τ₁ τ₂}
         → {ě₁ : Γ ⊢⇒ τ}
@@ -130,9 +127,9 @@ module core.mexp where
       MSuFalse : ∀ {Γ}
         → MSubsumable {Γ} (⊢ff)
 
-      MSuUnbound : ∀ {Γ}
-        → {x : FreeVar}
-        → MSubsumable {Γ} (⊢⟦ x ⟧)
+      MSuUnbound : ∀ {Γ y}
+        → {∌y : Γ ∌ y}
+        → MSubsumable {Γ} (⊢⟦ ∌y ⟧)
 
       MSuInconsistentBranches : ∀ {Γ τ₁ τ₂}
         → {ě₁ : Γ ⊢⇐ bool}

@@ -11,9 +11,9 @@ module marking.totality where
     ↬⇒-totality Γ (‵⦇-⦈^ x) = ⟨ unknown , ⟨ ⊢⦇-⦈^ x , ISHole ⟩ ⟩
     ↬⇒-totality Γ (‵ x)
       with Γ ∋?? x
-    ...  | yes (Z {Γ} {x} {τ})                   = ⟨ τ       , ⟨ ⊢ Z [ x ]           , ISVar Z           ⟩ ⟩
-    ...  | yes (S {Γ} {x} {x′} {τ} {τ′} x≢x′ ∋x) = ⟨ τ       , ⟨ ⊢ (S x≢x′ ∋x) [ x ] , ISVar (S x≢x′ ∋x) ⟩ ⟩
-    ...  | no  ∌x                                = ⟨ unknown , ⟨ ⊢⟦ x ⟧              , ISUnbound ∌x      ⟩ ⟩
+    ...  | yes (Z {τ = τ})         = ⟨ τ       , ⟨ ⊢ Z           , ISVar Z           ⟩ ⟩
+    ...  | yes (S {τ = τ} x≢x′ ∋x) = ⟨ τ       , ⟨ ⊢ (S x≢x′ ∋x) , ISVar (S x≢x′ ∋x) ⟩ ⟩
+    ...  | no  ∌x                  = ⟨ unknown , ⟨ ⊢⟦ ∌x ⟧       , ISUnbound ∌x      ⟩ ⟩
     ↬⇒-totality Γ (‵λ x ∶ τ ∙ e)
       with ⟨ τ′ , ⟨ ě , e↬⇒ě ⟩ ⟩ ← ↬⇒-totality (Γ , x ∶ τ) e
          = ⟨ τ -→ τ′ , ⟨ ⊢λ x ∶ τ ∙ ě , ISLam e↬⇒ě ⟩ ⟩
@@ -67,8 +67,8 @@ module marking.totality where
          = ↬⇐-subsume ě τ′ e↬⇒ě USuHole
     ↬⇐-totality Γ τ′ e@(‵ x)
       with ↬⇒-totality Γ e
-    ...  | ⟨ .unknown , ⟨ ě@(⊢⟦ x ⟧) , e↬⇒ě ⟩ ⟩ = ↬⇐-subsume ě τ′ e↬⇒ě USuVar
-    ...  | ⟨ τ        , ⟨ ě@(⊢ ∋x [ x ]) , e↬⇒ě ⟩ ⟩ = ↬⇐-subsume ě τ′ e↬⇒ě USuVar
+    ...  | ⟨ .unknown , ⟨ ě@(⊢⟦ ∌x ⟧) , e↬⇒ě ⟩ ⟩ = ↬⇐-subsume ě τ′ e↬⇒ě USuVar
+    ...  | ⟨ τ        , ⟨ ě@(⊢ ∋x) , e↬⇒ě ⟩ ⟩ = ↬⇐-subsume ě τ′ e↬⇒ě USuVar
     ↬⇐-totality Γ τ′ e@(‵λ x ∶ τ ∙ e′)
       with τ′ ▸?
     ...  | yes ⟨ τ₁ , ⟨ τ₂ , τ′▸ ⟩ ⟩
