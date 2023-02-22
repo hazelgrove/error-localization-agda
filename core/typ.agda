@@ -334,6 +334,14 @@ module core.typ where
       with ⟨ τ₁″ , ⊔⇒τ₁″ ⟩ ← ~→⊔ τ₁~τ₁′
          | ⟨ τ₂″ , ⊔⇒τ₂″ ⟩ ← ~→⊔ τ₂~τ₂′ = ⟨ τ₁″ -→ τ₂″ , TJArr ⊔⇒τ₁″ ⊔⇒τ₂″ ⟩
 
+    -- join nonexistence means types are inconsistent
+    ¬⊔→~̸ : ∀ {τ₁ τ₂} → ¬ (∃[ τ ] τ₁ ⊔ τ₂ ⇒ τ) → τ₁ ~̸ τ₂
+    ¬⊔→~̸ ¬τ₁⊔τ₂ = λ { τ₁~τ₂ → ¬τ₁⊔τ₂ (~→⊔ τ₁~τ₂) }
+
+    -- inconsistent types have no join
+    ~̸→¬⊔ : ∀ {τ₁ τ₂} → τ₁ ~̸ τ₂ → ¬ (∃[ τ ] τ₁ ⊔ τ₂ ⇒ τ)
+    ~̸→¬⊔ τ₁~̸τ₂ = λ { ⟨ τ , τ₁⊔τ₂ ⟩ → τ₁~̸τ₂ (⊔→~ τ₁⊔τ₂) }
+
   open equality public
   open base public
   open consistency public
