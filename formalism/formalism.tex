@@ -1812,15 +1812,15 @@ Type actions are the same as in the untyped model.
 \begin{mathpar}
   \judgment{
     \AUTAction{\ZTMV_1}{\ZTMV_1'}{\AMV} \\
-    \consistent{\cursorErase{\ZTMV_1}}{\cursorErase{\ZTMV_1'}}
+    \equal{\cursorErase{\ZTMV_1}}{\cursorErase{\ZTMV_1'}}
   }{
     \ASEAction{\ctx}{\ZLamT{x}{\ZTMV_1}{\ECMV}}{\TArrow{\cursorErase{\ZTMV_1}}{\TMV_2}}{\ZLamT{x}{\ZTMV_1'}{\ECMV}}{\TArrow{\cursorErase{\ZTMV_1}}{\TMV_2}}{\AMV}
   }{ASEZipLamT1}
 
   \judgment{
     \AUTAction{\ZTMV_1}{\ZTMV_1'}{\AMV} \\
-    \inconsistent{\cursorErase{\ZTMV_1}}{\cursorErase{\ZTMV_1'}} \\
-    \ctxSynFixedInto{\extendCtx{\ctx}{x}{\ZTMV_1'}}{\erase{\ECMV}}{\ECMV'}{\TMV_2'}
+    \notEqual{\cursorErase{\ZTMV_1}}{\cursorErase{\ZTMV_1'}} \\
+    \ctxSynFixedInto{\extendCtx{\ctx}{x}{\cursorErase{\ZTMV_1'}}}{\erase{\ECMV}}{\ECMV'}{\TMV_2'}
   }{
     \ASEAction{\ctx}{\ZLamT{x}{\ZTMV_1}{\ECMV}}{\TArrow{\cursorErase{\ZTMV_1}}{\TMV_2}}{\ZLamT{x}{\ZTMV_1'}{\ECMV'}}{\TArrow{\cursorErase{\ZTMV_1'}}{\TMV_2'}}{\AMV}
   }{ASEZipLamT2}
@@ -1844,11 +1844,20 @@ Type actions are the same as in the untyped model.
 
   \judgment{
     \ctxSynType{\ctx}{\cursorErase{\ZMV_1}}{\TMV_1} \\
+    \ASEAction{\ctx}{\ZMV_1}{\TMV_1}{\ZMV_1'}{\TMV_1'}{\AMV} \\\\
+    \matchedArrow{\TMV_1'}{\TMV_2}{\TMV_3} \\
+    \ctxNotAnaType{\ctx}{\ECMV_2}{\TMV_2}
+  }{
+    \ASEAction{\ctx}{\ZApL{\ZMV_1}{\ECMV_2}}{\TMV}{\ZApL{\ZMV_1'}{\ECInconType{\ECMV_2}}}{\TMV_3}{\AMV}
+  }{ASEZipApL2}
+
+  \judgment{
+    \ctxSynType{\ctx}{\cursorErase{\ZMV_1}}{\TMV_1} \\
     \ASEAction{\ctx}{\ZMV}{\TMV_1}{\ZMV'}{\TMV_1'}{\AMV} \\\\
     \notMatchedArrow{\TMV_1'}
   }{
     \ASEAction{\ctx}{\ZApL{\ZMV_1}{\ECMV_2}}{\TMV}{\ZApL{\ECInconType{\ZMV_1'}}{\ECMV_2}}{\TUnknown}{\AMV}
-  }{ASEZipApL2}
+  }{ASEZipApL3}
 
   \judgment{
     \ctxSynType{\ctx}{\cursorErase{\ZMV_1}}{\TMV_1} \\
@@ -1857,7 +1866,16 @@ Type actions are the same as in the untyped model.
     \ctxAnaType{\ctx}{\ECMV_2}{\TMV_2}
   }{
     \ASEAction{\ctx}{\ZApL{\ECInconType{\ZMV_1}}{\ECMV_2}}{\TUnknown}{\ZApL{\ZMV_1'}{\ECMV_2}}{\TMV_3}{\AMV}
-  }{ASEZipApL3}
+  }{ASEZipApL4}
+
+  \judgment{
+    \ctxSynType{\ctx}{\cursorErase{\ZMV_1}}{\TMV_1} \\
+    \ASEAction{\ctx}{\ZMV_1}{\TMV_1}{\ZMV_1'}{\TMV_1'}{\AMV} \\\\
+    \matchedArrow{\TMV_1'}{\TMV_2}{\TMV_3} \\
+    \ctxNotAnaType{\ctx}{\ECMV_2}{\TMV_2}
+  }{
+    \ASEAction{\ctx}{\ZApL{\ECInconType{\ZMV_1}}{\ECMV_2}}{\TUnknown}{\ZApL{\ZMV_1'}{\ECInconType{\ECMV_2}}}{\TMV_3}{\AMV}
+  }{ASEZipApL5}
 
   \judgment{
     \ctxSynType{\ctx}{\cursorErase{\ZMV_1}}{\TMV_1} \\
@@ -1865,7 +1883,7 @@ Type actions are the same as in the untyped model.
     \notMatchedArrow{\TMV_1'}
   }{
     \ASEAction{\ctx}{\ZApL{\ECInconType{\ZMV_1}}{\ECMV_2}}{\TUnknown}{\ZApL{\ECInconType{\ZMV_1'}}{\ECMV_2}}{\TUnknown}{\AMV}
-  }{ASEZipApL4}
+  }{ASEZipApL6}
 
   \judgment{
     \ctxSynType{\ctx}{\ECMV_1}{\TMV_1} \\
