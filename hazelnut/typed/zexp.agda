@@ -1,29 +1,10 @@
 open import prelude
 open import core
 
+open import hazelnut.typed.ztyp
+
 -- cursor expressions
 module hazelnut.typed.zexp where
-  -- zippered types
-  data ZTyp : Set where
-    ▹_◃   : (τ  : Typ)  → ZTyp
-    _-→₁_ : (τ^ : ZTyp) → (τ : Typ)   → ZTyp
-    _-→₂_ : (τ  : Typ)  → (τ^ : ZTyp) → ZTyp
-
-  infixr 25  _-→₁_
-  infixr 25  _-→₂_
-
-  -- judgmental type cursor erasure
-  data erase-τ : (τ^ : ZTyp) → (τ : Typ) → Set where
-    ETTop  : ∀ {τ} → erase-τ (▹ τ ◃) τ
-    ETArr1 : ∀ {τ₁^ τ₂ τ₁} → (τ₁^◇ : erase-τ τ₁^ τ₁) → erase-τ (τ₁^ -→₁ τ₂) (τ₁ -→ τ₂)
-    ETArr2 : ∀ {τ₁ τ₂^ τ₂} → (τ₂^◇ : erase-τ τ₂^ τ₂) → erase-τ (τ₁ -→₂ τ₂^) (τ₁ -→ τ₂)
-
-  -- functional type cursor erasure
-  _◇τ : (τ^ : ZTyp) → Typ
-  ▹ τ ◃      ◇τ = τ
-  (τ^ -→₁ τ) ◇τ = (τ^ ◇τ) -→ τ
-  (τ -→₂ τ^) ◇τ = τ -→ (τ^ ◇τ)
-
   -- zippered expressions
   mutual
     data -_⊢⇒_ : (Γ : MCtx) → (τ : Typ) → Set where
@@ -33,14 +14,14 @@ module hazelnut.typed.zexp where
 
       ⊢λ₁∶_∙_[_] : ∀ {Γ τ}
         → (τ^ : ZTyp)
-        → (ě : Γ ⊢⇒ τ)
+        → (ě : Γ , (τ^ ◇τ) ⊢⇒ τ)
         → (x : Var)
         → - Γ ⊢⇒ ((τ^ ◇τ) -→ τ)
 
       ⊢λ₂∶_∙_[_] : ∀ {Γ τ′}
-        → (x : Var)
         → (τ : Typ)
-        → (ê : - Γ ⊢⇒ τ′)
+        → (ê : - Γ , τ ⊢⇒ τ′)
+        → (x : Var)
         → - Γ ⊢⇒ (τ -→ τ′)
 
       ⊢_∙₁_[_] : ∀ {Γ τ τ₁ τ₂}
