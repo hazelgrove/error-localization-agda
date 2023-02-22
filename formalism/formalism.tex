@@ -1420,92 +1420,92 @@ Zippered types are the same as in the untyped model.
 
   \judgment{ }{
     \zWellFormed{\ZLamT{x}{\ZTMV}{\ECMV}}
-  }{WFLam1}
+  }{WFLamT}
 
   \judgment{
     \zWellFormed{\ZMV}
   }{
     \zWellFormed{\ZLamE{x}{\TMV}{\ZMV}}
-  }{WFLam2}
+  }{WFLamE}
 
   \judgment{
     \zWellFormed{\ZMV}
   }{
     \zWellFormed{\ZApL{\ZMV}{\ECMV}}
-  }{WFAp1}
+  }{WFApL}
 
   \judgment{
     \zWellFormed{\ZMV}
   }{
     \zWellFormed{\ZApR{\ECMV}{\ZMV}}
-  }{WFAp2}
+  }{WFApR}
 
   \judgment{
     \zWellFormed{\ZMV}
   }{
     \zWellFormed{\ZLetL{x}{\ZMV}{\ECMV}}
-  }{WFLet1}
+  }{WFLetL}
 
   \judgment{
     \zWellFormed{\ZMV}
   }{
     \zWellFormed{\ZLetR{x}{\ECMV}{\ZMV}}
-  }{WFLet2}
+  }{WFLetR}
 
   \judgment{
     \zWellFormed{\ZMV}
   }{
     \zWellFormed{\ZPlusL{\ZMV}{\ECMV}}
-  }{WFPlus1}
+  }{WFPlusL}
 
   \judgment{
     \zWellFormed{\ZMV}
   }{
     \zWellFormed{\ZPlusR{\ECMV}{\ZMV}}
-  }{WFPlus2}
+  }{WFPlusR}
 
   \judgment{
     \zWellFormed{\ZMV}
   }{
     \zWellFormed{\ZIfC{\ZMV}{\ECMV_1}{\ECMV_2}}
-  }{WFIf1}
+  }{WFIfC}
 
   \judgment{
     \zWellFormed{\ZMV}
   }{
     \zWellFormed{\ZIfL{\ECMV_1}{\ZMV}{\ECMV_2}}
-  }{WFIf2}
+  }{WFIfL}
 
   \judgment{
     \zWellFormed{\ZMV}
   }{
     \zWellFormed{\ZIfL{\ZMV}{\ECMV_1}{\ECMV_2}}
-  }{WFIf3}
+  }{WFIfC}
 
   \judgment{
     \zWellFormed{\ZMV}
   }{
     \zWellFormed{\ZInconBrC{\ZMV}{\ECMV_1}{\ECMV_2}}
-  }{WFInconsistentBranches1}
+  }{WFInconsistentBranchesC}
 
   \judgment{
     \zWellFormed{\ZMV}
   }{
     \zWellFormed{\ZInconBrL{\ECMV_1}{\ZMV}{\ECMV_2}}
-  }{WFInconsistentBranches2}
+  }{WFInconsistentBranchesL}
 
   \judgment{
     \zWellFormed{\ZMV}
   }{
     \zWellFormed{\ZInconBrL{\ZMV}{\ECMV_1}{\ECMV_2}}
-  }{WFInconsistentBranches3}
+  }{WFInconsistentBranchesR}
 
   \judgment{
     \notEqual{\ZMV}{\ZCursor{\ECMV}} \\
     \zWellFormed{\ZMV}
   }{
     \zWellFormed{\ZInconType{\ZMV}}
-  }{WFInconsistentType}
+  }{WFInconsistentTypes}
 \end{mathpar}
 
 \subsection{Cursor Erasure}
