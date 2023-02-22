@@ -188,7 +188,7 @@ module core.mexp where
       ⊢_∙_∙_ : ∀ {Γ τ}
         → (ě₁ : Γ ⊢⇐ bool)
         → (ě₂ : Γ ⊢⇐ τ)
-        → (ě₂ : Γ ⊢⇐ τ)
+        → (ě₃ : Γ ⊢⇐ τ)
         → Γ ⊢⇐ τ
 
       -- MAInconsistentTypes
