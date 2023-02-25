@@ -426,7 +426,7 @@ module hazelnut.typed.action where
         → Γ ⊢ ⊢▹ ě ◃ ~ construct (ap₁ u) ~⇒ ⊢⸨ ě ⸩∙₂ (⊢▹ ⊢∙ ⊢⦇-⦈^ u [ ~-unknown₂ ∙ MSuHole ] ◃) [ τ!▸ ]
       ESConApR : ∀ {Γ τ u}
         → {ě : Γ ⊢⇒ τ}
-        → Γ ⊢ ⊢▹ ě ◃ ~ construct (ap₂ u) ~⇒ ⊢ (⊢▹ ⊢⦇-⦈^ u ◃) ∙₁ (proj₁ (⊢⇐-totality ě)) [ TMAHole ]
+        → Γ ⊢ ⊢▹ ě ◃ ~ construct (ap₂ u) ~⇒ ⊢ (⊢▹ ⊢⦇-⦈^ u ◃) ∙₁ (proj₁ (⊢⇒-⊢⇐ ě)) [ TMAHole ]
       ESConLet1 : ∀ {Γ τ x u}
         → {ě : Γ ⊢⇒ τ}
         → Γ ⊢ ⊢▹ ě ◃ ~ construct (let₁ x u) ~⇒ (⊢ x ←₂ ě ∙ ⊢▹ ⊢⦇-⦈^ u ◃)
@@ -440,27 +440,27 @@ module hazelnut.typed.action where
       ESConPlusL1 : ∀ {Γ τ u}
         → {ě : Γ ⊢⇒ τ}
         → (τ~num : τ ~ num)
-        → Γ ⊢ ⊢▹ ě ◃ ~ construct (plus₁ u) ~⇒ (⊢ (proj₁ (⊢⇐-totality ě)) +₂ (⊢▹ ⊢∙ ⊢⦇-⦈^ u [ ~-unknown₂ ∙ MSuHole ] ◃))
+        → Γ ⊢ ⊢▹ ě ◃ ~ construct (plus₁ u) ~⇒ (⊢ (proj₁ (⊢⇒-⊢⇐ ě)) +₂ (⊢▹ ⊢∙ ⊢⦇-⦈^ u [ ~-unknown₂ ∙ MSuHole ] ◃))
       ESConPlusL2 : ∀ {Γ τ u}
         → {ě : Γ ⊢⇒ τ}
         → (τ~̸num : τ ~̸ num)
-        → Γ ⊢ ⊢▹ ě ◃ ~ construct (plus₁ u) ~⇒ (⊢ (proj₁ (⊢⇐-totality ě)) +₂ (⊢▹ ⊢∙ ⊢⦇-⦈^ u [ ~-unknown₂ ∙ MSuHole ] ◃))
+        → Γ ⊢ ⊢▹ ě ◃ ~ construct (plus₁ u) ~⇒ (⊢ (proj₁ (⊢⇒-⊢⇐ ě)) +₂ (⊢▹ ⊢∙ ⊢⦇-⦈^ u [ ~-unknown₂ ∙ MSuHole ] ◃))
       ESConPlusR1 : ∀ {Γ τ u}
         → {ě : Γ ⊢⇒ τ}
         → (τ~num : τ ~ num)
-        → Γ ⊢ ⊢▹ ě ◃ ~ construct (plus₂ u) ~⇒ (⊢ (⊢▹ ⊢∙ ⊢⦇-⦈^ u [ ~-unknown₂ ∙ MSuHole ] ◃) +₁ (proj₁ (⊢⇐-totality ě)))
+        → Γ ⊢ ⊢▹ ě ◃ ~ construct (plus₂ u) ~⇒ (⊢ (⊢▹ ⊢∙ ⊢⦇-⦈^ u [ ~-unknown₂ ∙ MSuHole ] ◃) +₁ (proj₁ (⊢⇒-⊢⇐ ě)))
       ESConPlusR2 : ∀ {Γ τ u}
         → {ě : Γ ⊢⇒ τ}
         → (τ~̸num : τ ~̸ num)
-        → Γ ⊢ ⊢▹ ě ◃ ~ construct (plus₂ u) ~⇒ (⊢ (⊢▹ ⊢∙ ⊢⦇-⦈^ u [ ~-unknown₂ ∙ MSuHole ] ◃) +₁ (proj₁ (⊢⇐-totality ě)))
+        → Γ ⊢ ⊢▹ ě ◃ ~ construct (plus₂ u) ~⇒ (⊢ (⊢▹ ⊢∙ ⊢⦇-⦈^ u [ ~-unknown₂ ∙ MSuHole ] ◃) +₁ (proj₁ (⊢⇒-⊢⇐ ě)))
       ESConIfC1 : ∀ {Γ τ u₁ u₂}
         → {ě : Γ ⊢⇒ τ}
         → (τ~bool : τ ~ bool)
-        → Γ ⊢ ⊢▹ ě ◃ ~ construct (if₁ u₁ u₂) ~⇒ (⊢ (proj₁ (⊢⇐-totality ě)) ∙₂ (⊢▹ ⊢⦇-⦈^ u₁ ◃) ∙ (⊢⦇-⦈^ u₂) [ TJUnknown ])
+        → Γ ⊢ ⊢▹ ě ◃ ~ construct (if₁ u₁ u₂) ~⇒ (⊢ (proj₁ (⊢⇒-⊢⇐ ě)) ∙₂ (⊢▹ ⊢⦇-⦈^ u₁ ◃) ∙ (⊢⦇-⦈^ u₂) [ TJUnknown ])
       ESConIfC2 : ∀ {Γ τ u₁ u₂}
         → {ě : Γ ⊢⇒ τ}
         → (τ~̸bool : τ ~̸ bool)
-        → Γ ⊢ ⊢▹ ě ◃ ~ construct (if₁ u₁ u₂) ~⇒ (⊢ (proj₁ (⊢⇐-totality ě)) ∙₂ (⊢▹ ⊢⦇-⦈^ u₁ ◃) ∙ (⊢⦇-⦈^ u₂) [ TJUnknown ])
+        → Γ ⊢ ⊢▹ ě ◃ ~ construct (if₁ u₁ u₂) ~⇒ (⊢ (proj₁ (⊢⇒-⊢⇐ ě)) ∙₂ (⊢▹ ⊢⦇-⦈^ u₁ ◃) ∙ (⊢⦇-⦈^ u₂) [ TJUnknown ])
       ESConIfL : ∀ {Γ τ u₁ u₂}
         → {ě : Γ ⊢⇒ τ}
         → Γ ⊢ ⊢▹ ě ◃ ~ construct (if₂ u₁ u₂) ~⇒ (⊢ (⊢▹ ⊢∙ ⊢⦇-⦈^ u₁ [ ~-unknown₂ ∙ MSuHole ] ◃) ∙₁ ě ∙ (⊢⦇-⦈^ u₂) [ ⊔-unknown₂ ])
