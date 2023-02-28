@@ -568,16 +568,7 @@ expressions:
 \end{array}\]
 
 \subsection{Metatheorems}
-\begin{theorem}[name=Mark Insertion] \
-  \begin{enumerate}
-    \item If $\ctxSynFixedInto{\ctx}{\EMV}{\ECMV}{\TMV}$, then $\ctxSynType{\ctx}{\ECMV}{\TMV}$ and
-      $\erasesTo{\ECMV}{\EMV}$.
-    \item If $\ctxAnaFixedInto{\ctx}{\EMV}{\ECMV}{\TMV}$, then $\ctxAnaType{\ctx}{\ECMV}{\TMV}$ and
-      $\erasesTo{\ECMV}{\EMV}$.
-  \end{enumerate}
-\end{theorem}
-
-\begin{theorem}[name=Totality] \
+\begin{theorem}[name=Marking Totality] \
   \begin{enumerate}
     \item For all $\ctx$ and $\EMV$, there exist $\ECMV$ and $\TMV$ such that
       $\ctxSynFixedInto{\ctx}{\EMV}{\ECMV}{\TMV}$.
@@ -586,7 +577,36 @@ expressions:
   \end{enumerate}
 \end{theorem}
 
-\begin{theorem}[name=Unicity] \
+\begin{theorem}[name=Marking Well-Formedness] \
+  \begin{enumerate}
+    \item If $\ctxSynFixedInto{\ctx}{\EMV}{\ECMV}{\TMV}$, then $\ctxSynType{\ctx}{\ECMV}{\TMV}$ and
+      $\erasesTo{\ECMV}{\EMV}$.
+    \item If $\ctxAnaFixedInto{\ctx}{\EMV}{\ECMV}{\TMV}$, then $\ctxAnaType{\ctx}{\ECMV}{\TMV}$ and
+      $\erasesTo{\ECMV}{\EMV}$.
+  \end{enumerate}
+\end{theorem}
+
+\begin{theorem}[name=Marking of Well-Typed/Ill-Typed Expressions] \
+  \begin{enumerate}
+    \item \begin{enumerate}
+        \item If $\ctxSynType{\ctx}{\EMV}{\TMV}$ and $\ctxSynFixedInto{\ctx}{\EMV}{\ECMV}{\TMV}$,
+          then $\imageIs{\EMV}{\ECMV}$.
+        \item If $\ctxAnaType{\ctx}{\EMV}{\TMV}$ and $\ctxAnaFixedInto{\ctx}{\EMV}{\ECMV}{\TMV}$,
+          then $\imageIs{\EMV}{\ECMV}$.
+      \end{enumerate}
+
+    \item \begin{enumerate}
+        \item If there does not exist $\TMV$ such that $\ctxSynType{\ctx}{\EMV}{\TMV}$, then for all
+          $\ECMV$ and $\TMV'$ such that $\ctxSynFixedInto{\ctx}{\EMV}{\ECMV}{\TMV'}$, we have
+          $\imageIsNot{\EMV}{\ECMV}$.
+        \item If there does not exist $\TMV$ such that $\ctxAnaType{\ctx}{\EMV}{\TMV}$, then for all
+          $\ECMV$ and $\TMV'$ such that $\ctxAnaFixedInto{\ctx}{\EMV}{\ECMV}{\TMV'}$, we have
+          $\imageIsNot{\EMV}{\ECMV}$.
+      \end{enumerate}
+  \end{enumerate}
+\end{theorem}
+
+\begin{theorem}[name=Marking Unicity] \
   \begin{enumerate}
     \item If $\ctxSynFixedInto{\ctx}{\EMV}{\ECMV_1}{\TMV_1}$ and
       $\ctxSynFixedInto{\ctx}{\EMV}{\ECMV_2}{\TMV_2}$, then $\ECMV_1 = \ECMV_2$ and $\TMV_1 =
@@ -595,27 +615,6 @@ expressions:
       $\ctxAnaFixedInto{\ctx}{\EMV}{\ECMV_2}{\TMV}$, then $\ECMV_1 = \ECMV_2$.
   \end{enumerate}
 \end{theorem}
-
-\begin{theorem}[name=?] \
-  \begin{enumerate}
-    \item \begin{enumerate}
-        \item If $\ctxSynType{\ctx}{\EMV}{\TMV}$, then $\ctxSynFixedInto{\ctx}{\EMV}{\ECMV}{\TMV}$
-          such that $\imageIs{\EMV}{\ECMV}$.
-        \item If there does not exist $\TMV$ such that $\ctxSynType{\ctx}{\EMV}{\TMV}$, then for all
-          $\ECMV$ and $\TMV'$ such that $\ctxSynFixedInto{\ctx}{\EMV}{\ECMV}{\TMV'}$, we have
-          $\imageIsNot{\EMV}{\ECMV}$.
-      \end{enumerate}
-
-    \item \begin{enumerate}
-        \item If $\ctxAnaType{\ctx}{\EMV}{\TMV}$, then $\ctxAnaFixedInto{\ctx}{\EMV}{\ECMV}{\TMV}$
-          such that $\imageIs{\EMV}{\ECMV}$.
-        \item If there does not exist $\TMV$ such that $\ctxAnaType{\ctx}{\EMV}{\TMV}$, then for all
-          $\ECMV$ and $\TMV'$ such that $\ctxAnaFixedInto{\ctx}{\EMV}{\ECMV}{\TMV'}$, we have
-          $\imageIsNot{\EMV}{\ECMV}$.
-      \end{enumerate}
-  \end{enumerate}
-\end{theorem}
-
 \subsection{Alternative Rules}
 [MSAp2] handles the case that the expression applied in function application does not synthesize a
 type that is a matched arrow type. Treating the expression in that position to be in a
