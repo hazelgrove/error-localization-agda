@@ -917,11 +917,12 @@ types, e.g. pairs:
 
 \subsection{Syntax}
 \[\begin{array}{rrcl}
-  \ZTMName & \ZTMV & \Coloneqq & \ZTCursor{\TMV} \mid \ZTArrowL{\ZTMV}{\TMV} \mid \ZTArrowR{\TMV}{\ZTMV} \\
+  \ZTMName & \ZTMV & \Coloneqq & \ZTCursor{\TMV} \mid \ZTArrowL{\ZTMV}{\TMV} \mid \ZTArrowR{\TMV}{\ZTMV} \mid \ZTProdL{\ZTMV}{\TMV} \mid \ZTProdR{\TMV}{\ZTMV} \\
   \ZMName  & \ZMV  & \Coloneqq & \ZCursor{\EMV} \mid \ZLamT{x}{\ZTMV}{\EMV} \mid \ZLamE{x}{\TMV}{\ZMV} \mid \ZApL{\ZMV}{\EMV} \mid \ZApR{\EMV}{\ZMV} \\
            &       & \mid         & \ZLetL{x}{\ZMV}{\EMV} \mid \ZLetR{x}{\EMV}{\ZMV} \\
            &       & \mid         & \ZPlusL{\ZMV}{\EMV} \mid \ZPlusR{\EMV}{\ZMV} \\
-           &       & \mid         & \ZIfC{\ZMV}{\EMV}{\EMV} \mid \ZIfL{\EMV}{\ZMV}{\EMV} \mid \ZIfR{\EMV}{\EMV}{\ZMV}
+           &       & \mid         & \ZIfC{\ZMV}{\EMV}{\EMV} \mid \ZIfL{\EMV}{\ZMV}{\EMV} \mid \ZIfR{\EMV}{\EMV}{\ZMV} \\
+           &       & \mid         & \ZPairL{\ZMV}{\EMV} \mid \ZPairR{\EMV}{\ZMV} \mid \ZProjL{\ZMV} \mid \ZProjR{\ZMV} \\
 \end{array}\]
 
 \subsection{Cursor Erasure}
@@ -933,6 +934,8 @@ types, e.g. pairs:
   \cursorErasesToRow{\ZTCursor{\TMV}}{\TMV} \\
   \cursorErasesToRow{(\ZTArrowL{\ZTMV}{\TMV})}{\TArrow{\cursorErase{\ZTMV}}{\TMV}} \\
   \cursorErasesToRow{(\ZTArrowR{\TMV}{\ZTMV})}{\TArrow{\TMV}{\cursorErase{\ZTMV}}} \\
+  \cursorErasesToRow{(\ZTProdL{\ZTMV}{\TMV})}{\TProd{\cursorErase{\ZTMV}}{\TMV}} \\
+  \cursorErasesToRow{(\ZTProdR{\TMV}{\ZTMV})}{\TProd{\TMV}{\cursorErase{\ZTMV}}} \\
 \end{array}\]
 
 \subsubsection{Expression Cursor Erasure}
@@ -951,6 +954,10 @@ types, e.g. pairs:
   \cursorErasesToRow{(\ZIfC{\ZMV}{\EMV_1}{\EMV_2})}{\EIf{\cursorErase{\ZMV}}{\EMV_1}{\EMV_2}} \\
   \cursorErasesToRow{(\ZIfL{\EMV_1}{\ZMV}{\EMV_2})}{\EIf{\EMV_1}{\cursorErase{\ZMV}}{\EMV_2}} \\
   \cursorErasesToRow{(\ZIfL{\EMV_1}{\EMV_2}{\ZMV})}{\EIf{\EMV_1}{\EMV_2}{\cursorErase{\ZMV}}} \\
+  \cursorErasesToRow{(\ZPairL{\ZMV}{\EMV})}{\EPair{\cursorErase{\ZMV}}{\EMV}} \\
+  \cursorErasesToRow{(\ZPairR{\EMV}{\ZMV})}{\EPair{\EMV}{\cursorErase{\ZMV}}} \\
+  \cursorErasesToRow{(\ZProjL{\ZMV})}{\EProjL{\cursorErase{\ZMV}}} \\
+  \cursorErasesToRow{(\ZProjR{\ZMV})}{\EProjR{\cursorErase{\ZMV}}} \\
 \end{array}\]
 
 \subsection{Action Model}
