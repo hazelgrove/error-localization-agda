@@ -8,9 +8,13 @@ module hazelnut.untyped.zexp where
     ▹_◃   : (τ : Typ) → ZTyp
     _-→₁_ : (τ^ : ZTyp) → (τ : Typ) → ZTyp
     _-→₂_ : (τ : Typ) → (τ^ : ZTyp) → ZTyp
+    _-×₁_ : (τ^ : ZTyp) → (τ : Typ) → ZTyp
+    _-×₂_ : (τ : Typ) → (τ^ : ZTyp) → ZTyp
 
   infixr 25  _-→₁_
   infixr 25  _-→₂_
+  infixr 24  _-×₁_
+  infixr 24  _-×₂_
 
   -- zippered expressions
   data ZExp : Set where

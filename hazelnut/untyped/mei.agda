@@ -17,6 +17,14 @@ module hazelnut.untyped.mei where
     rewrite movement-erasure-invariance-τ τ^+>τ^′ = refl
   movement-erasure-invariance-τ (TZipArr2 τ^+>τ^′)
     rewrite movement-erasure-invariance-τ τ^+>τ^′ = refl
+  movement-erasure-invariance-τ TMProdChild1       = refl
+  movement-erasure-invariance-τ TMProdChild2       = refl
+  movement-erasure-invariance-τ TMProdParent1      = refl
+  movement-erasure-invariance-τ TMProdParent2      = refl
+  movement-erasure-invariance-τ (TZipProd1 τ^+>τ^′)
+    rewrite movement-erasure-invariance-τ τ^+>τ^′ = refl
+  movement-erasure-invariance-τ (TZipProd2 τ^+>τ^′)
+    rewrite movement-erasure-invariance-τ τ^+>τ^′ = refl
 
   movement-erasure-invariance-e : ∀ {ê ê′ δ} → ê + move δ +e> ê′ → ê ◇ ≡ ê′ ◇
   movement-erasure-invariance-e EMLamChild1       = refl

@@ -11,6 +11,8 @@ module hazelnut.action where
   data Shape : Set where
     tarrow₁ : Shape
     tarrow₂ : Shape
+    tprod₁ : Shape
+    tprod₂ : Shape
     tnum    : Shape
     tbool   : Shape
     var     : (x : Var) → Shape
@@ -55,6 +57,8 @@ module hazelnut.action where
     data _tshape : Shape → Set where
       STArrow₁ : tarrow₁ tshape
       STArrow₂ : tarrow₂ tshape
+      STProd₁  : tprod₁ tshape
+      STProd₂  : tprod₂ tshape
       STNum    : tnum tshape
       STBool   : tbool tshape
 
@@ -95,6 +99,8 @@ module hazelnut.action where
     TShape? : (ψ : Shape) → Dec (ψ tshape)
     TShape? tarrow₁     = yes STArrow₁
     TShape? tarrow₂     = yes STArrow₂
+    TShape? tprod₁      = yes STProd₁
+    TShape? tprod₂      = yes STProd₂
     TShape? tnum        = yes STNum
     TShape? tbool       = yes STBool
     TShape? (var x)     = no (λ ())
@@ -115,6 +121,8 @@ module hazelnut.action where
     EShape? : (ψ : Shape) → Dec (ψ eshape)
     EShape? tarrow₁     = no (λ ())
     EShape? tarrow₂     = no (λ ())
+    EShape? tprod₁      = no (λ ())
+    EShape? tprod₂      = no (λ ())
     EShape? tnum        = no (λ ())
     EShape? tbool       = no (λ ())
     EShape? (var x)     = yes (SEVar x)

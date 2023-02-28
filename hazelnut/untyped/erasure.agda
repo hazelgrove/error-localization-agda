@@ -9,6 +9,8 @@ module hazelnut.untyped.erasure where
     ETTop  : ∀ {τ} → erase-τ (▹ τ ◃) τ
     ETArr1 : ∀ {τ₁^ τ₂ τ₁} → (τ₁^◇ : erase-τ τ₁^ τ₁) → erase-τ (τ₁^ -→₁ τ₂) (τ₁ -→ τ₂)
     ETArr2 : ∀ {τ₁ τ₂^ τ₂} → (τ₂^◇ : erase-τ τ₂^ τ₂) → erase-τ (τ₁ -→₂ τ₂^) (τ₁ -→ τ₂)
+    ETProd1 : ∀ {τ₁^ τ₂ τ₁} → (τ₁^◇ : erase-τ τ₁^ τ₁) → erase-τ (τ₁^ -×₁ τ₂) (τ₁ -× τ₂)
+    ETProd2 : ∀ {τ₁ τ₂^ τ₂} → (τ₂^◇ : erase-τ τ₂^ τ₂) → erase-τ (τ₁ -×₂ τ₂^) (τ₁ -× τ₂)
 
   data erase-e : (ê : ZExp) → (e : UExp) → Set where
     EETop   : ∀ {e}
@@ -52,6 +54,8 @@ module hazelnut.untyped.erasure where
   ▹ τ ◃      ◇τ = τ
   (τ^ -→₁ τ) ◇τ = (τ^ ◇τ) -→ τ
   (τ -→₂ τ^) ◇τ = τ -→ (τ^ ◇τ)
+  (τ^ -×₁ τ) ◇τ = (τ^ ◇τ) -× τ
+  (τ -×₂ τ^) ◇τ = τ -× (τ^ ◇τ)
 
   _◇ : (ê : ZExp) → UExp
   ‵▹ e ◃ ◇ = e
@@ -73,6 +77,10 @@ module hazelnut.untyped.erasure where
   erase-τ→◇ (ETArr1 τ₁^◇)
     rewrite erase-τ→◇ τ₁^◇ = refl
   erase-τ→◇ (ETArr2 τ₂^◇)
+    rewrite erase-τ→◇ τ₂^◇ = refl
+  erase-τ→◇ (ETProd1 τ₁^◇)
+    rewrite erase-τ→◇ τ₁^◇ = refl
+  erase-τ→◇ (ETProd2 τ₂^◇)
     rewrite erase-τ→◇ τ₂^◇ = refl
 
   erase-e→◇ : ∀ {ê e} → erase-e ê e → ê ◇ ≡ e
@@ -107,6 +115,10 @@ module hazelnut.untyped.erasure where
     with τ₁^◇ ← ◇τ→erase {τ₁^} {τ₁^ ◇τ} refl = ETArr1 τ₁^◇
   ◇τ→erase {τ₁ -→₂ τ₂^} refl
     with τ₂^◇ ← ◇τ→erase {τ₂^} {τ₂^ ◇τ} refl = ETArr2 τ₂^◇
+  ◇τ→erase {τ₁^ -×₁ τ₂} refl
+    with τ₁^◇ ← ◇τ→erase {τ₁^} {τ₁^ ◇τ} refl = ETProd1 τ₁^◇
+  ◇τ→erase {τ₁ -×₂ τ₂^} refl
+    with τ₂^◇ ← ◇τ→erase {τ₂^} {τ₂^ ◇τ} refl = ETProd2 τ₂^◇
 
   ◇e→erase : ∀ {ê e} → ê ◇ ≡ e → erase-e ê e
   ◇e→erase {‵▹ e ◃} refl                  = EETop

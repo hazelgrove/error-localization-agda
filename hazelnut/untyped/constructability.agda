@@ -17,6 +17,11 @@ module hazelnut.untyped.constructability where
        | ⟨ ᾱ₂ , +>*τ₂ ⟩ ← constructability-τ τ₂
        = ⟨ ᾱ₁ ++ construct tarrow₁ ∷ ᾱ₂ ++ ∣[ move parent ] ,
            +τ>*-++ +>*τ₁ (TITyp TConArrow1 (+τ>*-++ (ziplem-tarr2 +>*τ₂) (TITyp TMArrParent2 TIRefl))) ⟩
+  constructability-τ (τ₁ -× τ₂)
+    with ⟨ ᾱ₁ , +>*τ₁ ⟩ ← constructability-τ τ₁
+       | ⟨ ᾱ₂ , +>*τ₂ ⟩ ← constructability-τ τ₂
+       = ⟨ ᾱ₁ ++ construct tprod₁ ∷ ᾱ₂ ++ ∣[ move parent ] ,
+           +τ>*-++ +>*τ₁ (TITyp TConProd1 (+τ>*-++ (ziplem-tprod2 +>*τ₂) (TITyp TMProdParent2 TIRefl))) ⟩
 
   uz : Hole
   uz = 0
