@@ -724,18 +724,6 @@ types, e.g. pairs:
   }{
     \ctxAnaType{\ctx}{\EPair{\EMV_1}{\EMV_2}}{\TMV}
   }{UAPair}
-
-  \judgment{
-    \ctxAnaType{\ctx}{\EMV}{\TPair{\TMV}{\TUnknown}}
-  }{
-    \ctxAnaType{\ctx}{\EProjL{\EMV}}{\TMV}
-  }{UAProjL}
-
-  \judgment{
-    \ctxAnaType{\ctx}{\EMV}{\TPair{\TUnknown}{\TMV}}
-  }{
-    \ctxAnaType{\ctx}{\EProjR{\EMV}}{\TMV}
-  }{UAProjR}
 \end{mathpar}
 
 \judgbox{\ctxSynFixedInto{\ctx}{\EMV}{\ECMV}{\TMV}} $\EMV$ is marked into $\ECMV$ and synthesizes type $\TMV$
@@ -795,18 +783,6 @@ types, e.g. pairs:
   }{
     \ctxAnaFixedInto{\ctx}{\EPair{\EMV_1}{\EMV_2}}{\ECInconType{\ECPair{\ECMV_1}{\ECMV_2}}}{\TMV}
   }{IAPair2}
-  
-  \judgment{
-    \ctxAnaFixedInto{\ctx}{\EMV}{\ECMV}{\TPair{\TMV}{\TUnknown}}
-  }{
-    \ctxAnaFixedInto{\ctx}{\EProjL{\EMV}}{\ECProjL{\ECMV}}{\TMV}
-  }{IAProjL}
-
-  \judgment{
-    \ctxAnaFixedInto{\ctx}{\EMV}{\ECMV}{\TPair{\TMV}{\TUnknown}}
-  }{
-    \ctxAnaFixedInto{\ctx}{\EProjR{\EMV}}{\ECProjR{\ECMV}}{\TMV}
-  }{IAProjR}
 \end{mathpar}
 
 \judgbox{\ctxSynType{\ctx}{\ECMV}{\TMV}} $\ECMV$ synthesizes type $\TMV$
@@ -866,18 +842,6 @@ types, e.g. pairs:
   }{
     \ctxAnaType{\ctx}{\ECInconType{\ECPair{\ECMV_1}{\ECMV_2}}}{\TMV}
   }{MAPair2}
-
-  \judgment{
-    \ctxAnaType{\ctx}{\ECMV}{\TPair{\TMV}{\TUnknown}}
-  }{
-    \ctxAnaType{\ctx}{\ECProjL{\ECMV}}{\TMV}
-  }{MAProjL}
-
-  \judgment{
-    \ctxAnaType{\ctx}{\ECMV}{\TPair{\TUnknown}{\TMV}}
-  }{
-    \ctxAnaType{\ctx}{\ECProjR{\ECMV}}{\TMV}
-  }{MAProjR}
 \end{mathpar}
 
 \newpage
