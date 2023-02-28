@@ -166,7 +166,7 @@ Formalization of error localization semantics.
   }{UASubsume}
 \end{mathpar} \\
 
-\judgbox{\subsumable{\ECMV}} $\ECMV$ is subsumable
+\judgbox{\subsumable{\EMV}} $\EMV$ is subsumable
 %
 \begin{mathpar}
   \judgment{ }{
@@ -679,7 +679,7 @@ It then becomes natural to extend this to other elimination forms that require h
 types, e.g. pairs:
 %
 \[\begin{array}{rrcl}
-  \TMName  & \TMV  & \Coloneqq & \cdots \mid \TPair{\TMV}{\TMV} \\
+  \TMName  & \TMV  & \Coloneqq & \cdots \mid \TProd{\TMV}{\TMV} \\
   \EMName  & \EMV  & \Coloneqq & \cdots
                                \mid \EPair{\EMV}{\EMV}
                                \mid \EProjL{\EMV} \mid \EProjR{\EMV} \\
@@ -699,19 +699,18 @@ types, e.g. pairs:
     \consistent{\TMV_1}{\TMV_1'} \\
     \consistent{\TMV_2}{\TMV_2'} \\
   }{
-    \consistent{\TPair{\TMV_1}{\TMV_2}}{\TPair{\TMV_1'}{\TMV_2'}}
+    \consistent{\TProd{\TMV_1}{\TMV_2}}{\TProd{\TMV_1'}{\TMV_2'}}
   }{TCProd}
 \end{mathpar}
 
 \judgbox{\ensuremath{\TJoin{\TMV_1}{\TMV_2}}} is a \emph{partial} metafunction defined as follows:
 %
-\newcommand{\joinsTo}[3]{\ensuremath{\TJoin{#1}{#2} & = & #3}}
 \[\begin{array}{rcl}
   & \cdots & \\
-  \joinsTo{(\TPair{\TMV_1}{\TMV_2})}{(\TPair{\TMV_1'}{\TMV_2'})}{\TPair{(\TJoin{\TMV_1}{\TMV_1'})}{(\TJoin{\TMV_2}{\TMV_2'})}} \\
+  \joinsTo{(\TProd{\TMV_1}{\TMV_2})}{(\TProd{\TMV_1'}{\TMV_2'})}{\TProd{(\TJoin{\TMV_1}{\TMV_1'})}{(\TJoin{\TMV_2}{\TMV_2'})}} \\
 \end{array}\]
 
-\judgbox{\ensuremath{\matchedPair{\TMV}{\TMV_1}{\TMV_2}}} $\TMV$ has matched binary product type $\TPair{\TMV_1}{\TMV_2}$
+\judgbox{\ensuremath{\matchedPair{\TMV}{\TMV_1}{\TMV_2}}} $\TMV$ has matched binary product type $\TProd{\TMV_1}{\TMV_2}$
 %
 \begin{mathpar}
   \judgment{ }{
@@ -719,7 +718,7 @@ types, e.g. pairs:
   }{TMPHole}
 
   \judgment{ }{
-    \matchedPair{\TPair{\TMV_1}{\TMV_2}}{\TMV_1}{\TMV_2}
+    \matchedPair{\TProd{\TMV_1}{\TMV_2}}{\TMV_1}{\TMV_2}
   }{TMPProd}
 \end{mathpar}
 
@@ -730,7 +729,7 @@ types, e.g. pairs:
     \consistent{\TMV_1}{\TMV_1'} \\
     \consistent{\TMV_2}{\TMV_2'} \\
   }{
-    \consistent{\TPair{\TMV_1}{\TMV_2}}{\TPair{\TMV_1'}{\TMV_2'}}
+    \consistent{\TProd{\TMV_1}{\TMV_2}}{\TProd{\TMV_1'}{\TMV_2'}}
   }{TCProd}
 \end{mathpar}
 
@@ -741,7 +740,7 @@ types, e.g. pairs:
     \ctxSynType{\ctx}{\EMV_1}{\TMV_1} \\
     \ctxSynType{\ctx}{\EMV_2}{\TMV_2}
   }{
-    \ctxSynType{\ctx}{\EPair{\EMV_1}{\EMV_2}}{\TPair{\TMV_1}{\TMV_2}}
+    \ctxSynType{\ctx}{\EPair{\EMV_1}{\EMV_2}}{\TProd{\TMV_1}{\TMV_2}}
   }{USPair}
 
   \judgment{
@@ -771,6 +770,18 @@ types, e.g. pairs:
   }{UAPair}
 \end{mathpar}
 
+\judgbox{\subsumable{\EMV}} $\EMV$ is subsumable
+%
+\begin{mathpar}
+  \judgment{ }{
+    \subsumable{\EProjL{\EMV}}
+  }{USuProjL}
+
+  \judgment{ }{
+    \subsumable{\EProjR{\EMV}}
+  }{USuProjR}
+\end{mathpar}
+
 \judgbox{\ctxSynFixedInto{\ctx}{\EMV}{\ECMV}{\TMV}} $\EMV$ is marked into $\ECMV$ and synthesizes type $\TMV$
 %
 \begin{mathpar}
@@ -778,7 +789,7 @@ types, e.g. pairs:
     \ctxSynFixedInto{\ctx}{\EMV_1}{\ECMV_1}{\TMV_1} \\
     \ctxSynFixedInto{\ctx}{\EMV_2}{\ECMV_2}{\TMV_2}
   }{
-    \ctxSynFixedInto{\ctx}{\EPair{\EMV_1}{\EMV_2}}{\ECPair{\ECMV_1}{\ECMV_2}}{\TPair{\TMV_1}{\TMV_2}}
+    \ctxSynFixedInto{\ctx}{\EPair{\EMV_1}{\EMV_2}}{\ECPair{\ECMV_1}{\ECMV_2}}{\TProd{\TMV_1}{\TMV_2}}
   }{ISPair}
 
   \judgment{
@@ -837,7 +848,7 @@ types, e.g. pairs:
     \ctxSynType{\ctx}{\ECMV_1}{\TMV_1} \\
     \ctxSynType{\ctx}{\ECMV_2}{\TMV_2}
   }{
-    \ctxSynType{\ctx}{\ECPair{\ECMV_1}{\ECMV_2}}{\TPair{\TMV_1}{\TMV_2}}
+    \ctxSynType{\ctx}{\ECPair{\ECMV_1}{\ECMV_2}}{\TProd{\TMV_1}{\TMV_2}}
   }{MSPair}
 
   \judgment{
@@ -889,6 +900,18 @@ types, e.g. pairs:
   }{MAPair2}
 \end{mathpar}
 
+\judgbox{\subsumable{\ECMV}} $\ECMV$ is subsumable
+%
+\begin{mathpar}
+  \judgment{ }{
+    \subsumable{\ECProjL{\ECMV}}
+  }{MSuProjL}
+
+  \judgment{ }{
+    \subsumable{\ECProjR{\ECMV}}
+  }{MSuProjR}
+\end{mathpar}
+
 \newpage
 \section{Untyped Hazelnut}
 
@@ -935,11 +958,12 @@ types, e.g. pairs:
   \AMName  & \AMV  & \Coloneqq & \AMove{\MMV} \mid \ACon{\SMV} \mid \ADel \\
   \AIMName & \AIMV & \Coloneqq & \AINil \mid \AICons{\AMV}{\AIMV} \\
   \MMName  & \MMV  & \Coloneqq & \MChild{\MChildNMV} \mid \MParent \\
-  \SMName  & \SMV  & \Coloneqq & \STArrowL \mid \STArrowR \mid \STNum \mid \STBool \\
+  \SMName  & \SMV  & \Coloneqq & \STArrowL \mid \STArrowR \mid \STProdL \mid \STProdR \mid \STNum \mid \STBool \\
            &       & \mid         & \SVar{x} \mid \SLam{x} \mid \SApL \mid \SApR \\
            &       & \mid         & \SLetL{x} \mid \SLetR{x} \\
            &       & \mid         & \SLit{n} \mid \SPlusL \mid \SPlusR \\
            &       & \mid         & \STrue \mid \SFalse \mid \SIfC \mid \SIfL \mid \SIfR \\
+           &       & \mid         & \SPairL \mid \SPairR \mid \SProjL \mid \SProjR
 \end{array}\]
 
 \subsubsection{Shape Sort}
@@ -953,6 +977,14 @@ types, e.g. pairs:
   \judgment{ }{
     \tshape{\STArrowR}
   }{ASortArrow2}
+
+  \judgment{ }{
+    \tshape{\STProdL}
+  }{ASortProd1}
+
+  \judgment{ }{
+    \tshape{\STProdR}
+  }{ASortProd2}
 
   \judgment{ }{
     \tshape{\STNum}
@@ -1021,6 +1053,22 @@ types, e.g. pairs:
   \judgment{ }{
     \eshape{\SIfR}
   }{ASortIf3}
+
+  \judgment{ }{
+    \eshape{\SPairL}
+  }{ASortPairL}
+
+  \judgment{ }{
+    \eshape{\SPairR}
+  }{ASortPairR}
+
+  \judgment{ }{
+    \eshape{\SProjL}
+  }{ASortProjL}
+
+  \judgment{ }{
+    \eshape{\SProjR}
+  }{ASortProjR}
 \end{mathpar}
 
 \subsubsection{Type Actions}
@@ -1043,6 +1091,22 @@ types, e.g. pairs:
   \judgment{ }{
     \AUTMArrowParentR{\TMV_1}{\TMV_2}
   }{ATMArrParent2}
+
+  \judgment{ }{
+    \AUTMProdChildL{\TMV_1}{\TMV_2}
+  }{ATMProdChild1}
+
+  \judgment{ }{
+    \AUTMProdChildR{\TMV_1}{\TMV_2}
+  }{ATMProdChild2}
+
+  \judgment{ }{
+    \AUTMProdParentL{\TMV_1}{\TMV_2}
+  }{ATMProdParent1}
+
+  \judgment{ }{
+    \AUTMProdParentR{\TMV_1}{\TMV_2}
+  }{ATMProdParent2}
 \end{mathpar}
 
 \paragraph{Deletion}
@@ -1061,6 +1125,14 @@ types, e.g. pairs:
   \judgment{ }{
     \AUTConArrowR{\TMV}
   }{ATConArrow2}
+
+  \judgment{ }{
+    \AUTConProdL{\TMV}
+  }{ATConProd1}
+
+  \judgment{ }{
+    \AUTConProdR{\TMV}
+  }{ATConProd2}
 
   \judgment{ }{
     \AUTConNum
@@ -1084,6 +1156,18 @@ types, e.g. pairs:
   }{
     \AUTAction{\ZTArrowR{\TMV}{\ZTMV}}{\ZTArrowR{\TMV}{\ZTMV'}}{\AMV}
   }{ATZipArr2}
+
+  \judgment{
+    \AUTAction{\ZTMV}{\ZTMV'}{\AMV}
+  }{
+    \AUTAction{\ZTProdL{\ZTMV}{\TMV}}{\ZTProdL{\ZTMV'}{\TMV}}{\AMV}
+  }{ATZipProd1}
+
+  \judgment{
+    \AUTAction{\ZTMV}{\ZTMV'}{\AMV}
+  }{
+    \AUTAction{\ZTProdR{\TMV}{\ZTMV}}{\ZTProdR{\TMV}{\ZTMV'}}{\AMV}
+  }{ATZipProd2}
 \end{mathpar}
 
 \subsubsection{Expression Movement}
@@ -1164,7 +1248,7 @@ types, e.g. pairs:
 
   \judgment{ }{
     \AUEMIfChildR{\EMV_1}{\EMV_2}{\EMV_3}
-  }{AEMIfChild3} \\
+  }{AEMIfChild3}
 
   \judgment{ }{
     \AUEMIfParentC{\EMV_1}{\EMV_2}{\EMV_3}
@@ -1176,7 +1260,39 @@ types, e.g. pairs:
 
   \judgment{ }{
     \AUEMIfParentR{\EMV_1}{\EMV_2}{\EMV_3}
-  }{AEMIfParent3}
+  }{AEMIfParent3} \\
+
+  \judgment{ }{
+    \AUEMPairChildL{\EMV_1}{\EMV_2}
+  }{AEMPairChild1}
+
+  \judgment{ }{
+    \AUEMPairChildR{\EMV_1}{\EMV_2}
+  }{AEMPairChild2} \\
+
+  \judgment{ }{
+    \AUEMPairParentL{\EMV_1}{\EMV_2}
+  }{AEMPairParent1}
+
+  \judgment{ }{
+    \AUEMPairParentR{\EMV_1}{\EMV_2}
+  }{AEMPairParent2}
+
+  \judgment{ }{
+    \AUEMProjLChild{\EMV_1}
+  }{AEMProjLChild}
+
+  \judgment{ }{
+    \AUEMProjLParent{\EMV_1}
+  }{AEMProjLParent}
+
+  \judgment{ }{
+    \AUEMProjRChild{\EMV_1}
+  }{AEMProjRChild}
+
+  \judgment{ }{
+    \AUEMProjRParent{\EMV_1}
+  }{AEMProjRParent}
 \end{mathpar}
 
 \subsubsection{Expression Actions}
@@ -1226,7 +1342,7 @@ types, e.g. pairs:
 
   \judgment{ }{
     \AUEConNum{\ENumMV}
-  }{AEConNum} \\
+  }{AEConNum}
 
   \judgment{ }{
     \AUEConPlusL{\EMV}
@@ -1254,7 +1370,23 @@ types, e.g. pairs:
   
   \judgment{ }{
     \AUEConIfR{\EMV}
-  }{AEConIf3}
+  }{AEConIf3} \\
+
+  \judgment{ }{
+    \AUEConPairL{\EMV}
+  }{AEConPair1}
+
+  \judgment{ }{
+    \AUEConPairR{\EMV}
+  }{AEConPair2} \\
+
+  \judgment{ }{
+    \AUEConProjL{\EMV}
+  }{AEConProjL}
+
+  \judgment{ }{
+    \AUEConProjR{\EMV}
+  }{AEConProjR}
 \end{mathpar}
 
 \paragraph{Zipper Cases}
@@ -1323,7 +1455,31 @@ types, e.g. pairs:
     \AUEAction{\ZMV}{\ZMV'}{\AMV}
   }{
     \AUEAction{\ZIfR{\EMV_1}{\EMV_2}{\ZMV}}{\ZIfR{\EMV_1}{\EMV_2}{\ZMV'}}{\AMV}
-  }{AEZipIf3}
+  }{AEZipIf3} \\
+
+  \judgment{
+    \AUEAction{\ZMV}{\ZMV'}{\AMV}
+  }{
+    \AUEAction{\ZPairL{\ZMV}{\EMV}}{\ZPairL{\ZMV'}{\EMV}}{\AMV}
+  }{AEZipPair1}
+
+  \judgment{
+    \AUEAction{\ZMV}{\ZMV'}{\AMV}
+  }{
+    \AUEAction{\ZPairR{\EMV}{\ZMV}}{\ZPairR{\EMV}{\ZMV'}}{\AMV}
+  }{AEZipPair2} \\
+
+  \judgment{
+    \AUEAction{\ZMV}{\ZMV'}{\AMV}
+  }{
+    \AUEAction{\ZProjL{\ZMV}{\EMV}}{\ZProjL{\ZMV'}{\EMV}}{\AMV}
+  }{AEZipProjL}
+
+  \judgment{
+    \AUEAction{\ZMV}{\ZMV'}{\AMV}
+  }{
+    \AUEAction{\ZProjR{\EMV}{\ZMV}}{\ZProjR{\EMV}{\ZMV'}}{\AMV}
+  }{AEZipProjR}
 \end{mathpar}
 
 \subsubsection{Iterated Actions}

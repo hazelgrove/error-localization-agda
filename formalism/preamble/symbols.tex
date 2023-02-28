@@ -32,7 +32,7 @@
 \newcommand{\notMatchedArrow}[1]{\ensuremath{#1 \notMatchedArrowRel}}
 \newcommand{\matchedPairRel}{\ensuremath{\matchedRel{\times}}}
 \newcommand{\notMatchedPairRel}{\ensuremath{\notMatchedRel{\times}}}
-\newcommand{\matchedPair}[3]{\ensuremath{#1 \matchedPairRel \TPair{#2}{#3}}}
+\newcommand{\matchedPair}[3]{\ensuremath{#1 \matchedPairRel \TProd{#2}{#3}}}
 \newcommand{\notMatchedPair}[1]{\ensuremath{#1 \notMatchedPairRel}}
 
 % contexts
@@ -96,7 +96,7 @@
 \newcommand{\TNum}{\ensuremath{{\normalfont\textsf{num}}}}
 \newcommand{\TBool}{\ensuremath{{\normalfont\textsf{bool}}}}
 \newcommand{\TArrow}[2]{\ensuremath{#1 \to #2}}
-\newcommand{\TPair}[2]{\ensuremath{#1 \times #2}}
+\newcommand{\TProd}[2]{\ensuremath{#1 \times #2}}
 
 %
 % external expressions
@@ -144,6 +144,8 @@
 % arrow
 \newcommand{\ZTArrowL}[2]{\ensuremath{\TArrow{#1}{#2}}}
 \newcommand{\ZTArrowR}[2]{\ensuremath{\TArrow{#1}{#2}}}
+\newcommand{\ZTProdL}[2]{\ensuremath{\TProd{#1}{#2}}}
+\newcommand{\ZTProdR}[2]{\ensuremath{\TProd{#1}{#2}}}
 
 %
 % marked expressions
@@ -232,6 +234,12 @@
 \newcommand{\ZLetL}[3]{\ensuremath{\ECLet{#1}{#2}{#3}}}
 \newcommand{\ZLetR}[3]{\ensuremath{\ECLet{#1}{#2}{#3}}}
 
+% pairs
+\newcommand{\ZPairL}[2]{\ensuremath{\ECPair{#1}{#2}}}
+\newcommand{\ZPairR}[2]{\ensuremath{\ECPair{#1}{#2}}}
+\newcommand{\ZProjL}[1]{\ensuremath{\ECProjL{#1}}}
+\newcommand{\ZProjR}[1]{\ensuremath{\ECProjR{#1}}}
+
 % errors
 \newcommand{\ZUnbound}[1]{\ensuremath{\ECUnbound{#1}}}
 \newcommand{\ZInconType}[1]{\ensuremath{\ECInconType{#1}}}
@@ -270,6 +278,8 @@
 
 \newcommand{\STArrowL}{\ensuremath{{\normalfont\textsf{arrow\textsubscript{L}}}}}
 \newcommand{\STArrowR}{\ensuremath{{\normalfont\textsf{arrow\textsubscript{R}}}}}
+\newcommand{\STProdL}{\ensuremath{{\normalfont\textsf{prod\textsubscript{L}}}}}
+\newcommand{\STProdR}{\ensuremath{{\normalfont\textsf{prod\textsubscript{R}}}}}
 \newcommand{\STNum}{\ensuremath{{\normalfont\textsf{num}}}}
 \newcommand{\STBool}{\ensuremath{{\normalfont\textsf{bool}}}}
 
@@ -287,6 +297,10 @@
 \newcommand{\SIfC}{\ensuremath{{\normalfont\textsf{if\textsubscript{C}}}}}
 \newcommand{\SIfL}{\ensuremath{{\normalfont\textsf{if\textsubscript{L}}}}}
 \newcommand{\SIfR}{\ensuremath{{\normalfont\textsf{if\textsubscript{R}}}}}
+\newcommand{\SPairL}{\ensuremath{{\normalfont\textsf{pair\textsubscript{L}}}}}
+\newcommand{\SPairR}{\ensuremath{{\normalfont\textsf{pair\textsubscript{R}}}}}
+\newcommand{\SProjL}{\ensuremath{{\normalfont\textsf{proj\textsubscript{L}}}}}
+\newcommand{\SProjR}{\ensuremath{{\normalfont\textsf{proj\textsubscript{R}}}}}
 
 
 %
@@ -318,6 +332,10 @@
 \newcommand{\AUTMArrowChildR}[2]{\ensuremath{\AUTMChild{\TArrow{#1}{#2}}{\ZTArrowR{#2}{\ZTCursor{#1}}}{2}}}
 \newcommand{\AUTMArrowParentL}[2]{\ensuremath{\AUTMParent{\ZTArrowL{\ZTCursor{#1}}{#2}}{\TArrow{#1}{#2}}}}
 \newcommand{\AUTMArrowParentR}[2]{\ensuremath{\AUTMParent{\ZTArrowR{#2}{\ZTCursor{#1}}}{\TArrow{#1}{#2}}}}
+\newcommand{\AUTMProdChildL}[2]{\ensuremath{\AUTMChild{\TProd{#1}{#2}}{\ZTProdL{\ZTCursor{#1}}{#2}}{1}}}
+\newcommand{\AUTMProdChildR}[2]{\ensuremath{\AUTMChild{\TProd{#1}{#2}}{\ZTProdR{#2}{\ZTCursor{#1}}}{2}}}
+\newcommand{\AUTMProdParentL}[2]{\ensuremath{\AUTMParent{\ZTProdL{\ZTCursor{#1}}{#2}}{\TProd{#1}{#2}}}}
+\newcommand{\AUTMProdParentR}[2]{\ensuremath{\AUTMParent{\ZTProdR{#2}{\ZTCursor{#1}}}{\TProd{#1}{#2}}}}
 
 % deletion
 \newcommand{\AUTDel}[1]{\ensuremath{\AUDel{\ZTCursor{#1}}{\ZTCursor{\TUnknown}}}}
@@ -325,6 +343,8 @@
 % construction
 \newcommand{\AUTConArrowL}[1]{\ensuremath{\AUCon{\ZTCursor{#1}}{\ZTArrowR{#1}{\ZTCursor{\TUnknown}}}{\STArrowL}}}
 \newcommand{\AUTConArrowR}[1]{\ensuremath{\AUCon{\ZTCursor{#1}}{\ZTArrowR{\ZTCursor{\TUnknown}}{#1}}{\STArrowR}}}
+\newcommand{\AUTConProdL}[1]{\ensuremath{\AUCon{\ZTCursor{#1}}{\ZTProdR{#1}{\ZTCursor{\TUnknown}}}{\STProdL}}}
+\newcommand{\AUTConProdR}[1]{\ensuremath{\AUCon{\ZTCursor{#1}}{\ZTProdR{\ZTCursor{\TUnknown}}{#1}}{\STProdR}}}
 \newcommand{\AUTConNum}{\ensuremath{\AUCon{\ZTCursor{\TUnknown}}{\ZTCursor{\TNum}}{\STNum}}}
 \newcommand{\AUTConBool}{\ensuremath{\AUCon{\ZTCursor{\TUnknown}}{\ZTCursor{\TBool}}{\STBool}}}
 
@@ -361,6 +381,14 @@
 \newcommand{\AUEMIfParentC}[3]{\ensuremath{\AUEMParent{\ZIfC{\ZCursor{#1}}{#2}{#3}}{\EIf{#1}{#2}{#3}}}}
 \newcommand{\AUEMIfParentL}[3]{\ensuremath{\AUEMParent{\ZIfL{#1}{\ZCursor{#2}}{#3}}{\EIf{#1}{#2}{#3}}}}
 \newcommand{\AUEMIfParentR}[3]{\ensuremath{\AUEMParent{\ZIfR{#1}{#2}{\ZCursor{#3}}}{\EIf{#1}{#2}{#3}}}}
+\newcommand{\AUEMPairChildL}[2]{\ensuremath{\AUEMChild{\EPair{#1}{#2}}{\ZPairL{\ZCursor{#1}}{#2}}{1}}}
+\newcommand{\AUEMPairChildR}[2]{\ensuremath{\AUEMChild{\EPair{#1}{#2}}{\ZPairR{#1}{\ZCursor{#2}}}{2}}}
+\newcommand{\AUEMPairParentL}[2]{\ensuremath{\AUEMParent{\ZPairL{\ZCursor{#1}}{#2}}{\EPair{#1}{#2}}}}
+\newcommand{\AUEMPairParentR}[2]{\ensuremath{\AUEMParent{\ZPairR{#1}{\ZCursor{#2}}}{\EPair{#1}{#2}}}}
+\newcommand{\AUEMProjLChild}[1]{\ensuremath{\AUEMChild{\EProjL{#1}}{\ZProjL{\ZCursor{#1}}}{1}}}
+\newcommand{\AUEMProjLParent}[1]{\ensuremath{\AUEMParent{\ZProjL{\ZCursor{#1}}}{\EProjL{#1}}}}
+\newcommand{\AUEMProjRChild}[1]{\ensuremath{\AUEMChild{\EProjR{#1}}{\ZProjR{\ZCursor{#1}}}{1}}}
+\newcommand{\AUEMProjRParent}[1]{\ensuremath{\AUEMParent{\ZProjR{\ZCursor{#1}}}{\EProjR{#1}}}}
 
 % deletion
 \newcommand{\AUEDel}[1]{\ensuremath{\AUDel{\ZCursor{#1}}{\ZCursor{\EEHole}}}}
@@ -373,13 +401,17 @@
 \newcommand{\AUEConLetL}[2]{\ensuremath{\AUCon{\ZCursor{#2}}{\ZLetL{#1}{#2}{\ZCursor{\EEHole}}}{\SLetL{#1}}}}
 \newcommand{\AUEConLetR}[2]{\ensuremath{\AUCon{\ZCursor{#2}}{\ZLetR{#1}{\ZCursor{\EEHole}}{#2}}{\SLetR{#1}}}}
 \newcommand{\AUEConNum}[1]{\ensuremath{\AUCon{\ZCursor{\EEHole}}{\ZCursor{#1}}{\SLit{#1}}}}
-\newcommand{\AUEConPlusL}[1]{\ensuremath{\AUCon{\ZCursor{#1}}{\ZPlusR{#1}{\ZCursor{\EEHole}}}{\SPlusL}}}
+\newcommand{\AUEConPlusL}[1]{\ensuremath{\AUCon{\ZCursor{#1}}{\ZPlusL{#1}{\ZCursor{\EEHole}}}{\SPlusL}}}
 \newcommand{\AUEConPlusR}[1]{\ensuremath{\AUCon{\ZCursor{#1}}{\ZPlusR{\ZCursor{\EEHole}}{#1}}{\SPlusR}}}
 \newcommand{\AUEConTrue}{\ensuremath{\AUCon{\ZCursor{\EEHole}}{\ZCursor{\ETrue}}{\STrue}}}
 \newcommand{\AUEConFalse}{\ensuremath{\AUCon{\ZCursor{\EEHole}}{\ZCursor{\EFalse}}{\SFalse}}}
 \newcommand{\AUEConIfC}[1]{\ensuremath{\AUCon{\ZCursor{#1}}{\ZIfC{#1}{\ZCursor{\EEHole}}{\EEHole}}{\SIfC}}}
 \newcommand{\AUEConIfL}[1]{\ensuremath{\AUCon{\ZCursor{#1}}{\ZIfC{\ZCursor{\EEHole}}{#1}{\EEHole}}{\SIfC}}}
 \newcommand{\AUEConIfR}[1]{\ensuremath{\AUCon{\ZCursor{#1}}{\ZIfC{\ZCursor{\EEHole}}{\EEHole}{#1}}{\SIfC}}}
+\newcommand{\AUEConPairL}[1]{\ensuremath{\AUCon{\ZCursor{#1}}{\ZPairL{#1}{\ZCursor{\EEHole}}}{\SPairL}}}
+\newcommand{\AUEConPairR}[1]{\ensuremath{\AUCon{\ZCursor{#1}}{\ZPairR{\ZCursor{\EEHole}}{#1}}{\SPairR}}}
+\newcommand{\AUEConProjL}[1]{\ensuremath{\AUCon{\ZCursor{#1}}{\ZCursor{\ZProjL{#1}}}{\SProjL}}}
+\newcommand{\AUEConProjR}[1]{\ensuremath{\AUCon{\ZCursor{#1}}{\ZCursor{\ZProjR{#1}}}{\SProjR}}}
 
 % typed movement actions
 \newcommand{\ASEMove}[3]{\ensuremath{\AUEMove{#1}{#2}{#3}}}
