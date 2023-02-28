@@ -9,23 +9,23 @@ module marking.marking where
   mutual
     -- synthesis
     data _⊢_↬⇒_ : {τ : Typ} (Γ : Ctx) → (e : UExp) → (Γ ⊢⇒ τ) → Set where
-      ISHole : ∀ {Γ u}
+      MKSHole : ∀ {Γ u}
         → Γ ⊢ ‵⦇-⦈^ u ↬⇒ ⊢⦇-⦈^ u
 
-      ISVar : ∀ {Γ x τ}
+      MKSVar : ∀ {Γ x τ}
         → (∋x : Γ ∋ x ∶ τ)
         → Γ ⊢ ‵ x ↬⇒ ⊢ ∋x
 
-      ISUnbound : ∀ {Γ y}
+      MKSUnbound : ∀ {Γ y}
         → (∌y : Γ ∌ y)
         → Γ ⊢ ‵ y ↬⇒ ⊢⟦ ∌y ⟧
 
-      ISLam : ∀ {Γ x τ e τ₁}
+      MKSLam : ∀ {Γ x τ e τ₁}
         → {ě : Γ , x ∶ τ ⊢⇒ τ₁}
         → (e↬⇒ě : Γ , x ∶ τ ⊢ e ↬⇒ ě)
         → Γ ⊢ ‵λ x ∶ τ ∙ e ↬⇒ ⊢λ x ∶ τ ∙ ě
 
-      ISAp1 : ∀ {Γ e₁ e₂ τ τ₁ τ₂}
+      MKSAp1 : ∀ {Γ e₁ e₂ τ τ₁ τ₂}
         → {ě₁ : Γ ⊢⇒ τ}
         → {ě₂ : Γ ⊢⇐ τ₁}
         → (e₁↬⇒ě₁ : Γ ⊢ e₁ ↬⇒ ě₁)
@@ -33,7 +33,7 @@ module marking.marking where
         → (e₂↬⇐ě₂ : Γ ⊢ e₂ ↬⇐ ě₂)
         → Γ ⊢ ‵ e₁ ∙ e₂ ↬⇒ ⊢ ě₁ ∙ ě₂ [ τ▸ ]
 
-      ISAp2 : ∀ {Γ e₁ e₂ τ}
+      MKSAp2 : ∀ {Γ e₁ e₂ τ}
         → {ě₁ : Γ ⊢⇒ τ}
         → {ě₂ : Γ ⊢⇐ unknown}
         → (e₁↬⇒ě₁ : Γ ⊢ e₁ ↬⇒ ě₁)
@@ -41,30 +41,30 @@ module marking.marking where
         → (e₂↬⇐ě₂ : Γ ⊢ e₂ ↬⇐ ě₂)
         → Γ ⊢ ‵ e₁ ∙ e₂ ↬⇒ ⊢⸨ ě₁ ⸩∙ ě₂ [ τ!▸ ]
 
-      ISLet : ∀ {Γ x e₁ e₂ τ₁ τ₂}
+      MKSLet : ∀ {Γ x e₁ e₂ τ₁ τ₂}
         → {ě₁ : Γ ⊢⇒ τ₁}
         → {ě₂ : Γ , x ∶ τ₁ ⊢⇒ τ₂}
         → (e₁↬⇒ě₁ : Γ ⊢ e₁ ↬⇒ ě₁)
         → (e₂↬⇒ě₂ : Γ , x ∶ τ₁ ⊢ e₂ ↬⇒ ě₂)
         → Γ ⊢ ‵ x ← e₁ ∙ e₂ ↬⇒ ⊢ x ← ě₁ ∙ ě₂
 
-      ISNum : ∀ {Γ n}
+      MKSNum : ∀ {Γ n}
         → Γ ⊢ ‵ℕ n ↬⇒ ⊢ℕ n
 
-      ISPlus : ∀ {Γ e₁ e₂}
+      MKSPlus : ∀ {Γ e₁ e₂}
         → {ě₁ : Γ ⊢⇐ num}
         → {ě₂ : Γ ⊢⇐ num}
         → (e₁↬⇐ě₁ : Γ ⊢ e₁ ↬⇐ ě₁)
         → (e₂↬⇐ě₂ : Γ ⊢ e₂ ↬⇐ ě₂)
         → Γ ⊢ ‵ e₁ + e₂ ↬⇒ ⊢ ě₁ + ě₂
 
-      ISTrue : ∀ {Γ}
+      MKSTrue : ∀ {Γ}
         → Γ ⊢ ‵tt ↬⇒ ⊢tt
 
-      ISFalse : ∀ {Γ}
+      MKSFalse : ∀ {Γ}
         → Γ ⊢ ‵ff ↬⇒ ⊢ff
 
-      ISIf : ∀ {Γ e₁ e₂ e₃ τ₁ τ₂ τ}
+      MKSIf : ∀ {Γ e₁ e₂ e₃ τ₁ τ₂ τ}
         → {ě₁ : Γ ⊢⇐ bool}
         → {ě₂ : Γ ⊢⇒ τ₁} 
         → {ě₃ : Γ ⊢⇒ τ₂} 
@@ -74,7 +74,7 @@ module marking.marking where
         → (τ₁⊔τ₂ : τ₁ ⊔ τ₂ ⇒ τ)
         → Γ ⊢ ‵ e₁ ∙ e₂ ∙ e₃ ↬⇒ ⊢ ě₁ ∙ ě₂ ∙ ě₃ [ τ₁⊔τ₂ ]
 
-      ISInconsistentBranches : ∀ {Γ e₁ e₂ e₃ τ₁  τ₂}
+      MKSInconsistentBranches : ∀ {Γ e₁ e₂ e₃ τ₁  τ₂}
         → {ě₁ : Γ ⊢⇐ bool}
         → {ě₂ : Γ ⊢⇒ τ₁} 
         → {ě₃ : Γ ⊢⇒ τ₂} 
@@ -84,32 +84,32 @@ module marking.marking where
         → (τ₁~̸τ₂ : τ₁ ~̸ τ₂)
         → Γ ⊢ ‵ e₁ ∙ e₂ ∙ e₃ ↬⇒ ⊢⦉ ě₁ ∙ ě₂ ∙ ě₃ ⦊[ τ₁~̸τ₂ ]
 
-      ISPair : ∀ {Γ e₁ e₂ τ₁ τ₂}
+      MKSPair : ∀ {Γ e₁ e₂ τ₁ τ₂}
         → {ě₁ : Γ ⊢⇒ τ₁}
         → {ě₂ : Γ ⊢⇒ τ₂}
         → (e₁↬⇒ě₁ : Γ ⊢ e₁ ↬⇒ ě₁)
         → (e₂↬⇒ě₂ : Γ ⊢ e₂ ↬⇒ ě₂)
         → Γ ⊢ ‵⟨ e₁ , e₂ ⟩ ↬⇒ ⊢⟨ ě₁ , ě₂ ⟩
 
-      ISProjL1 : ∀ {Γ e τ τ₁ τ₂}
+      MKSProjL1 : ∀ {Γ e τ τ₁ τ₂}
         → {ě : Γ ⊢⇒ τ}
         → (e↬⇒ě : Γ ⊢ e ↬⇒ ě)
         → (τ▸ : τ ▸ τ₁ -× τ₂)
         → Γ ⊢ ‵π₁ e ↬⇒ ⊢π₁ ě [ τ▸ ]
 
-      ISProjL2 : ∀ {Γ e τ}
+      MKSProjL2 : ∀ {Γ e τ}
         → {ě : Γ ⊢⇒ τ}
         → (e↬⇒ě : Γ ⊢ e ↬⇒ ě)
         → (τ!▸ : τ !▸-×)
         → Γ ⊢ ‵π₁ e ↬⇒ ⊢π₁⸨ ě ⸩[ τ!▸ ]
 
-      ISProjR1 : ∀ {Γ e τ τ₁ τ₂}
+      MKSProjR1 : ∀ {Γ e τ τ₁ τ₂}
         → {ě : Γ ⊢⇒ τ}
         → (e↬⇒ě : Γ ⊢ e ↬⇒ ě)
         → (τ▸ : τ ▸ τ₁ -× τ₂)
         → Γ ⊢ ‵π₂ e ↬⇒ ⊢π₂ ě [ τ▸ ]
 
-      ISProjR2 : ∀ {Γ e τ}
+      MKSProjR2 : ∀ {Γ e τ}
         → {ě : Γ ⊢⇒ τ}
         → (e↬⇒ě : Γ ⊢ e ↬⇒ ě)
         → (τ!▸ : τ !▸-×)
@@ -134,34 +134,34 @@ module marking.marking where
 
     -- analysis
     data _⊢_↬⇐_ : {τ : Typ} (Γ : Ctx) → (e : UExp) → (Γ ⊢⇐ τ) → Set where
-      IALam1 : ∀ {Γ x τ e τ₁ τ₂ τ₃}
+      MKALam1 : ∀ {Γ x τ e τ₁ τ₂ τ₃}
         → {ě : Γ , x ∶ τ ⊢⇐ τ₂}
         → (τ₃▸ : τ₃ ▸ τ₁ -→ τ₂)
         → (τ~τ₁ : τ ~ τ₁)
         → Γ , x ∶ τ ⊢ e ↬⇐ ě
         → Γ ⊢ (‵λ x ∶ τ ∙ e) ↬⇐ (⊢λ x ∶ τ ∙ ě [ τ₃▸ ∙ τ~τ₁ ])
 
-      IALam2 : ∀ {Γ x τ e τ′}
+      MKALam2 : ∀ {Γ x τ e τ′}
         → {ě : Γ , x ∶ τ ⊢⇐ unknown}
         → (τ′!▸ : τ′ !▸-→)
         → Γ , x ∶ τ ⊢ e ↬⇐ ě
         → Γ ⊢ (‵λ x ∶ τ ∙ e) ↬⇐ (⊢⸨λ x ∶ τ ∙ ě ⸩[ τ′!▸ ])
 
-      IALam3 : ∀ {Γ x τ e τ₁ τ₂ τ₃}
+      MKALam3 : ∀ {Γ x τ e τ₁ τ₂ τ₃}
         → {ě : Γ , x ∶ τ ⊢⇐ τ₂}
         → (τ₃▸ : τ₃ ▸ τ₁ -→ τ₂)
         → (τ~̸τ₁ : τ ~̸ τ₁)
         → Γ , x ∶ τ ⊢ e ↬⇐ ě
         → Γ ⊢ (‵λ x ∶ τ ∙ e) ↬⇐ (⊢λ x ∶⸨ τ ⸩∙ ě [ τ₃▸ ∙ τ~̸τ₁ ])
 
-      IALet : ∀ {Γ x e₁ e₂ τ₁ τ₂}
+      MKALet : ∀ {Γ x e₁ e₂ τ₁ τ₂}
         → {ě₁ : Γ ⊢⇒ τ₁}
         → {ě₂ : Γ , x ∶ τ₁ ⊢⇐ τ₂}
         → (e₁↬⇒ě₁ : Γ ⊢ e₁ ↬⇒ ě₁)
         → (e₂↬⇐ě₂ : Γ , x ∶ τ₁ ⊢ e₂ ↬⇐ ě₂)
         → Γ ⊢ ‵ x ← e₁ ∙ e₂ ↬⇐ ⊢ x ← ě₁ ∙ ě₂ 
 
-      IAIf : ∀ {Γ e₁ e₂ e₃ τ}
+      MKAIf : ∀ {Γ e₁ e₂ e₃ τ}
         → {ě₁ : Γ ⊢⇐ bool}
         → {ě₂ : Γ ⊢⇐ τ} 
         → {ě₃ : Γ ⊢⇐ τ} 
@@ -170,7 +170,7 @@ module marking.marking where
         → Γ ⊢ e₃ ↬⇐ ě₃
         → Γ ⊢ ‵ e₁ ∙ e₂ ∙ e₃ ↬⇐ ⊢ ě₁ ∙ ě₂ ∙ ě₃
 
-      IAPair1 : ∀ {Γ e₁ e₂ τ τ₁ τ₂}
+      MKAPair1 : ∀ {Γ e₁ e₂ τ τ₁ τ₂}
         → {ě₁ : Γ ⊢⇐ τ₁}
         → {ě₂ : Γ ⊢⇐ τ₂}
         → (e₁↬⇐ě₁ : Γ ⊢ e₁ ↬⇐ ě₁)
@@ -178,7 +178,7 @@ module marking.marking where
         → (τ▸ : τ ▸ τ₁ -× τ₂)
         → Γ ⊢ ‵⟨ e₁ , e₂ ⟩ ↬⇐ ⊢⟨ ě₁ , ě₂ ⟩[ τ▸ ]
 
-      IAPair2 : ∀ {Γ e₁ e₂ τ}
+      MKAPair2 : ∀ {Γ e₁ e₂ τ}
         → {ě₁ : Γ ⊢⇐ unknown} 
         → {ě₂ : Γ ⊢⇐ unknown}
         → (e₁↬⇐ě₁ : Γ ⊢ e₁ ↬⇐ ě₁)
@@ -186,14 +186,14 @@ module marking.marking where
         → (τ!▸ : τ !▸-×)
         → Γ ⊢ ‵⟨ e₁ , e₂ ⟩ ↬⇐ ⊢⸨⟨ ě₁ , ě₂ ⟩⸩[ τ!▸ ]
 
-      IAInconsistentTypes : ∀ {Γ e τ τ′}
+      MKAInconsistentTypes : ∀ {Γ e τ τ′}
         → {ě : Γ ⊢⇒ τ′}
         → (e↬⇒ě : Γ ⊢ e ↬⇒ ě)
         → (τ~̸τ′ : τ ~̸ τ′)
         → (s : USubsumable e)
         → Γ ⊢ e ↬⇐ ⊢⸨ ě ⸩[ τ~̸τ′ ∙ USu→MSu s e↬⇒ě ]
 
-      IASubsume : ∀ {Γ e τ τ′}
+      MKASubsume : ∀ {Γ e τ τ′}
         → {ě : Γ ⊢⇒ τ′}
         → (e↬⇒ě : Γ ⊢ e ↬⇒ ě)
         → (τ~τ′ : τ ~ τ′)
