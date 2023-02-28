@@ -89,6 +89,26 @@ module hazelnut.untyped.reachability where
        = ⟨ ᾱ ++ ∣[ move parent ] ,
          ⟨ movements-++ ᾱmv (AMICons parent AMINil) ,
            +e>*-++ (ziplem-if3 ê+>*) (EIExp EMIfParent3 EIRefl) ⟩ ⟩
+  reachup-e (‵⟨ ê ,₁ e ⟩)
+    with ⟨ ᾱ , ⟨ ᾱmv , ê+>* ⟩ ⟩ ← reachup-e ê
+       = ⟨ ᾱ ++ ∣[ move parent ] ,
+         ⟨ movements-++ ᾱmv (AMICons parent AMINil) ,
+           +e>*-++ (ziplem-pair1 ê+>*) (EIExp EMPairParent1 EIRefl) ⟩ ⟩
+  reachup-e (‵⟨ e ,₂ ê ⟩)
+    with ⟨ ᾱ , ⟨ ᾱmv , ê+>* ⟩ ⟩ ← reachup-e ê
+       = ⟨ ᾱ ++ ∣[ move parent ] ,
+         ⟨ movements-++ ᾱmv (AMICons parent AMINil) ,
+           +e>*-++ (ziplem-pair2 ê+>*) (EIExp EMPairParent2 EIRefl) ⟩ ⟩
+  reachup-e (‵π₁ ê)
+    with ⟨ ᾱ , ⟨ ᾱmv , ê+>* ⟩ ⟩ ← reachup-e ê
+       = ⟨ ᾱ ++ ∣[ move parent ] ,
+         ⟨ movements-++ ᾱmv (AMICons parent AMINil) ,
+           +e>*-++ (ziplem-projl ê+>*) (EIExp EMProjLParent EIRefl) ⟩ ⟩
+  reachup-e (‵π₂ ê)
+    with ⟨ ᾱ , ⟨ ᾱmv , ê+>* ⟩ ⟩ ← reachup-e ê
+       = ⟨ ᾱ ++ ∣[ move parent ] ,
+         ⟨ movements-++ ᾱmv (AMICons parent AMINil) ,
+           +e>*-++ (ziplem-projr ê+>*) (EIExp EMProjRParent EIRefl) ⟩ ⟩
 
   -- reach down for types
   reachdown-τ : (τ^ : ZTyp) → ∃[ ᾱ ] ᾱ movements ×  ▹ τ^ ◇τ ◃ + ᾱ +τ>* τ^
@@ -171,6 +191,26 @@ module hazelnut.untyped.reachability where
        = ⟨ move (child 3) ∷ ᾱ ,
          ⟨ AMICons (child 3) ᾱmv ,
            EIExp EMIfChild3 (ziplem-if3 +>*ê) ⟩ ⟩
+  reachdown-e (‵⟨ ê ,₁ e ⟩)
+    with ⟨ ᾱ , ⟨ ᾱmv , +>*ê ⟩ ⟩ ← reachdown-e ê
+       = ⟨ move (child 1) ∷ ᾱ ,
+         ⟨ AMICons (child 1) ᾱmv ,
+           EIExp EMPairChild1 (ziplem-pair1 +>*ê) ⟩ ⟩
+  reachdown-e (‵⟨ e ,₂ ê ⟩)
+    with ⟨ ᾱ , ⟨ ᾱmv , +>*ê ⟩ ⟩ ← reachdown-e ê
+       = ⟨ move (child 2) ∷ ᾱ ,
+         ⟨ AMICons (child 2) ᾱmv ,
+           EIExp EMPairChild2 (ziplem-pair2 +>*ê) ⟩ ⟩
+  reachdown-e (‵π₁ ê)
+    with ⟨ ᾱ , ⟨ ᾱmv , +>*ê ⟩ ⟩ ← reachdown-e ê
+       = ⟨ move (child 1) ∷ ᾱ ,
+         ⟨ AMICons (child 1) ᾱmv ,
+           EIExp EMProjLChild (ziplem-projl +>*ê) ⟩ ⟩
+  reachdown-e (‵π₂ ê)
+    with ⟨ ᾱ , ⟨ ᾱmv , +>*ê ⟩ ⟩ ← reachdown-e ê
+       = ⟨ move (child 1) ∷ ᾱ ,
+         ⟨ AMICons (child 1) ᾱmv ,
+           EIExp EMProjRChild (ziplem-projr +>*ê) ⟩ ⟩
 
   reachability-τ : (τ₁^ τ₂^ : ZTyp) → τ₁^ ◇τ ≡ τ₂^ ◇τ → ∃[ ᾱ ] ᾱ movements × τ₁^ + ᾱ +τ>* τ₂^
   reachability-τ τ₁^ τ₂^ eq

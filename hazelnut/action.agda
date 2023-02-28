@@ -11,8 +11,8 @@ module hazelnut.action where
   data Shape : Set where
     tarrow₁ : Shape
     tarrow₂ : Shape
-    tprod₁ : Shape
-    tprod₂ : Shape
+    tprod₁  : Shape
+    tprod₂  : Shape
     tnum    : Shape
     tbool   : Shape
     var     : (x : Var) → Shape
@@ -29,6 +29,10 @@ module hazelnut.action where
     if₁     : (u₁ : Hole) → (u₂ : Hole) → Shape
     if₂     : (u₁ : Hole) → (u₂ : Hole) → Shape
     if₃     : (u₁ : Hole) → (u₂ : Hole) → Shape
+    pair₁   : (u : Hole) → Shape
+    pair₂   : (u : Hole) → Shape
+    projl   : Shape
+    projr   : Shape
 
   -- actions
   data Action : Set where
@@ -94,6 +98,12 @@ module hazelnut.action where
       SEIf₃   : (u₁ : Hole)
               → (u₂ : Hole)
               → (if₃ u₁ u₂) eshape
+      SEPair₁ : (u : Hole)
+              → (pair₁ u) eshape
+      SEPair₂ : (u : Hole)
+              → (pair₂ u) eshape
+      SEProjL : projl eshape
+      SEProjR : projr eshape
 
     -- sort decidability
     TShape? : (ψ : Shape) → Dec (ψ tshape)
@@ -117,6 +127,10 @@ module hazelnut.action where
     TShape? (if₁ u₁ u₂) = no (λ ())
     TShape? (if₂ u₁ u₂) = no (λ ())
     TShape? (if₃ u₁ u₂) = no (λ ())
+    TShape? (pair₁ u)   = no (λ ())
+    TShape? (pair₂ u)   = no (λ ())
+    TShape? projl       = no (λ ())
+    TShape? projr       = no (λ ())
 
     EShape? : (ψ : Shape) → Dec (ψ eshape)
     EShape? tarrow₁     = no (λ ())
@@ -139,6 +153,10 @@ module hazelnut.action where
     EShape? (if₁ u₁ u₂) = yes (SEIf₁ u₁ u₂)
     EShape? (if₂ u₁ u₂) = yes (SEIf₂ u₁ u₂)
     EShape? (if₃ u₁ u₂) = yes (SEIf₃ u₁ u₂)
+    EShape? (pair₁ u)   = yes (SEPair₁ u)
+    EShape? (pair₂ u)   = yes (SEPair₂ u)
+    EShape? projl       = yes SEProjL
+    EShape? projr       = yes SEProjR
 
   open movements public
   open sort public

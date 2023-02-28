@@ -59,6 +59,15 @@ module core.lemmas where
     rewrite ⇒-unicity e₂⇒τ₁ e₂⇒τ₁′
           | ⇒-unicity e₃⇒τ₂ e₃⇒τ₂′
           | ⊔-unicity τ₁⊔τ₂ τ₁⊔τ₂′                          = refl
+  ⇒-unicity (USPair e₁⇒τ₁ e₂⇒τ₂)   (USPair e₁⇒τ₁′ e₂⇒τ₂′)
+    rewrite ⇒-unicity e₁⇒τ₁ e₁⇒τ₁′
+          | ⇒-unicity e₂⇒τ₂ e₂⇒τ₂′                          = refl
+  ⇒-unicity (USProjL e⇒τ τ▸)       (USProjL e⇒τ′ τ▸′)
+    rewrite ⇒-unicity e⇒τ e⇒τ′
+    with refl ← ▸-×-unicity τ▸ τ▸′                          = refl
+  ⇒-unicity (USProjR e⇒τ τ▸)       (USProjR e⇒τ′ τ▸′)
+    rewrite ⇒-unicity e⇒τ e⇒τ′
+    with refl ← ▸-×-unicity τ▸ τ▸′                          = refl
 
   -- synthesis totality
   ⊢⇐-⊢⇒ : ∀ {Γ τ} → (ě : Γ ⊢⇐ τ) → ∃[ τ′ ] Σ[ ě′ ∈ Γ ⊢⇒ τ′ ] ě ⇐□ ≡ ě′ ⇒□
@@ -80,6 +89,14 @@ module core.lemmas where
     with τ₁ ⊔? τ₂
   ...  | yes ⟨ τ , τ₁⊔τ₂ ⟩ = ⟨ τ , ⟨ ⊢ ě₁ ∙ ě₂′ ∙ ě₃′ [ τ₁⊔τ₂ ] , refl ⟩ ⟩
   ...  | no ¬τ₁⊔τ₂         = ⟨ unknown , ⟨ ⊢⦉ ě₁ ∙ ě₂′ ∙ ě₃′ ⦊[ ¬⊔→~̸ ¬τ₁⊔τ₂ ] , refl ⟩ ⟩
+  ⊢⇐-⊢⇒ ⊢⟨ ě₁ , ě₂ ⟩[ τ▸ ]
+    with ⟨ τ₁ , ⟨ ě₁′ , eq ⟩ ⟩ ← ⊢⇐-⊢⇒ ě₁ rewrite eq
+    with ⟨ τ₂ , ⟨ ě₂′ , eq ⟩ ⟩ ← ⊢⇐-⊢⇒ ě₂ rewrite eq
+       = ⟨ τ₁ -× τ₂ , ⟨ ⊢⟨ ě₁′ , ě₂′ ⟩ , refl ⟩ ⟩
+  ⊢⇐-⊢⇒ ⊢⸨⟨ ě₁ , ě₂ ⟩⸩[ τ!▸ ]
+    with ⟨ τ₁ , ⟨ ě₁′ , eq ⟩ ⟩ ← ⊢⇐-⊢⇒ ě₁ rewrite eq
+    with ⟨ τ₂ , ⟨ ě₂′ , eq ⟩ ⟩ ← ⊢⇐-⊢⇒ ě₂ rewrite eq
+       = ⟨ τ₁ -× τ₂ , ⟨ ⊢⟨ ě₁′ , ě₂′ ⟩ , refl ⟩ ⟩
   ⊢⇐-⊢⇒ (⊢⸨_⸩[_∙_] {τ′ = τ′} ě τ~̸τ′ su) = ⟨ τ′ , ⟨ ě , refl ⟩ ⟩
   ⊢⇐-⊢⇒ (⊢∙_[_∙_]  {τ′ = τ′} ě τ~τ′ su) = ⟨ τ′ , ⟨ ě , refl ⟩ ⟩
 
@@ -116,7 +133,21 @@ module core.lemmas where
   ⊢⇒-⊢⇐ ě@(⊢tt)                               = ⊢⇒-⊢⇐-subsume ě MSuTrue
   ⊢⇒-⊢⇐ ě@(⊢ff)                               = ⊢⇒-⊢⇐-subsume ě MSuFalse
   ⊢⇒-⊢⇐ ⊢ ě₁ ∙ ě₂ ∙ ě₃ [ τ₁⊔τ₂ ]
-    with ⟨ ě₂′ , eq₂ ⟩ ← ⊢⇒-⊢⇐ ě₂ rewrite eq₂
-    with ⟨ ě₃′ , eq₃ ⟩ ← ⊢⇒-⊢⇐ ě₃ rewrite eq₃ = ⟨ ⊢ ě₁ ∙ ě₂′ ∙ ě₃′ , refl ⟩
+    with ⟨ ě₂′ , eq ⟩ ← ⊢⇒-⊢⇐ ě₂ rewrite eq
+    with ⟨ ě₃′ , eq ⟩ ← ⊢⇒-⊢⇐ ě₃ rewrite eq = ⟨ ⊢ ě₁ ∙ ě₂′ ∙ ě₃′ , refl ⟩
+  ⊢⇒-⊢⇐ {τ′ = τ′} ⊢⟨ ě₁ , ě₂ ⟩
+    with τ′ ▸-×?
+  ...  | yes ⟨ τ₁ , ⟨ τ₂ , τ′▸ ⟩ ⟩
+           with ⟨ ě₁′ , eq ⟩ ← ⊢⇒-⊢⇐ ě₁ rewrite eq
+           with ⟨ ě₂′ , eq ⟩ ← ⊢⇒-⊢⇐ ě₂ rewrite eq
+              = ⟨ ⊢⟨ ě₁′ , ě₂′ ⟩[ τ′▸ ] , refl ⟩
+  ...  | no  τ′!▸
+           with ⟨ ě₁′ , eq ⟩ ← ⊢⇒-⊢⇐ ě₁ rewrite eq
+           with ⟨ ě₂′ , eq ⟩ ← ⊢⇒-⊢⇐ ě₂ rewrite eq
+              = ⟨ ⊢⸨⟨ ě₁′ , ě₂′ ⟩⸩[ τ′!▸ ] , refl ⟩
+  ⊢⇒-⊢⇐ ě@(⊢π₁ _ [ τ▸ ]) = ⊢⇒-⊢⇐-subsume ě MSuProjL1
+  ⊢⇒-⊢⇐ ě@(⊢π₁⸨ _ ⸩[ τ!▸ ]) = ⊢⇒-⊢⇐-subsume ě MSuProjL2
+  ⊢⇒-⊢⇐ ě@(⊢π₂ _ [ τ▸ ]) = ⊢⇒-⊢⇐-subsume ě MSuProjR1
+  ⊢⇒-⊢⇐ ě@(⊢π₂⸨ _ ⸩[ τ!▸ ]) = ⊢⇒-⊢⇐-subsume ě MSuProjR2
   ⊢⇒-⊢⇐ ě@(⊢⟦ ∌y ⟧)                           = ⊢⇒-⊢⇐-subsume ě MSuUnbound
   ⊢⇒-⊢⇐ ě@(⊢⦉ ě₁ ∙ ě₂ ∙ ě₃ ⦊[ τ₁~̸τ₂ ])        = ⊢⇒-⊢⇐-subsume ě MSuInconsistentBranches

@@ -71,28 +71,28 @@ module hazelnut.untyped.action where
                 → ‵▹ ‵ e₁ ∙ e₂ ◃ + move (child 1) +e> (‵ ‵▹ e₁ ◃ ∙₁ e₂)
     EMApChild2  : ∀ {e₁ e₂}
                 → ‵▹ ‵ e₁ ∙ e₂ ◃ + move (child 2) +e> (‵ e₁ ∙₂ ‵▹ e₂ ◃)
-    EMApParent1  : ∀ {e₁ e₂}
+    EMApParent1 : ∀ {e₁ e₂}
                 → (‵ ‵▹ e₁ ◃ ∙₁ e₂) + move parent +e> ‵▹ ‵ e₁ ∙ e₂ ◃
-    EMApParent2  : ∀ {e₁ e₂}
+    EMApParent2 : ∀ {e₁ e₂}
                 → (‵ e₁ ∙₂ ‵▹ e₂ ◃) + move parent +e> ‵▹ ‵ e₁ ∙ e₂ ◃
 
     EMLetChild1  : ∀ {x e₁ e₂}
-                → ‵▹ ‵ x ← e₁ ∙ e₂ ◃ + move (child 1) +e> (‵ x ←₁ ‵▹ e₁ ◃ ∙ e₂)
+                 → ‵▹ ‵ x ← e₁ ∙ e₂ ◃ + move (child 1) +e> (‵ x ←₁ ‵▹ e₁ ◃ ∙ e₂)
     EMLetChild2  : ∀ {x e₁ e₂}
-                → ‵▹ ‵ x ← e₁ ∙ e₂ ◃ + move (child 2) +e> (‵ x ←₂ e₁ ∙ ‵▹ e₂ ◃)
-    EMLetParent1  : ∀ {x e₁ e₂}
-                → (‵ x ←₁ ‵▹ e₁ ◃ ∙ e₂) + move parent +e> ‵▹ ‵ x ← e₁ ∙ e₂ ◃
-    EMLetParent2  : ∀ {x e₁ e₂}
-                → (‵ x ←₂ e₁ ∙ ‵▹ e₂ ◃) + move parent +e> ‵▹ ‵ x ← e₁ ∙ e₂ ◃
+                 → ‵▹ ‵ x ← e₁ ∙ e₂ ◃ + move (child 2) +e> (‵ x ←₂ e₁ ∙ ‵▹ e₂ ◃)
+    EMLetParent1 : ∀ {x e₁ e₂}
+                 → (‵ x ←₁ ‵▹ e₁ ◃ ∙ e₂) + move parent +e> ‵▹ ‵ x ← e₁ ∙ e₂ ◃
+    EMLetParent2 : ∀ {x e₁ e₂}
+                 → (‵ x ←₂ e₁ ∙ ‵▹ e₂ ◃) + move parent +e> ‵▹ ‵ x ← e₁ ∙ e₂ ◃
 
     EMPlusChild1  : ∀ {e₁ e₂}
-                → ‵▹ ‵ e₁ + e₂ ◃ + move (child 1) +e> (‵ ‵▹ e₁ ◃ +₁ e₂)
+                  → ‵▹ ‵ e₁ + e₂ ◃ + move (child 1) +e> (‵ ‵▹ e₁ ◃ +₁ e₂)
     EMPlusChild2  : ∀ {e₁ e₂}
-                → ‵▹ ‵ e₁ + e₂ ◃ + move (child 2) +e> (‵ e₁ +₂ ‵▹ e₂ ◃)
-    EMPlusParent1  : ∀ {e₁ e₂}
-                → (‵ ‵▹ e₁ ◃ +₁ e₂) + move parent +e> ‵▹ ‵ e₁ + e₂ ◃
-    EMPlusParent2  : ∀ {e₁ e₂}
-                → (‵ e₁ +₂ ‵▹ e₂ ◃) + move parent +e> ‵▹ ‵ e₁ + e₂ ◃
+                  → ‵▹ ‵ e₁ + e₂ ◃ + move (child 2) +e> (‵ e₁ +₂ ‵▹ e₂ ◃)
+    EMPlusParent1 : ∀ {e₁ e₂}
+                  → (‵ ‵▹ e₁ ◃ +₁ e₂) + move parent +e> ‵▹ ‵ e₁ + e₂ ◃
+    EMPlusParent2 : ∀ {e₁ e₂}
+                  → (‵ e₁ +₂ ‵▹ e₂ ◃) + move parent +e> ‵▹ ‵ e₁ + e₂ ◃
 
     EMIfChild1  : ∀ {e₁ e₂ e₃}
                 → ‵▹ ‵ e₁ ∙ e₂ ∙ e₃ ◃ + move (child 1) +e> (‵ ‵▹ e₁ ◃ ∙₁ e₂ ∙ e₃)
@@ -100,12 +100,30 @@ module hazelnut.untyped.action where
                 → ‵▹ ‵ e₁ ∙ e₂ ∙ e₃ ◃ + move (child 2) +e> (‵ e₁ ∙₂ ‵▹ e₂ ◃ ∙ e₃)
     EMIfChild3  : ∀ {e₁ e₂ e₃}
                 → ‵▹ ‵ e₁ ∙ e₂ ∙ e₃ ◃ + move (child 3) +e> (‵ e₁ ∙₃ e₂ ∙ ‵▹ e₃ ◃)
-    EMIfParent1  : ∀ {e₁ e₂ e₃}
+    EMIfParent1 : ∀ {e₁ e₂ e₃}
                 → (‵ ‵▹ e₁ ◃ ∙₁ e₂ ∙ e₃) + move parent +e> ‵▹ ‵ e₁ ∙ e₂ ∙ e₃ ◃
-    EMIfParent2  : ∀ {e₁ e₂ e₃}
+    EMIfParent2 : ∀ {e₁ e₂ e₃}
                 → (‵ e₁ ∙₂ ‵▹ e₂ ◃ ∙ e₃) + move parent +e> ‵▹ ‵ e₁ ∙ e₂ ∙ e₃ ◃
-    EMIfParent3  : ∀ {e₁ e₂ e₃}
+    EMIfParent3 : ∀ {e₁ e₂ e₃}
                 → (‵ e₁ ∙₃ e₂ ∙ ‵▹ e₃ ◃) + move parent +e> ‵▹ ‵ e₁ ∙ e₂ ∙ e₃ ◃
+
+    EMPairChild1 : ∀ {e₁ e₂}
+                 → ‵▹ ‵⟨ e₁ , e₂ ⟩ ◃ + move (child 1) +e> ‵⟨ ‵▹ e₁ ◃ ,₁ e₂ ⟩
+    EMPairChild2 : ∀ {e₁ e₂}
+                 → ‵▹ ‵⟨ e₁ , e₂ ⟩ ◃ + move (child 2) +e> ‵⟨ e₁ ,₂ ‵▹ e₂ ◃ ⟩
+    EMPairParent1 : ∀ {e₁ e₂}
+                 → ‵⟨ ‵▹ e₁ ◃ ,₁ e₂ ⟩ + move parent +e> ‵▹ ‵⟨ e₁ , e₂ ⟩ ◃
+    EMPairParent2 : ∀ {e₁ e₂}
+                 → ‵⟨ e₁ ,₂ ‵▹ e₂ ◃ ⟩ + move parent +e> ‵▹ ‵⟨ e₁ , e₂ ⟩ ◃
+
+    EMProjLChild : ∀ {e}
+                 → ‵▹ ‵π₁ e ◃ + move (child 1) +e> (‵π₁ ‵▹ e ◃)
+    EMProjLParent : ∀ {e}
+                 → (‵π₁ ‵▹ e ◃) + move parent +e> ‵▹ ‵π₁ e ◃
+    EMProjRChild : ∀ {e}
+                 → ‵▹ ‵π₂ e ◃ + move (child 1) +e> (‵π₂ ‵▹ e ◃)
+    EMProjRParent : ∀ {e}
+                 → (‵π₂ ‵▹ e ◃) + move parent +e> ‵▹ ‵π₂ e ◃
 
     -- deletion
     EDel : ∀ {e u}
@@ -140,41 +158,61 @@ module hazelnut.untyped.action where
               → ‵▹ e ◃ + construct (if₂ u₁ u₂) +e> (‵ ‵▹ ‵⦇-⦈^ u₁ ◃ ∙₁ e ∙ ‵⦇-⦈^ u₂)
     EConIf3   : ∀ {e u₁ u₂}
               → ‵▹ e ◃ + construct (if₃ u₁ u₂) +e> (‵ ‵▹ ‵⦇-⦈^ u₁ ◃ ∙₁ ‵⦇-⦈^ u₂ ∙ e)
+    EConPair1 : ∀ {e u}
+              → ‵▹ e ◃ + construct (pair₁ u) +e> ‵⟨ e ,₂ ‵▹ ‵⦇-⦈^ u ◃ ⟩
+    EConPair2 : ∀ {e u}
+              → ‵▹ e ◃ + construct (pair₂ u) +e> ‵⟨ ‵▹ ‵⦇-⦈^ u ◃ ,₁ e ⟩
+    EConProjL : ∀ {e}
+              → ‵▹ e ◃ + construct projl +e> ‵▹ ‵π₁ e ◃
+    EConProjR : ∀ {e}
+              → ‵▹ e ◃ + construct projr +e> ‵▹ ‵π₂ e ◃
 
     -- zipper cases
-    EZipLam1 : ∀ {x τ^ e α τ^′}
-             → (τ^+>τ^′ : τ^ + α +τ> τ^′)
-             → (‵λ₁ x ∶ τ^ ∙ e) + α +e> (‵λ₁ x ∶ τ^′ ∙ e)
-    EZipLam2 : ∀ {x τ ê α ê′}
-             → (ê+>ê′ : ê + α +e> ê′)
-             → (‵λ₂ x ∶ τ ∙ ê) + α +e> (‵λ₂ x ∶ τ ∙ ê′)
-    EZipAp1  : ∀ {ê e α ê′}
-             → (ê+>ê′ : ê + α +e> ê′)
-             → (‵ ê ∙₁ e) + α +e> (‵ ê′ ∙₁ e)
-    EZipAp2  : ∀ {e ê α ê′}
-             → (ê+>ê′ : ê + α +e> ê′)
-             → (‵ e ∙₂ ê) + α +e> (‵ e ∙₂ ê′)
-    EZipLet1 : ∀ {x ê e α ê′}
-             → (ê+>ê′ : ê + α +e> ê′)
-             → (‵ x ←₁ ê ∙ e) + α +e> (‵ x ←₁ ê′ ∙ e)
-    EZipLet2 : ∀ {x e ê α ê′}
-             → (ê+>ê′ : ê + α +e> ê′)
-             → (‵ x ←₂ e ∙ ê) + α +e> (‵ x ←₂ e ∙ ê′)
+    EZipLam1  : ∀ {x τ^ e α τ^′}
+              → (τ^+>τ^′ : τ^ + α +τ> τ^′)
+              → (‵λ₁ x ∶ τ^ ∙ e) + α +e> (‵λ₁ x ∶ τ^′ ∙ e)
+    EZipLam2  : ∀ {x τ ê α ê′}
+              → (ê+>ê′ : ê + α +e> ê′)
+              → (‵λ₂ x ∶ τ ∙ ê) + α +e> (‵λ₂ x ∶ τ ∙ ê′)
+    EZipAp1   : ∀ {ê e α ê′}
+              → (ê+>ê′ : ê + α +e> ê′)
+              → (‵ ê ∙₁ e) + α +e> (‵ ê′ ∙₁ e)
+    EZipAp2   : ∀ {e ê α ê′}
+              → (ê+>ê′ : ê + α +e> ê′)
+              → (‵ e ∙₂ ê) + α +e> (‵ e ∙₂ ê′)
+    EZipLet1  : ∀ {x ê e α ê′}
+              → (ê+>ê′ : ê + α +e> ê′)
+              → (‵ x ←₁ ê ∙ e) + α +e> (‵ x ←₁ ê′ ∙ e)
+    EZipLet2  : ∀ {x e ê α ê′}
+              → (ê+>ê′ : ê + α +e> ê′)
+              → (‵ x ←₂ e ∙ ê) + α +e> (‵ x ←₂ e ∙ ê′)
     EZipPlus1 : ∀ {ê e α ê′}
-             → (ê+>ê′ : ê + α +e> ê′)
-             → (‵ ê +₁ e) + α +e> (‵ ê′ +₁ e)
+              → (ê+>ê′ : ê + α +e> ê′)
+              → (‵ ê +₁ e) + α +e> (‵ ê′ +₁ e)
     EZipPlus2 : ∀ {e ê α ê′}
-             → (ê+>ê′ : ê + α +e> ê′)
-             → (‵ e +₂ ê) + α +e> (‵ e +₂ ê′)
-    EZipIf1  : ∀ {ê e₁ e₂ α ê′}
-             → (ê+>ê′ : ê + α +e> ê′)
-             → (‵ ê ∙₁ e₁ ∙ e₂) + α +e> (‵ ê′ ∙₁ e₁ ∙ e₂)
-    EZipIf2  : ∀ {e₁ ê e₂ α ê′}
-             → (ê+>ê′ : ê + α +e> ê′)
-             → (‵ e₁ ∙₂ ê ∙ e₂) + α +e> (‵ e₁ ∙₂ ê′ ∙ e₂)
-    EZipIf3  : ∀ {e₁ e₂ ê α ê′}
-             → (ê+>ê′ : ê + α +e> ê′)
-             → (‵ e₁ ∙₃ e₂ ∙ ê) + α +e> (‵ e₁ ∙₃ e₂ ∙ ê′)
+              → (ê+>ê′ : ê + α +e> ê′)
+              → (‵ e +₂ ê) + α +e> (‵ e +₂ ê′)
+    EZipIf1   : ∀ {ê e₁ e₂ α ê′}
+              → (ê+>ê′ : ê + α +e> ê′)
+              → (‵ ê ∙₁ e₁ ∙ e₂) + α +e> (‵ ê′ ∙₁ e₁ ∙ e₂)
+    EZipIf2   : ∀ {e₁ ê e₂ α ê′}
+              → (ê+>ê′ : ê + α +e> ê′)
+              → (‵ e₁ ∙₂ ê ∙ e₂) + α +e> (‵ e₁ ∙₂ ê′ ∙ e₂)
+    EZipIf3   : ∀ {e₁ e₂ ê α ê′}
+              → (ê+>ê′ : ê + α +e> ê′)
+              → (‵ e₁ ∙₃ e₂ ∙ ê) + α +e> (‵ e₁ ∙₃ e₂ ∙ ê′)
+    EZipPair1 : ∀ {ê e α ê′}
+              → (ê+>ê′ : ê + α +e> ê′)
+              → (‵⟨ ê ,₁ e ⟩) + α +e> (‵⟨ ê′ ,₁ e ⟩)
+    EZipPair2 : ∀ {e ê α ê′}
+              → (ê+>ê′ : ê + α +e> ê′)
+              → (‵⟨ e ,₂ ê ⟩) + α +e> (‵⟨ e ,₂ ê′ ⟩)
+    EZipProjL : ∀ {ê α ê′}
+              → (ê+>ê′ : ê + α +e> ê′)
+              → (‵π₁ ê) + α +e> (‵π₁ ê′)
+    EZipProjR : ∀ {ê α ê′}
+              → (ê+>ê′ : ê + α +e> ê′)
+              → (‵π₂ ê) + α +e> (‵π₂ ê′)
 
   -- iterated actions
   data _+_+τ>*_ : (τ^ : ZTyp) → (ᾱ : ActionList) → (τ^′ : ZTyp) → Set where
@@ -262,3 +300,19 @@ module hazelnut.untyped.action where
   ziplem-if3 : ∀ {ê e₁ e₂ ê′ ᾱ} → ê + ᾱ +e>* ê′ → (‵ e₁ ∙₃ e₂ ∙ ê) + ᾱ +e>* (‵ e₁ ∙₃ e₂ ∙ ê′)
   ziplem-if3 EIRefl                = EIRefl
   ziplem-if3 (EIExp ê+>ê′ ê′+>*ê″) = EIExp (EZipIf3 ê+>ê′) (ziplem-if3 ê′+>*ê″)
+
+  ziplem-pair1 : ∀ {ê e ê′ ᾱ} → ê + ᾱ +e>* ê′ → (‵⟨ ê ,₁ e ⟩) + ᾱ +e>* (‵⟨ ê′ ,₁ e ⟩)
+  ziplem-pair1 EIRefl                = EIRefl
+  ziplem-pair1 (EIExp ê+>ê′ ê′+>*ê″) = EIExp (EZipPair1 ê+>ê′) (ziplem-pair1 ê′+>*ê″)
+
+  ziplem-pair2 : ∀ {e ê ê′ ᾱ} → ê + ᾱ +e>* ê′ → (‵⟨ e ,₂ ê ⟩) + ᾱ +e>* (‵⟨ e ,₂ ê′ ⟩)
+  ziplem-pair2 EIRefl                = EIRefl
+  ziplem-pair2 (EIExp ê+>ê′ ê′+>*ê″) = EIExp (EZipPair2 ê+>ê′) (ziplem-pair2 ê′+>*ê″)
+
+  ziplem-projl : ∀ {ê ê′ ᾱ} → ê + ᾱ +e>* ê′ → (‵π₁ ê) + ᾱ +e>* (‵π₁ ê′)
+  ziplem-projl EIRefl                = EIRefl
+  ziplem-projl (EIExp ê+>ê′ ê′+>*ê″) = EIExp (EZipProjL ê+>ê′) (ziplem-projl ê′+>*ê″)
+
+  ziplem-projr : ∀ {ê ê′ ᾱ} → ê + ᾱ +e>* ê′ → (‵π₂ ê) + ᾱ +e>* (‵π₂ ê′)
+  ziplem-projr EIRefl                = EIRefl
+  ziplem-projr (EIExp ê+>ê′ ê′+>*ê″) = EIExp (EZipProjR ê+>ê′) (ziplem-projr ê′+>*ê″)

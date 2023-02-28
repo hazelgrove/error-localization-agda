@@ -48,6 +48,18 @@ module hazelnut.untyped.erasure where
     EEIf3   : ∀ {e₁ e₂ ê₃ e₃}
             → (ê₃◇ : erase-e ê₃ e₃)
             → erase-e (‵ e₁ ∙₃ e₂ ∙ ê₃) (‵ e₁ ∙ e₂ ∙ e₃)
+    EEPair1 : ∀ {ê₁ e₂ e₁}
+            → (ê₁◇ : erase-e ê₁ e₁)
+            → erase-e (‵⟨ ê₁ ,₁ e₂ ⟩) (‵⟨ e₁ , e₂ ⟩)
+    EEPair2 : ∀ {e₁ ê₂ e₂}
+            → (ê₂◇ : erase-e ê₂ e₂)
+            → erase-e (‵⟨ e₁ ,₂ ê₂ ⟩) (‵⟨ e₁ , e₂ ⟩)
+    EEProjL : ∀ {ê e}
+            → (ê◇ : erase-e ê e)
+            → erase-e (‵π₁ ê) (‵π₁ e)
+    EEProjR : ∀ {ê e}
+            → (ê◇ : erase-e ê e)
+            → erase-e (‵π₂ ê) (‵π₂ e)
 
   -- functional cursor erasure
   _◇τ : (τ^ : ZTyp) → Typ
@@ -70,6 +82,10 @@ module hazelnut.untyped.erasure where
   (‵ ê ∙₁ e₂ ∙ e₃) ◇ = ‵ (ê ◇) ∙ e₂ ∙ e₃
   (‵ e₁ ∙₂ ê ∙ e₃) ◇ = ‵ e₁ ∙ (ê ◇) ∙ e₃
   (‵ e₁ ∙₃ e₂ ∙ ê) ◇ = ‵ e₁ ∙ e₂ ∙ (ê ◇)
+  ‵⟨ ê₁ ,₁ e₂ ⟩    ◇ = ‵⟨ ê₁ ◇ , e₂ ⟩
+  ‵⟨ e₁ ,₂ ê₂ ⟩    ◇ = ‵⟨ e₁ , ê₂ ◇ ⟩
+  (‵π₁ ê)          ◇ = ‵π₁ (ê ◇)
+  (‵π₂ ê)          ◇ = ‵π₂ (ê ◇)
 
   -- convert judgmental cursor erasure to functional cursor erasure
   erase-τ→◇ : ∀ {τ^ τ} → erase-τ τ^ τ → τ^ ◇τ ≡ τ
@@ -106,6 +122,14 @@ module hazelnut.untyped.erasure where
   erase-e→◇ (EEIf2 ê◇)
     rewrite erase-e→◇ ê◇ = refl
   erase-e→◇ (EEIf3 ê◇)
+    rewrite erase-e→◇ ê◇ = refl
+  erase-e→◇ (EEPair1 ê◇)
+    rewrite erase-e→◇ ê◇ = refl
+  erase-e→◇ (EEPair2 ê◇)
+    rewrite erase-e→◇ ê◇ = refl
+  erase-e→◇ (EEProjL ê◇)
+    rewrite erase-e→◇ ê◇ = refl
+  erase-e→◇ (EEProjR ê◇)
     rewrite erase-e→◇ ê◇ = refl
 
   -- convert functional cursor erasure to judgmental cursor erasure
@@ -144,3 +168,11 @@ module hazelnut.untyped.erasure where
     with ê◇ ← ◇e→erase {ê} {ê ◇} refl     = EEIf2 ê◇
   ◇e→erase {‵ e₁ ∙₃ e₂ ∙ ê} refl
     with ê◇ ← ◇e→erase {ê} {ê ◇} refl     = EEIf3 ê◇
+  ◇e→erase {‵⟨ ê ,₁ e₂ ⟩} refl
+    with ê◇ ← ◇e→erase {ê} {ê ◇} refl     = EEPair1 ê◇
+  ◇e→erase {‵⟨ e₁ ,₂ ê ⟩} refl
+    with ê◇ ← ◇e→erase {ê} {ê ◇} refl     = EEPair2 ê◇
+  ◇e→erase {‵π₁ ê} refl
+    with ê◇ ← ◇e→erase {ê} {ê ◇} refl     = EEProjL ê◇
+  ◇e→erase {‵π₂ ê} refl
+    with ê◇ ← ◇e→erase {ê} {ê ◇} refl     = EEProjR ê◇

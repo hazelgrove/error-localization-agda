@@ -37,6 +37,17 @@ module marking.wellformed where
       rewrite ↬⇐□ e₁↬⇐ě₁
             | ↬⇒□ e₂↬⇒ě₂
             | ↬⇒□ e₃↬⇒ě₃ = refl
+    ↬⇒□ (ISPair e₁↬⇒ě₁ e₂↬⇒ě₂)
+      rewrite ↬⇒□ e₁↬⇒ě₁
+            | ↬⇒□ e₂↬⇒ě₂ = refl
+    ↬⇒□ (ISProjL1 e↬⇒ě τ▸)
+      rewrite ↬⇒□ e↬⇒ě = refl
+    ↬⇒□ (ISProjL2 e↬⇒ě τ!▸)
+      rewrite ↬⇒□ e↬⇒ě = refl
+    ↬⇒□ (ISProjR1 e↬⇒ě τ▸)
+      rewrite ↬⇒□ e↬⇒ě = refl
+    ↬⇒□ (ISProjR2 e↬⇒ě τ!▸)
+      rewrite ↬⇒□ e↬⇒ě = refl
 
     ↬⇐□ : ∀ {Γ : Ctx} {e : UExp} {τ : Typ} {ě : Γ ⊢⇐ τ}
         → Γ ⊢ e ↬⇐ ě
@@ -54,6 +65,12 @@ module marking.wellformed where
       rewrite ↬⇐□ e₁↬⇐ě₁
             | ↬⇐□ e₂↬⇐ě₂
             | ↬⇐□ e₃↬⇐ě₃ = refl
+    ↬⇐□ (IAPair1 e₁↬⇐ě₁ e₂↬⇐ě₂ τ▸)
+      rewrite ↬⇐□ e₁↬⇐ě₁
+            | ↬⇐□ e₂↬⇐ě₂ = refl
+    ↬⇐□ (IAPair2 e₁↬⇐ě₁ e₂↬⇐ě₂ τ!▸)
+      rewrite ↬⇐□ e₁↬⇐ě₁
+            | ↬⇐□ e₂↬⇐ě₂ = refl
     ↬⇐□ (IAInconsistentTypes e↬⇒ě τ~̸τ′ s)
       rewrite ↬⇒□ e↬⇒ě   = refl
     ↬⇐□ (IASubsume e↬⇒ě τ~τ′ s)
@@ -83,6 +100,13 @@ module marking.wellformed where
       with ⟨ ě₁ , e₁↬⇐ě₁ ⟩ ← ⇐τ→↬⇐τ e₁⇐bool
          | ⟨ ě₂ , e₂↬⇒ě₂ ⟩ ← ⇒τ→↬⇒τ e₂⇒τ₁
          | ⟨ ě₃ , e₃↬⇒ě₃ ⟩ ← ⇒τ→↬⇒τ e₃⇒τ₂  = ⟨ ⊢ ě₁ ∙ ě₂ ∙ ě₃ [ τ₁⊔τ₂ ] , ISIf e₁↬⇐ě₁ e₂↬⇒ě₂ e₃↬⇒ě₃ τ₁⊔τ₂ ⟩
+    ⇒τ→↬⇒τ {e = ‵⟨ e₁ , e₂ ⟩} (USPair e₁⇒τ₁ e₂⇒τ₂)
+      with ⟨ ě₁ , e₁↬⇒ě₁ ⟩ ← ⇒τ→↬⇒τ e₁⇒τ₁
+         | ⟨ ě₂ , e₂↬⇒ě₂ ⟩ ← ⇒τ→↬⇒τ e₂⇒τ₂  = ⟨ ⊢⟨ ě₁ , ě₂ ⟩ , ISPair e₁↬⇒ě₁ e₂↬⇒ě₂ ⟩
+    ⇒τ→↬⇒τ {e = ‵π₁ e} (USProjL e⇒τ τ▸)
+      with ⟨ ě , e↬⇒ě ⟩ ← ⇒τ→↬⇒τ e⇒τ       = ⟨ ⊢π₁ ě [ τ▸ ] , ISProjL1 e↬⇒ě τ▸ ⟩
+    ⇒τ→↬⇒τ {e = ‵π₂ e} (USProjR e⇒τ τ▸)
+      with ⟨ ě , e↬⇒ě ⟩ ← ⇒τ→↬⇒τ e⇒τ       = ⟨ ⊢π₂ ě [ τ▸ ] , ISProjR1 e↬⇒ě τ▸ ⟩
 
     ⇐τ→↬⇐τ : ∀ {Γ : Ctx} {e : UExp} {τ : Typ}
            → Γ ⊢ e ⇐ τ
@@ -96,5 +120,8 @@ module marking.wellformed where
       with ⟨ ě₁ , e₁↬⇐ě₁ ⟩ ← ⇐τ→↬⇐τ e₁⇐τ
          | ⟨ ě₂ , e₂↬⇐ě₂ ⟩ ← ⇐τ→↬⇐τ e₂⇐τ₁
          | ⟨ ě₃ , e₃↬⇐ě₃ ⟩ ← ⇐τ→↬⇐τ e₃⇐τ₂ = ⟨ ⊢ ě₁ ∙ ě₂ ∙ ě₃ , IAIf e₁↬⇐ě₁ e₂↬⇐ě₂ e₃↬⇐ě₃ ⟩
+    ⇐τ→↬⇐τ {e = ‵⟨ e₁ , e₂ ⟩} (UAPair τ▸ e₁⇐τ₁ e₂⇐τ₂)
+      with ⟨ ě₁ , e₁↬⇐ě₁ ⟩ ← ⇐τ→↬⇐τ e₁⇐τ₁
+         | ⟨ ě₂ , e₂↬⇐ě₂ ⟩ ← ⇐τ→↬⇐τ e₂⇐τ₂ = ⟨ ⊢⟨ ě₁ , ě₂ ⟩[ τ▸ ] , IAPair1 e₁↬⇐ě₁ e₂↬⇐ě₂ τ▸ ⟩
     ⇐τ→↬⇐τ {e = e} (UASubsume e⇒τ′ τ~τ′ su)
       with ⟨ ě , e↬⇒ě ⟩ ← ⇒τ→↬⇒τ e⇒τ′     = ⟨ ⊢∙ ě [ τ~τ′ ∙ USu→MSu su e↬⇒ě ] , IASubsume e↬⇒ě τ~τ′ su ⟩

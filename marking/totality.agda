@@ -46,7 +46,21 @@ module marking.totality where
     ...  | yes τ₁~τ₂
              with ⟨ τ , ⊔⇒τ ⟩ ← ~→⊔ τ₁~τ₂
                 = ⟨ τ , ⟨ ⊢ ě₁ ∙ ě₂ ∙ ě₃ [ ⊔⇒τ ] , ISIf e₁↬⇐ě₁ e₂↬⇐ě₂ e₃↬⇒ě₃ ⊔⇒τ ⟩ ⟩
-    ...  | no  τ₁~̸τ₂  = ⟨ unknown , ⟨ ⊢⦉ ě₁ ∙ ě₂ ∙ ě₃ ⦊[ τ₁~̸τ₂ ] , ISInconsistentBranches e₁↬⇐ě₁ e₂↬⇐ě₂ e₃↬⇒ě₃ τ₁~̸τ₂ ⟩ ⟩
+    ...  | no  τ₁~̸τ₂ = ⟨ unknown , ⟨ ⊢⦉ ě₁ ∙ ě₂ ∙ ě₃ ⦊[ τ₁~̸τ₂ ] , ISInconsistentBranches e₁↬⇐ě₁ e₂↬⇐ě₂ e₃↬⇒ě₃ τ₁~̸τ₂ ⟩ ⟩
+    ↬⇒-totality Γ ‵⟨ e₁ , e₂ ⟩
+      with ⟨ τ₁ , ⟨ ě₁ , e₁↬⇒ě₁ ⟩ ⟩ ← ↬⇒-totality Γ e₁
+      with ⟨ τ₂ , ⟨ ě₂ , e₂↬⇒ě₂ ⟩ ⟩ ← ↬⇒-totality Γ e₂
+         = ⟨ τ₁ -× τ₂ , ⟨ ⊢⟨ ě₁ , ě₂ ⟩ , ISPair e₁↬⇒ě₁ e₂↬⇒ě₂ ⟩ ⟩
+    ↬⇒-totality Γ (‵π₁ e)
+      with ⟨ τ , ⟨ ě , e↬⇒ě ⟩ ⟩ ← ↬⇒-totality Γ e
+      with τ ▸-×?
+    ...  | yes ⟨ τ₁ , ⟨ τ₂ , τ▸ ⟩ ⟩ = ⟨ τ₁ , ⟨ ⊢π₁ ě [ τ▸ ] , ISProjL1 e↬⇒ě τ▸ ⟩ ⟩
+    ...  | no  τ!▸                  = ⟨ unknown , ⟨ ⊢π₁⸨ ě ⸩[ τ!▸ ] , ISProjL2 e↬⇒ě τ!▸ ⟩ ⟩
+    ↬⇒-totality Γ (‵π₂ e)
+      with ⟨ τ , ⟨ ě , e↬⇒ě ⟩ ⟩ ← ↬⇒-totality Γ e
+      with τ ▸-×?
+    ...  | yes ⟨ τ₁ , ⟨ τ₂ , τ▸ ⟩ ⟩ = ⟨ τ₂ , ⟨ ⊢π₂ ě [ τ▸ ] , ISProjR1 e↬⇒ě τ▸ ⟩ ⟩
+    ...  | no  τ!▸                  = ⟨ unknown , ⟨ ⊢π₂⸨ ě ⸩[ τ!▸ ] , ISProjR2 e↬⇒ě τ!▸ ⟩ ⟩
 
     ↬⇐-subsume : ∀ {Γ e τ}
                → (ě : Γ ⊢⇒ τ)
@@ -108,3 +122,21 @@ module marking.totality where
          | ⟨ ě₂ , e₂↬⇐ě₂ ⟩ ← ↬⇐-totality Γ τ′ e₂
          | ⟨ ě₃ , e₃↬⇐ě₃ ⟩ ← ↬⇐-totality Γ τ′ e₃
          = ⟨ ⊢ ě₁ ∙ ě₂ ∙ ě₃ , IAIf e₁↬⇐ě₁ e₂↬⇐ě₂ e₃↬⇐ě₃ ⟩
+    ↬⇐-totality Γ τ′ ‵⟨ e₁ , e₂ ⟩
+      with τ′ ▸-×?
+    ...  | yes ⟨ τ₁ , ⟨ τ₂ , τ′▸ ⟩ ⟩
+             with ⟨ ě₁ , e₁↬⇐ě₁ ⟩ ← ↬⇐-totality Γ τ₁ e₁
+             with ⟨ ě₂ , e₂↬⇐ě₂ ⟩ ← ↬⇐-totality Γ τ₂ e₂
+                = ⟨ ⊢⟨ ě₁ , ě₂ ⟩[ τ′▸ ] , IAPair1 e₁↬⇐ě₁ e₂↬⇐ě₂ τ′▸ ⟩
+    ...  | no  τ′!▸
+             with ⟨ ě₁ , e₁↬⇐ě₁ ⟩ ← ↬⇐-totality Γ unknown e₁
+             with ⟨ ě₂ , e₂↬⇐ě₂ ⟩ ← ↬⇐-totality Γ unknown e₂
+                = ⟨ ⊢⸨⟨ ě₁ , ě₂ ⟩⸩[ τ′!▸ ] , IAPair2 e₁↬⇐ě₁ e₂↬⇐ě₂ τ′!▸ ⟩
+    ↬⇐-totality Γ τ′ e@(‵π₁ _)
+      with ↬⇒-totality Γ e
+    ...  | ⟨ _ , ⟨ ě@(⊢π₁ _ [ _ ])   , e↬⇒ě ⟩ ⟩ = ↬⇐-subsume ě τ′ e↬⇒ě USuProjL
+    ...  | ⟨ _ , ⟨ ě@(⊢π₁⸨ _ ⸩[ _ ]) , e↬⇒ě ⟩ ⟩ = ↬⇐-subsume ě τ′ e↬⇒ě USuProjL
+    ↬⇐-totality Γ τ′ e@(‵π₂ _)
+      with ↬⇒-totality Γ e
+    ...  | ⟨ _ , ⟨ ě@(⊢π₂ _ [ _ ])   , e↬⇒ě ⟩ ⟩ = ↬⇐-subsume ě τ′ e↬⇒ě USuProjR
+    ...  | ⟨ _ , ⟨ ě@(⊢π₂⸨ _ ⸩[ _ ]) , e↬⇒ě ⟩ ⟩ = ↬⇐-subsume ě τ′ e↬⇒ě USuProjR

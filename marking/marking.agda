@@ -84,6 +84,37 @@ module marking.marking where
         → (τ₁~̸τ₂ : τ₁ ~̸ τ₂)
         → Γ ⊢ ‵ e₁ ∙ e₂ ∙ e₃ ↬⇒ ⊢⦉ ě₁ ∙ ě₂ ∙ ě₃ ⦊[ τ₁~̸τ₂ ]
 
+      ISPair : ∀ {Γ e₁ e₂ τ₁ τ₂}
+        → {ě₁ : Γ ⊢⇒ τ₁}
+        → {ě₂ : Γ ⊢⇒ τ₂}
+        → (e₁↬⇒ě₁ : Γ ⊢ e₁ ↬⇒ ě₁)
+        → (e₂↬⇒ě₂ : Γ ⊢ e₂ ↬⇒ ě₂)
+        → Γ ⊢ ‵⟨ e₁ , e₂ ⟩ ↬⇒ ⊢⟨ ě₁ , ě₂ ⟩
+
+      ISProjL1 : ∀ {Γ e τ τ₁ τ₂}
+        → {ě : Γ ⊢⇒ τ}
+        → (e↬⇒ě : Γ ⊢ e ↬⇒ ě)
+        → (τ▸ : τ ▸ τ₁ -× τ₂)
+        → Γ ⊢ ‵π₁ e ↬⇒ ⊢π₁ ě [ τ▸ ]
+
+      ISProjL2 : ∀ {Γ e τ}
+        → {ě : Γ ⊢⇒ τ}
+        → (e↬⇒ě : Γ ⊢ e ↬⇒ ě)
+        → (τ!▸ : τ !▸-×)
+        → Γ ⊢ ‵π₁ e ↬⇒ ⊢π₁⸨ ě ⸩[ τ!▸ ]
+
+      ISProjR1 : ∀ {Γ e τ τ₁ τ₂}
+        → {ě : Γ ⊢⇒ τ}
+        → (e↬⇒ě : Γ ⊢ e ↬⇒ ě)
+        → (τ▸ : τ ▸ τ₁ -× τ₂)
+        → Γ ⊢ ‵π₂ e ↬⇒ ⊢π₂ ě [ τ▸ ]
+
+      ISProjR2 : ∀ {Γ e τ}
+        → {ě : Γ ⊢⇒ τ}
+        → (e↬⇒ě : Γ ⊢ e ↬⇒ ě)
+        → (τ!▸ : τ !▸-×)
+        → Γ ⊢ ‵π₂ e ↬⇒ ⊢π₂⸨ ě ⸩[ τ!▸ ]
+
     USu→MSu : ∀ {e : UExp} {Γ : Ctx} {τ : Typ} {ě : Γ ⊢⇒ τ} → USubsumable e → Γ ⊢ e ↬⇒ ě → MSubsumable ě
     USu→MSu {ě = ⊢⦇-⦈^ u}             USuHole  _ = MSuHole
     USu→MSu {ě = ⊢_ {x = x} ∋x}       USuVar   _ = MSuVar
@@ -94,6 +125,12 @@ module marking.marking where
     USu→MSu {ě = ⊢ ě₁ + ě₂}           USuPlus  _ = MSuPlus
     USu→MSu {ě = ⊢tt}                 USuTrue  _ = MSuTrue
     USu→MSu {ě = ⊢ff}                 USuFalse _ = MSuFalse
+    USu→MSu {ě = ⊢π₁ ě [ τ▸ ]}        USuProjL _ = MSuProjL1
+    USu→MSu {ě = ⊢π₁⸨ ě ⸩[ τ!▸ ]}     USuProjL _ = MSuProjL2
+    USu→MSu {ě = ⊢π₁ ě [ τ▸ ]}        USuProjR _ = MSuProjL1
+    USu→MSu {ě = ⊢π₁⸨ ě ⸩[ τ!▸ ]}     USuProjR _ = MSuProjL2
+    USu→MSu {ě = ⊢π₂ ě [ τ▸ ]}        USuProjR _ = MSuProjR1
+    USu→MSu {ě = ⊢π₂⸨ ě ⸩[ τ!▸ ]}     USuProjR _ = MSuProjR2
 
     -- analysis
     data _⊢_↬⇐_ : {τ : Typ} (Γ : Ctx) → (e : UExp) → (Γ ⊢⇐ τ) → Set where
@@ -132,6 +169,22 @@ module marking.marking where
         → Γ ⊢ e₂ ↬⇐ ě₂
         → Γ ⊢ e₃ ↬⇐ ě₃
         → Γ ⊢ ‵ e₁ ∙ e₂ ∙ e₃ ↬⇐ ⊢ ě₁ ∙ ě₂ ∙ ě₃
+
+      IAPair1 : ∀ {Γ e₁ e₂ τ τ₁ τ₂}
+        → {ě₁ : Γ ⊢⇐ τ₁}
+        → {ě₂ : Γ ⊢⇐ τ₂}
+        → (e₁↬⇐ě₁ : Γ ⊢ e₁ ↬⇐ ě₁)
+        → (e₂↬⇐ě₂ : Γ ⊢ e₂ ↬⇐ ě₂)
+        → (τ▸ : τ ▸ τ₁ -× τ₂)
+        → Γ ⊢ ‵⟨ e₁ , e₂ ⟩ ↬⇐ ⊢⟨ ě₁ , ě₂ ⟩[ τ▸ ]
+
+      IAPair2 : ∀ {Γ e₁ e₂ τ}
+        → {ě₁ : Γ ⊢⇐ unknown} 
+        → {ě₂ : Γ ⊢⇐ unknown}
+        → (e₁↬⇐ě₁ : Γ ⊢ e₁ ↬⇐ ě₁)
+        → (e₂↬⇐ě₂ : Γ ⊢ e₂ ↬⇐ ě₂)
+        → (τ!▸ : τ !▸-×)
+        → Γ ⊢ ‵⟨ e₁ , e₂ ⟩ ↬⇐ ⊢⸨⟨ ě₁ , ě₂ ⟩⸩[ τ!▸ ]
 
       IAInconsistentTypes : ∀ {Γ e τ τ′}
         → {ě : Γ ⊢⇒ τ′}

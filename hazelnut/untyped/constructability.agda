@@ -77,3 +77,21 @@ module hazelnut.untyped.constructability where
                    (EIExp EMIfChild3
                      (+e>*-++ (ziplem-if3 +>*e₃)
                        (EIExp EMIfParent3 EIRefl)))))) ⟩
+  constructability-e (‵⟨ e₁ , e₂ ⟩)
+    with ⟨ ᾱ₁ , +>*e₁ ⟩ ← constructability-e e₁
+       | ⟨ ᾱ₂ , +>*e₂ ⟩ ← constructability-e e₂
+       = ⟨ ᾱ₁ ++ construct (pair₁ uz) ∷ ᾱ₂ ++ ∣[ move parent ] ,
+           +e>*-++ +>*e₁
+             (EIExp EConPair1
+               (+e>*-++ (ziplem-pair2 +>*e₂)
+                 (EIExp EMPairParent2 EIRefl))) ⟩
+  constructability-e (‵π₁ e)
+    with ⟨ ᾱ , +>*e ⟩ ← constructability-e e
+       = ⟨ ᾱ ++ ∣[ construct projl ] ,
+           +e>*-++ +>*e
+             (EIExp EConProjL EIRefl) ⟩
+  constructability-e (‵π₂ e)
+    with ⟨ ᾱ , +>*e ⟩ ← constructability-e e
+       = ⟨ ᾱ ++ ∣[ construct projr ] ,
+           +e>*-++ +>*e
+             (EIExp EConProjR EIRefl) ⟩

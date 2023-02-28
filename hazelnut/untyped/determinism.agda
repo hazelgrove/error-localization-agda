@@ -66,6 +66,14 @@ module hazelnut.untyped.determinism where
   determinism-e EMIfParent1        EMIfParent1   = refl
   determinism-e EMIfParent2        EMIfParent2   = refl
   determinism-e EMIfParent3        EMIfParent3   = refl
+  determinism-e EMPairChild1       EMPairChild1  = refl
+  determinism-e EMPairChild2       EMPairChild2  = refl
+  determinism-e EMPairParent1      EMPairParent1 = refl
+  determinism-e EMPairParent2      EMPairParent2 = refl
+  determinism-e EMProjLChild       EMProjLChild  = refl
+  determinism-e EMProjLParent      EMProjLParent = refl
+  determinism-e EMProjRChild       EMProjRChild  = refl
+  determinism-e EMProjRParent      EMProjRParent = refl
   determinism-e EDel               EDel          = refl
   determinism-e EConVar            EConVar       = refl
   determinism-e EConLam            EConLam       = refl
@@ -81,6 +89,10 @@ module hazelnut.untyped.determinism where
   determinism-e EConIf1            EConIf1       = refl
   determinism-e EConIf2            EConIf2       = refl
   determinism-e EConIf3            EConIf3       = refl
+  determinism-e EConPair1          EConPair1     = refl
+  determinism-e EConPair2          EConPair2     = refl
+  determinism-e EConProjL          EConProjL     = refl
+  determinism-e EConProjR          EConProjR     = refl
   determinism-e (EZipLam1 τ^+>τ^′) (EZipLam1 τ^+>τ^″)
     rewrite determinism-τ τ^+>τ^′ τ^+>τ^″        = refl
   determinism-e (EZipLam2 ê+>ê′)   (EZipLam2 ê+>ê″)
@@ -102,6 +114,14 @@ module hazelnut.untyped.determinism where
   determinism-e (EZipIf2 ê+>ê′)    (EZipIf2 ê+>ê″)
     rewrite determinism-e ê+>ê′ ê+>ê″            = refl
   determinism-e (EZipIf3 ê+>ê′)    (EZipIf3 ê+>ê″)
+    rewrite determinism-e ê+>ê′ ê+>ê″            = refl
+  determinism-e (EZipPair1 ê+>ê′)  (EZipPair1 ê+>ê″)
+    rewrite determinism-e ê+>ê′ ê+>ê″            = refl
+  determinism-e (EZipPair2 ê+>ê′)  (EZipPair2 ê+>ê″)
+    rewrite determinism-e ê+>ê′ ê+>ê″            = refl
+  determinism-e (EZipProjL ê+>ê′)  (EZipProjL ê+>ê″)
+    rewrite determinism-e ê+>ê′ ê+>ê″            = refl
+  determinism-e (EZipProjR ê+>ê′)  (EZipProjR ê+>ê″)
     rewrite determinism-e ê+>ê′ ê+>ê″            = refl
 
   determinism*-e : ∀ {ê ê′ ê″ ᾱ} → ê + ᾱ +e>* ê′ → ê + ᾱ +e>* ê″ → ê′ ≡ ê″

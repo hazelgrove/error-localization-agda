@@ -49,6 +49,14 @@ module hazelnut.untyped.mei where
   movement-erasure-invariance-e EMIfParent1       = refl
   movement-erasure-invariance-e EMIfParent2       = refl
   movement-erasure-invariance-e EMIfParent3       = refl
+  movement-erasure-invariance-e EMPairChild1      = refl
+  movement-erasure-invariance-e EMPairChild2      = refl
+  movement-erasure-invariance-e EMPairParent1     = refl
+  movement-erasure-invariance-e EMPairParent2     = refl
+  movement-erasure-invariance-e EMProjLChild      = refl
+  movement-erasure-invariance-e EMProjLParent     = refl
+  movement-erasure-invariance-e EMProjRChild      = refl
+  movement-erasure-invariance-e EMProjRParent     = refl
   movement-erasure-invariance-e (EZipLam1 τ^+>τ^′)
     rewrite movement-erasure-invariance-τ τ^+>τ^′ = refl
   movement-erasure-invariance-e (EZipLam2 ê+>ê′)
@@ -70,4 +78,12 @@ module hazelnut.untyped.mei where
   movement-erasure-invariance-e (EZipIf2 ê+>ê′) 
     rewrite movement-erasure-invariance-e ê+>ê′   = refl
   movement-erasure-invariance-e (EZipIf3 ê+>ê′)
+    rewrite movement-erasure-invariance-e ê+>ê′   = refl
+  movement-erasure-invariance-e (EZipPair1 ê+>ê′) 
+    rewrite movement-erasure-invariance-e ê+>ê′   = refl
+  movement-erasure-invariance-e (EZipPair2 ê+>ê′) 
+    rewrite movement-erasure-invariance-e ê+>ê′   = refl
+  movement-erasure-invariance-e (EZipProjL ê+>ê′) 
+    rewrite movement-erasure-invariance-e ê+>ê′   = refl
+  movement-erasure-invariance-e (EZipProjR ê+>ê′) 
     rewrite movement-erasure-invariance-e ê+>ê′   = refl

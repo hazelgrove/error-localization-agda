@@ -21,9 +21,9 @@ module core.uexp where
     ‵tt     : UExp
     ‵ff     : UExp
     ‵_∙_∙_  : (e₁ : UExp) → (e₂ : UExp) → (e₃ : UExp) → UExp
-    -- ‵⟨_,_⟩  : (e₁ : UExp) → (e₂ : UExp) → UExp
-    -- ‵π₁_    : (e : UExp) → UExp
-    -- ‵π₂_    : (e : UExp) → UExp
+    ‵⟨_,_⟩  : (e₁ : UExp) → (e₂ : UExp) → UExp
+    ‵π₁_    : (e : UExp) → UExp
+    ‵π₂_    : (e : UExp) → UExp
 
   data USubsumable : UExp → Set where
     USuHole : ∀ {u}
@@ -46,6 +46,12 @@ module core.uexp where
 
     USuFalse :
         USubsumable ‵ff
+
+    USuProjL : ∀ {e}
+      → USubsumable (‵π₁ e)
+
+    USuProjR : ∀ {e}
+      → USubsumable (‵π₂ e)
 
   mutual
     -- synthesis
@@ -93,10 +99,20 @@ module core.uexp where
         → (τ₁⊔τ₂ : τ₁ ⊔ τ₂ ⇒ τ)
         → Γ ⊢ ‵ e₁ ∙ e₂ ∙ e₃ ⇒ τ
 
-      -- USPair : ∀ {Γ e₁ e₂ τ₁ τ₂}
-        -- → (e₁⇒τ₁ : Γ ⊢ e₁ ⇒ τ₁)
-        -- → (e₁⇒τ₂ : Γ ⊢ e₂ ⇒ τ₂)
-        -- → Γ ⊢ ‵⟨ e₁ , e₂ ⟩ ⇒ τ₁ -× τ₂
+      USPair : ∀ {Γ e₁ e₂ τ₁ τ₂}
+        → (e₁⇒τ₁ : Γ ⊢ e₁ ⇒ τ₁)
+        → (e₁⇒τ₂ : Γ ⊢ e₂ ⇒ τ₂)
+        → Γ ⊢ ‵⟨ e₁ , e₂ ⟩ ⇒ τ₁ -× τ₂
+
+      USProjL : ∀ {Γ e τ τ₁ τ₂}
+        → (e⇒τ : Γ ⊢ e ⇒ τ)
+        → (τ▸ : τ ▸ τ₁ -× τ₂)
+        → Γ ⊢ ‵π₁ e ⇒ τ₁
+
+      USProjR : ∀ {Γ e τ τ₁ τ₂}
+        → (e⇒τ : Γ ⊢ e ⇒ τ)
+        → (τ▸ : τ ▸ τ₁ -× τ₂)
+        → Γ ⊢ ‵π₂ e ⇒ τ₂
 
     -- analysis
     data _⊢_⇐_ : (Γ : Ctx) (e : UExp) (τ : Typ) → Set where
@@ -116,6 +132,12 @@ module core.uexp where
         → (e₂⇐τ : Γ ⊢ e₂ ⇐ τ)
         → (e₃⇐τ : Γ ⊢ e₃ ⇐ τ)
         → Γ ⊢ ‵ e₁ ∙ e₂ ∙ e₃ ⇐ τ
+
+      UAPair : ∀ {Γ e₁ e₂ τ τ₁ τ₂}
+        → (τ▸ : τ ▸ τ₁ -× τ₂)
+        → (e₁⇐τ₁ : Γ ⊢ e₁ ⇐ τ₁)
+        → (e₂⇐τ₂ : Γ ⊢ e₂ ⇐ τ₂)
+        → Γ ⊢ ‵⟨ e₁ , e₂ ⟩ ⇐ τ
 
       UASubsume : ∀ {Γ e τ τ′}
         → (e⇒τ′ : Γ ⊢ e ⇒ τ′)
