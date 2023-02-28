@@ -41,7 +41,7 @@ module core.mexp where
       ⊢⸨_⸩∙_[_] : ∀ {Γ τ}
         → (ě₁ : Γ ⊢⇒ τ)
         → (ě₂ : Γ ⊢⇐ unknown)
-        → (τ!▸ : τ !▸)
+        → (τ!▸ : τ !▸-→)
         → Γ ⊢⇒ unknown
 
       -- MSLet
@@ -109,7 +109,7 @@ module core.mexp where
       MSuAp2 : ∀ {Γ τ}
         → {ě₁ : Γ ⊢⇒ τ}
         → {ě₂ : Γ ⊢⇐ unknown}
-        → {τ!▸ : τ !▸}
+        → {τ!▸ : τ !▸-→}
         → MSubsumable {Γ} (⊢⸨ ě₁ ⸩∙ ě₂ [ τ!▸ ])
 
       MSuNum : ∀ {Γ}
@@ -154,7 +154,7 @@ module core.mexp where
         → (x : Var)
         → (τ : Typ)
         → (ě : Γ , x ∶ τ ⊢⇐ unknown)
-        → (τ′!▸ : τ′ !▸)
+        → (τ′!▸ : τ′ !▸-→)
         → Γ ⊢⇐ τ′
 
       -- MALam3

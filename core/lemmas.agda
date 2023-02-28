@@ -42,7 +42,7 @@ module core.lemmas where
   ⊢⇒-⊢⇐ (⊢⦇-⦈^ u)                       = ⟨ ⊢∙ ⊢⦇-⦈^ u [ ~-unknown₂ ∙ MSuHole ] , refl ⟩
   ⊢⇒-⊢⇐ ě@(⊢ ∋x)                        = ⊢⇒-⊢⇐-subsume ě MSuVar
   ⊢⇒-⊢⇐ {τ′ = τ′} (⊢λ x ∶ τ ∙ ě)
-    with τ′ ▸?
+    with τ′ ▸-→?
   ...  | no  τ′!▸
            with ⟨ ě′ , eq ⟩ ← ⊢⇒-⊢⇐ ě rewrite eq
               = ⟨ ⊢⸨λ x ∶ τ ∙ ě′ ⸩[ τ′!▸ ] , refl ⟩

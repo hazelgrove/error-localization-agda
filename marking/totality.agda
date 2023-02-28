@@ -20,7 +20,7 @@ module marking.totality where
     ↬⇒-totality Γ (‵ e₁ ∙ e₂)
       with ↬⇒-totality Γ e₁
     ...  | ⟨ τ , ⟨ ě₁ , e₁↬⇒ě₁ ⟩ ⟩
-             with τ ▸?
+             with τ ▸-→?
     ...         | no τ!▸
                     with ⟨ ě₂ , e₂↬⇐ě₂ ⟩ ← ↬⇐-totality Γ unknown e₂
                        = ⟨ unknown , ⟨ ⊢⸨ ě₁ ⸩∙ ě₂ [ τ!▸ ] , ISAp2 e₁↬⇒ě₁ τ!▸ e₂↬⇐ě₂ ⟩ ⟩
@@ -70,7 +70,7 @@ module marking.totality where
     ...  | ⟨ .unknown , ⟨ ě@(⊢⟦ ∌x ⟧) , e↬⇒ě ⟩ ⟩ = ↬⇐-subsume ě τ′ e↬⇒ě USuVar
     ...  | ⟨ τ        , ⟨ ě@(⊢ ∋x) , e↬⇒ě ⟩ ⟩ = ↬⇐-subsume ě τ′ e↬⇒ě USuVar
     ↬⇐-totality Γ τ′ e@(‵λ x ∶ τ ∙ e′)
-      with τ′ ▸?
+      with τ′ ▸-→?
     ...  | yes ⟨ τ₁ , ⟨ τ₂ , τ′▸ ⟩ ⟩
              with τ ~? τ₁
     ...         | yes τ~τ₁

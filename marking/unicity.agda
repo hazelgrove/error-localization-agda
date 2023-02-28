@@ -40,7 +40,7 @@ module marking.unicity where
     rewrite ⇒-unicity e⇒τ₁ e⇒τ₂                             = refl
   ⇒-unicity (USAp e₁⇒τ₁ τ▸ e₂⇐τ₂)  (USAp e₁⇒τ₁′ τ▸′ e₂⇐τ₂′)
     rewrite ⇒-unicity e₁⇒τ₁ e₁⇒τ₁′
-    with refl ← ▸-unicity τ▸ τ▸′                            = refl
+    with refl ← ▸-→-unicity τ▸ τ▸′                            = refl
   ⇒-unicity (USLet e₁⇒τ₁ e₂⇒τ₂)    (USLet e₁⇒τ₁′ e₂⇒τ₂′)
     rewrite ⇒-unicity e₁⇒τ₁ e₁⇒τ₁′
     rewrite ⇒-unicity e₂⇒τ₂ e₂⇒τ₂′                          = refl
@@ -65,7 +65,7 @@ module marking.unicity where
   ↬⇒-τ-unicity (ISLam e↬⇒ě) (ISLam e↬⇒ě′)
     rewrite ↬⇒-τ-unicity e↬⇒ě e↬⇒ě′ = refl
   ↬⇒-τ-unicity (ISAp1 e₁↬⇒ě₁ τ▸ e₂↬⇐ě₂) (ISAp1 e₁↬⇒ě₁′ τ′▸ e₂↬⇐ě₂′)
-    with refl ← ↬⇒-τ-unicity e₁↬⇒ě₁ e₁↬⇒ě₁′ = proj₂ (-→-inj (▸-unicity τ▸ τ′▸))
+    with refl ← ↬⇒-τ-unicity e₁↬⇒ě₁ e₁↬⇒ě₁′ = proj₂ (-→-inj (▸-→-unicity τ▸ τ′▸))
   ↬⇒-τ-unicity (ISAp1 {τ₁ = τ₁} {τ₂ = τ₂} e₁↬⇒ě₁ τ▸ e₂↬⇐ě₂) (ISAp2 e₁↬⇒ě₁′ τ!▸ e₂↬⇐ě₂′)
     with refl ← ↬⇒-τ-unicity e₁↬⇒ě₁ e₁↬⇒ě₁′ = ⊥-elim (τ!▸ ⟨ τ₁ , ⟨ τ₂ , τ▸ ⟩ ⟩)
   ↬⇒-τ-unicity (ISAp2 e₁↬⇒ě₁ τ!▸ e₂↬⇐ě₂) (ISAp1 {τ₁ = τ₁} {τ₂ = τ₂} e₁↬⇒ě₁′ τ▸ e₂↬⇐ě₂′)
@@ -105,8 +105,8 @@ module marking.unicity where
       rewrite ↬⇒-ě-unicity e↬⇒ě e↬⇒ě′ = refl
     ↬⇒-ě-unicity (ISAp1 e₁↬⇒ě₁ τ▸ e₂↬⇐ě₂) (ISAp1 e₁↬⇒ě₁′ τ▸′ e₂↬⇐ě₂′)
       with refl ← ↬⇒-τ-unicity e₁↬⇒ě₁ e₁↬⇒ě₁′
-      with refl ← ▸-unicity τ▸ τ▸′
-      with refl ← ▸-≡ τ▸ τ▸′
+      with refl ← ▸-→-unicity τ▸ τ▸′
+      with refl ← ▸-→-≡ τ▸ τ▸′
       rewrite ↬⇒-ě-unicity e₁↬⇒ě₁ e₁↬⇒ě₁′
             | ↬⇐-ě-unicity e₂↬⇐ě₂ e₂↬⇐ě₂′ = refl
     ↬⇒-ě-unicity (ISAp1 {τ₁ = τ₁} e₁↬⇒ě₁ τ▸ e₂↬⇐ě₂) (ISAp2 e₁↬⇒ě₁′ τ!▸ e₂↬⇐ě₂′)
@@ -117,7 +117,7 @@ module marking.unicity where
       with refl ← ↬⇒-τ-unicity e₁↬⇒ě₁ e₁↬⇒ě₁′
       rewrite ↬⇒-ě-unicity e₁↬⇒ě₁ e₁↬⇒ě₁′
             | ↬⇐-ě-unicity e₂↬⇐ě₂ e₂↬⇐ě₂′
-            | !▸-≡ τ!▸ τ!▸′ = refl
+            | !▸-→-≡ τ!▸ τ!▸′ = refl
     ↬⇒-ě-unicity (ISLet e₁↬⇒ě₁ e₂↬⇒ě₂) (ISLet e₁↬⇒ě₁′ e₂↬⇒ě₂′)
       with refl ← ↬⇒-τ-unicity e₁↬⇒ě₁ e₁↬⇒ě₁′
       with refl ← ↬⇒-τ-unicity e₂↬⇒ě₂ e₂↬⇒ě₂′
@@ -170,24 +170,24 @@ module marking.unicity where
                  → Γ ⊢ e ↬⇐ ě₂
                  → ě₁ ≡ ě₂
     ↬⇐-ě-unicity (IALam1 τ▸ τ₁~τ₂ e↬⇐ě) (IALam1 τ▸′ τ₁~τ₂′ e↬⇐ě′)
-      with refl ← ▸-unicity τ▸ τ▸′
-      rewrite ▸-≡ τ▸ τ▸′
+      with refl ← ▸-→-unicity τ▸ τ▸′
+      rewrite ▸-→-≡ τ▸ τ▸′
             | ~-≡ τ₁~τ₂ τ₁~τ₂′
             | ↬⇐-ě-unicity e↬⇐ě e↬⇐ě′ = refl
     ↬⇐-ě-unicity (IALam1 {τ₁ = τ₁} {τ₂ = τ₂} τ▸ τ~τ₁ e↬⇐ě) (IALam2 τ!▸ e↬⇐ě′) = ⊥-elim (τ!▸ ⟨ τ₁ , ⟨ τ₂ , τ▸ ⟩ ⟩)
     ↬⇐-ě-unicity (IALam1 τ▸ τ~τ₁ e↬⇐ě) (IALam3 τ▸′ τ~̸τ₁ e↬⇐ě′)
-      with refl ← ▸-unicity τ▸ τ▸′ = ⊥-elim (τ~̸τ₁ τ~τ₁)
+      with refl ← ▸-→-unicity τ▸ τ▸′ = ⊥-elim (τ~̸τ₁ τ~τ₁)
     ↬⇐-ě-unicity (IALam2 τ!▸ e↬⇐ě) (IALam1 {τ₁ = τ₁} {τ₂ = τ₂} τ▸ τ~τ₁ e↬⇐ě′) = ⊥-elim (τ!▸ ⟨ τ₁ , ⟨ τ₂ , τ▸ ⟩ ⟩)
     ↬⇐-ě-unicity (IALam2 τ!▸ e↬⇐ě) (IALam2 τ!▸′ e↬⇐ě′)
-      rewrite !▸-≡ τ!▸ τ!▸′
+      rewrite !▸-→-≡ τ!▸ τ!▸′
             | ↬⇐-ě-unicity e↬⇐ě e↬⇐ě′ = refl
     ↬⇐-ě-unicity (IALam2 τ!▸ e↬⇐ě) (IALam3 {τ₁ = τ₁} {τ₂ = τ₂} τ▸ τ~̸τ₁ e↬⇐ě′) = ⊥-elim (τ!▸ ⟨ τ₁ , ⟨ τ₂ , τ▸ ⟩ ⟩)
     ↬⇐-ě-unicity (IALam3 τ▸ τ~̸τ₁ e↬⇐ě) (IALam1 τ▸′ τ~τ₁ e↬⇐ě′)
-      with refl ← ▸-unicity τ▸ τ▸′ = ⊥-elim (τ~̸τ₁ τ~τ₁)
+      with refl ← ▸-→-unicity τ▸ τ▸′ = ⊥-elim (τ~̸τ₁ τ~τ₁)
     ↬⇐-ě-unicity (IALam3 {τ₁ = τ₁} {τ₂ = τ₂} τ▸ τ~̸τ₁ e↬⇐ě) (IALam2 τ!▸ e↬⇐ě′) = ⊥-elim (τ!▸ ⟨ τ₁ , ⟨ τ₂ , τ▸ ⟩ ⟩)
     ↬⇐-ě-unicity (IALam3 τ▸ τ~̸τ₁ e↬⇐ě) (IALam3 τ▸′ τ~̸τ₁′ e↬⇐ě′)
-      with refl ← ▸-unicity τ▸ τ▸′
-      rewrite ▸-≡ τ▸ τ▸′
+      with refl ← ▸-→-unicity τ▸ τ▸′
+      rewrite ▸-→-≡ τ▸ τ▸′
             | ~̸-≡ τ~̸τ₁ τ~̸τ₁′
             | ↬⇐-ě-unicity e↬⇐ě e↬⇐ě′ = refl
     ↬⇐-ě-unicity (IALet e₁↬⇒ě₁ e₂↬⇐ě₂) (IALet e₁↬⇒ě₁′ e₂↬⇐ě₂′)

@@ -21,6 +21,9 @@ module core.uexp where
     ‵tt     : UExp
     ‵ff     : UExp
     ‵_∙_∙_  : (e₁ : UExp) → (e₂ : UExp) → (e₃ : UExp) → UExp
+    -- ‵⟨_,_⟩  : (e₁ : UExp) → (e₂ : UExp) → UExp
+    -- ‵π₁_    : (e : UExp) → UExp
+    -- ‵π₂_    : (e : UExp) → UExp
 
   data USubsumable : UExp → Set where
     USuHole : ∀ {u}
@@ -89,6 +92,11 @@ module core.uexp where
         → (e₃⇒τ₂ : Γ ⊢ e₃ ⇒ τ₂)
         → (τ₁⊔τ₂ : τ₁ ⊔ τ₂ ⇒ τ)
         → Γ ⊢ ‵ e₁ ∙ e₂ ∙ e₃ ⇒ τ
+
+      -- USPair : ∀ {Γ e₁ e₂ τ₁ τ₂}
+        -- → (e₁⇒τ₁ : Γ ⊢ e₁ ⇒ τ₁)
+        -- → (e₁⇒τ₂ : Γ ⊢ e₂ ⇒ τ₂)
+        -- → Γ ⊢ ‵⟨ e₁ , e₂ ⟩ ⇒ τ₁ -× τ₂
 
     -- analysis
     data _⊢_⇐_ : (Γ : Ctx) (e : UExp) (τ : Typ) → Set where

@@ -235,43 +235,43 @@ module core.typ where
       TMAArr  : {τ₁ τ₂ : Typ} → τ₁ -→ τ₂ ▸ τ₁ -→ τ₂
 
     -- no matched
-    _!▸ : Typ → Set
-    τ !▸ = ¬ (∃[ τ₁ ] ∃[ τ₂ ] τ ▸ τ₁ -→ τ₂)
+    _!▸-→ : Typ → Set
+    τ !▸-→ = ¬ (∃[ τ₁ ] ∃[ τ₂ ] τ ▸ τ₁ -→ τ₂)
 
     -- decidable matched arrow
-    _▸? : (τ : Typ) → Dec (∃[ τ₁ ] ∃[ τ₂ ] τ ▸ τ₁ -→ τ₂)
-    num        ▸? = no (λ ())
-    bool       ▸? = no (λ ())
-    unknown    ▸? = yes ⟨ unknown , ⟨ unknown , TMAHole ⟩ ⟩
-    (τ₁ -→ τ₂) ▸? = yes ⟨ τ₁      , ⟨ τ₂      , TMAArr  ⟩ ⟩
-    (τ₁ -× τ₂) ▸? = no (λ ())
+    _▸-→? : (τ : Typ) → Dec (∃[ τ₁ ] ∃[ τ₂ ] τ ▸ τ₁ -→ τ₂)
+    num        ▸-→? = no (λ ())
+    bool       ▸-→? = no (λ ())
+    unknown    ▸-→? = yes ⟨ unknown , ⟨ unknown , TMAHole ⟩ ⟩
+    (τ₁ -→ τ₂) ▸-→? = yes ⟨ τ₁      , ⟨ τ₂      , TMAArr  ⟩ ⟩
+    (τ₁ -× τ₂) ▸-→? = no (λ ())
 
     -- matched arrow derivation equality
-    ▸-≡ : ∀ {τ τ₁ τ₂} → (τ▸ : τ ▸ τ₁ -→ τ₂) → (τ▸′ : τ ▸ τ₁ -→ τ₂) → τ▸ ≡ τ▸′
-    ▸-≡ TMAHole TMAHole = refl
-    ▸-≡ TMAArr  TMAArr  = refl
+    ▸-→-≡ : ∀ {τ τ₁ τ₂} → (τ▸ : τ ▸ τ₁ -→ τ₂) → (τ▸′ : τ ▸ τ₁ -→ τ₂) → τ▸ ≡ τ▸′
+    ▸-→-≡ TMAHole TMAHole = refl
+    ▸-→-≡ TMAArr  TMAArr  = refl
 
     -- matched arrow unicity
-    ▸-unicity : ∀ {τ τ₁ τ₂ τ₃ τ₄} → (τ ▸ τ₁ -→ τ₂) → (τ ▸ τ₃ -→ τ₄) → τ₁ -→ τ₂ ≡ τ₃ -→ τ₄
-    ▸-unicity TMAHole TMAHole = refl
-    ▸-unicity TMAArr  TMAArr  = refl
+    ▸-→-unicity : ∀ {τ τ₁ τ₂ τ₃ τ₄} → (τ ▸ τ₁ -→ τ₂) → (τ ▸ τ₃ -→ τ₄) → τ₁ -→ τ₂ ≡ τ₃ -→ τ₄
+    ▸-→-unicity TMAHole TMAHole = refl
+    ▸-→-unicity TMAArr  TMAArr  = refl
 
     -- no matched arrow derivation equality
-    !▸-≡ : ∀ {τ} → (τ!▸ : τ !▸) → (τ!▸′ : τ !▸) → τ!▸ ≡ τ!▸′
-    !▸-≡ τ!▸ τ!▸′ = ¬-≡ τ!▸ τ!▸′
+    !▸-→-≡ : ∀ {τ} → (τ!▸ : τ !▸-→) → (τ!▸′ : τ !▸-→) → τ!▸ ≡ τ!▸′
+    !▸-→-≡ τ!▸ τ!▸′ = ¬-≡ τ!▸ τ!▸′
 
     -- only consistent types arrow match
-    ▸→~ : ∀ {τ τ₁ τ₂} → τ ▸ τ₁ -→ τ₂ → τ ~ τ₁ -→ τ₂
-    ▸→~ TMAHole = TCUnknownArr
-    ▸→~ TMAArr  = ~-refl
+    ▸-→→~ : ∀ {τ τ₁ τ₂} → τ ▸ τ₁ -→ τ₂ → τ ~ τ₁ -→ τ₂
+    ▸-→→~ TMAHole = TCUnknownArr
+    ▸-→→~ TMAArr  = ~-refl
 
-    ▸-~̸₁ : ∀ {τ τ₁ τ₂ τ₁′} → τ ▸ τ₁ -→ τ₂ → τ₁′ ~̸ τ₁ → τ ~̸ τ₁′ -→ τ₂
-    ▸-~̸₁ TMAArr  τ₁′~̸τ₁ (TCArr τ₁~τ₁′ _) = τ₁′~̸τ₁ (~-sym τ₁~τ₁′)
-    ▸-~̸₁ TMAHole τ₁′~̸τ₁ TCUnknownArr     = τ₁′~̸τ₁ ~-unknown₂
+    ▸-→-~̸₁ : ∀ {τ τ₁ τ₂ τ₁′} → τ ▸ τ₁ -→ τ₂ → τ₁′ ~̸ τ₁ → τ ~̸ τ₁′ -→ τ₂
+    ▸-→-~̸₁ TMAArr  τ₁′~̸τ₁ (TCArr τ₁~τ₁′ _) = τ₁′~̸τ₁ (~-sym τ₁~τ₁′)
+    ▸-→-~̸₁ TMAHole τ₁′~̸τ₁ TCUnknownArr     = τ₁′~̸τ₁ ~-unknown₂
 
-    ▸-~̸₂ : ∀ {τ τ₁ τ₂ τ₂′} → τ ▸ τ₁ -→ τ₂ → τ₂′ ~̸ τ₂ → τ ~̸ τ₁ -→ τ₂′
-    ▸-~̸₂ TMAHole τ₂′~̸τ₂ TCUnknownArr     = τ₂′~̸τ₂ ~-unknown₂
-    ▸-~̸₂ TMAArr  τ₂′~̸τ₂ (TCArr _ τ₂~τ₂′) = τ₂′~̸τ₂ (~-sym τ₂~τ₂′)
+    ▸-→-~̸₂ : ∀ {τ τ₁ τ₂ τ₂′} → τ ▸ τ₁ -→ τ₂ → τ₂′ ~̸ τ₂ → τ ~̸ τ₁ -→ τ₂′
+    ▸-→-~̸₂ TMAHole τ₂′~̸τ₂ TCUnknownArr     = τ₂′~̸τ₂ ~-unknown₂
+    ▸-→-~̸₂ TMAArr  τ₂′~̸τ₂ (TCArr _ τ₂~τ₂′) = τ₂′~̸τ₂ (~-sym τ₂~τ₂′)
 
   module join where
     open base
