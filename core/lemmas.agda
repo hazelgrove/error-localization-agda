@@ -7,6 +7,59 @@ open import core.mexp
 open import core.erasure
 
 module core.lemmas where
+  -- membership type equality
+  ∋→τ-≡ : ∀ {Γ x τ₁ τ₂}
+        → (Γ ∋ x ∶ τ₁)
+        → (Γ ∋ x ∶ τ₂)
+        → τ₁ ≡ τ₂
+  ∋→τ-≡ Z         Z         = refl
+  ∋→τ-≡ Z         (S x≢x _) = ⊥-elim (x≢x refl)
+  ∋→τ-≡ (S x≢x _) Z         = ⊥-elim (x≢x refl)
+  ∋→τ-≡ (S _ ∋x)  (S _ ∋x′) = ∋→τ-≡ ∋x ∋x′
+
+  -- membership derivation equality
+  ∋-≡ : ∀ {Γ x τ}
+      → (∋x : Γ ∋ x ∶ τ)
+      → (∋x′ : Γ ∋ x ∶ τ)
+      → ∋x ≡ ∋x′
+  ∋-≡ Z           Z         = refl
+  ∋-≡ Z           (S x≢x _) = ⊥-elim (x≢x refl)
+  ∋-≡ (S x≢x _)   Z         = ⊥-elim (x≢x refl)
+  ∋-≡ (S x≢x′ ∋x) (S x≢x′′ ∋x′)
+    rewrite ¬-≡ x≢x′ x≢x′′
+          | ∋-≡ ∋x ∋x′ = refl
+
+  -- non-membership derivation equality
+  ∌-≡ : ∀ {Γ y}
+      → (∌y : Γ ∌ y)
+      → (∌y′ : Γ ∌ y)
+      → ∌y ≡ ∌y′
+  ∌-≡ ∌y ∌y′ = assimilation ∌y ∌y′
+
+  -- unmarked synthesis unicity
+  ⇒-unicity : ∀ {Γ : Ctx} {e : UExp} {τ₁ τ₂ : Typ}
+            → Γ ⊢ e ⇒ τ₁
+            → Γ ⊢ e ⇒ τ₂
+            → τ₁ ≡ τ₂
+  ⇒-unicity USHole                 USHole                   = refl
+  ⇒-unicity (USVar ∋x)             (USVar ∋x′)              = ∋→τ-≡ ∋x ∋x′
+  ⇒-unicity (USLam e⇒τ₁)           (USLam e⇒τ₂)
+    rewrite ⇒-unicity e⇒τ₁ e⇒τ₂                             = refl
+  ⇒-unicity (USAp e₁⇒τ₁ τ▸ e₂⇐τ₂)  (USAp e₁⇒τ₁′ τ▸′ e₂⇐τ₂′)
+    rewrite ⇒-unicity e₁⇒τ₁ e₁⇒τ₁′
+    with refl ← ▸-→-unicity τ▸ τ▸′                          = refl
+  ⇒-unicity (USLet e₁⇒τ₁ e₂⇒τ₂)    (USLet e₁⇒τ₁′ e₂⇒τ₂′)
+    rewrite ⇒-unicity e₁⇒τ₁ e₁⇒τ₁′
+    rewrite ⇒-unicity e₂⇒τ₂ e₂⇒τ₂′                          = refl
+  ⇒-unicity USNum                  USNum                    = refl
+  ⇒-unicity (USPlus e₁⇐num e₂⇐num) (USPlus e₁⇐num′ e₂⇐num′) = refl
+  ⇒-unicity USTrue                 USTrue                   = refl
+  ⇒-unicity USFalse                USFalse                  = refl
+  ⇒-unicity (USIf e₁⇐bool e₂⇒τ₁ e₃⇒τ₂ τ₁⊔τ₂) (USIf e₁⇐bool′ e₂⇒τ₁′ e₃⇒τ₂′ τ₁⊔τ₂′)
+    rewrite ⇒-unicity e₂⇒τ₁ e₂⇒τ₁′
+          | ⇒-unicity e₃⇒τ₂ e₃⇒τ₂′
+          | ⊔-unicity τ₁⊔τ₂ τ₁⊔τ₂′                          = refl
+
   -- synthesis totality
   ⊢⇐-⊢⇒ : ∀ {Γ τ} → (ě : Γ ⊢⇐ τ) → ∃[ τ′ ] Σ[ ě′ ∈ Γ ⊢⇒ τ′ ] ě ⇐□ ≡ ě′ ⇒□
   ⊢⇐-⊢⇒ ⊢λ x ∶ τ ∙ ě [ τ₃▸ ∙ τ~τ₁ ]
