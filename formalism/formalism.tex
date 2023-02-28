@@ -362,6 +362,12 @@ against type $\TMV$
   }{MSVar}
 
   \judgment{
+    \notInCtx{\ctx}{x}
+  }{
+    \ctxSynType{\ctx}{\ECUnbound{x}}{\TUnknown}
+  }{MSUnbound}
+
+  \judgment{
     \ctxSynType{\extendCtx{\ctx}{x}{\TMV}}{\ECMV}{\TMV_2}
   }{
     \ctxSynType{\ctx}{\ECLam{x}{\TMV_1}{\ECMV}}{\TArrow{\TMV_1}{\TMV_2}}
@@ -416,12 +422,6 @@ against type $\TMV$
   }{
     \ctxSynType{\ctx}{\ECIf{\ECMV_1}{\ECMV_2}{\ECMV_3}}{\TJoin{\TMV_1}{\TMV_2}}
   }{MSIf}
-
-  \judgment{
-    \notInCtx{\ctx}{x}
-  }{
-    \ctxSynType{\ctx}{\ECUnbound{x}}{\TUnknown}
-  }{MSUnbound}
 
   \judgment{
     \ctxAnaType{\ctx}{\ECMV_1}{\TBool} \\
