@@ -204,25 +204,25 @@ Formalization of error localization semantics.
 \begin{mathpar}
   \judgment{ }{
     \ctxSynFixedInto{\ctx}{\EEHole}{\ECEHole}{\TUnknown}
-  }{ISHole}
+  }{MKSHole}
 
   \judgment{
     \inCtx{\ctx}{x}{\TMV}
   }{
     \ctxSynFixedInto{\ctx}{x}{x}{\TMV}
-  }{ISVar}
+  }{MKSVar}
 
   \judgment{
     \notInCtx{\ctx}{x}
   }{
     \ctxSynFixedInto{\ctx}{x}{\ECUnbound{x}}{\TUnknown}
-  }{ISUnbound}
+  }{MKSUnbound}
 
   \judgment{
     \ctxSynFixedInto{\extendCtx{\ctx}{x}{\TMV_1}}{\EMV}{\ECMV}{\TMV_2}
   }{
     \ctxSynFixedInto{\ctx}{\ELam{x}{\TMV_1}{\EMV}}{\ELam{x}{\TMV_1}{\ECMV}}{\TArrow{\TMV_1}{\TMV_2}}
-  }{ISLam}
+  }{MKSLam}
 
   \judgment{
     \ctxSynFixedInto{\ctx}{\EMV_1}{\ECMV_1}{\TMV} \\
@@ -230,7 +230,7 @@ Formalization of error localization semantics.
     \ctxAnaFixedInto{\ctx}{\EMV_2}{\ECMV_2}{\TMV_1} \\
   }{
     \ctxSynFixedInto{\ctx}{\EAp{\EMV_1}{\EMV_2}}{\ECAp{\ECMV_1}{\ECMV_2}}{\TMV_2}
-  }{ISAp1}
+  }{MKSAp1}
 
   \judgment{
     \ctxSynFixedInto{\ctx}{\EMV_1}{\ECMV_1}{\TMV} \\
@@ -238,36 +238,36 @@ Formalization of error localization semantics.
     \ctxAnaFixedInto{\ctx}{\EMV_2}{\ECMV_2}{\TUnknown}
   }{
     \ctxSynFixedInto{\ctx}{\EAp{\EMV_1}{\EMV_2}}{\ECApNonMatched{\ECMV_1}{\ECMV_2}}{\TUnknown}
-  }{ISAp2}
+  }{MKSAp2}
 
   \judgment{
     \ctxSynFixedInto{\ctx}{\EMV_1}{\ECMV_1}{\TMV_1} \\
     \ctxSynFixedInto{\extendCtx{\ctx}{x}{\TMV_1}}{\EMV_2}{\ECMV_2}{\TMV_2}
   }{
     \ctxSynFixedInto{\ctx}{\ECLet{x}{\EMV_1}{\EMV_2}}{\ECLet{x}{\ECMV_1}{\ECMV_2}}{\TMV_2}
-  }{ISLet}
+  }{MKSLet}
 
   \judgment{
   }{
     \ctxSynFixedInto{\ctx}{\ENumMV}{\ECNumMV}{\TNum}
-  }{ISNum}
+  }{MKSNum}
 
   \judgment{
     \ctxAnaFixedInto{\ctx}{\EMV_1}{\ECMV_1}{\TNum} \\
     \ctxAnaFixedInto{\ctx}{\EMV_2}{\ECMV_2}{\TNum}
   }{
     \ctxSynFixedInto{\ctx}{\EPlus{\EMV_1}{\EMV_2}}{\ECPlus{\ECMV_1}{\ECMV_2}}{\TNum}
-  }{ISPlus}
+  }{MKSPlus}
 
   \judgment{
   }{
     \ctxSynFixedInto{\ctx}{\ETrue}{\ECTrue}{\TBool}
-  }{ISTrue}
+  }{MKSTrue}
 
   \judgment{
   }{
     \ctxSynFixedInto{\ctx}{\EFalse}{\ECFalse}{\TBool}
-  }{ISFalse}
+  }{MKSFalse}
 
   \judgment{
     \ctxAnaFixedInto{\ctx}{\EMV_1}{\ECMV_1}{\TBool} \\
@@ -275,7 +275,7 @@ Formalization of error localization semantics.
     \ctxSynFixedInto{\ctx}{\EMV_3}{\ECMV_3}{\TMV_2}
   }{
     \ctxSynFixedInto{\ctx}{\EIf{\EMV_1}{\EMV_2}{\EMV_3}}{\ECIf{\ECMV_1}{\ECMV_2}{\ECMV_3}}{\TJoin{\TMV_1}{\TMV_2}}
-  }{ISIf}
+  }{MKSIf}
 
   \judgment{
     \ctxAnaFixedInto{\ctx}{\EMV_1}{\ECMV_1}{\TBool} \\
@@ -284,7 +284,7 @@ Formalization of error localization semantics.
     \inconsistent{\TMV_1}{\TMV_2}
   }{
     \ctxSynFixedInto{\ctx}{\EIf{\EMV_1}{\EMV_2}{\EMV_3}}{\ECInconBr{\ECMV_1}{\ECMV_2}{\ECMV_3}}{\TUnknown}
-  }{ISInconsistentBranches}
+  }{MKSInconsistentBranches}
 \end{mathpar} \\
 
 \judgbox{\ctxAnaFixedInto{\ctx}{\EMV}{\ECMV}{\TMV}} $\EMV$ is marked into $\ECMV$ and analyzes against type $\TMV$
@@ -296,14 +296,14 @@ Formalization of error localization semantics.
     \ctxAnaFixedInto{\extendCtx{\ctx}{x}{\TMV}}{\EMV}{\ECMV}{\TMV_2}
   }{
     \ctxAnaFixedInto{\ctx}{\ELam{x}{\TMV}{\EMV}}{\ECLam{x}{\TMV}{\ECMV}}{\TMV_3}
-  }{IALam1}
+  }{MKALam1}
 
   \judgment{
     \notMatchedArrow{\TMV_3} \\
     \ctxAnaFixedInto{\extendCtx{\ctx}{x}{\TMV}}{\EMV}{\ECMV}{\TUnknown}
   }{
     \ctxAnaFixedInto{\ctx}{\ELam{x}{\TMV}{\EMV}}{\ECInconType{\ECLam{x}{\TMV}{\ECMV}}}{\TMV_3}
-  }{IALam2}
+  }{MKALam2}
 
   \judgment{
     \matchedArrow{\TMV_3}{\TMV_1}{\TMV_2} \\
@@ -311,14 +311,14 @@ Formalization of error localization semantics.
     \ctxAnaFixedInto{\extendCtx{\ctx}{x}{\TMV_1}}{\EMV}{\ECMV}{\TMV_2}
   }{
     \ctxAnaFixedInto{\ctx}{\ELam{x}{\TMV}{\EMV}}{\ECInconType{\ECLam{x}{\TMV}{\ECMV}}}{\TMV_3}
-  }{IALam3}
+  }{MKALam3}
 
   \judgment{
     \ctxSynFixedInto{\ctx}{\EMV_1}{\ECMV_1}{\TMV_1} \\
     \ctxAnaFixedInto{\extendCtx{\ctx}{x}{\TMV_1}}{\EMV_2}{\ECMV_2}{\TMV_2}
   }{
     \ctxAnaFixedInto{\ctx}{\ECLet{x}{\EMV_1}{\EMV_2}}{\ECLet{x}{\ECMV_1}{\ECMV_2}}{\TMV_2}
-  }{IALet}
+  }{MKALet}
 
   \judgment{
     \ctxAnaFixedInto{\ctx}{\EMV_1}{\ECMV_1}{\TBool} \\
@@ -326,7 +326,7 @@ Formalization of error localization semantics.
     \ctxAnaFixedInto{\ctx}{\EMV_3}{\ECMV_3}{\TMV} \\
   }{
     \ctxAnaFixedInto{\ctx}{\EIf{\EMV_1}{\EMV_2}{\EMV_3}}{\ECIf{\ECMV_1}{\ECMV_2}{\ECMV_3}}{\TMV}
-  }{IAIf}
+  }{MKAIf}
 
   \judgment{
     \ctxSynFixedInto{\ctx}{\EMV}{\ECMV}{\TMV'} \\
@@ -334,7 +334,7 @@ Formalization of error localization semantics.
     \subsumable{\EMV}
   }{
     \ctxAnaFixedInto{\ctx}{\EMV}{\ECInconType{\ECMV}}{\TMV}
-  }{IAInconsistentTypes}
+  }{MKAInconsistentTypes}
 
   \judgment{
     \ctxSynFixedInto{\ctx}{\EMV}{\ECMV}{\TMV'} \\
@@ -342,7 +342,7 @@ Formalization of error localization semantics.
     \subsumable{\EMV}
   }{
     \ctxAnaFixedInto{\ctx}{\EMV}{\ECMV}{\TMV}
-  }{IASubsume}
+  }{MKASubsume}
 \end{mathpar}
 
 \subsection{Marked Expressions}
@@ -637,7 +637,7 @@ This gives rise to similar marking and typing judgments (the premises of each ar
     \ctxAnaFixedInto{\ctx}{\EMV_2}{\ECMV_2}{\TUnknown}
   }{
     \ctxSynFixedInto{\ctx}{\EAp{\EMV_1}{\EMV_2}}{\ECApNonMatchedAlt{\ECMV_1}{\ECMV_2}}{\TUnknown}
-  }{ISAp2'}
+  }{MKSAp2'}
 
   \judgment{
     \ctxSynType{\ctx}{\ECMV_1}{\TMV} \\
@@ -664,7 +664,7 @@ The rules remain much the same (the premises are again identical):
     \ctxAnaFixedInto{\ctx}{\EMV_2}{\ECMV_2}{\TUnknown}
   }{
     \ctxSynFixedInto{\ctx}{\EAp{\EMV_1}{\EMV_2}}{\ECAp{\ECInconMatchedArrow{\ECMV_1}}{\ECMV_2}}{\TUnknown}
-  }{ISAp2''}
+  }{MKSAp2''}
 
   \judgment{
     \ctxSynType{\ctx}{\ECMV_1}{\TMV} \\
@@ -790,35 +790,35 @@ types, e.g. pairs:
     \ctxSynFixedInto{\ctx}{\EMV_2}{\ECMV_2}{\TMV_2}
   }{
     \ctxSynFixedInto{\ctx}{\EPair{\EMV_1}{\EMV_2}}{\ECPair{\ECMV_1}{\ECMV_2}}{\TProd{\TMV_1}{\TMV_2}}
-  }{ISPair}
+  }{MKSPair}
 
   \judgment{
     \ctxSynFixedInto{\ctx}{\EMV}{\ECMV}{\TMV} \\
     \matchedPair{\TMV}{\TMV_1}{\TMV_2}
   }{
     \ctxSynFixedInto{\ctx}{\EProjL{\EMV}}{\ECProjL{\ECMV}}{\TMV_1}
-  }{ISProjL1}
+  }{MKSProjL1}
 
   \judgment{
     \ctxSynFixedInto{\ctx}{\EMV}{\ECMV}{\TMV} \\
     \notMatchedPair{\TMV}
   }{
     \ctxSynFixedInto{\ctx}{\EProjL{\EMV}}{\ECProjL{\ECInconMatchedPair{\ECMV}}}{\TMV_1}
-  }{ISProjL2}
+  }{MKSProjL2}
 
   \judgment{
     \ctxSynFixedInto{\ctx}{\EMV}{\ECMV}{\TMV} \\
     \matchedPair{\TMV}{\TMV_1}{\TMV_2}
   }{
     \ctxSynFixedInto{\ctx}{\EProjR{\EMV}}{\ECProjR{\ECMV}}{\TMV_2}
-  }{ISProjR1}
+  }{MKSProjR1}
 
   \judgment{
     \ctxSynFixedInto{\ctx}{\EMV}{\ECMV}{\TMV} \\
     \notMatchedPair{\TMV}
   }{
     \ctxSynFixedInto{\ctx}{\EProjR{\EMV}}{\ECProjR{\ECInconMatchedPair{\ECMV}}}{\TMV_2}
-  }{ISProjR2}
+  }{MKSProjR2}
 \end{mathpar}
 
 \judgbox{\ctxAnaFixedInto{\ctx}{\EMV}{\ECMV}{\TMV}} $\EMV$ is marked into $\ECMV$ and analyzes against type $\TMV$
@@ -830,7 +830,7 @@ types, e.g. pairs:
     \ctxAnaFixedInto{\ctx}{\EMV_2}{\ECMV_2}{\TMV_2}
   }{
     \ctxAnaFixedInto{\ctx}{\EPair{\EMV_1}{\EMV_2}}{\ECPair{\ECMV_1}{\ECMV_2}}{\TMV}
-  }{IAPair1}
+  }{MKAPair1}
 
   \judgment{
     \notMatchedPair{\TMV} \\
@@ -838,7 +838,7 @@ types, e.g. pairs:
     \ctxAnaFixedInto{\ctx}{\EMV_2}{\ECMV_2}{\TUnknown}
   }{
     \ctxAnaFixedInto{\ctx}{\EPair{\EMV_1}{\EMV_2}}{\ECInconType{\ECPair{\ECMV_1}{\ECMV_2}}}{\TMV}
-  }{IAPair2}
+  }{MKAPair2}
 \end{mathpar}
 
 \judgbox{\ctxSynType{\ctx}{\ECMV}{\TMV}} $\ECMV$ synthesizes type $\TMV$
