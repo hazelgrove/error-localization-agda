@@ -273,6 +273,50 @@ module core.typ where
     ▸-→-~̸₂ TMAHole τ₂′~̸τ₂ TCUnknownArr     = τ₂′~̸τ₂ ~-unknown₂
     ▸-→-~̸₂ TMAArr  τ₂′~̸τ₂ (TCArr _ τ₂~τ₂′) = τ₂′~̸τ₂ (~-sym τ₂~τ₂′)
 
+    -- matched product
+    data _▸_-×_ : (τ τ₁ τ₂ : Typ) → Set where
+      TMPHole : unknown ▸ unknown -× unknown
+      TMPProd  : {τ₁ τ₂ : Typ} → τ₁ -× τ₂ ▸ τ₁ -× τ₂
+
+    -- no matched
+    _!▸-× : Typ → Set
+    τ !▸-× = ¬ (∃[ τ₁ ] ∃[ τ₂ ] τ ▸ τ₁ -× τ₂)
+
+    -- decidable matched product
+    _▸-×? : (τ : Typ) → Dec (∃[ τ₁ ] ∃[ τ₂ ] τ ▸ τ₁ -× τ₂)
+    num        ▸-×? = no (λ ())
+    bool       ▸-×? = no (λ ())
+    unknown    ▸-×? = yes ⟨ unknown , ⟨ unknown , TMPHole ⟩ ⟩
+    (τ₁ -→ τ₂) ▸-×? = no (λ ())
+    (τ₁ -× τ₂) ▸-×? = yes ⟨ τ₁      , ⟨ τ₂      , TMPProd  ⟩ ⟩
+
+    -- matched product derivation equality
+    ▸-×-≡ : ∀ {τ τ₁ τ₂} → (τ▸ : τ ▸ τ₁ -× τ₂) → (τ▸′ : τ ▸ τ₁ -× τ₂) → τ▸ ≡ τ▸′
+    ▸-×-≡ TMPHole TMPHole = refl
+    ▸-×-≡ TMPProd TMPProd = refl
+
+    -- matched product unicity
+    ▸-×-unicity : ∀ {τ τ₁ τ₂ τ₃ τ₄} → (τ ▸ τ₁ -× τ₂) → (τ ▸ τ₃ -× τ₄) → τ₁ -× τ₂ ≡ τ₃ -× τ₄
+    ▸-×-unicity TMPHole TMPHole = refl
+    ▸-×-unicity TMPProd TMPProd = refl
+
+    -- no matched product derivation equality
+    !▸-×-≡ : ∀ {τ} → (τ!▸ : τ !▸-×) → (τ!▸′ : τ !▸-×) → τ!▸ ≡ τ!▸′
+    !▸-×-≡ τ!▸ τ!▸′ = ¬-≡ τ!▸ τ!▸′
+
+    -- only consistent types product match
+    ▸-×→~ : ∀ {τ τ₁ τ₂} → τ ▸ τ₁ -× τ₂ → τ ~ τ₁ -× τ₂
+    ▸-×→~ TMPHole = TCUnknownProd
+    ▸-×→~ TMPProd = ~-refl
+
+    ▸-×-~̸₁ : ∀ {τ τ₁ τ₂ τ₁′} → τ ▸ τ₁ -× τ₂ → τ₁′ ~̸ τ₁ → τ ~̸ τ₁′ -× τ₂
+    ▸-×-~̸₁ TMPProd τ₁′~̸τ₁ (TCProd τ₁~τ₁′ _) = τ₁′~̸τ₁ (~-sym τ₁~τ₁′)
+    ▸-×-~̸₁ TMPHole τ₁′~̸τ₁ TCUnknownProd     = τ₁′~̸τ₁ ~-unknown₂
+
+    ▸-×-~̸₂ : ∀ {τ τ₁ τ₂ τ₂′} → τ ▸ τ₁ -× τ₂ → τ₂′ ~̸ τ₂ → τ ~̸ τ₁ -× τ₂′
+    ▸-×-~̸₂ TMPHole  τ₂′~̸τ₂ TCUnknownProd     = τ₂′~̸τ₂ ~-unknown₂
+    ▸-×-~̸₂ TMPProd  τ₂′~̸τ₂ (TCProd _ τ₂~τ₂′) = τ₂′~̸τ₂ (~-sym τ₂~τ₂′)
+
   module join where
     open base
     open equality
