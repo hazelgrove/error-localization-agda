@@ -198,9 +198,8 @@ Formalization of error localization semantics.
   }{USuFalse}
 \end{mathpar}
 
-\subsection{Mark Insertion}
-\judgbox{\ctxSynFixedInto{\ctx}{\EMV}{\ECMV}{\TMV}} $\EMV$ is marked into $\ECMV$ and
-synthesizes type $\TMV$
+\subsection{Marking}
+\judgbox{\ctxSynFixedInto{\ctx}{\EMV}{\ECMV}{\TMV}} $\EMV$ is marked into $\ECMV$ and synthesizes type $\TMV$
 %
 \begin{mathpar}
   \judgment{ }{
@@ -288,8 +287,7 @@ synthesizes type $\TMV$
   }{ISInconsistentBranches}
 \end{mathpar} \\
 
-\judgbox{\ctxAnaFixedInto{\ctx}{\EMV}{\ECMV}{\TMV}} $\EMV$ is marked into $\ECMV$ and analyzes
-against type $\TMV$
+\judgbox{\ctxAnaFixedInto{\ctx}{\EMV}{\ECMV}{\TMV}} $\EMV$ is marked into $\ECMV$ and analyzes against type $\TMV$
 %
 \begin{mathpar}
   \judgment{
