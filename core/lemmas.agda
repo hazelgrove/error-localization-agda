@@ -70,6 +70,7 @@ module core.lemmas where
     with refl ← ▸-×-unicity τ▸ τ▸′                          = refl
 
   -- an expression that synthesizes a type may be analyzed against a consistent type
+  -- note that this NOT true with a glb definition of type join
   ⇒-~-⇐ : ∀ {Γ : Ctx} {e : UExp} {τ τ′ : Typ} → Γ ⊢ e ⇒ τ → τ′ ~ τ → Γ ⊢ e ⇐ τ′
   ⇒-~-⇐ USHole τ′~τ = UASubsume USHole ~-unknown₂ USuHole
   ⇒-~-⇐ (USVar ∋x) τ′~τ = UASubsume (USVar ∋x) τ′~τ USuVar
