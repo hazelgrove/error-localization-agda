@@ -602,24 +602,6 @@ $\judgbox{\erase{\ECMV}}$ is a metafunction defined as follows:
   \erasesToRow{\ECInconBr{\ECMV_1}{\ECMV_2}{\ECMV_3}}{\EIf{(\erase{\ECMV_1})}{(\erase{\ECMV_2})}{(\erase{\ECMV_3})}} \\
 \end{array}\]
 
-\subsection{Image}
-$\judgbox{\image{\EMV}}$ is a metafunction that gives the injection of $\EMV$ into marked
-expressions:
-%
-\newcommand{\imageIsRow}[2]{\image{#1} & = & #2}
-\[\begin{array}{rcl}
-  \imageIsRow{\EEHole}{\ECEHole} \\
-  \imageIsRow{x}{x} \\
-  \imageIsRow{\ELam{x}{\TMV}{\EMV}}{\ECLam{x}{\TMV}{(\image{\EMV})}} \\
-  \imageIsRow{(\EAp{\EMV_1}{\EMV_2})}{\ECAp{(\image{\EMV_1})}{(\image{\EMV_2})}} \\
-  \imageIsRow{\ELet{x}{\EMV_1}{\EMV_2}}{\ECLet{x}{(\image{\EMV_1})}{(\image{\EMV_2})}} \\
-  \imageIsRow{\ENumMV}{\ECNumMV} \\
-  \imageIsRow{(\EPlus{\EMV_1}{\EMV_2})}{\ECPlus{(\image{\EMV_1})}{(\image{\EMV_2})}} \\
-  \imageIsRow{\ETrue}{\ECTrue} \\
-  \imageIsRow{\EFalse}{\ECFalse} \\
-  \imageIsRow{(\EIf{\EMV_1}{\EMV_2}{\EMV_3})}{\ECIf{(\image{\EMV_1})}{(\image{\EMV_2})}{(\image{\EMV_3})}} \\
-\end{array}\]
-
 \subsection{Metatheorems}
 \begin{theorem}[name=Marking Totality] \
   \begin{enumerate}
@@ -643,18 +625,18 @@ expressions:
   \begin{enumerate}
     \item \begin{enumerate}
         \item If $\ctxSynType{\ctx}{\EMV}{\TMV}$ and $\ctxSynFixedInto{\ctx}{\EMV}{\ECMV}{\TMV}$,
-          then $\imageIs{\EMV}{\ECMV}$.
+          then $\markless{\ECMV}$.
         \item If $\ctxAnaType{\ctx}{\EMV}{\TMV}$ and $\ctxAnaFixedInto{\ctx}{\EMV}{\ECMV}{\TMV}$,
-          then $\imageIs{\EMV}{\ECMV}$.
+          then $\markless{\ECMV}$.
       \end{enumerate}
 
     \item \begin{enumerate}
         \item If there does not exist $\TMV$ such that $\ctxSynType{\ctx}{\EMV}{\TMV}$, then for all
-          $\ECMV$ and $\TMV'$ such that $\ctxSynFixedInto{\ctx}{\EMV}{\ECMV}{\TMV'}$, we have
-          $\imageIsNot{\EMV}{\ECMV}$.
+          $\ECMV$ and $\TMV'$ such that $\ctxSynFixedInto{\ctx}{\EMV}{\ECMV}{\TMV'}$, it is not the
+          case that $\markless{\ECMV}$.
         \item If there does not exist $\TMV$ such that $\ctxAnaType{\ctx}{\EMV}{\TMV}$, then for all
-          $\ECMV$ and $\TMV'$ such that $\ctxAnaFixedInto{\ctx}{\EMV}{\ECMV}{\TMV'}$, we have
-          $\imageIsNot{\EMV}{\ECMV}$.
+          $\ECMV$ and $\TMV'$ such that $\ctxAnaFixedInto{\ctx}{\EMV}{\ECMV}{\TMV'}$, it is not the
+          case that $\markless{\ECMV}$.
       \end{enumerate}
   \end{enumerate}
 \end{theorem}
