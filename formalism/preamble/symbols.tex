@@ -31,9 +31,9 @@
 \newcommand{\matchedArrow}[3]{\ensuremath{#1 \matchedArrowRel \TArrow{#2}{#3}}}
 \newcommand{\notMatchedArrow}[1]{\ensuremath{#1 \notMatchedArrowRel}}
 \newcommand{\matchedPairRel}{\ensuremath{\matchedRel{\times}}}
-\newcommand{\notMatchedPairRel}{\ensuremath{\notMatchedRel{\times}}}
+\newcommand{\notMatchedProdRel}{\ensuremath{\notMatchedRel{\times}}}
 \newcommand{\matchedPair}[3]{\ensuremath{#1 \matchedPairRel \TProd{#2}{#3}}}
-\newcommand{\notMatchedPair}[1]{\ensuremath{#1 \notMatchedPairRel}}
+\newcommand{\notMatchedProd}[1]{\ensuremath{#1 \notMatchedProdRel}}
 
 % base types
 \newcommand{\base}[1]{\ensuremath{#1 ~{\normalfont\textsf{base}}}}
@@ -213,23 +213,40 @@
 \newcommand{\MRUnbound}{\ensuremath{\mathsmaller{\mathsmaller{\mathsmaller{\square}}}}}
 \newcommand{\MRInconType}{\ensuremath{\mathsmaller{\inconsistentRel}}}
 \newcommand{\MRInconBr}{\ensuremath{\mathlarger{\noJoinRel}}}
+\newcommand{\MRInconAsc}{\ensuremath{\bm{:}}}
+\newcommand{\MRSynNonMatchedArrow}{\ensuremath{\mathsmaller{\notMatchedArrowRel}}}
+\newcommand{\MRSynNonMatchedProd}{\ensuremath{\mathsmaller{\notMatchedProdRel}}}
+\newcommand{\MRAnaNonMatchedArrow}{\ensuremath{\mathsmaller{\notMatchedArrowRel}}}
+\newcommand{\MRAnaNonMatchedProd}{\ensuremath{\mathsmaller{\notMatchedProdRel}}}
 
-\newcommand{\ECMarked}[2]{\ensuremath{\textcolor{red}{\bm{\llparenthesis}}#1\textcolor{red}{\bm{\rrparenthesis}_{#2}}}}
-\newcommand{\ECMarkedUnbound}[1]{\ensuremath{\ECMarked{#1}{\MRUnbound}}}
-\newcommand{\ECMarkedInconType}[1]{\ensuremath{\ECMarked{#1}{\MRInconType}}}
-\newcommand{\ECMarkedInconBr}[1]{\ensuremath{\ECMarked{#1}{\MRInconBr}}}
-\newcommand{\ECMarkedNonMatched}[2]{\ensuremath{\ECMarked{#1}{#2}}}
-\newcommand{\ECMarkedNonMatchedArrow}[1]{\ensuremath{\ECMarkedNonMatched{#1}{\notMatchedArrowRel}}}
-\newcommand{\ECMarkedNonMatchedPair}[1]{\ensuremath{\ECMarkedNonMatched{#1}{\notMatchedPairRel}}}
+\newcommand{\MRSyn}{\ensuremath{\mathsmaller{\Rightarrow}}}
+\newcommand{\MRAna}{\ensuremath{\mathsmaller{\Leftarrow}}}
+
+\newcommand{\ECMarked}[3]{\ensuremath{\textcolor{red}{\bm{\llparenthesis}}#1\textcolor{red}{\bm{\rrparenthesis}_{#2}^{#3}}}}
+\newcommand{\ECMarkedUnbound}[1]{\ensuremath{\ECMarked{#1}{\MRUnbound}{}}}
+\newcommand{\ECMarkedInconType}[1]{\ensuremath{\ECMarked{#1}{\MRInconType}{}}}
+\newcommand{\ECMarkedInconBr}[1]{\ensuremath{\ECMarked{#1}{\MRInconBr}{}}}
+\newcommand{\ECMarkedInconAsc}[1]{\ensuremath{\ECMarked{#1}{\MRInconAsc}{}}}
+\newcommand{\ECMarkedSynNonMatchedArrow}[1]{\ensuremath{\ECMarked{#1}{\MRSynNonMatchedArrow}{\MRSyn}}}
+\newcommand{\ECMarkedSynNonMatchedProd}[1]{\ensuremath{\ECMarked{#1}{\MRSynNonMatchedProd}{\MRSyn}}}
+\newcommand{\ECMarkedAnaNonMatchedArrow}[1]{\ensuremath{\ECMarked{#1}{\MRAnaNonMatchedArrow}{\MRAna}}}
+\newcommand{\ECMarkedAnaNonMatchedProd}[1]{\ensuremath{\ECMarked{#1}{\MRAnaNonMatchedProd}{\MRAna}}}
 
 \newcommand{\ECUnbound}[1]{\ensuremath{\ECMarkedUnbound{#1}}}
 \newcommand{\ECInconType}[1]{\ensuremath{\ECMarkedInconType{#1}}}
 \newcommand{\ECInconBr}[3]{\ensuremath{\ECMarkedInconBr{\ECIf{#1}{#2}{#3}}}}
-\newcommand{\ECNonMatchedArrow}[1]{\ensuremath{\ECMarkedNonMatchedArrow{#1}}}
-\newcommand{\ECApNonMatchedArrow}[2]{\ensuremath{\ECAp{\ECNonMatchedArrow{#1}}{#2}}}
-\newcommand{\ECNonMatchedPair}[1]{\ensuremath{\ECMarkedNonMatchedPair{#1}}}
-\newcommand{\ECProjLNonMatchedPair}[1]{\ensuremath{\ECProjL{\ECNonMatchedPair{#1}}}}
-\newcommand{\ECProjRNonMatchedPair}[1]{\ensuremath{\ECProjR{\ECNonMatchedPair{#1}}}}
+\newcommand{\ECInconAsc}[1]{\ensuremath{\ECMarkedInconAsc{#1}}}
+\newcommand{\ECSynNonMatchedArrow}[1]{\ensuremath{\ECMarkedSynNonMatchedArrow{#1}}}
+\newcommand{\ECSynNonMatchedProd}[1]{\ensuremath{\ECMarkedSynNonMatchedProd{#1}}}
+\newcommand{\ECAnaNonMatchedArrow}[1]{\ensuremath{\ECMarkedAnaNonMatchedArrow{#1}}}
+\newcommand{\ECAnaNonMatchedProd}[1]{\ensuremath{\ECMarkedAnaNonMatchedProd{#1}}}
+
+\newcommand{\ECLamInconAsc}[3]{\ensuremath{\ECInconAsc{\ECLam{#1}{#2}{#3}}}}
+\newcommand{\ECApSynNonMatchedArrow}[2]{\ensuremath{\ECAp{\ECSynNonMatchedArrow{#1}}{#2}}}
+\newcommand{\ECProjLSynNonMatchedProd}[1]{\ensuremath{\ECProjL{\ECSynNonMatchedProd{#1}}}}
+\newcommand{\ECProjRSynNonMatchedProd}[1]{\ensuremath{\ECProjR{\ECSynNonMatchedProd{#1}}}}
+\newcommand{\ECLamAnaNonMatchedArrow}[3]{\ensuremath{\ECAnaNonMatchedArrow{\ECLam{#1}{#2}{#3}}}}
+\newcommand{\ECPairAnaNonMatchedProd}[2]{\ensuremath{\ECAnaNonMatchedProd{\ECPair{#1}{#2}}}}
 
 %
 % zippered expressions

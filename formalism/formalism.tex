@@ -31,9 +31,9 @@ lambda calculus, with rules organized by judgment.
            &       & \mid         & \ECTrue \mid \ECFalse \mid \ECIf{\ECMV}{\ECMV}{\ECMV}
                      \mid           \ECPair{\ECMV}{\ECMV} \mid \ECProjL{\ECMV} \mid \ECProjR{\ECMV}
                      \mid           \ECEHole \\
-           &       & \mid         & \ECUnbound{x} \mid \ECInconType{\ECMV} \mid \ECInconBr{\ECMV}{\ECMV}{\ECMV}
-                     \mid           \ECNonMatchedArrow{\ECMV} % \mid \ECApNonMatchedAlt{\ECMV}{\ECMV}
-                     \mid           \ECNonMatchedPair{\ECMV}
+           &       & \mid         & \ECUnbound{x} \mid \ECInconType{\ECMV} \mid \ECInconBr{\ECMV}{\ECMV}{\ECMV} \mid \ECInconAsc{\ECMV} \\
+           &       & \mid         & \ECSynNonMatchedArrow{\ECMV} \mid \ECAnaNonMatchedArrow{\ECMV}
+                     \mid           \ECSynNonMatchedProd{\ECMV} \mid \ECAnaNonMatchedProd{\ECMV}
 \end{array}\]
 
 \subsection{Types}
@@ -337,7 +337,7 @@ lambda calculus, with rules organized by judgment.
     \notMatchedArrow{\TMV} \\
     \ctxAnaFixedInto{\ctx}{\EMV_2}{\ECMV_2}{\TUnknown}
   }{
-    \ctxSynFixedInto{\ctx}{\EAp{\EMV_1}{\EMV_2}}{\ECApNonMatchedArrow{\ECMV_1}{\ECMV_2}}{\TUnknown}
+    \ctxSynFixedInto{\ctx}{\EAp{\EMV_1}{\EMV_2}}{\ECApSynNonMatchedArrow{\ECMV_1}{\ECMV_2}}{\TUnknown}
   }{MKSAp2}
 
   \judgment{
@@ -402,9 +402,9 @@ lambda calculus, with rules organized by judgment.
 
   \judgment{
     \ctxSynFixedInto{\ctx}{\EMV}{\ECMV}{\TMV} \\
-    \notMatchedPair{\TMV}
+    \notMatchedProd{\TMV}
   }{
-    \ctxSynFixedInto{\ctx}{\EProjL{\EMV}}{\ECProjLNonMatchedPair{\ECMV}}{\TMV_1}
+    \ctxSynFixedInto{\ctx}{\EProjL{\EMV}}{\ECProjLSynNonMatchedProd{\ECMV}}{\TMV_1}
   }{MKSProjL2}
 
   \judgment{
@@ -416,9 +416,9 @@ lambda calculus, with rules organized by judgment.
 
   \judgment{
     \ctxSynFixedInto{\ctx}{\EMV}{\ECMV}{\TMV} \\
-    \notMatchedPair{\TMV}
+    \notMatchedProd{\TMV}
   }{
-    \ctxSynFixedInto{\ctx}{\EProjR{\EMV}}{\ECProjRNonMatchedPair{\ECMV}}{\TMV_2}
+    \ctxSynFixedInto{\ctx}{\EProjR{\EMV}}{\ECProjRSynNonMatchedProd{\ECMV}}{\TMV_2}
   }{MKSProjR2}
 \end{mathpar} \\
 
@@ -437,7 +437,7 @@ lambda calculus, with rules organized by judgment.
     \notMatchedArrow{\TMV_3} \\
     \ctxAnaFixedInto{\extendCtx{\ctx}{x}{\TMV}}{\EMV}{\ECMV}{\TUnknown}
   }{
-    \ctxAnaFixedInto{\ctx}{\ELam{x}{\TMV}{\EMV}}{\ECInconType{\ECLam{x}{\TMV}{\ECMV}}}{\TMV_3}
+    \ctxAnaFixedInto{\ctx}{\ELam{x}{\TMV}{\EMV}}{\ECLamAnaNonMatchedArrow{x}{\TMV}{\ECMV}}{\TMV_3}
   }{MKALam2}
 
   \judgment{
@@ -445,7 +445,7 @@ lambda calculus, with rules organized by judgment.
     \inconsistent{\TMV}{\TMV_1} \\
     \ctxAnaFixedInto{\extendCtx{\ctx}{x}{\TMV_1}}{\EMV}{\ECMV}{\TMV_2}
   }{
-    \ctxAnaFixedInto{\ctx}{\ELam{x}{\TMV}{\EMV}}{\ECInconType{\ECLam{x}{\TMV}{\ECMV}}}{\TMV_3}
+    \ctxAnaFixedInto{\ctx}{\ELam{x}{\TMV}{\EMV}}{\ECLamInconAsc{x}{\TMV}{\ECMV}}{\TMV_3}
   }{MKALam3}
 
   \judgment{
@@ -472,11 +472,11 @@ lambda calculus, with rules organized by judgment.
   }{MKAPair1}
 
   \judgment{
-    \notMatchedPair{\TMV} \\
+    \notMatchedProd{\TMV} \\
     \ctxAnaFixedInto{\ctx}{\EMV_1}{\ECMV_1}{\TUnknown} \\
     \ctxAnaFixedInto{\ctx}{\EMV_2}{\ECMV_2}{\TUnknown}
   }{
-    \ctxAnaFixedInto{\ctx}{\EPair{\EMV_1}{\EMV_2}}{\ECInconType{\ECPair{\ECMV_1}{\ECMV_2}}}{\TMV}
+    \ctxAnaFixedInto{\ctx}{\EPair{\EMV_1}{\EMV_2}}{\ECPairAnaNonMatchedProd{\ECMV_1}{\ECMV_2}}{\TMV}
   }{MKAPair2}
 
   \judgment{
@@ -551,7 +551,7 @@ lambda calculus, with rules organized by judgment.
     \notMatchedArrow{\TMV} \\
     \ctxAnaTypeM{\ctx}{\ECMV_2}{\TUnknown}
   }{
-    \ctxSynTypeM{\ctx}{\ECAp{\ECNonMatchedArrow{\ECMV}}{\ECMV}}{\TUnknown}
+    \ctxSynTypeM{\ctx}{\ECApSynNonMatchedArrow{\ECMV}{\ECMV}}{\TUnknown}
   }{MSAp2}
 
   \judgment{
@@ -613,9 +613,9 @@ lambda calculus, with rules organized by judgment.
 
   \judgment{
     \ctxSynTypeM{\ctx}{\ECMV}{\TMV} \\
-    \notMatchedPair{\TMV}
+    \notMatchedProd{\TMV}
   }{
-    \ctxSynTypeM{\ctx}{\ECProjLNonMatchedPair{\ECMV}}{\TUnknown}
+    \ctxSynTypeM{\ctx}{\ECProjLSynNonMatchedProd{\ECMV}}{\TUnknown}
   }{MSProjL2}
 
   \judgment{
@@ -627,9 +627,9 @@ lambda calculus, with rules organized by judgment.
 
   \judgment{
     \ctxSynTypeM{\ctx}{\ECMV}{\TMV} \\
-    \notMatchedPair{\TMV}
+    \notMatchedProd{\TMV}
   }{
-    \ctxSynTypeM{\ctx}{\ECProjRNonMatchedPair{\ECMV}}{\TUnknown}
+    \ctxSynTypeM{\ctx}{\ECProjRSynNonMatchedProd{\ECMV}}{\TUnknown}
   }{MSProjR2}
 \end{mathpar} \\
 
@@ -648,7 +648,7 @@ lambda calculus, with rules organized by judgment.
     \notMatchedArrow{\TMV_3} \\
     \ctxAnaTypeM{\extendCtx{\ctx}{x}{\TMV}}{\ECMV}{\TUnknown}
   }{
-    \ctxAnaTypeM{\ctx}{\ECInconType{\ECLam{x}{\TMV}{\ECMV}}}{\TMV_3}
+    \ctxAnaTypeM{\ctx}{\ECLamAnaNonMatchedArrow{x}{\TMV}{\ECMV}}{\TMV_3}
   }{MALam2}
 
   \judgment{
@@ -656,7 +656,7 @@ lambda calculus, with rules organized by judgment.
     \inconsistent{\TMV}{\TMV_1} \\
     \ctxAnaTypeM{\extendCtx{\ctx}{x}{\TMV_1}}{\ECMV}{\TMV_2}
   }{
-    \ctxAnaTypeM{\ctx}{\ECInconType{\ECLam{x}{\TMV}{\ECMV}}}{\TMV_3}
+    \ctxAnaTypeM{\ctx}{\ECLamInconAsc{x}{\TMV}{\ECMV}}{\TMV_3}
   }{MALam3}
 
   \judgment{
@@ -683,11 +683,11 @@ lambda calculus, with rules organized by judgment.
   }{MAPair1}
 
   \judgment{
-    \notMatchedPair{\TMV} \\
+    \notMatchedProd{\TMV} \\
     \ctxAnaTypeM{\ctx}{\ECMV_1}{\TUnknown} \\
     \ctxAnaTypeM{\ctx}{\ECMV_2}{\TUnknown}
   }{
-    \ctxAnaTypeM{\ctx}{\ECInconType{\ECPair{\ECMV_1}{\ECMV_2}}}{\TMV}
+    \ctxAnaTypeM{\ctx}{\ECPairAnaNonMatchedProd{\ECMV_1}{\ECMV_2}}{\TMV}
   }{MAPair2}
 
   \judgment{
