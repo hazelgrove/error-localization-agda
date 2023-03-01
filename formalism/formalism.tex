@@ -21,7 +21,6 @@ Formalization of error localization semantics.
            &       & \mid         & \ECUnbound{x} \mid \ECInconType{\ECMV} \mid \ECInconBr{\ECMV}{\ECMV}{\ECMV} \\
 \end{array}\]
 
-% TODO add base judgment
 \subsection{Types}
 \judgbox{\ensuremath{\consistent{\TMV_1}{\TMV_2}}} $\TMV_1$ is consistent with $\TMV_2$
 %
@@ -67,7 +66,19 @@ Formalization of error localization semantics.
   \joinsTo{\TNum}{\TNum}{\TNum} \\
   \joinsTo{\TBool}{\TBool}{\TBool} \\
   \joinsTo{(\TArrow{\TMV_1}{\TMV_2})}{(\TArrow{\TMV_1'}{\TMV_2'})}{\TArrow{(\TJoin{\TMV_1}{\TMV_1'})}{(\TJoin{\TMV_2}{\TMV_2'})}} \\
-\end{array}\]
+\end{array}\] \\
+
+\judgbox{\ensuremath{\base{\TMV}}} $\TMV$ is a base type
+%
+\begin{mathpar}
+  \judgment{ }{
+    \base{\TNum}
+  }{TBNum}
+
+  \judgment{ }{
+    \base{\TBool}
+  }{TBBool}
+\end{mathpar}
 
 \subsection{Unmarked Expressions}
 \judgbox{\ctxSynType{\ctx}{\EMV}{\TMV}} $\EMV$ synthesizes type $\TMV$
