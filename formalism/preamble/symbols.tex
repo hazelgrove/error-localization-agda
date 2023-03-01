@@ -58,6 +58,32 @@
 \newcommand{\ctxAnaType}[3]{\ensuremath{\withCtx{#1}{\anaType{#2}{#3}}}}
 \newcommand{\ctxNotAnaType}[3]{\ensuremath{\withCtx{#1}{\notAnaType{#2}{#3}}}}
 
+% unmarked typing
+\newcommand{\withCtxU}[2]{\ensuremath{#1 \vdash #2}}
+\newcommand{\assignTypeU}[2]{\ensuremath{#1 : #2}}
+\newcommand{\ctxAssignTypeU}[3]{\ensuremath{\withCtxU{#1}{\assignTypeU{#2}{#3}}}}
+\newcommand{\synTypeU}[2]{\ensuremath{#1 \Rightarrow #2}}
+\newcommand{\notSynTypeU}[2]{\ensuremath{#1 \not\Rightarrow #2}}
+\newcommand{\ctxSynTypeU}[3]{\ensuremath{\withCtxU{#1}{\synTypeU{#2}{#3}}}}
+\newcommand{\ctxNotSynTypeU}[3]{\ensuremath{\withCtxU{#1}{\notSynTypeU{#2}{#3}}}}
+\newcommand{\anaTypeU}[2]{\ensuremath{#1 \Leftarrow #2}}
+\newcommand{\notAnaTypeU}[2]{\ensuremath{#1 \not\Leftarrow #2}}
+\newcommand{\ctxAnaTypeU}[3]{\ensuremath{\withCtxU{#1}{\anaTypeU{#2}{#3}}}}
+\newcommand{\ctxNotAnaTypeU}[3]{\ensuremath{\withCtxU{#1}{\notAnaTypeU{#2}{#3}}}}
+
+% marked typing
+\newcommand{\withCtxM}[2]{\ensuremath{#1 \vdash #2}}
+\newcommand{\assignTypeM}[2]{\ensuremath{#1 : #2}}
+\newcommand{\ctxAssignTypeM}[3]{\ensuremath{\withCtxM{#1}{\assignTypeM{#2}{#3}}}}
+\newcommand{\synTypeM}[2]{\ensuremath{#1 \Rightarrow #2}}
+\newcommand{\notSynTypeM}[2]{\ensuremath{#1 \not\Rightarrow #2}}
+\newcommand{\ctxSynTypeM}[3]{\ensuremath{\withCtxM{#1}{\synTypeM{#2}{#3}}}}
+\newcommand{\ctxNotSynTypeM}[3]{\ensuremath{\withCtxM{#1}{\notSynTypeM{#2}{#3}}}}
+\newcommand{\anaTypeM}[2]{\ensuremath{#1 \Leftarrow #2}}
+\newcommand{\notAnaTypeM}[2]{\ensuremath{#1 \not\Leftarrow #2}}
+\newcommand{\ctxAnaTypeM}[3]{\ensuremath{\withCtxM{#1}{\anaTypeM{#2}{#3}}}}
+\newcommand{\ctxNotAnaTypeM}[3]{\ensuremath{\withCtxM{#1}{\notAnaTypeM{#2}{#3}}}}
+
 % subsumable
 \newcommand{\subsumable}[1]{\ensuremath{#1 ~{\normalfont\textsf{subsumable}}}}
 
