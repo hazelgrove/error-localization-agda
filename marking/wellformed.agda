@@ -76,6 +76,7 @@ module marking.wellformed where
     ↬⇐□ (MKASubsume e↬⇒ě τ~τ′ s)
       rewrite ↬⇒□ e↬⇒ě   = refl
 
+  mutual
     -- well-typed unmarked expression are marked into marked expressions of the same type
     ⇒τ→↬⇒τ : ∀ {Γ : Ctx} {e : UExp} {τ : Typ}
            → Γ ⊢ e ⇒ τ
@@ -125,3 +126,141 @@ module marking.wellformed where
          | ⟨ ě₂ , e₂↬⇐ě₂ ⟩ ← ⇐τ→↬⇐τ e₂⇐τ₂ = ⟨ ⊢⟨ ě₁ , ě₂ ⟩[ τ▸ ] , MKAPair1 e₁↬⇐ě₁ e₂↬⇐ě₂ τ▸ ⟩
     ⇐τ→↬⇐τ {e = e} (UASubsume e⇒τ′ τ~τ′ su)
       with ⟨ ě , e↬⇒ě ⟩ ← ⇒τ→↬⇒τ e⇒τ′     = ⟨ ⊢∙ ě [ τ~τ′ ∙ USu→MSu su e↬⇒ě ] , MKASubsume e↬⇒ě τ~τ′ su ⟩
+
+  -- marking synthesizes the same type as synthesis
+  ⇒-↬-≡ : ∀ {Γ : Ctx} {e : UExp} {τ : Typ} {τ′ : Typ} {ě : Γ ⊢⇒ τ′}
+         → Γ ⊢ e ⇒ τ
+         → Γ ⊢ e ↬⇒ ě
+         → τ ≡ τ′
+  ⇒-↬-≡ USHole MKSHole = refl
+  ⇒-↬-≡ (USVar ∋x) (MKSVar ∋x′) = ∋→τ-≡ ∋x ∋x′
+  ⇒-↬-≡ (USVar {τ = τ} ∋x) (MKSUnbound ∌y) = ⊥-elim (∌y ⟨ τ , ∋x ⟩)
+  ⇒-↬-≡ (USLam e⇒τ) (MKSLam e↬⇒ě)
+    rewrite ⇒-↬-≡ e⇒τ e↬⇒ě = refl
+  ⇒-↬-≡ (USAp e⇒τ τ▸ e₁⇐τ₁) (MKSAp1 e↬⇒ě τ▸′ e₂↬⇐ě₂)
+    with refl ← ⇒-↬-≡ e⇒τ e↬⇒ě
+    with refl ← ▸-→-unicity τ▸ τ▸′
+       = refl
+  ⇒-↬-≡ (USAp {τ₁ = τ₁} {τ₂ = τ₂} e⇒τ τ▸ e₁⇐τ₁) (MKSAp2 e↬⇒ě τ!▸ e₂↬⇐ě₂)
+    with refl ← ⇒-↬-≡ e⇒τ e↬⇒ě
+       = ⊥-elim (τ!▸ ⟨ τ₁ , ⟨ τ₂ , τ▸ ⟩ ⟩)
+  ⇒-↬-≡ (USLet e₁⇒τ₁ e₂⇒τ₂) (MKSLet e₁↬⇒ě₁ e₂↬⇒ě₂)
+    with refl ← ⇒-↬-≡ e₁⇒τ₁ e₁↬⇒ě₁
+    with refl ← ⇒-↬-≡ e₂⇒τ₂ e₂↬⇒ě₂
+       = refl
+  ⇒-↬-≡ USNum MKSNum = refl
+  ⇒-↬-≡ (USPlus e₁⇐num e₂⇐num) (MKSPlus e₁↬⇐ě₁ e₂↬⇐ě₂) = refl
+  ⇒-↬-≡ USTrue MKSTrue = refl
+  ⇒-↬-≡ USFalse MKSFalse = refl
+  ⇒-↬-≡ (USIf e₁⇐bool e₂⇒τ₁ e₃⇒τ₂ τ₁⊔τ₂) (MKSIf e₁↬⇐ě₁ e₂↬⇒ě₂ e₃↬⇒ě₃ τ₁⊔τ₂′)
+    with refl ← ⇒-↬-≡ e₂⇒τ₁ e₂↬⇒ě₂
+    with refl ← ⇒-↬-≡ e₃⇒τ₂ e₃↬⇒ě₃
+    with refl ← ⊔-unicity τ₁⊔τ₂ τ₁⊔τ₂′
+       = refl
+  ⇒-↬-≡ (USIf e₁⇐bool e₂⇒τ₁ e₃⇒τ₂ τ₁⊔τ₂) (MKSInconsistentBranches e₁↬⇐ě₁ e₂↬⇒ě₂ e₃↬⇒ě₃ τ₁~̸τ₂)
+    with refl ← ⇒-↬-≡ e₂⇒τ₁ e₂↬⇒ě₂
+    with refl ← ⇒-↬-≡ e₃⇒τ₂ e₃↬⇒ě₃
+       = ⊥-elim (τ₁~̸τ₂ (⊔→~ τ₁⊔τ₂))
+  ⇒-↬-≡ (USPair e₁⇒τ₁ e₂⇒τ₂) (MKSPair e₁↬⇒ě₁ e₂↬⇒ě₂)
+    with refl ← ⇒-↬-≡ e₁⇒τ₁ e₁↬⇒ě₁
+    with refl ← ⇒-↬-≡ e₂⇒τ₂ e₂↬⇒ě₂
+       = refl
+  ⇒-↬-≡ (USProjL e⇒τ τ▸) (MKSProjL1 e↬⇒ě τ▸′)
+    with refl ← ⇒-↬-≡ e⇒τ e↬⇒ě
+    with refl ← ▸-×-unicity τ▸ τ▸′
+       = refl
+  ⇒-↬-≡ (USProjL {τ₁ = τ₁} {τ₂ = τ₂} e⇒τ τ▸) (MKSProjL2 e↬⇒ě τ!▸)
+    with refl ← ⇒-↬-≡ e⇒τ e↬⇒ě
+       = ⊥-elim (τ!▸ ⟨ τ₁ , ⟨ τ₂ , τ▸ ⟩ ⟩)
+  ⇒-↬-≡ (USProjR e⇒τ τ▸) (MKSProjR1 e↬⇒ě τ▸′)
+    with refl ← ⇒-↬-≡ e⇒τ e↬⇒ě
+    with refl ← ▸-×-unicity τ▸ τ▸′
+       = refl
+  ⇒-↬-≡ (USProjR {τ₁ = τ₁} {τ₂ = τ₂} e⇒τ τ▸) (MKSProjR2 e↬⇒ě τ!▸)
+    with refl ← ⇒-↬-≡ e⇒τ e↬⇒ě
+       = ⊥-elim (τ!▸ ⟨ τ₁ , ⟨ τ₂ , τ▸ ⟩ ⟩)
+
+  mutual
+    -- marking well-typed terms produces no marks
+    ⇒τ→markless : ∀ {Γ : Ctx} {e : UExp} {τ : Typ} {ě : Γ ⊢⇒ τ}
+                → Γ ⊢ e ⇒ τ
+                → Γ ⊢ e ↬⇒ ě
+                → Markless⇒ ě
+    ⇒τ→markless USHole MKSHole
+         = MLSHole
+    ⇒τ→markless (USVar ∋x) (MKSVar ∋x′)
+         = MLSVar
+    ⇒τ→markless (USVar ∋x) (MKSUnbound ∌y)
+         = ⊥-elim (∌y ⟨ unknown , ∋x ⟩)
+    ⇒τ→markless (USLam e⇒τ) (MKSLam e↬⇒ě)
+         = MLSLam (⇒τ→markless e⇒τ e↬⇒ě)
+    ⇒τ→markless (USAp e₁⇒τ τ▸ e₂⇐τ₁) (MKSAp1 e₁↬⇒ě₁ τ▸′  e₂↬⇐ě₂)
+      with refl ← ⇒-↬-≡ e₁⇒τ e₁↬⇒ě₁
+      with refl ← ▸-→-unicity τ▸ τ▸′
+         = MLSAp (⇒τ→markless e₁⇒τ e₁↬⇒ě₁) (⇐τ→markless e₂⇐τ₁ e₂↬⇐ě₂)
+    ⇒τ→markless (USAp {τ₁ = τ₁} e₁⇒τ τ▸ e₂⇐τ₁) (MKSAp2 e₁↬⇒ě₁ τ!▸′ e₂↬⇐ě₂)
+      with refl ← ⇒-↬-≡ e₁⇒τ e₁↬⇒ě₁
+         = ⊥-elim (τ!▸′ ⟨ τ₁ , ⟨ unknown , τ▸ ⟩ ⟩)
+    ⇒τ→markless (USLet e₁⇒τ₁ e₂⇒τ₂) (MKSLet e₁↬⇒ě₁ e₂↬⇒ě₂)
+      with refl ← ⇒-↬-≡ e₁⇒τ₁ e₁↬⇒ě₁
+      with refl ← ⇒-↬-≡ e₂⇒τ₂ e₂↬⇒ě₂
+         = MLSLet (⇒τ→markless e₁⇒τ₁ e₁↬⇒ě₁) (⇒τ→markless e₂⇒τ₂ e₂↬⇒ě₂)
+    ⇒τ→markless USNum MKSNum
+         = MLSNum
+    ⇒τ→markless (USPlus e₁⇐num e₂⇐num) (MKSPlus e₁↬⇐ě₁ e₂↬⇐ě₂)
+         = MLSPlus (⇐τ→markless e₁⇐num e₁↬⇐ě₁) (⇐τ→markless e₂⇐num e₂↬⇐ě₂)
+    ⇒τ→markless USTrue MKSTrue
+         = MLSTrue
+    ⇒τ→markless USFalse MKSFalse
+         = MLSFalse
+    ⇒τ→markless (USIf e₁⇐bool e₂⇒τ₁ e₃⇒τ₂ τ₁⊔τ₂) (MKSIf e₁↬⇐ě₁ e₂↬⇒ě₂ e₃↬⇒ě₃ τ₁⊔τ₃)
+      with refl ← ⇒-↬-≡ e₂⇒τ₁ e₂↬⇒ě₂
+      with refl ← ⇒-↬-≡ e₃⇒τ₂ e₃↬⇒ě₃
+         = MLSIf (⇐τ→markless e₁⇐bool e₁↬⇐ě₁) (⇒τ→markless e₂⇒τ₁ e₂↬⇒ě₂) (⇒τ→markless e₃⇒τ₂ e₃↬⇒ě₃)
+    ⇒τ→markless (USIf e₁⇐bool e₂⇒τ₁ e₃⇒τ₂ τ₁⊔τ₂) (MKSInconsistentBranches e₁↬⇐ě₁ e₂↬⇒ě₂ e₃↬⇒ě₃ τ₁~̸τ₂)
+      with refl ← ⇒-↬-≡ e₂⇒τ₁ e₂↬⇒ě₂
+      with refl ← ⇒-↬-≡ e₃⇒τ₂ e₃↬⇒ě₃
+         = ⊥-elim (τ₁~̸τ₂ (⊔→~ τ₁⊔τ₂))
+    ⇒τ→markless (USPair e₁⇒τ₁ e₂⇒τ₂) (MKSPair e₁↬⇒ě₁ e₂↬⇒ě₂)
+         = MLSPair (⇒τ→markless e₁⇒τ₁ e₁↬⇒ě₁) (⇒τ→markless e₂⇒τ₂ e₂↬⇒ě₂)
+    ⇒τ→markless (USProjL e⇒τ τ▸) (MKSProjL1 e↬⇒ě τ▸′)
+      with refl ← ⇒-↬-≡ e⇒τ e↬⇒ě
+         = MLSProjL (⇒τ→markless e⇒τ e↬⇒ě)
+    ⇒τ→markless (USProjL {τ₂ = τ₂} e⇒τ τ▸) (MKSProjL2 e↬⇒ě τ!▸)
+      with refl ← ⇒-↬-≡ e⇒τ e↬⇒ě
+         = ⊥-elim (τ!▸ ⟨ unknown , ⟨ τ₂ , τ▸ ⟩ ⟩)
+    ⇒τ→markless (USProjR e⇒τ τ▸) (MKSProjR1 e↬⇒ě τ▸′)
+      with refl ← ⇒-↬-≡ e⇒τ e↬⇒ě
+         = MLSProjR (⇒τ→markless e⇒τ e↬⇒ě)
+    ⇒τ→markless (USProjR {τ₁ = τ₁} e⇒τ τ▸) (MKSProjR2 e↬⇒ě τ!▸)
+      with refl ← ⇒-↬-≡ e⇒τ e↬⇒ě
+         = ⊥-elim (τ!▸ ⟨ τ₁ , ⟨ unknown , τ▸ ⟩ ⟩)
+
+    ⇐τ→markless : ∀ {Γ : Ctx} {e : UExp} {τ : Typ} {ě : Γ ⊢⇐ τ}
+                → Γ ⊢ e ⇐ τ
+                → Γ ⊢ e ↬⇐ ě
+                → Markless⇐ ě
+    ⇐τ→markless (UALam τ₃▸ τ~τ₁ e⇐τ) (MKALam1 τ₃▸′ τ~τ₁′ e↬⇐ě)
+      with refl ← ▸-→-unicity τ₃▸ τ₃▸′
+         = MLALam (⇐τ→markless e⇐τ e↬⇐ě)
+    ⇐τ→markless (UALam {τ₁ = τ₁} {τ₂ = τ₂} τ₃▸ τ~τ₁ e⇐τ) (MKALam2 τ₃!▸ e↬⇐ě)
+         = ⊥-elim (τ₃!▸ ⟨ τ₁ , ⟨ τ₂ , τ₃▸ ⟩ ⟩)
+    ⇐τ→markless (UALam τ₃▸ τ~τ₁ e⇐τ) (MKALam3 τ₃▸′ τ~̸τ₁ e↬⇐ě)
+      with refl ← ▸-→-unicity τ₃▸ τ₃▸′
+         = ⊥-elim (τ~̸τ₁ τ~τ₁)
+    ⇐τ→markless (UALet e₁⇒τ₁ e₂⇐τ₂) (MKALet e₁↬⇒ě₁ e₂↬⇐ě₂)
+      with refl ← ⇒-↬-≡ e₁⇒τ₁ e₁↬⇒ě₁
+         = MLALet (⇒τ→markless e₁⇒τ₁ e₁↬⇒ě₁) (⇐τ→markless e₂⇐τ₂ e₂↬⇐ě₂)
+    ⇐τ→markless (UAIf e₁⇐bool e₂⇐τ₁ e₃⇐τ₂) (MKAIf e₁↬⇐ě₁ e₂↬⇐ě₂ e₃↬⇐ě₃)
+         = MLAIf (⇐τ→markless e₁⇐bool e₁↬⇐ě₁) (⇐τ→markless e₂⇐τ₁ e₂↬⇐ě₂) (⇐τ→markless e₃⇐τ₂ e₃↬⇐ě₃)
+    ⇐τ→markless (UAPair τ▸ e₁⇐τ₁ e₂⇐τ₂) (MKAPair1 e₁↬⇐ě₁ e₂↬⇐ě₂ τ▸′)
+      with refl ← ▸-×-unicity τ▸ τ▸′
+         = MLAPair (⇐τ→markless e₁⇐τ₁ e₁↬⇐ě₁) (⇐τ→markless e₂⇐τ₂ e₂↬⇐ě₂)
+    ⇐τ→markless (UAPair {τ₁ = τ₁} {τ₂ = τ₂} τ▸ e₁⇐τ₁ e₂⇐τ₂) (MKAPair2 e₁↬⇐ě₁ e₂↬⇐ě₂ τ!▸)
+         = ⊥-elim (τ!▸ ⟨ τ₁ , ⟨ τ₂ , τ▸ ⟩ ⟩)
+    ⇐τ→markless (UASubsume e⇒τ′ τ~τ′ su) (MKAInconsistentTypes e↬⇒ě τ~̸τ′ su′)
+      with refl ← ⇒-↬-≡ e⇒τ′ e↬⇒ě
+         = ⊥-elim (τ~̸τ′ τ~τ′)
+    ⇐τ→markless (UASubsume e⇒τ′ τ~τ′ su) (MKASubsume e↬⇒ě τ~τ′′ su′)
+      with refl ← ⇒-↬-≡ e⇒τ′ e↬⇒ě
+         = MLASubsume (⇒τ→markless e⇒τ′ e↬⇒ě)
