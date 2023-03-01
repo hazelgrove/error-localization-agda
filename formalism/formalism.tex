@@ -2,12 +2,20 @@
 \input{preamble/preamble}
 \usepackage[margin=1in]{geometry}
 
+\makeatletter
+\renewcommand\tableofcontents{%
+    \@starttoc{toc}%
+}
+\makeatother
 
 \begin{document}
+\tableofcontents
 
 \renewcommand{\thesection}{\Alph{section}}
-\section{Bidirectional Type Error Localization}
-Formalization of error localization semantics.
+\section{Marked Lambda Calculus}
+The \emph{marked lambda calculus} is a judgmental framework for bidirectional type error
+localization and recovery. Below is the complete formalization of the calculus on a gradually typed
+lambda calculus, with rules organized by judgment.
 
 \subsection{Syntax}
 \[\begin{array}{rrcl}

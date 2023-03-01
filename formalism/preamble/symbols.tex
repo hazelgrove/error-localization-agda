@@ -192,14 +192,18 @@
 \newcommand{\ECMarkedUnbound}[1]{\ensuremath{\ECMarked{#1}{\MRUnbound}}}
 \newcommand{\ECMarkedInconType}[1]{\ensuremath{\ECMarked{#1}{\MRInconType}}}
 \newcommand{\ECMarkedInconBr}[1]{\ensuremath{\ECMarked{#1}{\MRInconBr}}}
+\newcommand{\ECMarkedNonMatched}[2]{\ensuremath{\ECMarked{#1}{#2}}}
+\newcommand{\ECMarkedNonMatchedArrow}[1]{\ensuremath{\ECMarkedNonMatched{#1}{\notMatchedArrowRel}}}
+\newcommand{\ECMarkedNonMatchedPair}[1]{\ensuremath{\ECMarkedNonMatched{#1}{\notMatchedPairRel}}}
 
 \newcommand{\ECUnbound}[1]{\ensuremath{\ECMarkedUnbound{#1}}}
 \newcommand{\ECInconType}[1]{\ensuremath{\ECMarkedInconType{#1}}}
 \newcommand{\ECInconBr}[3]{\ensuremath{\ECMarkedInconBr{\ECIf{#1}{#2}{#3}}}}
-
-\newcommand{\ECInconMatched}[2]{\ensuremath{\ECMarked{#1}{#2}}}
-\newcommand{\ECInconMatchedArrow}[1]{\ensuremath{\ECInconMatched{#1}{\notMatchedArrowRel}}}
-\newcommand{\ECInconMatchedPair}[1]{\ensuremath{\ECInconMatched{#1}{\notMatchedPairRel}}}
+\newcommand{\ECNonMatchedArrow}[1]{\ensuremath{\ECMarkedNonMatchedArrow{#1}}}
+\newcommand{\ECApNonMatchedArrow}[2]{\ensuremath{\ECAp{\ECNonMatchedArrow{#1}}{#2}}}
+\newcommand{\ECNonMatchedPair}[1]{\ensuremath{\ECMarkedNonMatchedPair{#1}}}
+\newcommand{\ECProjLNonMatchedPair}[1]{\ensuremath{\ECProjL{\ECNonMatchedPair{#1}}}}
+\newcommand{\ECProjRNonMatchedPair}[1]{\ensuremath{\ECProjR{\ECNonMatchedPair{#1}}}}
 
 %
 % zippered expressions
