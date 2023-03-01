@@ -342,45 +342,45 @@ module core.typ where
     data _⊔_⇒_ : (τ₁ τ₂ τ : Typ) → Set where
       TJBase        : {τ : Typ} → (b : τ base) → τ ⊔ τ ⇒ τ
       TJUnknown     : unknown ⊔ unknown ⇒ unknown
-      TJUnknownBase : {τ : Typ} → (b : τ base) → unknown ⊔ τ ⇒ unknown
-      TJBaseUnknown : {τ : Typ} → (b : τ base) → τ ⊔ unknown ⇒ unknown
+      TJUnknownBase : {τ : Typ} → (b : τ base) → unknown ⊔ τ ⇒ τ
+      TJBaseUnknown : {τ : Typ} → (b : τ base) → τ ⊔ unknown ⇒ τ
       TJArr         : {τ₁ τ₂ τ₁′ τ₂′ τ₁″ τ₂″ : Typ}
                      → (τ₁⊔τ₁′ : τ₁ ⊔ τ₁′ ⇒ τ₁″)
                      → (τ₂⊔τ₂′ : τ₂ ⊔ τ₂′ ⇒ τ₂″)
                      → τ₁ -→ τ₂ ⊔ τ₁′ -→ τ₂′ ⇒ τ₁″ -→ τ₂″
       TJUnknownArr  : {τ₁ τ₂ : Typ}
-                     → unknown ⊔ τ₁ -→ τ₂ ⇒ unknown
+                     → unknown ⊔ τ₁ -→ τ₂ ⇒ τ₁ -→ τ₂
       TJArrUnknown  : {τ₁ τ₂ : Typ}
-                     → τ₁ -→ τ₂ ⊔ unknown ⇒ unknown
+                     → τ₁ -→ τ₂ ⊔ unknown ⇒ τ₁ -→ τ₂
       TJProd        : {τ₁ τ₂ τ₁′ τ₂′ τ₁″ τ₂″ : Typ}
                      → (τ₁⊔τ₁′ : τ₁ ⊔ τ₁′ ⇒ τ₁″)
                      → (τ₂⊔τ₂′ : τ₂ ⊔ τ₂′ ⇒ τ₂″)
                      → τ₁ -× τ₂ ⊔ τ₁′ -× τ₂′ ⇒ τ₁″ -× τ₂″
       TJUnknownProd : {τ₁ τ₂ : Typ}
-                     → unknown ⊔ τ₁ -× τ₂ ⇒ unknown
+                     → unknown ⊔ τ₁ -× τ₂ ⇒ τ₁ -× τ₂
       TJProdUnknown : {τ₁ τ₂ : Typ}
-                     → τ₁ -× τ₂ ⊔ unknown ⇒ unknown
+                     → τ₁ -× τ₂ ⊔ unknown ⇒ τ₁ -× τ₂
 
     -- decidable join
     _⊔?_ : (τ₁ : Typ) → (τ₂ : Typ) → Dec (∃[ τ ] τ₁ ⊔ τ₂ ⇒ τ)
     num        ⊔? num          = yes ⟨ num , TJBase BNum ⟩
     num        ⊔? bool         = no λ()
-    num        ⊔? unknown      = yes ⟨ unknown , TJBaseUnknown BNum ⟩
+    num        ⊔? unknown      = yes ⟨ num , TJBaseUnknown BNum ⟩
     num        ⊔? (_ -→ _)     = no λ()
     num        ⊔? (_ -× _)     = no λ()
     bool       ⊔? num          = no λ()
     bool       ⊔? bool         = yes ⟨ bool , TJBase BBool ⟩
-    bool       ⊔? unknown      = yes ⟨ unknown , TJBaseUnknown BBool ⟩
+    bool       ⊔? unknown      = yes ⟨ bool , TJBaseUnknown BBool ⟩
     bool       ⊔? (_ -→ _)     = no λ()
     bool       ⊔? (_ -× _)     = no λ()
-    unknown    ⊔? num          = yes ⟨ unknown , TJUnknownBase BNum ⟩
-    unknown    ⊔? bool         = yes ⟨ unknown , TJUnknownBase BBool ⟩
-    unknown    ⊔? unknown      = yes ⟨ unknown , TJUnknown ⟩
-    unknown    ⊔? (_ -→ _)     = yes ⟨ unknown , TJUnknownArr ⟩
-    unknown    ⊔? (_ -× _)     = yes ⟨ unknown , TJUnknownProd ⟩
+    unknown    ⊔? num          = yes ⟨ num      , TJUnknownBase BNum ⟩
+    unknown    ⊔? bool         = yes ⟨ bool     , TJUnknownBase BBool ⟩
+    unknown    ⊔? unknown      = yes ⟨ unknown  , TJUnknown ⟩
+    unknown    ⊔? (τ₁ -→ τ₂)   = yes ⟨ τ₁ -→ τ₂ , TJUnknownArr ⟩
+    unknown    ⊔? (τ₁ -× τ₂)   = yes ⟨ τ₁ -× τ₂ , TJUnknownProd ⟩
     (τ₁ -→ τ₂) ⊔? num          = no λ()
     (τ₁ -→ τ₂) ⊔? bool         = no λ()
-    (τ₁ -→ τ₂) ⊔? unknown      = yes ⟨ unknown , TJArrUnknown ⟩
+    (τ₁ -→ τ₂) ⊔? unknown      = yes ⟨ τ₁ -→ τ₂ , TJArrUnknown ⟩
     (τ₁ -→ τ₂) ⊔? (τ₁′ -→ τ₂′)
       with τ₁ ⊔? τ₁′          | τ₂ ⊔? τ₂′
     ...  | yes ⟨ τ , τ₁⊔τ₁′ ⟩ | yes ⟨ τ′ , τ₂⊔τ₂′′ ⟩ = yes ⟨ τ -→ τ′ , TJArr τ₁⊔τ₁′ τ₂⊔τ₂′′ ⟩
@@ -389,7 +389,7 @@ module core.typ where
     (τ₁ -→ τ₂) ⊔? (τ₁′ -× τ₂′) = no λ()
     (τ₁ -× τ₂) ⊔? num          = no λ()
     (τ₁ -× τ₂) ⊔? bool         = no λ()
-    (τ₁ -× τ₂) ⊔? unknown      = yes ⟨ unknown , TJProdUnknown ⟩
+    (τ₁ -× τ₂) ⊔? unknown      = yes ⟨ τ₁ -× τ₂ , TJProdUnknown ⟩
     (τ₁ -× τ₂) ⊔? (τ₁′ -→ τ₂′) = no λ()
     (τ₁ -× τ₂) ⊔? (τ₁′ -× τ₂′)
       with τ₁ ⊔? τ₁′          | τ₂ ⊔? τ₂′
@@ -403,9 +403,13 @@ module core.typ where
     ⊔-refl {bool}    = TJBase BBool
     ⊔-refl {unknown} = TJUnknown
     ⊔-refl {τ₁ -→ τ₂}
-      with τ₁⊔τ₁ ← ⊔-refl {τ₁} | τ₂⊔τ₂ ← ⊔-refl {τ₂} = TJArr τ₁⊔τ₁ τ₂⊔τ₂
+      with τ₁⊔τ₁ ← ⊔-refl {τ₁}
+         | τ₂⊔τ₂ ← ⊔-refl {τ₂}
+         = TJArr τ₁⊔τ₁ τ₂⊔τ₂
     ⊔-refl {τ₁ -× τ₂}
-      with τ₁⊔τ₁ ← ⊔-refl {τ₁} | τ₂⊔τ₂ ← ⊔-refl {τ₂} = TJProd τ₁⊔τ₁ τ₂⊔τ₂
+      with τ₁⊔τ₁ ← ⊔-refl {τ₁}
+         | τ₂⊔τ₂ ← ⊔-refl {τ₂}
+         = TJProd τ₁⊔τ₁ τ₂⊔τ₂
 
     -- join is symmetric
     ⊔-sym : ∀ {τ₁ τ₂ τ} → τ₁ ⊔ τ₂ ⇒ τ → τ₂ ⊔ τ₁ ⇒ τ
@@ -421,14 +425,14 @@ module core.typ where
     ⊔-sym (TJProd ⊔⇒τ₁″ ⊔⇒τ₂″) = TJProd (⊔-sym ⊔⇒τ₁″) (⊔-sym ⊔⇒τ₂″)
 
     -- join with unknown
-    ⊔-unknown₁ : ∀ {τ} → unknown ⊔ τ ⇒ unknown
+    ⊔-unknown₁ : ∀ {τ} → unknown ⊔ τ ⇒ τ
     ⊔-unknown₁ {num}     = TJUnknownBase BNum
     ⊔-unknown₁ {bool}    = TJUnknownBase BBool
     ⊔-unknown₁ {unknown} = TJUnknown
     ⊔-unknown₁ {_ -→ _}  = TJUnknownArr
     ⊔-unknown₁ {_ -× _}  = TJUnknownProd
 
-    ⊔-unknown₂ : ∀ {τ} → τ ⊔ unknown ⇒ unknown
+    ⊔-unknown₂ : ∀ {τ} → τ ⊔ unknown ⇒ τ
     ⊔-unknown₂ {num}     = TJBaseUnknown BNum
     ⊔-unknown₂ {bool}    = TJBaseUnknown BBool
     ⊔-unknown₂ {unknown} = TJUnknown
@@ -445,9 +449,9 @@ module core.typ where
     ⊔-unicity TJArrUnknown          TJArrUnknown              = refl
     ⊔-unicity (TJArr _ _)           (TJBase ())
     ⊔-unicity (TJArr τ₁⊔τ₁′ τ₂⊔τ₂′) (TJArr τ₁⊔τ₁′′ τ₂⊔τ₂′′)   = -→-≡ (⊔-unicity τ₁⊔τ₁′ τ₁⊔τ₁′′) (⊔-unicity τ₂⊔τ₂′ τ₂⊔τ₂′′)
-    ⊔-unicity TJUnknownProd          TJUnknownProd            = refl
-    ⊔-unicity TJProdUnknown          TJProdUnknown            = refl
-    ⊔-unicity (TJProd _ _)           (TJBase ())
+    ⊔-unicity TJUnknownProd         TJUnknownProd             = refl
+    ⊔-unicity TJProdUnknown         TJProdUnknown             = refl
+    ⊔-unicity (TJProd _ _)          (TJBase ())
     ⊔-unicity (TJProd τ₁⊔τ₁′ τ₂⊔τ₂′) (TJProd τ₁⊔τ₁′′ τ₂⊔τ₂′′) = -×-≡ (⊔-unicity τ₁⊔τ₁′ τ₁⊔τ₁′′) (⊔-unicity τ₂⊔τ₂′ τ₂⊔τ₂′′)
 
     -- join derivation equality
@@ -485,20 +489,22 @@ module core.typ where
 
     -- consistent types have a join
     ~→⊔ : ∀ {τ₁ τ₂} → τ₁ ~ τ₂ → ∃[ τ ] τ₁ ⊔ τ₂ ⇒ τ
-    ~→⊔     TCUnknown         = ⟨ unknown , TJUnknown       ⟩
-    ~→⊔ {τ} (TCBase b)        = ⟨ τ       , TJBase b        ⟩
-    ~→⊔     (TCUnknownBase b) = ⟨ unknown , TJUnknownBase b ⟩
-    ~→⊔     (TCBaseUnknown b) = ⟨ unknown , TJBaseUnknown b ⟩
-    ~→⊔     TCUnknownArr      = ⟨ unknown , TJUnknownArr    ⟩
-    ~→⊔     TCArrUnknown      = ⟨ unknown , TJArrUnknown    ⟩
+    ~→⊔           TCUnknown         = ⟨ unknown , TJUnknown       ⟩
+    ~→⊔ {τ₁ = τ } (TCBase b)        = ⟨ τ       , TJBase b        ⟩
+    ~→⊔ {τ₂ = τ₂} (TCUnknownBase b) = ⟨ τ₂      , TJUnknownBase b ⟩
+    ~→⊔ {τ₁ = τ₁} (TCBaseUnknown b) = ⟨ τ₁      , TJBaseUnknown b ⟩
+    ~→⊔ {τ₂ = τ₂} TCUnknownArr      = ⟨ τ₂      , TJUnknownArr    ⟩
+    ~→⊔ {τ₁ = τ₁} TCArrUnknown      = ⟨ τ₁      , TJArrUnknown    ⟩
     ~→⊔     (TCArr τ₁~τ₁′ τ₂~τ₂′)
       with ⟨ τ₁″ , ⊔⇒τ₁″ ⟩ ← ~→⊔ τ₁~τ₁′
-         | ⟨ τ₂″ , ⊔⇒τ₂″ ⟩ ← ~→⊔ τ₂~τ₂′ = ⟨ τ₁″ -→ τ₂″ , TJArr ⊔⇒τ₁″ ⊔⇒τ₂″ ⟩
-    ~→⊔     TCUnknownProd     = ⟨ unknown , TJUnknownProd    ⟩
-    ~→⊔     TCProdUnknown     = ⟨ unknown , TJProdUnknown    ⟩
+         | ⟨ τ₂″ , ⊔⇒τ₂″ ⟩ ← ~→⊔ τ₂~τ₂′
+         = ⟨ τ₁″ -→ τ₂″ , TJArr ⊔⇒τ₁″ ⊔⇒τ₂″ ⟩
+    ~→⊔ {τ₂ = τ₂} TCUnknownProd     = ⟨ τ₂ , TJUnknownProd    ⟩
+    ~→⊔ {τ₁ = τ₁} TCProdUnknown     = ⟨ τ₁ , TJProdUnknown    ⟩
     ~→⊔     (TCProd τ₁~τ₁′ τ₂~τ₂′)
       with ⟨ τ₁″ , ⊔⇒τ₁″ ⟩ ← ~→⊔ τ₁~τ₁′
-         | ⟨ τ₂″ , ⊔⇒τ₂″ ⟩ ← ~→⊔ τ₂~τ₂′ = ⟨ τ₁″ -× τ₂″ , TJProd ⊔⇒τ₁″ ⊔⇒τ₂″ ⟩
+         | ⟨ τ₂″ , ⊔⇒τ₂″ ⟩ ← ~→⊔ τ₂~τ₂′
+         = ⟨ τ₁″ -× τ₂″ , TJProd ⊔⇒τ₁″ ⊔⇒τ₂″ ⟩
 
     -- join nonexistence means types are inconsistent
     ¬⊔→~̸ : ∀ {τ₁ τ₂} → ¬ (∃[ τ ] τ₁ ⊔ τ₂ ⇒ τ) → τ₁ ~̸ τ₂
