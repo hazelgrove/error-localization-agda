@@ -15,6 +15,8 @@ All semantics and metatheorems are mechanized in the Agda proof assistant.
 
 Here is where to find each definition:
 
+-   [prelude.agda](./prelude.agda) contains definitions and utilities not specific to the marked
+    lambda calculus.
 -   [core/](./core) contains definitions related to the core language:
     -   [typ.agda](./core/typ.agda) contains the syntax definition for types, the base,
         consistency, matched arrow and product types, and join judgments, alongside useful lemmas
@@ -36,7 +38,7 @@ Here is where to find each definition:
     calculus.
     -   [action.agda](./hazelnut/action.agda) contains the definition of actions, iterated actions,
         the movements judgment, and the sort judgments.
-    -   [untyped/](./hazelnut/untyped) contains the untyped actions semantics.
+    -   [untyped/](./hazelnut/untyped) contains the untyped actions semantics and theorems.
         -   [zexp.agda](./hazelnut/untyped/zexp.agda) contains the syntax definitions for zippered
             types and expressions.
         -   [erasure.agda](./hazelnut/untyped/erasure.agda) contains judgmental and functional
@@ -78,6 +80,9 @@ Every theorem is proven in the mechanization. Here is where to find each theorem
     a judgmental definition.
 -   Since we are only concerned with well-typed marked expressions, they are encoded as
     intrinsically typed terms. Variables, while otherwise extraneous, are preserved in the syntax
-    for the sake of mark erasure.
+    for the sake of mark erasure. As a result, judgments on marked expressions, such as `subsumable`
+    and `markless`, are formulated bidirectionally.
 -   Conjunctions in the antecedents of theorems have been converted into sequences of implications,
     which has no effect other than to simplify the proof text.
+-   The formalism and paper do not state exactly what the `num` type is; for simplicity, we use
+    unary natural numbers, as defined in [prelude.agda](./prelude.agda).
