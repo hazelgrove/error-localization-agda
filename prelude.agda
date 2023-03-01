@@ -9,6 +9,10 @@ module prelude where
   ⊥-elim : ∀ {A : Set} → ⊥ → A
   ⊥-elim ()
 
+  -- case
+  case_of_ : ∀ {a b} {A : Set a} {B : Set b} → A → (A → B) → B
+  case x of f = f x
+
   -- negation
   module negation where
     open import Agda.Primitive using (Level)
