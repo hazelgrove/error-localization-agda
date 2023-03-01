@@ -532,6 +532,34 @@ module core.typ where
          = ⟨ TCProd τ₁~ τ₂~ , TCProd τ₁′~ τ₂′~ ⟩
     ⊔⇒→~ TJUnknownProd = ⟨ TCUnknownProd , TCProd ~-refl ~-refl ⟩
     ⊔⇒→~ TJProdUnknown = ⟨ TCProd ~-refl ~-refl , TCUnknownProd ⟩
+
+    -- types are consistent with types consistent to their join
+    ⊔⇒-~→~ : ∀ {τ₁ τ₂ τ τ′} → τ₁ ⊔ τ₂ ⇒ τ → τ ~ τ′ → τ₁ ~ τ′ × τ₂ ~ τ′
+    ⊔⇒-~→~ (TJBase b)        τ~τ′ = ⟨ τ~τ′ , τ~τ′ ⟩
+    ⊔⇒-~→~ TJUnknown         τ~τ′ = ⟨ τ~τ′ , τ~τ′ ⟩
+    ⊔⇒-~→~ (TJUnknownBase b) τ~τ′ = ⟨ ~-unknown₁ , τ~τ′ ⟩
+    ⊔⇒-~→~ (TJBaseUnknown b) τ~τ′ = ⟨ τ~τ′ , ~-unknown₁ ⟩
+    ⊔⇒-~→~ {τ = .(_ -→ _)} {unknown} (TJArr τ₁⊔τ₁′ τ₂⊔τ₂′) τ~τ′
+         = ⟨ TCArrUnknown , TCArrUnknown ⟩
+    ⊔⇒-~→~ {τ = .(_ -→ _)} {τ₁″ -→ τ₂″} (TJArr τ₁⊔τ₁′ τ₂⊔τ₂′) (TCArr τ₁″~τ₁‴ τ₂″~τ₂‴)
+      with ⟨ τ₁~τ₁″ , τ₁′~τ₁″ ⟩ ← ⊔⇒-~→~ τ₁⊔τ₁′ τ₁″~τ₁‴
+      with ⟨ τ₂~τ₂″ , τ₂′~τ₂″ ⟩ ← ⊔⇒-~→~ τ₂⊔τ₂′ τ₂″~τ₂‴
+         = ⟨ TCArr τ₁~τ₁″ τ₂~τ₂″ , TCArr τ₁′~τ₁″ τ₂′~τ₂″ ⟩
+    ⊔⇒-~→~ {τ = .(_ -→ _)} TJUnknownArr τ~τ′
+         = ⟨ ~-unknown₁ , τ~τ′ ⟩
+    ⊔⇒-~→~ {τ = .(_ -→ _)} TJArrUnknown τ~τ′
+         = ⟨ τ~τ′ , ~-unknown₁ ⟩
+    ⊔⇒-~→~ {τ = .(_ -× _)} {unknown} (TJProd τ₁⊔τ₁′ τ₂⊔τ₂′) τ~τ′
+         = ⟨ TCProdUnknown , TCProdUnknown ⟩
+    ⊔⇒-~→~ {τ = .(_ -× _)} {τ′} (TJProd τ₁⊔τ₁′ τ₂⊔τ₂′) (TCProd τ₁″~τ₁‴ τ₂″~τ₂‴)
+      with ⟨ τ₁~τ₁″ , τ₁′~τ₁″ ⟩ ← ⊔⇒-~→~ τ₁⊔τ₁′ τ₁″~τ₁‴
+      with ⟨ τ₂~τ₂″ , τ₂′~τ₂″ ⟩ ← ⊔⇒-~→~ τ₂⊔τ₂′ τ₂″~τ₂‴
+         = ⟨ TCProd τ₁~τ₁″ τ₂~τ₂″ , TCProd τ₁′~τ₁″ τ₂′~τ₂″ ⟩
+    ⊔⇒-~→~ {τ = .(_ -× _)} TJUnknownProd τ~τ′
+         = ⟨ ~-unknown₁ , τ~τ′ ⟩
+    ⊔⇒-~→~ {τ = .(_ -× _)} TJProdUnknown τ~τ′
+         = ⟨ τ~τ′ , ~-unknown₁ ⟩
+
   open equality public
   open base public
   open consistency public
