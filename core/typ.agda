@@ -273,6 +273,7 @@ module core.typ where
     ▸-→-~̸₂ TMAHole τ₂′~̸τ₂ TCUnknownArr     = τ₂′~̸τ₂ ~-unknown₂
     ▸-→-~̸₂ TMAArr  τ₂′~̸τ₂ (TCArr _ τ₂~τ₂′) = τ₂′~̸τ₂ (~-sym τ₂~τ₂′)
 
+    -- consistency with an arrow type implies existence of a matched arrow type
     ~→▸-→ : ∀ {τ τ₁ τ₂} → τ ~ τ₁ -→ τ₂ → ∃[ τ₁′ ] ∃[ τ₂′ ] τ ▸ τ₁′ -→ τ₂′
     ~→▸-→ (TCArr {τ₁ = τ₁} {τ₂ = τ₂} τ₁~ τ₂~) = ⟨ τ₁ , ⟨ τ₂ , TMAArr ⟩ ⟩
     ~→▸-→ TCUnknownArr = ⟨ unknown , ⟨ unknown , TMAHole ⟩ ⟩
@@ -325,6 +326,7 @@ module core.typ where
     ▸-×-~̸₂ TMPHole  τ₂′~̸τ₂ TCUnknownProd     = τ₂′~̸τ₂ ~-unknown₂
     ▸-×-~̸₂ TMPProd  τ₂′~̸τ₂ (TCProd _ τ₂~τ₂′) = τ₂′~̸τ₂ (~-sym τ₂~τ₂′)
 
+    -- consistency with an product type implies existence of a matched product type
     ~→▸-× : ∀ {τ τ₁ τ₂} → τ ~ τ₁ -× τ₂ → ∃[ τ₁′ ] ∃[ τ₂′ ] τ ▸ τ₁′ -× τ₂′
     ~→▸-× (TCProd {τ₁ = τ₁} {τ₂ = τ₂} τ₁~ τ₂~) = ⟨ τ₁ , ⟨ τ₂ , TMPProd ⟩ ⟩
     ~→▸-× TCUnknownProd = ⟨ unknown , ⟨ unknown , TMPHole ⟩ ⟩
