@@ -2,7 +2,9 @@
 \input{preamble/preamble}
 \usepackage[margin=1in]{geometry}
 
+
 \begin{document}
+
 \renewcommand{\thesection}{\Alph{section}}
 \section{Bidirectional Type Error Localization}
 Formalization of error localization semantics.
@@ -21,7 +23,9 @@ Formalization of error localization semantics.
            &       & \mid         & \ECTrue \mid \ECFalse \mid \ECIf{\ECMV}{\ECMV}{\ECMV}
                      \mid           \ECPair{\ECMV}{\ECMV} \mid \ECProjL{\ECMV} \mid \ECProjR{\ECMV}
                      \mid           \ECEHole \\
-           &       & \mid         & \ECUnbound{x} \mid \ECInconType{\ECMV} \mid \ECInconBr{\ECMV}{\ECMV}{\ECMV} \mid \ECInconMatchedPair{\ECMV}
+           &       & \mid         & \ECUnbound{x} \mid \ECInconType{\ECMV} \mid \ECInconBr{\ECMV}{\ECMV}{\ECMV}
+                     \mid           \ECNonMatchedArrow{\ECMV} % \mid \ECApNonMatchedAlt{\ECMV}{\ECMV}
+                     \mid           \ECNonMatchedPair{\ECMV}
 \end{array}\]
 
 \subsection{Types}
@@ -304,12 +308,28 @@ Formalization of error localization semantics.
     \ctxSynFixedInto{\ctx}{\EAp{\EMV_1}{\EMV_2}}{\ECAp{\ECMV_1}{\ECMV_2}}{\TMV_2}
   }{MKSAp1}
 
+  % \judgment{
+    % \ctxSynFixedInto{\ctx}{\EMV_1}{\ECMV_1}{\TMV} \\
+    % \notMatchedArrow{\TMV} \\
+    % \ctxAnaFixedInto{\ctx}{\EMV_2}{\ECMV_2}{\TUnknown}
+  % }{
+    % \ctxSynFixedInto{\ctx}{\EAp{\EMV_1}{\EMV_2}}{\ECApNonMatched{\ECMV_1}{\ECMV_2}}{\TUnknown}
+  % }{MKSAp2}
+
+  % \judgment{
+    % \ctxSynFixedInto{\ctx}{\EMV_1}{\ECMV_1}{\TMV} \\
+    % \notMatchedArrow{\TMV} \\
+    % \ctxAnaFixedInto{\ctx}{\EMV_2}{\ECMV_2}{\TUnknown}
+  % }{
+    % \ctxSynFixedInto{\ctx}{\EAp{\EMV_1}{\EMV_2}}{\ECApNonMatchedAlt{\ECMV_1}{\ECMV_2}}{\TUnknown}
+  % }{MKSAp2}
+
   \judgment{
     \ctxSynFixedInto{\ctx}{\EMV_1}{\ECMV_1}{\TMV} \\
     \notMatchedArrow{\TMV} \\
     \ctxAnaFixedInto{\ctx}{\EMV_2}{\ECMV_2}{\TUnknown}
   }{
-    \ctxSynFixedInto{\ctx}{\EAp{\EMV_1}{\EMV_2}}{\ECApNonMatched{\ECMV_1}{\ECMV_2}}{\TUnknown}
+    \ctxSynFixedInto{\ctx}{\EAp{\EMV_1}{\EMV_2}}{\ECApNonMatchedArrow{\ECMV_1}{\ECMV_2}}{\TUnknown}
   }{MKSAp2}
 
   \judgment{
@@ -376,7 +396,7 @@ Formalization of error localization semantics.
     \ctxSynFixedInto{\ctx}{\EMV}{\ECMV}{\TMV} \\
     \notMatchedPair{\TMV}
   }{
-    \ctxSynFixedInto{\ctx}{\EProjL{\EMV}}{\ECProjL{\ECInconMatchedPair{\ECMV}}}{\TMV_1}
+    \ctxSynFixedInto{\ctx}{\EProjL{\EMV}}{\ECProjLNonMatchedPair{\ECMV}}{\TMV_1}
   }{MKSProjL2}
 
   \judgment{
@@ -390,7 +410,7 @@ Formalization of error localization semantics.
     \ctxSynFixedInto{\ctx}{\EMV}{\ECMV}{\TMV} \\
     \notMatchedPair{\TMV}
   }{
-    \ctxSynFixedInto{\ctx}{\EProjR{\EMV}}{\ECProjR{\ECInconMatchedPair{\ECMV}}}{\TMV_2}
+    \ctxSynFixedInto{\ctx}{\EProjR{\EMV}}{\ECProjRNonMatchedPair{\ECMV}}{\TMV_2}
   }{MKSProjR2}
 \end{mathpar} \\
 
@@ -502,12 +522,28 @@ Formalization of error localization semantics.
     \ctxSynType{\ctx}{\ECAp{\ECMV_1}{\ECMV_2}}{\TMV_2}
   }{MSAp1}
 
+  % \judgment{
+    % \ctxSynType{\ctx}{\ECMV_1}{\TMV} \\
+    % \notMatchedArrow{\TMV} \\
+    % \ctxAnaType{\ctx}{\ECMV_2}{\TUnknown}
+  % }{
+    % \ctxSynType{\ctx}{\ECApNonMatched{\ECMV_1}{\ECMV_2}}{\TUnknown}
+  % }{MSAp2}
+
+  % \judgment{
+    % \ctxSynType{\ctx}{\ECMV_1}{\TMV} \\
+    % \notMatchedArrow{\TMV} \\
+    % \ctxAnaType{\ctx}{\ECMV_2}{\TUnknown}
+  % }{
+    % \ctxSynType{\ctx}{\ECApNonMatchedAlt{\ECMV}{\ECMV}}{\TUnknown}
+  % }{MSAp2}
+
   \judgment{
     \ctxSynType{\ctx}{\ECMV_1}{\TMV} \\
     \notMatchedArrow{\TMV} \\
     \ctxAnaType{\ctx}{\ECMV_2}{\TUnknown}
   }{
-    \ctxSynType{\ctx}{\ECApNonMatched{\ECMV_1}{\ECMV_2}}{\TUnknown}
+    \ctxSynType{\ctx}{\ECAp{\ECNonMatchedArrow{\ECMV}}{\ECMV}}{\TUnknown}
   }{MSAp2}
 
   \judgment{
@@ -571,7 +607,7 @@ Formalization of error localization semantics.
     \ctxSynType{\ctx}{\ECMV}{\TMV} \\
     \notMatchedPair{\TMV}
   }{
-    \ctxSynType{\ctx}{\ECProjL{\ECInconMatchedPair{\ECMV}}}{\TUnknown}
+    \ctxSynType{\ctx}{\ECProjLNonMatchedPair{\ECMV}}{\TUnknown}
   }{MSProjL2}
 
   \judgment{
@@ -585,7 +621,7 @@ Formalization of error localization semantics.
     \ctxSynType{\ctx}{\ECMV}{\TMV} \\
     \notMatchedPair{\TMV}
   }{
-    \ctxSynType{\ctx}{\ECProjR{\ECInconMatchedPair{\ECMV}}}{\TUnknown}
+    \ctxSynType{\ctx}{\ECProjRNonMatchedPair{\ECMV}}{\TUnknown}
   }{MSProjR2}
 \end{mathpar} \\
 
@@ -831,65 +867,6 @@ $\judgbox{\erase{\ECMV}}$ is a metafunction defined as follows:
       $\ctxAnaFixedInto{\ctx}{\EMV}{\ECMV_2}{\TMV}$, then $\ECMV_1 = \ECMV_2$.
   \end{enumerate}
 \end{theorem}
-
-\subsection{Alternative Rules}
-\textsc{MSAp2} handles the case that the expression applied in function application does not
-synthesize a type that is a matched arrow type. Treating the expression in that position to be in a
-``constrained'' synthetic mode, we mark a type inconsistency around it.
-
-As an alternative to overloading the meaning of type inconsistency errors, we may instead designate
-a special error case for such applications:
-%
-\[\begin{array}{rrcl}
-  \ECMName & \ECMV & \Coloneqq & \cdots \mid \ECApNonMatchedAlt{\ECMV}{\ECMV}
-\end{array}\]
-%
-This gives rise to similar marking and typing judgments (the premises of each are identical):
-%
-\begin{mathpar}
-  \judgment{
-    \ctxSynFixedInto{\ctx}{\EMV_1}{\ECMV_1}{\TMV} \\
-    \notMatchedArrow{\TMV} \\
-    \ctxAnaFixedInto{\ctx}{\EMV_2}{\ECMV_2}{\TUnknown}
-  }{
-    \ctxSynFixedInto{\ctx}{\EAp{\EMV_1}{\EMV_2}}{\ECApNonMatchedAlt{\ECMV_1}{\ECMV_2}}{\TUnknown}
-  }{MKSAp2'}
-
-  \judgment{
-    \ctxSynType{\ctx}{\ECMV_1}{\TMV} \\
-    \notMatchedArrow{\TMV} \\
-    \ctxAnaType{\ctx}{\ECMV_2}{\TUnknown}
-  }{
-    \ctxSynType{\ctx}{\ECApNonMatchedAlt{\ECMV}{\ECMV}}{\TUnknown}
-  }{MSAp2'}
-\end{mathpar}
-
-Another alternative is to still insert the hole around the applied expression without overloading
-type inconsistency errors, instead designating a ``unmatched type`` error:
-%
-\[\begin{array}{rrcl}
-  \ECMName & \ECMV & \Coloneqq & \cdots \mid \ECInconMatchedArrow{\ECMV}
-\end{array}\]
-%
-The rules remain much the same (the premises are again identical):
-%
-\begin{mathpar}
-  \judgment{
-    \ctxSynFixedInto{\ctx}{\EMV_1}{\ECMV_1}{\TMV} \\
-    \notMatchedArrow{\TMV} \\
-    \ctxAnaFixedInto{\ctx}{\EMV_2}{\ECMV_2}{\TUnknown}
-  }{
-    \ctxSynFixedInto{\ctx}{\EAp{\EMV_1}{\EMV_2}}{\ECAp{\ECInconMatchedArrow{\ECMV_1}}{\ECMV_2}}{\TUnknown}
-  }{MKSAp2''}
-
-  \judgment{
-    \ctxSynType{\ctx}{\ECMV_1}{\TMV} \\
-    \notMatchedArrow{\TMV} \\
-    \ctxAnaType{\ctx}{\ECMV_2}{\TUnknown}
-  }{
-    \ctxSynType{\ctx}{\ECAp{\ECInconMatchedArrow{\ECMV}}{\ECMV}}{\TUnknown}
-  }{MSAp2''}
-\end{mathpar}
 
 \newpage
 \section{Untyped Hazelnut}
