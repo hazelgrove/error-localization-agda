@@ -9,16 +9,19 @@ Formalization of error localization semantics.
 
 \subsection{Syntax}
 \[\begin{array}{rrcl}
-  \TMName  & \TMV  & \Coloneqq & \TUnknown \mid \TNum \mid \TBool \mid \TArrow{\TMV}{\TMV} \\
+  \TMName  & \TMV  & \Coloneqq & \TUnknown \mid \TNum \mid \TBool \mid \TArrow{\TMV}{\TMV} \mid \TProd{\TMV}{\TMV} \\
   \EMName  & \EMV  & \Coloneqq & x \mid \ELam{x}{\TMV}{\EMV} \mid \EAp{\EMV}{\EMV} \mid \ELet{x}{\EMV}{\EMV}
-                     \mid           \ENumMV \mid \EPlus{\EMV}{\EMV}
-                     \mid           \ETrue \mid \EFalse \mid \EIf{\EMV}{\EMV}{\EMV}
+                     \mid           \ENumMV \mid \EPlus{\EMV}{\EMV} \\
+           &       & \mid         & \ETrue \mid \EFalse \mid \EIf{\EMV}{\EMV}{\EMV}
+                     \mid           \EPair{\EMV}{\EMV}
+                     \mid           \EProjL{\EMV} \mid \EProjR{\EMV}
                      \mid           \EEHole \\
   \ECMName & \ECMV & \Coloneqq & x \mid \ECLam{x}{\TMV}{\ECMV} \mid \ECAp{\ECMV}{\ECMV} \mid \ECLet{x}{\ECMV}{\ECMV}
-                     \mid           \ECNumMV \mid \ECPlus{\ECMV}{\ECMV}
-                     \mid           \ECTrue \mid \ECFalse \mid \ECIf{\ECMV}{\ECMV}{\ECMV}
+                     \mid           \ECNumMV \mid \ECPlus{\ECMV}{\ECMV} \\
+           &       & \mid         & \ECTrue \mid \ECFalse \mid \ECIf{\ECMV}{\ECMV}{\ECMV}
+                     \mid           \ECPair{\ECMV}{\ECMV} \mid \ECProjL{\ECMV} \mid \ECProjR{\ECMV}
                      \mid           \ECEHole \\
-           &       & \mid         & \ECUnbound{x} \mid \ECInconType{\ECMV} \mid \ECInconBr{\ECMV}{\ECMV}{\ECMV} \\
+           &       & \mid         & \ECUnbound{x} \mid \ECInconType{\ECMV} \mid \ECInconBr{\ECMV}{\ECMV}{\ECMV} \mid \ECInconMatchedPair{\ECMV}
 \end{array}\]
 
 \subsection{Types}
@@ -43,6 +46,13 @@ Formalization of error localization semantics.
   }{
     \consistent{\TArrow{\TMV_1}{\TMV_2}}{\TArrow{\TMV_1'}{\TMV_2'}}
   }{TCArr}
+
+  \judgment{
+    \consistent{\TMV_1}{\TMV_1'} \\
+    \consistent{\TMV_2}{\TMV_2'} \\
+  }{
+    \consistent{\TProd{\TMV_1}{\TMV_2}}{\TProd{\TMV_1'}{\TMV_2'}}
+  }{TCProd}
 \end{mathpar} \\
 
 \judgbox{\ensuremath{\matchedArrow{\TMV}{\TMV_1}{\TMV_2}}} $\TMV$ has matched arrow type $\TArrow{\TMV_1}{\TMV_2}$
@@ -57,6 +67,18 @@ Formalization of error localization semantics.
   }{TMAArr}
 \end{mathpar} \\
 
+\judgbox{\ensuremath{\matchedPair{\TMV}{\TMV_1}{\TMV_2}}} $\TMV$ has matched binary product type $\TProd{\TMV_1}{\TMV_2}$
+%
+\begin{mathpar}
+  \judgment{ }{
+    \matchedPair{\TUnknown}{\TUnknown}{\TUnknown}
+  }{TMPHole}
+
+  \judgment{ }{
+    \matchedPair{\TProd{\TMV_1}{\TMV_2}}{\TMV_1}{\TMV_2}
+  }{TMPProd}
+\end{mathpar} \\
+
 \judgbox{\ensuremath{\TJoin{\TMV_1}{\TMV_2}}} is a \emph{partial} metafunction defined as follows:
 %
 \newcommand{\joinsTo}[3]{\ensuremath{\TJoin{#1}{#2} & = & #3}}
@@ -66,6 +88,7 @@ Formalization of error localization semantics.
   \joinsTo{\TNum}{\TNum}{\TNum} \\
   \joinsTo{\TBool}{\TBool}{\TBool} \\
   \joinsTo{(\TArrow{\TMV_1}{\TMV_2})}{(\TArrow{\TMV_1'}{\TMV_2'})}{\TArrow{(\TJoin{\TMV_1}{\TMV_1'})}{(\TJoin{\TMV_2}{\TMV_2'})}} \\
+  \joinsTo{(\TProd{\TMV_1}{\TMV_2})}{(\TProd{\TMV_1'}{\TMV_2'})}{\TProd{(\TJoin{\TMV_1}{\TMV_1'})}{(\TJoin{\TMV_2}{\TMV_2'})}}
 \end{array}\] \\
 
 \judgbox{\ensuremath{\base{\TMV}}} $\TMV$ is a base type
@@ -141,6 +164,27 @@ Formalization of error localization semantics.
   }{
     \ctxSynType{\ctx}{\EIf{\EMV_1}{\EMV_2}{\EMV_3}}{\TJoin{\TMV_1}{\TMV_2}}
   }{USIf}
+
+  \judgment{
+    \ctxSynType{\ctx}{\EMV_1}{\TMV_1} \\
+    \ctxSynType{\ctx}{\EMV_2}{\TMV_2}
+  }{
+    \ctxSynType{\ctx}{\EPair{\EMV_1}{\EMV_2}}{\TProd{\TMV_1}{\TMV_2}}
+  }{USPair}
+
+  \judgment{
+    \ctxSynType{\ctx}{\EMV}{\TMV} \\
+    \matchedPair{\TMV}{\TMV_1}{\TMV_2}
+  }{
+    \ctxSynType{\ctx}{\EProjL{\EMV}}{\TMV_1}
+  }{USProjL}
+
+  \judgment{
+    \ctxSynType{\ctx}{\EMV}{\TMV} \\
+    \matchedPair{\TMV}{\TMV_1}{\TMV_2}
+  }{
+    \ctxSynType{\ctx}{\EProjR{\EMV}}{\TMV_2}
+  }{USProjR}
 \end{mathpar} \\
 
 \judgbox{\ctxAnaType{\ctx}{\EMV}{\TMV}} $\EMV$ analyzes against type $\TMV$
@@ -168,6 +212,14 @@ Formalization of error localization semantics.
   }{
     \ctxAnaType{\ctx}{\ECIf{\EMV_1}{\EMV_2}{\EMV_3}}{\TMV}
   }{UAIf}
+
+  \judgment{
+    \matchedPair{\TMV}{\TMV_1}{\TMV_2} \\
+    \ctxAnaType{\ctx}{\EMV_1}{\TMV_1} \\
+    \ctxAnaType{\ctx}{\EMV_2}{\TMV_2}
+  }{
+    \ctxAnaType{\ctx}{\EPair{\EMV_1}{\EMV_2}}{\TMV}
+  }{UAPair}
 
   \judgment{
     \ctxSynType{\ctx}{\EMV}{\TMV'} \\
@@ -208,6 +260,14 @@ Formalization of error localization semantics.
   \judgment{ }{
     \subsumable{\EFalse}
   }{USuFalse}
+
+  \judgment{ }{
+    \subsumable{\EProjL{\EMV}}
+  }{USuProjL}
+
+  \judgment{ }{
+    \subsumable{\EProjR{\EMV}}
+  }{USuProjR}
 \end{mathpar}
 
 \subsection{Marking}
@@ -297,6 +357,41 @@ Formalization of error localization semantics.
   }{
     \ctxSynFixedInto{\ctx}{\EIf{\EMV_1}{\EMV_2}{\EMV_3}}{\ECInconBr{\ECMV_1}{\ECMV_2}{\ECMV_3}}{\TUnknown}
   }{MKSInconsistentBranches}
+
+  \judgment{
+    \ctxSynFixedInto{\ctx}{\EMV_1}{\ECMV_1}{\TMV_1} \\
+    \ctxSynFixedInto{\ctx}{\EMV_2}{\ECMV_2}{\TMV_2}
+  }{
+    \ctxSynFixedInto{\ctx}{\EPair{\EMV_1}{\EMV_2}}{\ECPair{\ECMV_1}{\ECMV_2}}{\TProd{\TMV_1}{\TMV_2}}
+  }{MKSPair}
+
+  \judgment{
+    \ctxSynFixedInto{\ctx}{\EMV}{\ECMV}{\TMV} \\
+    \matchedPair{\TMV}{\TMV_1}{\TMV_2}
+  }{
+    \ctxSynFixedInto{\ctx}{\EProjL{\EMV}}{\ECProjL{\ECMV}}{\TMV_1}
+  }{MKSProjL1}
+
+  \judgment{
+    \ctxSynFixedInto{\ctx}{\EMV}{\ECMV}{\TMV} \\
+    \notMatchedPair{\TMV}
+  }{
+    \ctxSynFixedInto{\ctx}{\EProjL{\EMV}}{\ECProjL{\ECInconMatchedPair{\ECMV}}}{\TMV_1}
+  }{MKSProjL2}
+
+  \judgment{
+    \ctxSynFixedInto{\ctx}{\EMV}{\ECMV}{\TMV} \\
+    \matchedPair{\TMV}{\TMV_1}{\TMV_2}
+  }{
+    \ctxSynFixedInto{\ctx}{\EProjR{\EMV}}{\ECProjR{\ECMV}}{\TMV_2}
+  }{MKSProjR1}
+
+  \judgment{
+    \ctxSynFixedInto{\ctx}{\EMV}{\ECMV}{\TMV} \\
+    \notMatchedPair{\TMV}
+  }{
+    \ctxSynFixedInto{\ctx}{\EProjR{\EMV}}{\ECProjR{\ECInconMatchedPair{\ECMV}}}{\TMV_2}
+  }{MKSProjR2}
 \end{mathpar} \\
 
 \judgbox{\ctxAnaFixedInto{\ctx}{\EMV}{\ECMV}{\TMV}} $\EMV$ is marked into $\ECMV$ and analyzes against type $\TMV$
@@ -339,6 +434,22 @@ Formalization of error localization semantics.
   }{
     \ctxAnaFixedInto{\ctx}{\EIf{\EMV_1}{\EMV_2}{\EMV_3}}{\ECIf{\ECMV_1}{\ECMV_2}{\ECMV_3}}{\TMV}
   }{MKAIf}
+
+  \judgment{
+    \matchedPair{\TMV}{\TMV_1}{\TMV_2} \\
+    \ctxAnaFixedInto{\ctx}{\EMV_1}{\ECMV_1}{\TMV_1} \\
+    \ctxAnaFixedInto{\ctx}{\EMV_2}{\ECMV_2}{\TMV_2}
+  }{
+    \ctxAnaFixedInto{\ctx}{\EPair{\EMV_1}{\EMV_2}}{\ECPair{\ECMV_1}{\ECMV_2}}{\TMV}
+  }{MKAPair1}
+
+  \judgment{
+    \notMatchedPair{\TMV} \\
+    \ctxAnaFixedInto{\ctx}{\EMV_1}{\ECMV_1}{\TUnknown} \\
+    \ctxAnaFixedInto{\ctx}{\EMV_2}{\ECMV_2}{\TUnknown}
+  }{
+    \ctxAnaFixedInto{\ctx}{\EPair{\EMV_1}{\EMV_2}}{\ECInconType{\ECPair{\ECMV_1}{\ECMV_2}}}{\TMV}
+  }{MKAPair2}
 
   \judgment{
     \ctxSynFixedInto{\ctx}{\EMV}{\ECMV}{\TMV'} \\
@@ -441,6 +552,41 @@ Formalization of error localization semantics.
   }{
     \ctxSynType{\ctx}{\ECInconBr{\ECMV_1}{\ECMV_2}{\ECMV_3}}{\TUnknown}
   }{MSInconsistentBranches}
+
+  \judgment{
+    \ctxSynType{\ctx}{\ECMV_1}{\TMV_1} \\
+    \ctxSynType{\ctx}{\ECMV_2}{\TMV_2}
+  }{
+    \ctxSynType{\ctx}{\ECPair{\ECMV_1}{\ECMV_2}}{\TProd{\TMV_1}{\TMV_2}}
+  }{MSPair}
+
+  \judgment{
+    \ctxSynType{\ctx}{\ECMV}{\TMV} \\
+    \matchedPair{\TMV}{\TMV_1}{\TMV_2}
+  }{
+    \ctxSynType{\ctx}{\ECProjL{\ECMV}}{\TMV_1}
+  }{MSProjL1}
+
+  \judgment{
+    \ctxSynType{\ctx}{\ECMV}{\TMV} \\
+    \notMatchedPair{\TMV}
+  }{
+    \ctxSynType{\ctx}{\ECProjL{\ECInconMatchedPair{\ECMV}}}{\TUnknown}
+  }{MSProjL2}
+
+  \judgment{
+    \ctxSynType{\ctx}{\ECMV}{\TMV} \\
+    \matchedPair{\TMV}{\TMV_1}{\TMV_2}
+  }{
+    \ctxSynType{\ctx}{\ECProjR{\ECMV}}{\TMV_2}
+  }{MSProjR1}
+
+  \judgment{
+    \ctxSynType{\ctx}{\ECMV}{\TMV} \\
+    \notMatchedPair{\TMV}
+  }{
+    \ctxSynType{\ctx}{\ECProjR{\ECInconMatchedPair{\ECMV}}}{\TUnknown}
+  }{MSProjR2}
 \end{mathpar} \\
 
 \judgbox{\ctxAnaType{\ctx}{\ECMV}{\TMV}} $\ECMV$ analyzes against type $\TMV$
@@ -485,6 +631,22 @@ Formalization of error localization semantics.
   }{MAIf}
 
   \judgment{
+    \matchedPair{\TMV}{\TMV_1}{\TMV_2} \\
+    \ctxAnaType{\ctx}{\ECMV_1}{\TMV_1} \\
+    \ctxAnaType{\ctx}{\ECMV_2}{\TMV_2}
+  }{
+    \ctxAnaType{\ctx}{\ECPair{\ECMV_1}{\ECMV_2}}{\TMV}
+  }{MAPair1}
+
+  \judgment{
+    \notMatchedPair{\TMV} \\
+    \ctxAnaType{\ctx}{\ECMV_1}{\TUnknown} \\
+    \ctxAnaType{\ctx}{\ECMV_2}{\TUnknown}
+  }{
+    \ctxAnaType{\ctx}{\ECInconType{\ECPair{\ECMV_1}{\ECMV_2}}}{\TMV}
+  }{MAPair2}
+
+  \judgment{
     \ctxSynType{\ctx}{\ECMV}{\TMV'} \\
     \inconsistent{\TMV}{\TMV'} \\
     \subsumable{\ECMV}
@@ -513,6 +675,10 @@ Formalization of error localization semantics.
   }{MSuVar}
 
   \judgment{ }{
+    \subsumable{\ECUnbound{x}}
+  }{MSuUnbound}
+
+  \judgment{ }{
     \subsumable{\ECAp{\ECMV_1}{\ECMV_2}}
   }{MSuAp}
 
@@ -533,12 +699,16 @@ Formalization of error localization semantics.
   }{MSuFalse}
 
   \judgment{ }{
-    \subsumable{\ECUnbound{x}}
-  }{MSuUnbound}
-
-  \judgment{ }{
     \subsumable{\ECInconBr{\ECMV_1}{\ECMV_2}{\ECMV_3}}
   }{MSuInconsistentBranches}
+
+  \judgment{ }{
+    \subsumable{\ECProjL{\ECMV}}
+  }{MSuProjL}
+
+  \judgment{ }{
+    \subsumable{\ECProjR{\ECMV}}
+  }{MSuProjR}
 \end{mathpar} \\
 
 \judgbox{\markless{\ECMV}} $\ECMV$ has no marks
@@ -719,243 +889,6 @@ The rules remain much the same (the premises are again identical):
   }{
     \ctxSynType{\ctx}{\ECAp{\ECInconMatchedArrow{\ECMV}}{\ECMV}}{\TUnknown}
   }{MSAp2''}
-\end{mathpar}
-
-It then becomes natural to extend this to other elimination forms that require handling of unmatched
-types, e.g. pairs:
-%
-\[\begin{array}{rrcl}
-  \TMName  & \TMV  & \Coloneqq & \cdots \mid \TProd{\TMV}{\TMV} \\
-  \EMName  & \EMV  & \Coloneqq & \cdots
-                               \mid \EPair{\EMV}{\EMV}
-                               \mid \EProjL{\EMV} \mid \EProjR{\EMV} \\
-  \ECMName & \ECMV & \Coloneqq & \cdots
-                               \mid \ECPair{\ECMV}{\ECMV}
-                               \mid \ECProjL{\ECMV} \mid \ECProjR{\ECMV}
-                               \mid \ECInconMatchedPair{\ECMV}
-\end{array}\]
-
-% TODO product type consistency, join, matched product type judgments
-% TODO subsumable extension
-
-\judgbox{\ensuremath{\consistent{\TMV_1}{\TMV_2}}} $\TMV_1$ is consistent with $\TMV_2$
-%
-\begin{mathpar}
-  \judgment{
-    \consistent{\TMV_1}{\TMV_1'} \\
-    \consistent{\TMV_2}{\TMV_2'} \\
-  }{
-    \consistent{\TProd{\TMV_1}{\TMV_2}}{\TProd{\TMV_1'}{\TMV_2'}}
-  }{TCProd}
-\end{mathpar}
-
-\judgbox{\ensuremath{\TJoin{\TMV_1}{\TMV_2}}} is a \emph{partial} metafunction defined as follows:
-%
-\[\begin{array}{rcl}
-  & \cdots & \\
-  \joinsTo{(\TProd{\TMV_1}{\TMV_2})}{(\TProd{\TMV_1'}{\TMV_2'})}{\TProd{(\TJoin{\TMV_1}{\TMV_1'})}{(\TJoin{\TMV_2}{\TMV_2'})}} \\
-\end{array}\]
-
-\judgbox{\ensuremath{\matchedPair{\TMV}{\TMV_1}{\TMV_2}}} $\TMV$ has matched binary product type $\TProd{\TMV_1}{\TMV_2}$
-%
-\begin{mathpar}
-  \judgment{ }{
-    \matchedPair{\TUnknown}{\TUnknown}{\TUnknown}
-  }{TMPHole}
-
-  \judgment{ }{
-    \matchedPair{\TProd{\TMV_1}{\TMV_2}}{\TMV_1}{\TMV_2}
-  }{TMPProd}
-\end{mathpar}
-
-\judgbox{\ensuremath{\consistent{\TMV_1}{\TMV_2}}} $\TMV_1$ is consistent with $\TMV_2$
-%
-\begin{mathpar}
-  \judgment{
-    \consistent{\TMV_1}{\TMV_1'} \\
-    \consistent{\TMV_2}{\TMV_2'} \\
-  }{
-    \consistent{\TProd{\TMV_1}{\TMV_2}}{\TProd{\TMV_1'}{\TMV_2'}}
-  }{TCProd}
-\end{mathpar}
-
-\judgbox{\ctxSynType{\ctx}{\EMV}{\TMV}} $\EMV$ synthesizes type $\TMV$
-%
-\begin{mathpar}
-  \judgment{
-    \ctxSynType{\ctx}{\EMV_1}{\TMV_1} \\
-    \ctxSynType{\ctx}{\EMV_2}{\TMV_2}
-  }{
-    \ctxSynType{\ctx}{\EPair{\EMV_1}{\EMV_2}}{\TProd{\TMV_1}{\TMV_2}}
-  }{USPair}
-
-  \judgment{
-    \ctxSynType{\ctx}{\EMV}{\TMV} \\
-    \matchedPair{\TMV}{\TMV_1}{\TMV_2}
-  }{
-    \ctxSynType{\ctx}{\EProjL{\EMV}}{\TMV_1}
-  }{USProjL}
-
-  \judgment{
-    \ctxSynType{\ctx}{\EMV}{\TMV} \\
-    \matchedPair{\TMV}{\TMV_1}{\TMV_2}
-  }{
-    \ctxSynType{\ctx}{\EProjR{\EMV}}{\TMV_2}
-  }{USProjR}
-\end{mathpar}
-
-\judgbox{\ctxAnaType{\ctx}{\EMV}{\TMV}} $\EMV$ analyzes against type $\TMV$
-%
-\begin{mathpar}
-  \judgment{
-    \matchedPair{\TMV}{\TMV_1}{\TMV_2} \\
-    \ctxAnaType{\ctx}{\EMV_1}{\TMV_1} \\
-    \ctxAnaType{\ctx}{\EMV_2}{\TMV_2}
-  }{
-    \ctxAnaType{\ctx}{\EPair{\EMV_1}{\EMV_2}}{\TMV}
-  }{UAPair}
-\end{mathpar}
-
-\judgbox{\subsumable{\EMV}} $\EMV$ is subsumable
-%
-\begin{mathpar}
-  \judgment{ }{
-    \subsumable{\EProjL{\EMV}}
-  }{USuProjL}
-
-  \judgment{ }{
-    \subsumable{\EProjR{\EMV}}
-  }{USuProjR}
-\end{mathpar}
-
-\judgbox{\ctxSynFixedInto{\ctx}{\EMV}{\ECMV}{\TMV}} $\EMV$ is marked into $\ECMV$ and synthesizes type $\TMV$
-%
-\begin{mathpar}
-  \judgment{
-    \ctxSynFixedInto{\ctx}{\EMV_1}{\ECMV_1}{\TMV_1} \\
-    \ctxSynFixedInto{\ctx}{\EMV_2}{\ECMV_2}{\TMV_2}
-  }{
-    \ctxSynFixedInto{\ctx}{\EPair{\EMV_1}{\EMV_2}}{\ECPair{\ECMV_1}{\ECMV_2}}{\TProd{\TMV_1}{\TMV_2}}
-  }{MKSPair}
-
-  \judgment{
-    \ctxSynFixedInto{\ctx}{\EMV}{\ECMV}{\TMV} \\
-    \matchedPair{\TMV}{\TMV_1}{\TMV_2}
-  }{
-    \ctxSynFixedInto{\ctx}{\EProjL{\EMV}}{\ECProjL{\ECMV}}{\TMV_1}
-  }{MKSProjL1}
-
-  \judgment{
-    \ctxSynFixedInto{\ctx}{\EMV}{\ECMV}{\TMV} \\
-    \notMatchedPair{\TMV}
-  }{
-    \ctxSynFixedInto{\ctx}{\EProjL{\EMV}}{\ECProjL{\ECInconMatchedPair{\ECMV}}}{\TMV_1}
-  }{MKSProjL2}
-
-  \judgment{
-    \ctxSynFixedInto{\ctx}{\EMV}{\ECMV}{\TMV} \\
-    \matchedPair{\TMV}{\TMV_1}{\TMV_2}
-  }{
-    \ctxSynFixedInto{\ctx}{\EProjR{\EMV}}{\ECProjR{\ECMV}}{\TMV_2}
-  }{MKSProjR1}
-
-  \judgment{
-    \ctxSynFixedInto{\ctx}{\EMV}{\ECMV}{\TMV} \\
-    \notMatchedPair{\TMV}
-  }{
-    \ctxSynFixedInto{\ctx}{\EProjR{\EMV}}{\ECProjR{\ECInconMatchedPair{\ECMV}}}{\TMV_2}
-  }{MKSProjR2}
-\end{mathpar}
-
-\judgbox{\ctxAnaFixedInto{\ctx}{\EMV}{\ECMV}{\TMV}} $\EMV$ is marked into $\ECMV$ and analyzes against type $\TMV$
-%
-\begin{mathpar}
-  \judgment{
-    \matchedPair{\TMV}{\TMV_1}{\TMV_2} \\
-    \ctxAnaFixedInto{\ctx}{\EMV_1}{\ECMV_1}{\TMV_1} \\
-    \ctxAnaFixedInto{\ctx}{\EMV_2}{\ECMV_2}{\TMV_2}
-  }{
-    \ctxAnaFixedInto{\ctx}{\EPair{\EMV_1}{\EMV_2}}{\ECPair{\ECMV_1}{\ECMV_2}}{\TMV}
-  }{MKAPair1}
-
-  \judgment{
-    \notMatchedPair{\TMV} \\
-    \ctxAnaFixedInto{\ctx}{\EMV_1}{\ECMV_1}{\TUnknown} \\
-    \ctxAnaFixedInto{\ctx}{\EMV_2}{\ECMV_2}{\TUnknown}
-  }{
-    \ctxAnaFixedInto{\ctx}{\EPair{\EMV_1}{\EMV_2}}{\ECInconType{\ECPair{\ECMV_1}{\ECMV_2}}}{\TMV}
-  }{MKAPair2}
-\end{mathpar}
-
-\judgbox{\ctxSynType{\ctx}{\ECMV}{\TMV}} $\ECMV$ synthesizes type $\TMV$
-%
-\begin{mathpar}
-  \judgment{
-    \ctxSynType{\ctx}{\ECMV_1}{\TMV_1} \\
-    \ctxSynType{\ctx}{\ECMV_2}{\TMV_2}
-  }{
-    \ctxSynType{\ctx}{\ECPair{\ECMV_1}{\ECMV_2}}{\TProd{\TMV_1}{\TMV_2}}
-  }{MSPair}
-
-  \judgment{
-    \ctxSynType{\ctx}{\ECMV}{\TMV} \\
-    \matchedPair{\TMV}{\TMV_1}{\TMV_2}
-  }{
-    \ctxSynType{\ctx}{\ECProjL{\ECMV}}{\TMV_1}
-  }{MSProjL1}
-
-  \judgment{
-    \ctxSynType{\ctx}{\ECMV}{\TMV} \\
-    \notMatchedPair{\TMV}
-  }{
-    \ctxSynType{\ctx}{\ECProjL{\ECInconMatchedPair{\ECMV}}}{\TUnknown}
-  }{MSProjL2}
-
-  \judgment{
-    \ctxSynType{\ctx}{\ECMV}{\TMV} \\
-    \matchedPair{\TMV}{\TMV_1}{\TMV_2}
-  }{
-    \ctxSynType{\ctx}{\ECProjR{\ECMV}}{\TMV_2}
-  }{MSProjR1}
-
-  \judgment{
-    \ctxSynType{\ctx}{\ECMV}{\TMV} \\
-    \notMatchedPair{\TMV}
-  }{
-    \ctxSynType{\ctx}{\ECProjR{\ECInconMatchedPair{\ECMV}}}{\TUnknown}
-  }{MSProjR2}
-\end{mathpar}
-
-\judgbox{\ctxAnaType{\ctx}{\ECMV}{\TMV}} $\ECMV$ analyzes against type $\TMV$
-%
-\begin{mathpar}
-  \judgment{
-    \matchedPair{\TMV}{\TMV_1}{\TMV_2} \\
-    \ctxAnaType{\ctx}{\ECMV_1}{\TMV_1} \\
-    \ctxAnaType{\ctx}{\ECMV_2}{\TMV_2}
-  }{
-    \ctxAnaType{\ctx}{\ECPair{\ECMV_1}{\ECMV_2}}{\TMV}
-  }{MAPair1}
-
-  \judgment{
-    \notMatchedPair{\TMV} \\
-    \ctxAnaType{\ctx}{\ECMV_1}{\TUnknown} \\
-    \ctxAnaType{\ctx}{\ECMV_2}{\TUnknown}
-  }{
-    \ctxAnaType{\ctx}{\ECInconType{\ECPair{\ECMV_1}{\ECMV_2}}}{\TMV}
-  }{MAPair2}
-\end{mathpar}
-
-\judgbox{\subsumable{\ECMV}} $\ECMV$ is subsumable
-%
-\begin{mathpar}
-  \judgment{ }{
-    \subsumable{\ECProjL{\ECMV}}
-  }{MSuProjL}
-
-  \judgment{ }{
-    \subsumable{\ECProjR{\ECMV}}
-  }{MSuProjR}
 \end{mathpar}
 
 \newpage
