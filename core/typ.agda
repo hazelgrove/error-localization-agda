@@ -80,21 +80,21 @@ module core.typ where
   module base where
     -- base types
     data _base : (τ : Typ) → Set where
-      BNum  : num base
-      BBool : bool base
+      TBNum  : num base
+      TBBool : bool base
 
     -- decidable base
     _base? : (τ : Typ) → Dec (τ base)
-    num      base? = yes BNum
-    bool     base? = yes BBool
+    num      base? = yes TBNum
+    bool     base? = yes TBBool
     unknown  base? = no (λ ())
     (_ -→ _) base? = no (λ ())
     (_ -× _) base? = no (λ ())
 
     -- base judgment equality
     base-≡ : ∀ {τ} → (b₁ : τ base) → (b₂ : τ base) → b₁ ≡ b₂
-    base-≡ BNum BNum = refl
-    base-≡ BBool BBool = refl
+    base-≡ TBNum TBNum = refl
+    base-≡ TBBool TBBool = refl
 
   module consistency where
     open base
@@ -128,8 +128,8 @@ module core.typ where
 
     -- consistency reflexivity
     ~-refl : ∀ {τ} → τ ~ τ
-    ~-refl {num}      = TCBase BNum
-    ~-refl {bool}     = TCBase BBool
+    ~-refl {num}      = TCBase TBNum
+    ~-refl {bool}     = TCBase TBBool
     ~-refl {unknown}  = TCUnknown
     ~-refl {τ₁ -→ τ₂} = TCArr ~-refl ~-refl
     ~-refl {τ₁ -× τ₂} = TCProd ~-refl ~-refl
@@ -149,15 +149,15 @@ module core.typ where
 
     -- consistency with unknown type
     ~-unknown₁ : ∀ {τ} → unknown ~ τ
-    ~-unknown₁ {num}     = TCUnknownBase BNum
-    ~-unknown₁ {bool}    = TCUnknownBase BBool
+    ~-unknown₁ {num}     = TCUnknownBase TBNum
+    ~-unknown₁ {bool}    = TCUnknownBase TBBool
     ~-unknown₁ {unknown} = TCUnknown
     ~-unknown₁ {_ -→ _}  = TCUnknownArr
     ~-unknown₁ {_ -× _}  = TCUnknownProd
 
     ~-unknown₂ : ∀ {τ} → τ ~ unknown
-    ~-unknown₂ {num}     = TCBaseUnknown BNum
-    ~-unknown₂ {bool}    = TCBaseUnknown BBool
+    ~-unknown₂ {num}     = TCBaseUnknown TBNum
+    ~-unknown₂ {bool}    = TCBaseUnknown TBBool
     ~-unknown₂ {unknown} = TCUnknown
     ~-unknown₂ {_ -→ _}  = TCArrUnknown
     ~-unknown₂ {_ -× _}  = TCProdUnknown
@@ -193,19 +193,19 @@ module core.typ where
 
     -- decidable consistency
     _~?_ : (τ : Typ) → (τ′ : Typ) → Dec (τ ~ τ′)
-    unknown    ~? num      = yes (TCUnknownBase BNum)
-    unknown    ~? bool     = yes (TCUnknownBase BBool)
+    unknown    ~? num      = yes (TCUnknownBase TBNum)
+    unknown    ~? bool     = yes (TCUnknownBase TBBool)
     unknown    ~? unknown  = yes TCUnknown
     unknown    ~? (_ -→ _) = yes TCUnknownArr
     unknown    ~? (_ -× _) = yes TCUnknownProd
-    num        ~? num      = yes (TCBase BNum)
+    num        ~? num      = yes (TCBase TBNum)
     num        ~? bool     = no  (λ ())
-    num        ~? unknown  = yes (TCBaseUnknown BNum)
+    num        ~? unknown  = yes (TCBaseUnknown TBNum)
     num        ~? (_ -→ _) = no  (λ ())
     num        ~? (_ -× _) = no  (λ ())
     bool       ~? num      = no  (λ ())
-    bool       ~? bool     = yes (TCBase BBool)
-    bool       ~? unknown  = yes (TCBaseUnknown BBool)
+    bool       ~? bool     = yes (TCBase TBBool)
+    bool       ~? unknown  = yes (TCBaseUnknown TBBool)
     bool       ~? (_ -→ _) = no  (λ ())
     bool       ~? (_ -× _) = no  (λ ())
     (_ -→ _)   ~? num      = no  (λ ())
@@ -365,18 +365,18 @@ module core.typ where
 
     -- decidable join
     _⊔?_ : (τ₁ : Typ) → (τ₂ : Typ) → Dec (∃[ τ ] τ₁ ⊔ τ₂ ⇒ τ)
-    num        ⊔? num          = yes ⟨ num , TJBase BNum ⟩
+    num        ⊔? num          = yes ⟨ num , TJBase TBNum ⟩
     num        ⊔? bool         = no λ()
-    num        ⊔? unknown      = yes ⟨ num , TJBaseUnknown BNum ⟩
+    num        ⊔? unknown      = yes ⟨ num , TJBaseUnknown TBNum ⟩
     num        ⊔? (_ -→ _)     = no λ()
     num        ⊔? (_ -× _)     = no λ()
     bool       ⊔? num          = no λ()
-    bool       ⊔? bool         = yes ⟨ bool , TJBase BBool ⟩
-    bool       ⊔? unknown      = yes ⟨ bool , TJBaseUnknown BBool ⟩
+    bool       ⊔? bool         = yes ⟨ bool , TJBase TBBool ⟩
+    bool       ⊔? unknown      = yes ⟨ bool , TJBaseUnknown TBBool ⟩
     bool       ⊔? (_ -→ _)     = no λ()
     bool       ⊔? (_ -× _)     = no λ()
-    unknown    ⊔? num          = yes ⟨ num      , TJUnknownBase BNum ⟩
-    unknown    ⊔? bool         = yes ⟨ bool     , TJUnknownBase BBool ⟩
+    unknown    ⊔? num          = yes ⟨ num      , TJUnknownBase TBNum ⟩
+    unknown    ⊔? bool         = yes ⟨ bool     , TJUnknownBase TBBool ⟩
     unknown    ⊔? unknown      = yes ⟨ unknown  , TJUnknown ⟩
     unknown    ⊔? (τ₁ -→ τ₂)   = yes ⟨ τ₁ -→ τ₂ , TJUnknownArr ⟩
     unknown    ⊔? (τ₁ -× τ₂)   = yes ⟨ τ₁ -× τ₂ , TJUnknownProd ⟩
@@ -401,8 +401,8 @@ module core.typ where
 
     -- join of same type
     ⊔-refl : ∀ {τ} → τ ⊔ τ ⇒ τ
-    ⊔-refl {num}     = TJBase BNum
-    ⊔-refl {bool}    = TJBase BBool
+    ⊔-refl {num}     = TJBase TBNum
+    ⊔-refl {bool}    = TJBase TBBool
     ⊔-refl {unknown} = TJUnknown
     ⊔-refl {τ₁ -→ τ₂}
       with τ₁⊔τ₁ ← ⊔-refl {τ₁}
@@ -428,15 +428,15 @@ module core.typ where
 
     -- join with unknown
     ⊔-unknown₁ : ∀ {τ} → unknown ⊔ τ ⇒ τ
-    ⊔-unknown₁ {num}     = TJUnknownBase BNum
-    ⊔-unknown₁ {bool}    = TJUnknownBase BBool
+    ⊔-unknown₁ {num}     = TJUnknownBase TBNum
+    ⊔-unknown₁ {bool}    = TJUnknownBase TBBool
     ⊔-unknown₁ {unknown} = TJUnknown
     ⊔-unknown₁ {_ -→ _}  = TJUnknownArr
     ⊔-unknown₁ {_ -× _}  = TJUnknownProd
 
     ⊔-unknown₂ : ∀ {τ} → τ ⊔ unknown ⇒ τ
-    ⊔-unknown₂ {num}     = TJBaseUnknown BNum
-    ⊔-unknown₂ {bool}    = TJBaseUnknown BBool
+    ⊔-unknown₂ {num}     = TJBaseUnknown TBNum
+    ⊔-unknown₂ {bool}    = TJBaseUnknown TBBool
     ⊔-unknown₂ {unknown} = TJUnknown
     ⊔-unknown₂ {_ -→ _}  = TJArrUnknown
     ⊔-unknown₂ {_ -× _}  = TJProdUnknown
