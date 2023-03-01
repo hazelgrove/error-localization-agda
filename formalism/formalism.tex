@@ -116,90 +116,90 @@ lambda calculus, with rules organized by judgment.
 \end{mathpar}
 
 \subsection{Unmarked Expressions}
-\judgbox{\ctxSynType{\ctx}{\EMV}{\TMV}} $\EMV$ synthesizes type $\TMV$
+\judgbox{\ctxSynTypeU{\ctx}{\EMV}{\TMV}} $\EMV$ synthesizes type $\TMV$
 %
 \begin{mathpar}
   \judgment{ }{
-    \ctxSynType{\ctx}{\EEHole}{\TUnknown}
+    \ctxSynTypeU{\ctx}{\EEHole}{\TUnknown}
   }{USHole}
 
   \judgment{
     \inCtx{\ctx}{x}{\TMV}
   }{
-    \ctxSynType{\ctx}{x}{\TMV}
+    \ctxSynTypeU{\ctx}{x}{\TMV}
   }{USVar}
 
   \judgment{
-    \ctxSynType{\extendCtx{\ctx}{x}{\TMV}}{\EMV}{\TMV_2}
+    \ctxSynTypeU{\extendCtx{\ctx}{x}{\TMV}}{\EMV}{\TMV_2}
   }{
-    \ctxSynType{\ctx}{\ELam{x}{\TMV_1}{\EMV}}{\TArrow{\TMV_1}{\TMV_2}}
+    \ctxSynTypeU{\ctx}{\ELam{x}{\TMV_1}{\EMV}}{\TArrow{\TMV_1}{\TMV_2}}
   }{USLam}
 
   \judgment{
-    \ctxSynType{\ctx}{\EMV_1}{\TMV} \\
+    \ctxSynTypeU{\ctx}{\EMV_1}{\TMV} \\
     \matchedArrow{\TMV}{\TMV_1}{\TMV_2} \\
-    \ctxAnaType{\ctx}{\EMV_2}{\TMV_1}
+    \ctxAnaTypeU{\ctx}{\EMV_2}{\TMV_1}
   }{
-    \ctxSynType{\ctx}{\EAp{\EMV_1}{\EMV_2}}{\TMV_2}
+    \ctxSynTypeU{\ctx}{\EAp{\EMV_1}{\EMV_2}}{\TMV_2}
   }{USAp}
 
   \judgment{
-    \ctxSynType{\ctx}{\EMV_1}{\TMV_1} \\
-    \ctxSynType{\extendCtx{\ctx}{x}{\TMV_1}}{\EMV_2}{\TMV_2}
+    \ctxSynTypeU{\ctx}{\EMV_1}{\TMV_1} \\
+    \ctxSynTypeU{\extendCtx{\ctx}{x}{\TMV_1}}{\EMV_2}{\TMV_2}
   }{
-    \ctxSynType{\ctx}{\ELet{x}{\EMV_1}{\EMV_2}}{\TMV_2}
+    \ctxSynTypeU{\ctx}{\ELet{x}{\EMV_1}{\EMV_2}}{\TMV_2}
   }{USLet}
 
   \judgment{ }{
-    \ctxSynType{\ctx}{\ENumMV}{\TNum}
+    \ctxSynTypeU{\ctx}{\ENumMV}{\TNum}
   }{USNum}
 
   \judgment{
-    \ctxAnaType{\ctx}{\EMV_1}{\TNum} \\
-    \ctxAnaType{\ctx}{\EMV_2}{\TNum}
+    \ctxAnaTypeU{\ctx}{\EMV_1}{\TNum} \\
+    \ctxAnaTypeU{\ctx}{\EMV_2}{\TNum}
   }{
-    \ctxSynType{\ctx}{\EPlus{\EMV_1}{\EMV_2}}{\TNum}
+    \ctxSynTypeU{\ctx}{\EPlus{\EMV_1}{\EMV_2}}{\TNum}
   }{USPlus}
 
   \judgment{ }{
-    \ctxSynType{\ctx}{\ETrue}{\TBool}
+    \ctxSynTypeU{\ctx}{\ETrue}{\TBool}
   }{USTrue}
 
   \judgment{ }{
-    \ctxSynType{\ctx}{\EFalse}{\TBool}
+    \ctxSynTypeU{\ctx}{\EFalse}{\TBool}
   }{USFalse}
 
   \judgment{
-    \ctxAnaType{\ctx}{\EMV_1}{\TBool} \\
-    \ctxSynType{\ctx}{\EMV_2}{\TMV_1} \\
-    \ctxSynType{\ctx}{\EMV_3}{\TMV_2}
+    \ctxAnaTypeU{\ctx}{\EMV_1}{\TBool} \\
+    \ctxSynTypeU{\ctx}{\EMV_2}{\TMV_1} \\
+    \ctxSynTypeU{\ctx}{\EMV_3}{\TMV_2}
   }{
-    \ctxSynType{\ctx}{\EIf{\EMV_1}{\EMV_2}{\EMV_3}}{\TJoin{\TMV_1}{\TMV_2}}
+    \ctxSynTypeU{\ctx}{\EIf{\EMV_1}{\EMV_2}{\EMV_3}}{\TJoin{\TMV_1}{\TMV_2}}
   }{USIf}
 
   \judgment{
-    \ctxSynType{\ctx}{\EMV_1}{\TMV_1} \\
-    \ctxSynType{\ctx}{\EMV_2}{\TMV_2}
+    \ctxSynTypeU{\ctx}{\EMV_1}{\TMV_1} \\
+    \ctxSynTypeU{\ctx}{\EMV_2}{\TMV_2}
   }{
-    \ctxSynType{\ctx}{\EPair{\EMV_1}{\EMV_2}}{\TProd{\TMV_1}{\TMV_2}}
+    \ctxSynTypeU{\ctx}{\EPair{\EMV_1}{\EMV_2}}{\TProd{\TMV_1}{\TMV_2}}
   }{USPair}
 
   \judgment{
-    \ctxSynType{\ctx}{\EMV}{\TMV} \\
+    \ctxSynTypeU{\ctx}{\EMV}{\TMV} \\
     \matchedPair{\TMV}{\TMV_1}{\TMV_2}
   }{
-    \ctxSynType{\ctx}{\EProjL{\EMV}}{\TMV_1}
+    \ctxSynTypeU{\ctx}{\EProjL{\EMV}}{\TMV_1}
   }{USProjL}
 
   \judgment{
-    \ctxSynType{\ctx}{\EMV}{\TMV} \\
+    \ctxSynTypeU{\ctx}{\EMV}{\TMV} \\
     \matchedPair{\TMV}{\TMV_1}{\TMV_2}
   }{
-    \ctxSynType{\ctx}{\EProjR{\EMV}}{\TMV_2}
+    \ctxSynTypeU{\ctx}{\EProjR{\EMV}}{\TMV_2}
   }{USProjR}
 \end{mathpar} \\
 
-\judgbox{\ctxAnaType{\ctx}{\EMV}{\TMV}} $\EMV$ analyzes against type $\TMV$
+\judgbox{\ctxAnaTypeU{\ctx}{\EMV}{\TMV}} $\EMV$ analyzes against type $\TMV$
 %
 \begin{mathpar}
   \judgment{
@@ -497,213 +497,213 @@ lambda calculus, with rules organized by judgment.
 \end{mathpar}
 
 \subsection{Marked Expressions}
-\judgbox{\ctxSynType{\ctx}{\ECMV}{\TMV}} $\ECMV$ synthesizes type $\TMV$
+\judgbox{\ctxSynTypeM{\ctx}{\ECMV}{\TMV}} $\ECMV$ synthesizes type $\TMV$
 %
 \begin{mathpar}
   \judgment{ }{
-    \ctxSynType{\ctx}{\ECEHole}{\TUnknown}
+    \ctxSynTypeM{\ctx}{\ECEHole}{\TUnknown}
   }{MSHole}
 
   \judgment{
     \inCtx{\ctx}{x}{\TMV}
   }{
-    \ctxSynType{\ctx}{x}{\TMV}
+    \ctxSynTypeM{\ctx}{x}{\TMV}
   }{MSVar}
 
   \judgment{
     \notInCtx{\ctx}{x}
   }{
-    \ctxSynType{\ctx}{\ECUnbound{x}}{\TUnknown}
+    \ctxSynTypeM{\ctx}{\ECUnbound{x}}{\TUnknown}
   }{MSUnbound}
 
   \judgment{
-    \ctxSynType{\extendCtx{\ctx}{x}{\TMV}}{\ECMV}{\TMV_2}
+    \ctxSynTypeM{\extendCtx{\ctx}{x}{\TMV}}{\ECMV}{\TMV_2}
   }{
-    \ctxSynType{\ctx}{\ECLam{x}{\TMV_1}{\ECMV}}{\TArrow{\TMV_1}{\TMV_2}}
+    \ctxSynTypeM{\ctx}{\ECLam{x}{\TMV_1}{\ECMV}}{\TArrow{\TMV_1}{\TMV_2}}
   }{MSLam}
 
   \judgment{
-    \ctxSynType{\ctx}{\ECMV_1}{\TMV} \\
+    \ctxSynTypeM{\ctx}{\ECMV_1}{\TMV} \\
     \matchedArrow{\TMV}{\TMV_1}{\TMV_2} \\
-    \ctxAnaType{\ctx}{\ECMV_2}{\TMV_1}
+    \ctxAnaTypeM{\ctx}{\ECMV_2}{\TMV_1}
   }{
-    \ctxSynType{\ctx}{\ECAp{\ECMV_1}{\ECMV_2}}{\TMV_2}
+    \ctxSynTypeM{\ctx}{\ECAp{\ECMV_1}{\ECMV_2}}{\TMV_2}
   }{MSAp1}
 
   % \judgment{
-    % \ctxSynType{\ctx}{\ECMV_1}{\TMV} \\
+    % \ctxSynTypeM{\ctx}{\ECMV_1}{\TMV} \\
     % \notMatchedArrow{\TMV} \\
-    % \ctxAnaType{\ctx}{\ECMV_2}{\TUnknown}
+    % \ctxAnaTypeM{\ctx}{\ECMV_2}{\TUnknown}
   % }{
-    % \ctxSynType{\ctx}{\ECApNonMatched{\ECMV_1}{\ECMV_2}}{\TUnknown}
+    % \ctxSynTypeM{\ctx}{\ECApNonMatched{\ECMV_1}{\ECMV_2}}{\TUnknown}
   % }{MSAp2}
 
   % \judgment{
-    % \ctxSynType{\ctx}{\ECMV_1}{\TMV} \\
+    % \ctxSynTypeM{\ctx}{\ECMV_1}{\TMV} \\
     % \notMatchedArrow{\TMV} \\
-    % \ctxAnaType{\ctx}{\ECMV_2}{\TUnknown}
+    % \ctxAnaTypeM{\ctx}{\ECMV_2}{\TUnknown}
   % }{
-    % \ctxSynType{\ctx}{\ECApNonMatchedAlt{\ECMV}{\ECMV}}{\TUnknown}
+    % \ctxSynTypeM{\ctx}{\ECApNonMatchedAlt{\ECMV}{\ECMV}}{\TUnknown}
   % }{MSAp2}
 
   \judgment{
-    \ctxSynType{\ctx}{\ECMV_1}{\TMV} \\
+    \ctxSynTypeM{\ctx}{\ECMV_1}{\TMV} \\
     \notMatchedArrow{\TMV} \\
-    \ctxAnaType{\ctx}{\ECMV_2}{\TUnknown}
+    \ctxAnaTypeM{\ctx}{\ECMV_2}{\TUnknown}
   }{
-    \ctxSynType{\ctx}{\ECAp{\ECNonMatchedArrow{\ECMV}}{\ECMV}}{\TUnknown}
+    \ctxSynTypeM{\ctx}{\ECAp{\ECNonMatchedArrow{\ECMV}}{\ECMV}}{\TUnknown}
   }{MSAp2}
 
   \judgment{
-    \ctxSynType{\ctx}{\ECMV_1}{\TMV_1} \\
-    \ctxSynType{\extendCtx{\ctx}{x}{\TMV_1}}{\ECMV_2}{\TMV_2}
+    \ctxSynTypeM{\ctx}{\ECMV_1}{\TMV_1} \\
+    \ctxSynTypeM{\extendCtx{\ctx}{x}{\TMV_1}}{\ECMV_2}{\TMV_2}
   }{
-    \ctxSynType{\ctx}{\ECLet{x}{\ECMV_1}{\ECMV_2}}{\TMV_2}
+    \ctxSynTypeM{\ctx}{\ECLet{x}{\ECMV_1}{\ECMV_2}}{\TMV_2}
   }{MSLet}
 
   \judgment{ }{
-    \ctxSynType{\ctx}{\ECNumMV}{\TNum}
+    \ctxSynTypeM{\ctx}{\ECNumMV}{\TNum}
   }{MSNum}
 
   \judgment{
-    \ctxAnaType{\ctx}{\ECMV_1}{\TNum} \\
-    \ctxAnaType{\ctx}{\ECMV_2}{\TNum}
+    \ctxAnaTypeM{\ctx}{\ECMV_1}{\TNum} \\
+    \ctxAnaTypeM{\ctx}{\ECMV_2}{\TNum}
   }{
-    \ctxSynType{\ctx}{\ECPlus{\ECMV_1}{\ECMV_2}}{\TNum}
+    \ctxSynTypeM{\ctx}{\ECPlus{\ECMV_1}{\ECMV_2}}{\TNum}
   }{MSPlus}
 
   \judgment{ }{
-    \ctxSynType{\ctx}{\ECTrue}{\TBool}
+    \ctxSynTypeM{\ctx}{\ECTrue}{\TBool}
   }{MSTrue}
 
   \judgment{ }{
-    \ctxSynType{\ctx}{\ECFalse}{\TBool}
+    \ctxSynTypeM{\ctx}{\ECFalse}{\TBool}
   }{MSFalse}
 
   \judgment{
-    \ctxAnaType{\ctx}{\ECMV_1}{\TBool} \\
-    \ctxSynType{\ctx}{\ECMV_2}{\TMV_1} \\
-    \ctxSynType{\ctx}{\ECMV_3}{\TMV_2}
+    \ctxAnaTypeM{\ctx}{\ECMV_1}{\TBool} \\
+    \ctxSynTypeM{\ctx}{\ECMV_2}{\TMV_1} \\
+    \ctxSynTypeM{\ctx}{\ECMV_3}{\TMV_2}
   }{
-    \ctxSynType{\ctx}{\ECIf{\ECMV_1}{\ECMV_2}{\ECMV_3}}{\TJoin{\TMV_1}{\TMV_2}}
+    \ctxSynTypeM{\ctx}{\ECIf{\ECMV_1}{\ECMV_2}{\ECMV_3}}{\TJoin{\TMV_1}{\TMV_2}}
   }{MSIf}
 
   \judgment{
-    \ctxAnaType{\ctx}{\ECMV_1}{\TBool} \\
-    \ctxSynType{\ctx}{\ECMV_2}{\TMV_1} \\
-    \ctxSynType{\ctx}{\ECMV_3}{\TMV_2} \\
+    \ctxAnaTypeM{\ctx}{\ECMV_1}{\TBool} \\
+    \ctxSynTypeM{\ctx}{\ECMV_2}{\TMV_1} \\
+    \ctxSynTypeM{\ctx}{\ECMV_3}{\TMV_2} \\
     \inconsistent{\TMV_1}{\TMV_2}
   }{
-    \ctxSynType{\ctx}{\ECInconBr{\ECMV_1}{\ECMV_2}{\ECMV_3}}{\TUnknown}
+    \ctxSynTypeM{\ctx}{\ECInconBr{\ECMV_1}{\ECMV_2}{\ECMV_3}}{\TUnknown}
   }{MSInconsistentBranches}
 
   \judgment{
-    \ctxSynType{\ctx}{\ECMV_1}{\TMV_1} \\
-    \ctxSynType{\ctx}{\ECMV_2}{\TMV_2}
+    \ctxSynTypeM{\ctx}{\ECMV_1}{\TMV_1} \\
+    \ctxSynTypeM{\ctx}{\ECMV_2}{\TMV_2}
   }{
-    \ctxSynType{\ctx}{\ECPair{\ECMV_1}{\ECMV_2}}{\TProd{\TMV_1}{\TMV_2}}
+    \ctxSynTypeM{\ctx}{\ECPair{\ECMV_1}{\ECMV_2}}{\TProd{\TMV_1}{\TMV_2}}
   }{MSPair}
 
   \judgment{
-    \ctxSynType{\ctx}{\ECMV}{\TMV} \\
+    \ctxSynTypeM{\ctx}{\ECMV}{\TMV} \\
     \matchedPair{\TMV}{\TMV_1}{\TMV_2}
   }{
-    \ctxSynType{\ctx}{\ECProjL{\ECMV}}{\TMV_1}
+    \ctxSynTypeM{\ctx}{\ECProjL{\ECMV}}{\TMV_1}
   }{MSProjL1}
 
   \judgment{
-    \ctxSynType{\ctx}{\ECMV}{\TMV} \\
+    \ctxSynTypeM{\ctx}{\ECMV}{\TMV} \\
     \notMatchedPair{\TMV}
   }{
-    \ctxSynType{\ctx}{\ECProjLNonMatchedPair{\ECMV}}{\TUnknown}
+    \ctxSynTypeM{\ctx}{\ECProjLNonMatchedPair{\ECMV}}{\TUnknown}
   }{MSProjL2}
 
   \judgment{
-    \ctxSynType{\ctx}{\ECMV}{\TMV} \\
+    \ctxSynTypeM{\ctx}{\ECMV}{\TMV} \\
     \matchedPair{\TMV}{\TMV_1}{\TMV_2}
   }{
-    \ctxSynType{\ctx}{\ECProjR{\ECMV}}{\TMV_2}
+    \ctxSynTypeM{\ctx}{\ECProjR{\ECMV}}{\TMV_2}
   }{MSProjR1}
 
   \judgment{
-    \ctxSynType{\ctx}{\ECMV}{\TMV} \\
+    \ctxSynTypeM{\ctx}{\ECMV}{\TMV} \\
     \notMatchedPair{\TMV}
   }{
-    \ctxSynType{\ctx}{\ECProjRNonMatchedPair{\ECMV}}{\TUnknown}
+    \ctxSynTypeM{\ctx}{\ECProjRNonMatchedPair{\ECMV}}{\TUnknown}
   }{MSProjR2}
 \end{mathpar} \\
 
-\judgbox{\ctxAnaType{\ctx}{\ECMV}{\TMV}} $\ECMV$ analyzes against type $\TMV$
+\judgbox{\ctxAnaTypeM{\ctx}{\ECMV}{\TMV}} $\ECMV$ analyzes against type $\TMV$
 %
 \begin{mathpar}
   \judgment{
     \matchedArrow{\TMV_3}{\TMV_1}{\TMV_2} \\
     \consistent{\TMV}{\TMV_1} \\
-    \ctxAnaType{\extendCtx{\ctx}{x}{\TMV}}{\ECMV}{\TMV_2}
+    \ctxAnaTypeM{\extendCtx{\ctx}{x}{\TMV}}{\ECMV}{\TMV_2}
   }{
-    \ctxAnaType{\ctx}{\ECLam{x}{\TMV}{\ECMV}}{\TMV_3}
+    \ctxAnaTypeM{\ctx}{\ECLam{x}{\TMV}{\ECMV}}{\TMV_3}
   }{MALam1}
 
   \judgment{
     \notMatchedArrow{\TMV_3} \\
-    \ctxAnaType{\extendCtx{\ctx}{x}{\TMV}}{\ECMV}{\TUnknown}
+    \ctxAnaTypeM{\extendCtx{\ctx}{x}{\TMV}}{\ECMV}{\TUnknown}
   }{
-    \ctxAnaType{\ctx}{\ECInconType{\ECLam{x}{\TMV}{\ECMV}}}{\TMV_3}
+    \ctxAnaTypeM{\ctx}{\ECInconType{\ECLam{x}{\TMV}{\ECMV}}}{\TMV_3}
   }{MALam2}
 
   \judgment{
     \matchedArrow{\TMV_3}{\TMV_1}{\TMV_2} \\
     \inconsistent{\TMV}{\TMV_1} \\
-    \ctxAnaType{\extendCtx{\ctx}{x}{\TMV_1}}{\ECMV}{\TMV_2}
+    \ctxAnaTypeM{\extendCtx{\ctx}{x}{\TMV_1}}{\ECMV}{\TMV_2}
   }{
-    \ctxAnaType{\ctx}{\ECInconType{\ECLam{x}{\TMV}{\ECMV}}}{\TMV_3}
+    \ctxAnaTypeM{\ctx}{\ECInconType{\ECLam{x}{\TMV}{\ECMV}}}{\TMV_3}
   }{MALam3}
 
   \judgment{
-    \ctxSynType{\ctx}{\ECMV_1}{\TMV_1} \\
-    \ctxAnaType{\extendCtx{\ctx}{x}{\TMV_1}}{\ECMV_2}{\TMV_2}
+    \ctxSynTypeM{\ctx}{\ECMV_1}{\TMV_1} \\
+    \ctxAnaTypeM{\extendCtx{\ctx}{x}{\TMV_1}}{\ECMV_2}{\TMV_2}
   }{
-    \ctxAnaType{\ctx}{\ECLet{x}{\ECMV_1}{\ECMV_2}}{\TMV_2}
+    \ctxAnaTypeM{\ctx}{\ECLet{x}{\ECMV_1}{\ECMV_2}}{\TMV_2}
   }{MALet}
 
   \judgment{
-    \ctxAnaType{\ctx}{\ECMV_1}{\TBool} \\
-    \ctxAnaType{\ctx}{\ECMV_1}{\TMV} \\
-    \ctxAnaType{\ctx}{\ECMV_2}{\TMV}
+    \ctxAnaTypeM{\ctx}{\ECMV_1}{\TBool} \\
+    \ctxAnaTypeM{\ctx}{\ECMV_1}{\TMV} \\
+    \ctxAnaTypeM{\ctx}{\ECMV_2}{\TMV}
   }{
-    \ctxAnaType{\ctx}{\ECIf{\ECMV_1}{\ECMV_2}{\ECMV_3}}{\TMV}
+    \ctxAnaTypeM{\ctx}{\ECIf{\ECMV_1}{\ECMV_2}{\ECMV_3}}{\TMV}
   }{MAIf}
 
   \judgment{
     \matchedPair{\TMV}{\TMV_1}{\TMV_2} \\
-    \ctxAnaType{\ctx}{\ECMV_1}{\TMV_1} \\
-    \ctxAnaType{\ctx}{\ECMV_2}{\TMV_2}
+    \ctxAnaTypeM{\ctx}{\ECMV_1}{\TMV_1} \\
+    \ctxAnaTypeM{\ctx}{\ECMV_2}{\TMV_2}
   }{
-    \ctxAnaType{\ctx}{\ECPair{\ECMV_1}{\ECMV_2}}{\TMV}
+    \ctxAnaTypeM{\ctx}{\ECPair{\ECMV_1}{\ECMV_2}}{\TMV}
   }{MAPair1}
 
   \judgment{
     \notMatchedPair{\TMV} \\
-    \ctxAnaType{\ctx}{\ECMV_1}{\TUnknown} \\
-    \ctxAnaType{\ctx}{\ECMV_2}{\TUnknown}
+    \ctxAnaTypeM{\ctx}{\ECMV_1}{\TUnknown} \\
+    \ctxAnaTypeM{\ctx}{\ECMV_2}{\TUnknown}
   }{
-    \ctxAnaType{\ctx}{\ECInconType{\ECPair{\ECMV_1}{\ECMV_2}}}{\TMV}
+    \ctxAnaTypeM{\ctx}{\ECInconType{\ECPair{\ECMV_1}{\ECMV_2}}}{\TMV}
   }{MAPair2}
 
   \judgment{
-    \ctxSynType{\ctx}{\ECMV}{\TMV'} \\
+    \ctxSynTypeM{\ctx}{\ECMV}{\TMV'} \\
     \inconsistent{\TMV}{\TMV'} \\
     \subsumable{\ECMV}
   }{
-    \ctxAnaType{\ctx}{\ECInconType{\ECMV}}{\TMV}
+    \ctxAnaTypeM{\ctx}{\ECInconType{\ECMV}}{\TMV}
   }{MAInconsistentTypes}
 
   \judgment{
-    \ctxSynType{\ctx}{\ECMV}{\TMV'} \\
+    \ctxSynTypeM{\ctx}{\ECMV}{\TMV'} \\
     \consistent{\TMV}{\TMV'} \\
     \subsumable{\ECMV}
   }{
-    \ctxAnaType{\ctx}{\ECMV}{\TMV}
+    \ctxAnaTypeM{\ctx}{\ECMV}{\TMV}
   }{MASubsume}
 \end{mathpar} \\
 
@@ -839,9 +839,9 @@ $\judgbox{\erase{\ECMV}}$ is a metafunction defined as follows:
 
 \begin{theorem}[name=Marking Well-Formedness] \
   \begin{enumerate}
-    \item If $\ctxSynFixedInto{\ctx}{\EMV}{\ECMV}{\TMV}$, then $\ctxSynType{\ctx}{\ECMV}{\TMV}$ and
+    \item If $\ctxSynFixedInto{\ctx}{\EMV}{\ECMV}{\TMV}$, then $\ctxSynTypeM{\ctx}{\ECMV}{\TMV}$ and
       $\erasesTo{\ECMV}{\EMV}$.
-    \item If $\ctxAnaFixedInto{\ctx}{\EMV}{\ECMV}{\TMV}$, then $\ctxAnaType{\ctx}{\ECMV}{\TMV}$ and
+    \item If $\ctxAnaFixedInto{\ctx}{\EMV}{\ECMV}{\TMV}$, then $\ctxAnaTypeM{\ctx}{\ECMV}{\TMV}$ and
       $\erasesTo{\ECMV}{\EMV}$.
   \end{enumerate}
 \end{theorem}
@@ -849,19 +849,19 @@ $\judgbox{\erase{\ECMV}}$ is a metafunction defined as follows:
 \begin{theorem}[name=Marking of Well-Typed/Ill-Typed Expressions] \
   \begin{enumerate}
     \item \begin{enumerate}
-        \item If $\ctxSynType{\ctx}{\EMV}{\TMV}$ and $\ctxSynFixedInto{\ctx}{\EMV}{\ECMV}{\TMV}$,
+        \item If $\ctxSynTypeU{\ctx}{\EMV}{\TMV}$ and $\ctxSynFixedInto{\ctx}{\EMV}{\ECMV}{\TMV}$,
           then $\markless{\ECMV}$.
-        \item If $\ctxAnaType{\ctx}{\EMV}{\TMV}$ and $\ctxAnaFixedInto{\ctx}{\EMV}{\ECMV}{\TMV}$,
+        \item If $\ctxAnaTypeU{\ctx}{\EMV}{\TMV}$ and $\ctxAnaFixedInto{\ctx}{\EMV}{\ECMV}{\TMV}$,
           then $\markless{\ECMV}$.
       \end{enumerate}
 
     \item \begin{enumerate}
-        \item If there does not exist $\TMV$ such that $\ctxSynType{\ctx}{\EMV}{\TMV}$, then for all
-          $\ECMV$ and $\TMV'$ such that $\ctxSynFixedInto{\ctx}{\EMV}{\ECMV}{\TMV'}$, it is not the
-          case that $\markless{\ECMV}$.
-        \item If there does not exist $\TMV$ such that $\ctxAnaType{\ctx}{\EMV}{\TMV}$, then for all
-          $\ECMV$ and $\TMV'$ such that $\ctxAnaFixedInto{\ctx}{\EMV}{\ECMV}{\TMV'}$, it is not the
-          case that $\markless{\ECMV}$.
+        \item If there does not exist $\TMV$ such that $\ctxSynTypeU{\ctx}{\EMV}{\TMV}$, then for
+          all $\ECMV$ and $\TMV'$ such that $\ctxSynFixedInto{\ctx}{\EMV}{\ECMV}{\TMV'}$, it is not
+          the case that $\markless{\ECMV}$.
+        \item If there does not exist $\TMV$ such that $\ctxAnaTypeU{\ctx}{\EMV}{\TMV}$, then for
+          all $\ECMV$ and $\TMV'$ such that $\ctxAnaFixedInto{\ctx}{\EMV}{\ECMV}{\TMV'}$, it is not
+          the case that $\markless{\ECMV}$.
       \end{enumerate}
   \end{enumerate}
 \end{theorem}
@@ -2010,7 +2010,7 @@ Type actions are the same as in the untyped model.
 
 \begin{mathpar}
   \judgment{
-    \ctxSynType{\ctx}{\cursorErase{\ZMV_1}}{\TMV_1} \\
+    \ctxSynTypeM{\ctx}{\cursorErase{\ZMV_1}}{\TMV_1} \\
     \ASEAction{\ctx}{\ZMV_1}{\TMV_1}{\ZMV_1'}{\TMV_1'}{\AMV} \\\\
     \matchedArrow{\TMV_1'}{\TMV_2}{\TMV_3} \\
     \ctxAnaType{\ctx}{\ECMV_2}{\TMV_2}
@@ -2019,7 +2019,7 @@ Type actions are the same as in the untyped model.
   }{ASEZipApL1}
 
   \judgment{
-    \ctxSynType{\ctx}{\cursorErase{\ZMV_1}}{\TMV_1} \\
+    \ctxSynTypeM{\ctx}{\cursorErase{\ZMV_1}}{\TMV_1} \\
     \ASEAction{\ctx}{\ZMV_1}{\TMV_1}{\ZMV_1'}{\TMV_1'}{\AMV} \\\\
     \matchedArrow{\TMV_1'}{\TMV_2}{\TMV_3} \\
     \ctxNotAnaType{\ctx}{\ECMV_2}{\TMV_2}
@@ -2028,7 +2028,7 @@ Type actions are the same as in the untyped model.
   }{ASEZipApL2}
 
   \judgment{
-    \ctxSynType{\ctx}{\cursorErase{\ZMV_1}}{\TMV_1} \\
+    \ctxSynTypeM{\ctx}{\cursorErase{\ZMV_1}}{\TMV_1} \\
     \ASEAction{\ctx}{\ZMV}{\TMV_1}{\ZMV'}{\TMV_1'}{\AMV} \\\\
     \notMatchedArrow{\TMV_1'}
   }{
@@ -2036,7 +2036,7 @@ Type actions are the same as in the untyped model.
   }{ASEZipApL3}
 
   \judgment{
-    \ctxSynType{\ctx}{\cursorErase{\ZMV_1}}{\TMV_1} \\
+    \ctxSynTypeM{\ctx}{\cursorErase{\ZMV_1}}{\TMV_1} \\
     \ASEAction{\ctx}{\ZMV_1}{\TMV_1}{\ZMV_1'}{\TMV_1'}{\AMV} \\\\
     \matchedArrow{\TMV_1'}{\TMV_2}{\TMV_3} \\
     \ctxAnaType{\ctx}{\ECMV_2}{\TMV_2}
@@ -2045,7 +2045,7 @@ Type actions are the same as in the untyped model.
   }{ASEZipApL4}
 
   \judgment{
-    \ctxSynType{\ctx}{\cursorErase{\ZMV_1}}{\TMV_1} \\
+    \ctxSynTypeM{\ctx}{\cursorErase{\ZMV_1}}{\TMV_1} \\
     \ASEAction{\ctx}{\ZMV_1}{\TMV_1}{\ZMV_1'}{\TMV_1'}{\AMV} \\\\
     \matchedArrow{\TMV_1'}{\TMV_2}{\TMV_3} \\
     \ctxNotAnaType{\ctx}{\ECMV_2}{\TMV_2}
@@ -2054,7 +2054,7 @@ Type actions are the same as in the untyped model.
   }{ASEZipApL5}
 
   \judgment{
-    \ctxSynType{\ctx}{\cursorErase{\ZMV_1}}{\TMV_1} \\
+    \ctxSynTypeM{\ctx}{\cursorErase{\ZMV_1}}{\TMV_1} \\
     \ASEAction{\ctx}{\ZMV_1}{\TMV_1}{\ZMV_1'}{\TMV_1'}{\AMV} \\\\
     \notMatchedArrow{\TMV_1'}
   }{
@@ -2062,7 +2062,7 @@ Type actions are the same as in the untyped model.
   }{ASEZipApL6}
 
   \judgment{
-    \ctxSynType{\ctx}{\ECMV_1}{\TMV_1} \\
+    \ctxSynTypeM{\ctx}{\ECMV_1}{\TMV_1} \\
     \matchedArrow{\TMV_1}{\TMV_2}{\TMV_3} \\
     \AAEAction{\ctx}{\ZMV_2}{\ZMV_2'}{\TMV_2}{\AMV}
   }{
@@ -2072,7 +2072,7 @@ Type actions are the same as in the untyped model.
 
 \begin{mathpar}
   \judgment{
-    \ctxSynType{\ctx}{\cursorErase{\ZMV_1}}{\TMV_1} \\
+    \ctxSynTypeM{\ctx}{\cursorErase{\ZMV_1}}{\TMV_1} \\
     \ASEAction{\ctx}{\ZMV_1}{\TMV_1}{\ZMV_1'}{\TMV_1'}{\AMV} \\
     \consistent{\TMV_1}{\TMV_1'}
   }{
@@ -2080,7 +2080,7 @@ Type actions are the same as in the untyped model.
   }{ASEZipLetL1}
 
   \judgment{
-    \ctxSynType{\ctx}{\cursorErase{\ZMV_1}}{\TMV_1} \\
+    \ctxSynTypeM{\ctx}{\cursorErase{\ZMV_1}}{\TMV_1} \\
     \ASEAction{\ctx}{\ZMV_1}{\TMV_1}{\ZMV_1'}{\TMV_1'}{\AMV} \\\\
     \inconsistent{\TMV_1}{\TMV_1'} \\
     \ctxSynFixedInto{\extendCtx{\ctx}{x}{\TMV_1'}}{\erase{\ECMV_2}}{\ECMV_2'}{\TMV_2'}
@@ -2089,8 +2089,8 @@ Type actions are the same as in the untyped model.
   }{ASEZipLetL2}
 
   \judgment{
-    \ctxSynType{\ctx}{\ECMV_1}{\TMV_1} \\
-    \ctxSynType{\extendCtx{\ctx}{x}{\TMV_1}}{\cursorErase{\ZMV_2}}{\TMV_2} \\\\
+    \ctxSynTypeM{\ctx}{\ECMV_1}{\TMV_1} \\
+    \ctxSynTypeM{\extendCtx{\ctx}{x}{\TMV_1}}{\cursorErase{\ZMV_2}}{\TMV_2} \\\\
     \ASEAction{\extendCtx{\ctx}{x}{\TMV_1}}{\ZMV_2}{\TMV_2}{\ZMV_2'}{\TMV_2'}{\AMV}
   }{
     \ASEAction{\ctx}{\ZLetR{x}{\ECMV_1}{\ZMV_2}}{\TMV_2}{\ZLetR{x}{\ECMV_1}{\ZMV_2'}}{\TMV_2'}{\AMV}
@@ -2119,8 +2119,8 @@ Type actions are the same as in the untyped model.
   }{ASEZipIfC}
 
   \judgment{
-    \ctxSynType{\ctx}{\cursorErase{\ZMV}}{\TMV_1} \\
-    \ctxSynType{\ctx}{\ECMV_2}{\TMV_2} \\\\
+    \ctxSynTypeM{\ctx}{\cursorErase{\ZMV}}{\TMV_1} \\
+    \ctxSynTypeM{\ctx}{\ECMV_2}{\TMV_2} \\\\
     \ASEAction{\ctx}{\ZMV}{\TMV_1}{\ZMV'}{\TMV_1'}{\AMV} \\
     \consistent{\TMV_1'}{\TMV_2}
   }{
@@ -2128,8 +2128,8 @@ Type actions are the same as in the untyped model.
   }{ASEZipIfL1}
 
   \judgment{
-    \ctxSynType{\ctx}{\cursorErase{\ZMV}}{\TMV_1} \\
-    \ctxSynType{\ctx}{\ECMV_2}{\TMV_2} \\\\
+    \ctxSynTypeM{\ctx}{\cursorErase{\ZMV}}{\TMV_1} \\
+    \ctxSynTypeM{\ctx}{\ECMV_2}{\TMV_2} \\\\
     \ASEAction{\ctx}{\ZMV}{\TMV_1}{\ZMV'}{\TMV_1'}{\AMV} \\
     \inconsistent{\TMV_1'}{\TMV_2}
   }{
@@ -2137,8 +2137,8 @@ Type actions are the same as in the untyped model.
   }{ASEZipIfL2}
 
   \judgment{
-    \ctxSynType{\ctx}{\ECMV_2}{\TMV_1} \\
-    \ctxSynType{\ctx}{\cursorErase{\ZMV}}{\TMV_2} \\\\
+    \ctxSynTypeM{\ctx}{\ECMV_2}{\TMV_1} \\
+    \ctxSynTypeM{\ctx}{\cursorErase{\ZMV}}{\TMV_2} \\\\
     \ASEAction{\ctx}{\ZMV}{\TMV_2}{\ZMV'}{\TMV_2'}{\AMV} \\
     \consistent{\TMV_1}{\TMV_2'}
   }{
@@ -2146,8 +2146,8 @@ Type actions are the same as in the untyped model.
   }{ASEZipIfR1}
 
   \judgment{
-    \ctxSynType{\ctx}{\ECMV_1}{\TMV_1} \\
-    \ctxSynType{\ctx}{\cursorErase{\ZMV}}{\TMV_2} \\\\
+    \ctxSynTypeM{\ctx}{\ECMV_1}{\TMV_1} \\
+    \ctxSynTypeM{\ctx}{\cursorErase{\ZMV}}{\TMV_2} \\\\
     \ASEAction{\ctx}{\ZMV}{\TMV_2}{\ZMV'}{\TMV_2'}{\AMV} \\
     \inconsistent{\TMV_1}{\TMV_2'}
   }{
@@ -2164,7 +2164,7 @@ Type actions are the same as in the untyped model.
 
   \judgment{
     \ASEAction{\ctx}{\ZMV}{\TMV_1}{\ZMV'}{\TMV_1'}{\AMV} \\
-    \ctxSynType{\ctx}{\EMV_2}{\TMV_2} \\
+    \ctxSynTypeM{\ctx}{\ECMV_2}{\TMV_2} \\
     \consistent{\TMV_1'}{\TMV_2}
   }{
     \ASEAction{\ctx}{\ZInconBrL{\ECMV_1}{\ZMV}{\ECMV_2}}{\TMV}{\ZIfL{\ECMV_1}{\ZMV'}{\ECMV_2}}{\TJoin{\TMV_1'}{\TMV_2}}{\AMV}
@@ -2172,14 +2172,14 @@ Type actions are the same as in the untyped model.
 
   \judgment{
     \ASEAction{\ctx}{\ZMV}{\TMV_1}{\ZMV'}{\TMV_1'}{\AMV} \\
-    \ctxSynType{\ctx}{\EMV_2}{\TMV_2} \\
+    \ctxSynTypeM{\ctx}{\ECMV_2}{\TMV_2} \\
     \inconsistent{\TMV_1'}{\TMV_2}
   }{
     \ASEAction{\ctx}{\ZInconBrL{\ECMV_1}{\ZMV}{\ECMV_2}}{\TMV}{\ZInconBrL{\ECMV_1}{\ZMV'}{\ECMV_2}}{\TUnknown}{\AMV}
   }{ASEZipInconsistentBranchesL2}
 
   \judgment{
-    \ctxSynType{\ctx}{\EMV_1}{\TMV_1} \\
+    \ctxSynTypeM{\ctx}{\ECMV_1}{\TMV_1} \\
     \ASEAction{\ctx}{\ZMV}{\TMV_2}{\ZMV'}{\TMV_2'}{\AMV} \\
     \consistent{\TMV_1}{\TMV_2'}
   }{
@@ -2187,7 +2187,7 @@ Type actions are the same as in the untyped model.
   }{ASEZipInconsistentBranchesR1}
 
   \judgment{
-    \ctxSynType{\ctx}{\EMV_2}{\TMV_1} \\
+    \ctxSynTypeM{\ctx}{\ECMV_2}{\TMV_1} \\
     \ASEAction{\ctx}{\ZMV}{\TMV_2}{\ZMV'}{\TMV_2'}{\AMV} \\
     \inconsistent{\TMV_1}{\TMV_2'}
   }{
@@ -2201,7 +2201,7 @@ Type actions are the same as in the untyped model.
 \paragraph{Subsumption}
 \begin{mathpar}
   \judgment{
-    \ctxSynType{\ctx}{\cursorErase{\ZMV}}{\TMV'} \\
+    \ctxSynTypeM{\ctx}{\cursorErase{\ZMV}}{\TMV'} \\
     \ASAction{\ctx}{\ZMV}{\TMV'}{\ZMV'}{\TMV''}{\AMV} \\\\
     \consistent{\TMV}{\TMV''} \\
     \subsumable{\cursorErase{\ZMV}}
@@ -2210,7 +2210,7 @@ Type actions are the same as in the untyped model.
   }{AAESubsume1}
 
   \judgment{
-    \ctxSynType{\ctx}{\cursorErase{\ZMV}}{\TMV'} \\
+    \ctxSynTypeM{\ctx}{\cursorErase{\ZMV}}{\TMV'} \\
     \ASAction{\ctx}{\ZMV}{\TMV'}{\ZMV'}{\TMV''}{\AMV} \\\\
     \inconsistent{\TMV}{\TMV''} \\
     \subsumable{\cursorErase{\ZMV}}
@@ -2219,7 +2219,7 @@ Type actions are the same as in the untyped model.
   }{AAESubsume2}
 
   \judgment{
-    \ctxSynType{\ctx}{\cursorErase{\ZMV}}{\TMV'} \\
+    \ctxSynTypeM{\ctx}{\cursorErase{\ZMV}}{\TMV'} \\
     \ASAction{\ctx}{\ZMV}{\TMV'}{\ZMV'}{\TMV''}{\AMV} \\\\
     \inconsistent{\TMV}{\TMV''} \\
     \subsumable{\cursorErase{\ZMV}}
@@ -2228,7 +2228,7 @@ Type actions are the same as in the untyped model.
   }{AAEInconsistentTypes1}
 
   \judgment{
-    \ctxSynType{\ctx}{\cursorErase{\ZMV}}{\TMV'} \\
+    \ctxSynTypeM{\ctx}{\cursorErase{\ZMV}}{\TMV'} \\
     \ASAction{\ctx}{\ZMV}{\TMV'}{\ZMV'}{\TMV''}{\AMV} \\\\
     \consistent{\TMV}{\TMV''} \\
     \subsumable{\cursorErase{\ZMV}}
@@ -2333,7 +2333,7 @@ Type actions are the same as in the untyped model.
 
 \begin{mathpar}
   \judgment{
-    \ctxSynType{\ctx}{\cursorErase{\ZMV}}{\TMV_1} \\
+    \ctxSynTypeM{\ctx}{\cursorErase{\ZMV}}{\TMV_1} \\
     \ASEAction{\ctx}{\ZMV}{\TMV_1}{\ZMV'}{\TMV_1'}{\AMV} \\
     \consistent{\TMV_1}{\TMV_1'}
   }{
@@ -2341,7 +2341,7 @@ Type actions are the same as in the untyped model.
   }{AAEZipLetL1}
 
   \judgment{
-    \ctxSynType{\ctx}{\cursorErase{\ZMV}}{\TMV_1} \\
+    \ctxSynTypeM{\ctx}{\cursorErase{\ZMV}}{\TMV_1} \\
     \ASEAction{\ctx}{\ZMV}{\TMV_1}{\ZMV'}{\TMV_1'}{\AMV} \\\\
     \ctxAnaFixedInto{\extendCtx{\ctx}{x}{\TMV_1'}}{\erase{\ECMV}}{\ECMV'}{\TMV}
   }{
@@ -2349,7 +2349,7 @@ Type actions are the same as in the untyped model.
   }{AAEZipLetL2}
 
   \judgment{
-    \ctxSynType{\ctx}{\ECMV}{\TMV'} \\
+    \ctxSynTypeM{\ctx}{\ECMV}{\TMV'} \\
     \AAAction{\extendCtx{\ctx}{x}{\TMV'}}{\ZMV}{\ZMV'}{\TMV}{\AMV}
   }{
     \AAAction{\ctx}{\ZLetR{x}{\ECMV}{\ZMV}}{\ZLetL{x}{\ECMV}{\ZMV'}}{\TMV}{\AMV}
@@ -2412,9 +2412,9 @@ The iterated type action and movements judgments are the same as in the untyped 
 \subsubsection{Metatheorems}
 \begin{theorem}[name=Sensibility] \
   \begin{enumerate}
-    \item If $\zWellFormed{\ZMV}$ and $\ctxSynType{\ctx}{\cursorErase{\ZMV}}{\TMV}$ and
+    \item If $\zWellFormed{\ZMV}$ and $\ctxSynTypeM{\ctx}{\cursorErase{\ZMV}}{\TMV}$ and
       $\ASEAction{\ctx}{\ZMV}{\TMV}{\ZMV'}{\TMV'}{\AMV}$, then $\zWellFormed{\ZMV'}$ and
-      $\ctxSynType{\ctx}{\cursorErase{\ZMV'}}{\TMV'}$.
+      $\ctxSynTypeM{\ctx}{\cursorErase{\ZMV'}}{\TMV'}$.
 
     \item If $\zWellFormed{\ZMV}$ and $\ctxAnaType{\ctx}{\cursorErase{\ZMV}}{\TMV}$ and
       $\AAEAction{\ctx}{\ZMV}{\ZMV'}{\TMV}{\AMV}$, then $\zWellFormed{\ZMV'}$ and
@@ -2427,7 +2427,7 @@ The iterated type action and movements judgments are the same as in the untyped 
     \item If $\AUTAction{\ZTMV}{\ZTMV'}{\AMove{\MMV}}$, then $\cursorErase{\ZTMV} =
       \cursorErase{\ZTMV'}$.
 
-    \item If $\zWellFormed{\ZMV}$ and $\ctxSynType{\ctx}{\cursorErase{\ZMV}}{\TMV}$ and
+    \item If $\zWellFormed{\ZMV}$ and $\ctxSynTypeM{\ctx}{\cursorErase{\ZMV}}{\TMV}$ and
       $\ASEAction{\ctx}{\ZMV}{\TMV}{\ZMV'}{\TMV'}{\AMove{\MMV}}$, then $\zWellFormed{\ZMV'}$ and
       $\cursorErase{\ZMV} = \cursorErase{\ZMV'}$ and $\equal{\TMV}{\TMV'}$.
 
@@ -2443,7 +2443,7 @@ The iterated type action and movements judgments are the same as in the untyped 
       $\movements{\AIMV}$ and $\AUTActionIter{\ZTMV}{\ZTMV'}{\AIMV}$.
 
     \item If $\zWellFormed{\ZMV}$ and $\zWellFormed{\ZMV'}$ and
-      $\ctxSynType{\ctx}{\cursorErase{\ZMV}}{\TMV}$ and $\cursorErase{\ZMV} = \cursorErase{\ZMV'}$,
+      $\ctxSynTypeM{\ctx}{\cursorErase{\ZMV}}{\TMV}$ and $\cursorErase{\ZMV} = \cursorErase{\ZMV'}$,
       then there exists $\AIMV$ such that $\movements{\AIMV}$ and
       $\ASEActionIter{\ctx}{\ZMV}{\TMV}{\ZMV'}{\TMV}{\AIMV}$.
 
@@ -2459,7 +2459,7 @@ The iterated type action and movements judgments are the same as in the untyped 
     \item If $\cursorErase{\ZTMV} = \TMV$, then there exists $\AIMV$ such that $\movements{\AIMV}$
       and $\AUTActionIter{\ZTMV}{\ZTCursor{\TMV}}{\AIMV}$.
 
-    \item If $\zWellFormed{\ZMV}$ and $\ctxSynType{\ctx}{\cursorErase{\ZMV}}{\TMV}$ and
+    \item If $\zWellFormed{\ZMV}$ and $\ctxSynTypeM{\ctx}{\cursorErase{\ZMV}}{\TMV}$ and
       $\cursorErase{\ZMV} = \ECMV$, then there exists $\AIMV$ such that $\movements{\AIMV}$ and
       $\ASEActionIter{\ctx}{\ZMV}{\TMV}{\ZTCursor{\ECMV}}{\TMV}{\AIMV}$.
 
@@ -2474,7 +2474,7 @@ The iterated type action and movements judgments are the same as in the untyped 
     \item If $\cursorErase{\ZTMV} = \TMV$, then there exists $\AIMV$ such that $\movements{\AIMV}$
       and $\AUTActionIter{\ZTCursor{\TMV}}{\ZTMV}{\AIMV}$.
 
-    \item If $\zWellFormed{\ZMV}$ and $\ctxSynType{\ctx}{\cursorErase{\ZMV}}{\TMV}$ and
+    \item If $\zWellFormed{\ZMV}$ and $\ctxSynTypeM{\ctx}{\cursorErase{\ZMV}}{\TMV}$ and
       $\cursorErase{\ZMV} = \ECMV$, then there exists $\AIMV$ such that $\movements{\AIMV}$ and
       $\ASEActionIter{\ctx}{\ZTCursor{\ECMV}}{\TMV}{\ZMV}{\TMV}{\AIMV}$.
 
@@ -2489,7 +2489,7 @@ The iterated type action and movements judgments are the same as in the untyped 
     \item For every $\TMV$, there exists $\AIMV$ such that
       $\AUTActionIter{\ZTCursor{\TUnknown}}{\ZTCursor{\TMV}}{\AIMV}$.
 
-    \item If $\ctxSynType{\ctx}{\ECMV}{\TMV}$, then there exists $\AIMV$ such that
+    \item If $\ctxSynTypeM{\ctx}{\ECMV}{\TMV}$, then there exists $\AIMV$ such that
       $\ASEActionIter{\ctx}{\ZCursor{\EEHole}}{\TUnknown}{\ZCursor{\ECMV}}{\TMV}{\AIMV}$.
 
     \item If $\ctxAnaType{\ctx}{\ECMV}{\TMV}$, then there exists $\AIMV$ such that
@@ -2502,7 +2502,7 @@ The iterated type action and movements judgments are the same as in the untyped 
     \item If $\AUTActionIter{\ZTMV}{\ZTMV'}{\AMV}$ and $\AUTActionIter{\ZTMV}{\ZTMV''}{\AMV}$, then
       $\ZTMV' = \ZTMV''$.
 
-    \item If $\zWellFormed{\ZMV}$ and $\ctxSynType{\ctx}{\cursorErase{\ZMV}}{\TMV}$ and
+    \item If $\zWellFormed{\ZMV}$ and $\ctxSynTypeM{\ctx}{\cursorErase{\ZMV}}{\TMV}$ and
       $\ASEActionIter{\ctx}{\ZMV}{\TMV}{\ZMV'}{\TMV'}{\AMV}$ and
       $\ASEActionIter{\ctx}{\ZMV}{\TMV}{\ZMV''}{\TMV''}{\AMV}$, then $\ZMV' = \ZMV''$ and
       $\equal{\TMV'}{\TMV''}$.
