@@ -273,6 +273,14 @@ module core.typ where
     ▸-→-~̸₂ TMAHole τ₂′~̸τ₂ TCUnknownArr     = τ₂′~̸τ₂ ~-unknown₂
     ▸-→-~̸₂ TMAArr  τ₂′~̸τ₂ (TCArr _ τ₂~τ₂′) = τ₂′~̸τ₂ (~-sym τ₂~τ₂′)
 
+    ~→▸-→ : ∀ {τ τ₁ τ₂} → τ ~ τ₁ -→ τ₂ → ∃[ τ₁′ ] ∃[ τ₂′ ] τ ▸ τ₁′ -→ τ₂′
+    ~→▸-→ (TCArr {τ₁ = τ₁} {τ₂ = τ₂} τ₁~ τ₂~) = ⟨ τ₁ , ⟨ τ₂ , TMAArr ⟩ ⟩
+    ~→▸-→ TCUnknownArr = ⟨ unknown , ⟨ unknown , TMAHole ⟩ ⟩
+
+    ~-▸-→→~ : ∀ {τ τ₁ τ₂ τ₁′ τ₂′} → τ ~ τ₁ -→ τ₂ → τ ▸ τ₁′ -→ τ₂′ → τ₁ -→ τ₂ ~ τ₁′ -→ τ₂′
+    ~-▸-→→~ (TCArr τ₁~ τ₂~) TMAArr = TCArr (~-sym τ₁~) (~-sym τ₂~)
+    ~-▸-→→~ TCUnknownArr TMAHole = TCArr ~-unknown₂ ~-unknown₂
+
     -- matched product
     data _▸_-×_ : (τ τ₁ τ₂ : Typ) → Set where
       TMPHole : unknown ▸ unknown -× unknown
@@ -316,6 +324,14 @@ module core.typ where
     ▸-×-~̸₂ : ∀ {τ τ₁ τ₂ τ₂′} → τ ▸ τ₁ -× τ₂ → τ₂′ ~̸ τ₂ → τ ~̸ τ₁ -× τ₂′
     ▸-×-~̸₂ TMPHole  τ₂′~̸τ₂ TCUnknownProd     = τ₂′~̸τ₂ ~-unknown₂
     ▸-×-~̸₂ TMPProd  τ₂′~̸τ₂ (TCProd _ τ₂~τ₂′) = τ₂′~̸τ₂ (~-sym τ₂~τ₂′)
+
+    ~→▸-× : ∀ {τ τ₁ τ₂} → τ ~ τ₁ -× τ₂ → ∃[ τ₁′ ] ∃[ τ₂′ ] τ ▸ τ₁′ -× τ₂′
+    ~→▸-× (TCProd {τ₁ = τ₁} {τ₂ = τ₂} τ₁~ τ₂~) = ⟨ τ₁ , ⟨ τ₂ , TMPProd ⟩ ⟩
+    ~→▸-× TCUnknownProd = ⟨ unknown , ⟨ unknown , TMPHole ⟩ ⟩
+
+    ~-▸-×→~ : ∀ {τ τ₁ τ₂ τ₁′ τ₂′} → τ ~ τ₁ -× τ₂ → τ ▸ τ₁′ -× τ₂′ → τ₁ -× τ₂ ~ τ₁′ -× τ₂′
+    ~-▸-×→~ (TCProd τ₁~ τ₂~) TMPProd = TCProd (~-sym τ₁~) (~-sym τ₂~)
+    ~-▸-×→~ TCUnknownProd TMPHole = TCProd ~-unknown₂ ~-unknown₂
 
   module join where
     open base
