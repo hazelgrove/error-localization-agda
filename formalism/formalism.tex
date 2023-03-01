@@ -21,6 +21,7 @@ Formalization of error localization semantics.
            &       & \mid         & \ECUnbound{x} \mid \ECInconType{\ECMV} \mid \ECInconBr{\ECMV}{\ECMV}{\ECMV} \\
 \end{array}\]
 
+% TODO add base judgment
 \subsection{Types}
 \judgbox{\ensuremath{\consistent{\TMV_1}{\TMV_2}}} $\TMV_1$ is consistent with $\TMV_2$
 %
@@ -527,6 +528,58 @@ Formalization of error localization semantics.
   \judgment{ }{
     \subsumable{\ECInconBr{\ECMV_1}{\ECMV_2}{\ECMV_3}}
   }{MSuInconsistentBranches}
+\end{mathpar} \\
+
+\judgbox{\markless{\ECMV}} $\ECMV$ has no marks
+%
+\begin{mathpar}
+  \judgment{ }{
+    \markless{\ECEHole}
+  }{MLHole}
+
+  \judgment{ }{
+    \markless{x}
+  }{MLVar}
+
+  \judgment{
+    \markless{\ECMV}
+  }{
+    \markless{\ECLam{x}{\TMV}{\ECMV}}
+  }{MLLam}
+
+  \judgment{
+    \markless{\ECMV_1} \\
+    \markless{\ECMV_2}
+  }{
+    \markless{\ECAp{\ECMV_1}{\ECMV_2}}
+  }{MLAp}
+
+  \judgment{ }{
+    \markless{\ECNumMV}
+  }{MLNum}
+
+  \judgment{
+    \markless{\ECMV_1} \\
+    \markless{\ECMV_2}
+  }{
+    \markless{\ECPlus{\ECMV_1}{\ECMV_2}}
+  }{MLPlus}
+
+  \judgment{ }{
+    \markless{\ECTrue}
+  }{MLTrue}
+
+  \judgment{ }{
+    \markless{\ECFalse}
+  }{MLFalse}
+
+  \judgment{
+    \markless{\ECMV_1} \\
+    \markless{\ECMV_2} \\
+    \markless{\ECMV_3}
+  }{
+    \markless{\ECIf{\ECMV_1}{\ECMV_2}{\ECMV_3}}
+  }{MLIf}
 \end{mathpar}
 
 \subsection{Mark Erasure}
