@@ -59,7 +59,7 @@
 \newcommand{\ctxNotAnaType}[3]{\ensuremath{\withCtx{#1}{\notAnaType{#2}{#3}}}}
 
 % unmarked typing
-\newcommand{\withCtxU}[2]{\ensuremath{#1 \vdash #2}}
+\newcommand{\withCtxU}[2]{\ensuremath{#1 \vdash_{U} #2}}
 \newcommand{\assignTypeU}[2]{\ensuremath{#1 : #2}}
 \newcommand{\ctxAssignTypeU}[3]{\ensuremath{\withCtxU{#1}{\assignTypeU{#2}{#3}}}}
 \newcommand{\synTypeU}[2]{\ensuremath{#1 \Rightarrow #2}}
@@ -72,7 +72,7 @@
 \newcommand{\ctxNotAnaTypeU}[3]{\ensuremath{\withCtxU{#1}{\notAnaTypeU{#2}{#3}}}}
 
 % marked typing
-\newcommand{\withCtxM}[2]{\ensuremath{#1 \vdash #2}}
+\newcommand{\withCtxM}[2]{\ensuremath{#1 \vdash_{M} #2}}
 \newcommand{\assignTypeM}[2]{\ensuremath{#1 : #2}}
 \newcommand{\ctxAssignTypeM}[3]{\ensuremath{\withCtxM{#1}{\assignTypeM{#2}{#3}}}}
 \newcommand{\synTypeM}[2]{\ensuremath{#1 \Rightarrow #2}}
