@@ -69,6 +69,35 @@ module core.lemmas where
     rewrite ⇒-unicity e⇒τ e⇒τ′
     with refl ← ▸-×-unicity τ▸ τ▸′                          = refl
 
+  -- an expression that synthesizes a type may be analyzed against a consistent type
+  ⇒-~-⇐ : ∀ {Γ : Ctx} {e : UExp} {τ τ′ : Typ} → Γ ⊢ e ⇒ τ → τ′ ~ τ → Γ ⊢ e ⇐ τ′
+  ⇒-~-⇐ USHole τ′~τ = UASubsume USHole ~-unknown₂ USuHole
+  ⇒-~-⇐ (USVar ∋x) τ′~τ = UASubsume (USVar ∋x) τ′~τ USuVar
+  ⇒-~-⇐ (USLam e⇒τ₂) τ′~τ
+    with ⟨ τ₁′ , ⟨ τ₂′ , τ′▸ ⟩ ⟩ ← ~→▸-→ τ′~τ
+    with TCArr τ₁″~τ₁′ τ₂″~τ₂′ ← ~-▸-→→~ τ′~τ τ′▸
+    with e⇐τ₂′ ← ⇒-~-⇐ e⇒τ₂ (~-sym τ₂″~τ₂′)
+       = UALam τ′▸ τ₁″~τ₁′ e⇐τ₂′
+  ⇒-~-⇐ (USAp e₁⇒τ τ▸ e₂⇐τ₁) τ′~τ₂ = UASubsume (USAp e₁⇒τ τ▸ e₂⇐τ₁) τ′~τ₂ USuAp
+  ⇒-~-⇐ (USLet e₁⇒τ₁ e₂⇒τ₂) τ′~τ₂ = UALet e₁⇒τ₁ (⇒-~-⇐ e₂⇒τ₂ τ′~τ₂)
+  ⇒-~-⇐ USNum τ′~num = UASubsume USNum τ′~num USuNum
+  ⇒-~-⇐ (USPlus e₁⇐num e₂⇐num) τ′~num = UASubsume (USPlus e₁⇐num e₂⇐num) τ′~num USuPlus
+  ⇒-~-⇐ USTrue τ′~bool = UASubsume USTrue τ′~bool USuTrue
+  ⇒-~-⇐ USFalse τ′~bool = UASubsume USFalse τ′~bool USuFalse
+  ⇒-~-⇐ (USIf e₁⇐bool e₂⇒τ₁ e₃⇒τ₂ τ₁⊔τ₂) τ′~τ
+    with ⟨ τ₁~τ′ , τ₂~τ′ ⟩ ← ⊔⇒-~→~ τ₁⊔τ₂ (~-sym τ′~τ)
+    with e₂⇐τ₁′ ← ⇒-~-⇐ e₂⇒τ₁ (~-sym τ₁~τ′)
+       | e₃⇐τ₂′ ← ⇒-~-⇐ e₃⇒τ₂ (~-sym τ₂~τ′)
+       = UAIf e₁⇐bool e₂⇐τ₁′ e₃⇐τ₂′
+  ⇒-~-⇐ (USPair e₁⇒τ₁ e₂⇒τ₂) τ′~τ
+    with ⟨ τ₁′ , ⟨ τ₂′ , τ′▸ ⟩ ⟩ ← ~→▸-× τ′~τ
+    with TCProd τ₁~τ₁′ τ₂~τ₂′ ← ~-▸-×→~ τ′~τ τ′▸
+    with e₁⇐τ₁′ ← ⇒-~-⇐ e₁⇒τ₁ (~-sym τ₁~τ₁′)
+       | e₂⇐τ₂′ ← ⇒-~-⇐ e₂⇒τ₂ (~-sym τ₂~τ₂′)
+       = UAPair τ′▸ e₁⇐τ₁′ e₂⇐τ₂′
+  ⇒-~-⇐ (USProjL e⇒τ τ▸) τ′~τ = UASubsume (USProjL e⇒τ τ▸) τ′~τ USuProjL
+  ⇒-~-⇐ (USProjR e⇒τ τ▸) τ′~τ = UASubsume (USProjR e⇒τ τ▸) τ′~τ USuProjR
+
   -- synthesis totality
   ⊢⇐-⊢⇒ : ∀ {Γ τ} → (ě : Γ ⊢⇐ τ) → ∃[ τ′ ] Σ[ ě′ ∈ Γ ⊢⇒ τ′ ] ě ⇐□ ≡ ě′ ⇒□
   ⊢⇐-⊢⇒ ⊢λ x ∶ τ ∙ ě [ τ₃▸ ∙ τ~τ₁ ]
