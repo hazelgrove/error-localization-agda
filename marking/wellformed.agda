@@ -264,3 +264,84 @@ module marking.wellformed where
     ⇐τ→markless (UASubsume e⇒τ′ τ~τ′ su) (MKASubsume e↬⇒ě τ~τ′′ su′)
       with refl ← ⇒-↬-≡ e⇒τ′ e↬⇒ě
          = MLASubsume (⇒τ→markless e⇒τ′ e↬⇒ě)
+
+  mutual
+    -- synthetically marking an expression into a markless expression and a type implies the original synthesizes that type
+    ↬⇒τ-markless→⇒τ : ∀ {Γ : Ctx} {e : UExp} {τ : Typ} {ě : Γ ⊢⇒ τ}
+                    → Γ ⊢ e ↬⇒ ě
+                    → Markless⇒ ě
+                    → Γ ⊢ e ⇒ τ
+    ↬⇒τ-markless→⇒τ MKSHole less = USHole
+    ↬⇒τ-markless→⇒τ (MKSVar ∋x) less = USVar ∋x
+    ↬⇒τ-markless→⇒τ (MKSLam e↬⇒ě) (MLSLam less)
+      with e⇒τ ← ↬⇒τ-markless→⇒τ e↬⇒ě less
+         = USLam e⇒τ
+    ↬⇒τ-markless→⇒τ (MKSAp1 e₁↬⇒ě₁ τ▸ e₂↬⇐ě₂) (MLSAp less₁ less₂)
+      with e₁⇒τ  ← ↬⇒τ-markless→⇒τ e₁↬⇒ě₁ less₁
+         | e₂⇐τ₁ ← ↬⇐τ-markless→⇐τ e₂↬⇐ě₂ less₂
+         = USAp e₁⇒τ τ▸ e₂⇐τ₁
+    ↬⇒τ-markless→⇒τ (MKSLet e₁↬⇒ě₁ e₂↬⇒ě₂) (MLSLet less₁ less₂)
+      with e₁⇒τ₁ ← ↬⇒τ-markless→⇒τ e₁↬⇒ě₁ less₁
+         | e₂⇒τ₂ ← ↬⇒τ-markless→⇒τ e₂↬⇒ě₂ less₂
+         = USLet e₁⇒τ₁ e₂⇒τ₂
+    ↬⇒τ-markless→⇒τ MKSNum MLSNum = USNum
+    ↬⇒τ-markless→⇒τ (MKSPlus e₁↬⇐ě₁ e₂↬⇐ě₂) (MLSPlus less₁ less₂)
+      with e₁⇐τ₁ ← ↬⇐τ-markless→⇐τ e₁↬⇐ě₁ less₁
+         | e₂⇐τ₂ ← ↬⇐τ-markless→⇐τ e₂↬⇐ě₂ less₂
+         = USPlus e₁⇐τ₁ e₂⇐τ₂
+    ↬⇒τ-markless→⇒τ MKSTrue MLSTrue = USTrue
+    ↬⇒τ-markless→⇒τ MKSFalse MLSFalse = USFalse
+    ↬⇒τ-markless→⇒τ (MKSIf e₁↬⇐ě₁ e₂↬⇒ě₂ e₃↬⇒ě₃ τ₁⊔τ₂) (MLSIf less₁ less₂ less₃)
+      with e₁⇐τ₁ ← ↬⇐τ-markless→⇐τ e₁↬⇐ě₁ less₁
+         | e₂⇒τ₂ ← ↬⇒τ-markless→⇒τ e₂↬⇒ě₂ less₂
+         | e₃⇒τ₃ ← ↬⇒τ-markless→⇒τ e₃↬⇒ě₃ less₃
+         = USIf e₁⇐τ₁ e₂⇒τ₂ e₃⇒τ₃ τ₁⊔τ₂
+    ↬⇒τ-markless→⇒τ (MKSPair e₁↬⇒ě₁ e₂↬⇒ě₂) (MLSPair less₁ less₂)
+      with e₁⇒τ₁ ← ↬⇒τ-markless→⇒τ e₁↬⇒ě₁ less₁
+         | e₂⇒τ₂ ← ↬⇒τ-markless→⇒τ e₂↬⇒ě₂ less₂
+         = USPair e₁⇒τ₁ e₂⇒τ₂
+    ↬⇒τ-markless→⇒τ (MKSProjL1 e↬⇒ě τ▸) (MLSProjL less)
+      with e⇒τ ← ↬⇒τ-markless→⇒τ e↬⇒ě less
+         = USProjL e⇒τ τ▸
+    ↬⇒τ-markless→⇒τ (MKSProjR1 e↬⇒ě τ▸) (MLSProjR less)
+      with e⇒τ ← ↬⇒τ-markless→⇒τ e↬⇒ě less
+         = USProjR e⇒τ τ▸
+
+    -- analytically marking an expression into a markless expression against a type implies the original analyzes against type
+    ↬⇐τ-markless→⇐τ : ∀ {Γ : Ctx} {e : UExp} {τ : Typ} {ě : Γ ⊢⇐ τ}
+                    → Γ ⊢ e ↬⇐ ě
+                    → Markless⇐ ě
+                    → Γ ⊢ e ⇐ τ
+    ↬⇐τ-markless→⇐τ (MKALam1 τ₃▸ τ~τ₁ e↬⇐ě) (MLALam less)
+      with e⇐τ₂ ← ↬⇐τ-markless→⇐τ e↬⇐ě less
+         = UALam τ₃▸ τ~τ₁ e⇐τ₂
+    ↬⇐τ-markless→⇐τ (MKALet e₁↬⇒ě₁ e₂↬⇐ě₂) (MLALet less₁ less₂)
+      with e₁⇒τ₁ ← ↬⇒τ-markless→⇒τ e₁↬⇒ě₁ less₁
+         | e₂⇐τ₂ ← ↬⇐τ-markless→⇐τ e₂↬⇐ě₂ less₂
+         = UALet e₁⇒τ₁ e₂⇐τ₂
+    ↬⇐τ-markless→⇐τ (MKAIf e₁↬⇐ě₁ e₂↬⇐ě₂ e₃↬⇐ě₃) (MLAIf less₁ less₂ less₃)
+      with e₁⇐τ₁ ← ↬⇐τ-markless→⇐τ e₁↬⇐ě₁ less₁
+         | e₂⇐τ₂ ← ↬⇐τ-markless→⇐τ e₂↬⇐ě₂ less₂
+         | e₃⇐τ₃ ← ↬⇐τ-markless→⇐τ e₃↬⇐ě₃ less₃
+         = UAIf e₁⇐τ₁ e₂⇐τ₂ e₃⇐τ₃
+    ↬⇐τ-markless→⇐τ (MKAPair1 e₁↬⇐ě₁ e₂↬⇐ě₂ τ▸) (MLAPair less₁ less₂)
+      with e₁⇐τ₁ ← ↬⇐τ-markless→⇐τ e₁↬⇐ě₁ less₁
+         | e₂⇐τ₂ ← ↬⇐τ-markless→⇐τ e₂↬⇐ě₂ less₂
+         = UAPair τ▸ e₁⇐τ₁ e₂⇐τ₂
+    ↬⇐τ-markless→⇐τ (MKASubsume e↬⇒ě τ~τ′ su) (MLASubsume less)
+      with e⇒τ ← ↬⇒τ-markless→⇒τ e↬⇒ě less
+         = UASubsume e⇒τ τ~τ′ su
+
+  mutual
+    -- ill-typed expressions are marked into non-markless expressions
+    ¬⇒τ→¬markless : ∀ {Γ : Ctx} {e : UExp} {τ′ : Typ} {ě : Γ ⊢⇒ τ′}
+                  → ¬ (Σ[ τ ∈ Typ ] Γ ⊢ e ⇒ τ)
+                  → Γ ⊢ e ↬⇒ ě
+                  → ¬ (Markless⇒ ě)
+    ¬⇒τ→¬markless {τ′ = τ′} ¬e⇒τ e↬⇒ě less = ¬e⇒τ ⟨ τ′ , ↬⇒τ-markless→⇒τ e↬⇒ě less ⟩
+
+    ¬⇐τ→¬markless : ∀ {Γ : Ctx} {e : UExp} {τ′ : Typ} {ě : Γ ⊢⇐ τ′}
+                  → ¬ (Σ[ τ ∈ Typ ] Γ ⊢ e ⇐ τ)
+                  → Γ ⊢ e ↬⇐ ě
+                  → ¬ (Markless⇐ ě)
+    ¬⇐τ→¬markless {τ′ = τ′} ¬e⇐τ e↬⇐ě less = ¬e⇐τ ⟨ τ′ , ↬⇐τ-markless→⇐τ e↬⇐ě less ⟩
