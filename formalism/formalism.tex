@@ -31,7 +31,7 @@ lambda calculus, with rules organized by judgment.
            &       & \mid         & \ECTrue \mid \ECFalse \mid \ECIf{\ECMV}{\ECMV}{\ECMV}
                      \mid           \ECPair{\ECMV}{\ECMV} \mid \ECProjL{\ECMV} \mid \ECProjR{\ECMV}
                      \mid           \ECEHole \\
-           &       & \mid         & \ECUnbound{x} \mid \ECInconType{\ECMV} \mid \ECInconBr{\ECMV}{\ECMV}{\ECMV} \mid \ECInconAsc{\ECMV} \\
+           &       & \mid         & \ECUnbound{x} \mid \ECInconType{\ECMV} \mid \ECInconBr{\ECMV}{\ECMV}{\ECMV} \mid \ECLamInconAsc{x}{\TMV}{\ECMV} \\
            &       & \mid         & \ECSynNonMatchedArrow{\ECMV} \mid \ECAnaNonMatchedArrow{\ECMV}
                      \mid           \ECSynNonMatchedProd{\ECMV} \mid \ECAnaNonMatchedProd{\ECMV}
 \end{array}\]
@@ -825,6 +825,11 @@ $\judgbox{\erase{\ECMV}}$ is a metafunction defined as follows:
   \erasesToRow{\ECUnbound{x}}{x} \\
   \erasesToRow{\ECInconType{\ECMV}}{\erase{\ECMV}} \\
   \erasesToRow{\ECInconBr{\ECMV_1}{\ECMV_2}{\ECMV_3}}{\EIf{(\erase{\ECMV_1})}{(\erase{\ECMV_2})}{(\erase{\ECMV_3})}} \\
+  \erasesToRow{\ECLamInconAsc{x}{\TMV}{\ECMV}}{\ELam{x}{\TMV}{(\erase{\ECMV})}} \\
+  \erasesToRow{\ECSynNonMatchedArrow{\ECMV}}{\erase{\ECMV}} \\
+  \erasesToRow{\ECSynNonMatchedProd{\ECMV}}{\erase{\ECMV}} \\
+  \erasesToRow{\ECAnaNonMatchedArrow{\ECMV}}{\erase{\ECMV}} \\
+  \erasesToRow{\ECAnaNonMatchedProd{\ECMV}}{\erase{\ECMV}} \\
 \end{array}\]
 
 \subsection{Metatheorems}
