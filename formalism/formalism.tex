@@ -72,7 +72,7 @@ lambda calculus, with rules organized by judgment.
 \begin{mathpar}
   \judgment{ }{
     \matchedArrow{\TUnknown}{\TUnknown}{\TUnknown}
-  }{TMAHole}
+  }{TMAUnknown}
 
   \judgment{ }{
     \matchedArrow{\TArrow{\TMV_1}{\TMV_2}}{\TMV_1}{\TMV_2}
@@ -84,7 +84,7 @@ lambda calculus, with rules organized by judgment.
 \begin{mathpar}
   \judgment{ }{
     \matchedProd{\TUnknown}{\TUnknown}{\TUnknown}
-  }{TMPHole}
+  }{TMPUnknown}
 
   \judgment{ }{
     \matchedProd{\TProd{\TMV_1}{\TMV_2}}{\TMV_1}{\TMV_2}
