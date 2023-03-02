@@ -1,16 +1,43 @@
 %
 % utilities
 %
+\newtcolorbox{mybox}[2][]
+{
+  on line,
+  hbox,
+  boxsep=0pt,
+  left=1pt,
+  right=1pt,
+  top=1pt,
+  bottom=1pt,
+  colframe=white,
+  colback=#2
+  #1,
+}
+\newcommand\goodcolor[2]{%
+  \protect\leavevmode
+  \begingroup
+    \color{#1}%
+    #2%
+  \endgroup
+}
+
 \newcommand{\colorSideJudge}{Black!50}
 \newcommand{\colorUText}{PineGreen!90}
-\newcommand{\colorUBkgSyn}{Aquamarine!15}
-\newcommand{\colorUBkgAna}{LimeGreen!15}
+%\newcommand{\colorUBkgSyn}{Aquamarine!15}
+%\newcommand{\colorUBkgAna}{LimeGreen!15}
+\newcommand{\colorUBkgSyn}{Gray!3}
+\newcommand{\colorUBkgAna}{Gray!3}
 \newcommand{\colorMText}{DarkOrchid}
-\newcommand{\colorMBkgSyn}{Periwinkle!17}
-\newcommand{\colorMBkgAna}{Mulberry!17}
+%\newcommand{\colorMBkgSyn}{Periwinkle!17}
+%\newcommand{\colorMBkgAna}{Mulberry!17}
+\newcommand{\colorMBkgSyn}{Gray!3}
+\newcommand{\colorMBkgAna}{Gray!3}
 \newcommand{\colorMKText}{Bittersweet}
-\newcommand{\colorMKBkgSyn}{Goldenrod!22}
-\newcommand{\colorMKBkgAna}{Peach!17}
+%\newcommand{\colorMKBkgSyn}{Goldenrod!22}
+%\newcommand{\colorMKBkgAna}{Peach!17}
+\newcommand{\colorMKBkgSyn}{Gray!3}
+\newcommand{\colorMKBkgAna}{Gray!3}
 \newcommand{\colorCText}{\colorUText}
 \newcommand{\colorCBkgSyn}{\colorUBkgSyn}
 \newcommand{\colorCBkgAna}{\colorUBkgAna}
@@ -696,4 +723,3 @@
     \ensuremath{{#1} \constraintTurn {#2} \constraintAna {#3} \constraintBar {#4}}
     \end{mybox}
 }
-
