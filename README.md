@@ -9,7 +9,11 @@ The formalism may be built from LaTeX via `make formalism.pdf`.
 
 ## Mechanization
 
-All semantics and metatheorems are mechanized in the Agda proof assistant.
+All semantics and metatheorems are mechanized in the Agda proof assistant. To check the proofs, an
+installation of [Agda](https://wiki.portal.chalmers.se/agda/pmwiki.php?n=Main.Download) is required.
+The proofs are known to load cleanly under Agda 2.6.2.2.
+
+Once installed, `agda all.agda` in the appropriate directory will cause Agda to check all the proofs.
 
 ### File Organization
 
