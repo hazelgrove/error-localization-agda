@@ -876,6 +876,43 @@ $\judgbox{\erase{\ECMV}}$ is a metafunction defined as follows:
   \end{enumerate}
 \end{theorem}
 
+\subsection{Alternative Conditional Rules}
+\judgbox{\ctxSynTypeU{\ctx}{\EMV}{\TMV}} $\EMV$ synthesizes type $\TMV$
+%
+\begin{mathpar}
+  \judgment{
+    \ctxAnaTypeU{\ctx}{\EMV_1}{\TBool} \\
+    \ctxSynTypeU{\ctx}{\EMV_2}{\TMV} \\
+    \ctxAnaTypeU{\ctx}{\EMV_3}{\TMV}
+  }{
+    \ctxSynTypeU{\ctx}{\EIf{\EMV_1}{\EMV_2}{\EMV_3}}{\TMV}
+  }{USIf'}
+\end{mathpar}
+
+\judgbox{\ctxSynFixedInto{\ctx}{\EMV}{\ECMV}{\TMV}} $\EMV$ is marked into $\ECMV$ and synthesizes type $\TMV$
+%
+\begin{mathpar}
+  \judgment{
+    \ctxAnaFixedInto{\ctx}{\EMV_1}{\ECMV_1}{\TBool} \\
+    \ctxSynFixedInto{\ctx}{\EMV_2}{\ECMV_2}{\TMV} \\
+    \ctxAnaFixedInto{\ctx}{\EMV_3}{\ECMV_3}{\TMV}
+  }{
+    \ctxSynFixedInto{\ctx}{\EIf{\EMV_1}{\EMV_2}{\EMV_3}}{\ECIf{\ECMV_1}{\ECMV_2}{\ECMV_3}}{\TMV}
+  }{MKSIf'}
+\end{mathpar}
+
+\judgbox{\ctxSynTypeM{\ctx}{\ECMV}{\TMV}} $\ECMV$ synthesizes type $\TMV$
+%
+\begin{mathpar}
+  \judgment{
+    \ctxAnaTypeM{\ctx}{\ECMV_1}{\TBool} \\
+    \ctxSynTypeM{\ctx}{\ECMV_2}{\TMV} \\
+    \ctxAnaTypeM{\ctx}{\ECMV_3}{\TMV}
+  }{
+    \ctxSynTypeM{\ctx}{\ECIf{\ECMV_1}{\ECMV_2}{\ECMV_3}}{\TMV}
+  }{MSIf}
+\end{mathpar}
+
 \subsection{Patterned Let Expressions}
 \subsubsection{Syntax}
 \[\begin{array}{rrcl}
