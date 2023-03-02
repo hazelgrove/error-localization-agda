@@ -21,7 +21,7 @@
 % consistency
 \newcommand{\consistent}[2]{\ensuremath{#1 \goodcolor{Black!60}{\sim} #2}}
 \newcommand{\inconsistentRel}{\ensuremath{\nsim}}
-\newcommand{\inconsistent}[2]{\ensuremath{#1 \goodcolor{red}{\inconsistentRel} #2}}
+\newcommand{\inconsistent}[2]{\ensuremath{\goodcolor{red}{#1 \inconsistentRel #2}}}
 
 % matching
 \newcommand{\matchedRel}[1]{\ensuremath{\goodcolor{Black!40}{\blacktriangleright_{#1}}}}
@@ -29,11 +29,11 @@
 \newcommand{\matchedArrowRel}{\ensuremath{\matchedRel{\to}}}
 \newcommand{\notMatchedArrowRel}{\ensuremath{\notMatchedRel{\to}}}
 \newcommand{\matchedArrow}[3]{\ensuremath{#1 \matchedArrowRel \TArrow{#2}{#3}}}
-\newcommand{\notMatchedArrow}[1]{\ensuremath{#1 \goodcolor{red}{\notMatchedArrowRel}}}
+\newcommand{\notMatchedArrow}[1]{\ensuremath{\goodcolor{red}{#1 \notMatchedArrowRel}}}
 \newcommand{\matchedProdRel}{\ensuremath{\matchedRel{\times}}}
 \newcommand{\notMatchedProdRel}{\ensuremath{\notMatchedRel{\times}}}
 \newcommand{\matchedProd}[3]{\ensuremath{#1 \matchedProdRel \TProd{#2}{#3}}}
-\newcommand{\notMatchedProd}[1]{\ensuremath{#1 \goodcolor{red}{\notMatchedProdRel}}}
+\newcommand{\notMatchedProd}[1]{\ensuremath{\goodcolor{red}{#1 \notMatchedProdRel}}}
 
 % base types
 \newcommand{\base}[1]{\ensuremath{#1 ~{\normalfont\textsf{base}}}}
@@ -302,7 +302,7 @@ PineGreen!90}{\Rightarrow} #2}}
 \newcommand{\MRSyn}{\ensuremath{\mathsmaller{\Rightarrow}}}
 \newcommand{\MRAna}{\ensuremath{\mathsmaller{\Leftarrow}}}
 
-\newcommand{\ECMarked}[3]{\ensuremath{\textcolor{red}{\bm{\llparenthesis}}#1\textcolor{red}{\bm{\rrparenthesis}_{#2}^{#3}}}}
+\newcommand{\ECMarked}[3]{\ensuremath{\textcolor{red}{\bm{\llparenthesis}#1\bm{\rrparenthesis}_{#2}^{#3}}}}
 \newcommand{\ECMarkedUnbound}[1]{\ensuremath{\ECMarked{#1}{\MRUnbound}{}}}
 \newcommand{\ECMarkedInconType}[1]{\ensuremath{\ECMarked{#1}{\MRInconType}{}}}
 \newcommand{\ECMarkedInconBr}[1]{\ensuremath{\ECMarked{#1}{\MRInconBr}{}}}
