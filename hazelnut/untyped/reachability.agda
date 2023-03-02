@@ -14,22 +14,22 @@ module hazelnut.untyped.reachability where
     with ⟨ ᾱ , ⟨ ᾱmv , τ^+>* ⟩ ⟩ ← reachup-τ τ^
        = ⟨ ᾱ ++ ∣[ move parent ] ,
          ⟨ movements-++ ᾱmv (AMICons parent AMINil) ,
-           +τ>*-++ (ziplem-tarr1 τ^+>*) (TITyp TMArrParent1 TIRefl) ⟩ ⟩
+           +τ>*-++ (ziplem-tarr1 τ^+>*) (TITyp ATMArrParent1 TIRefl) ⟩ ⟩
   reachup-τ (τ -→₂ τ^)
     with ⟨ ᾱ , ⟨ ᾱmv , τ^+>* ⟩ ⟩ ← reachup-τ τ^
        = ⟨ ᾱ ++ ∣[ move parent ] ,
          ⟨ movements-++ ᾱmv (AMICons parent AMINil) ,
-           +τ>*-++ (ziplem-tarr2 τ^+>*) (TITyp TMArrParent2 TIRefl) ⟩ ⟩
+           +τ>*-++ (ziplem-tarr2 τ^+>*) (TITyp ATMArrParent2 TIRefl) ⟩ ⟩
   reachup-τ (τ^ -×₁ τ)
     with ⟨ ᾱ , ⟨ ᾱmv , τ^+>* ⟩ ⟩ ← reachup-τ τ^
        = ⟨ ᾱ ++ ∣[ move parent ] ,
          ⟨ movements-++ ᾱmv (AMICons parent AMINil) ,
-           +τ>*-++ (ziplem-tprod1 τ^+>*) (TITyp TMProdParent1 TIRefl) ⟩ ⟩
+           +τ>*-++ (ziplem-tprod1 τ^+>*) (TITyp ATMProdParent1 TIRefl) ⟩ ⟩
   reachup-τ (τ -×₂ τ^)
     with ⟨ ᾱ , ⟨ ᾱmv , τ^+>* ⟩ ⟩ ← reachup-τ τ^
        = ⟨ ᾱ ++ ∣[ move parent ] ,
          ⟨ movements-++ ᾱmv (AMICons parent AMINil) ,
-           +τ>*-++ (ziplem-tprod2 τ^+>*) (TITyp TMProdParent2 TIRefl) ⟩ ⟩
+           +τ>*-++ (ziplem-tprod2 τ^+>*) (TITyp ATMProdParent2 TIRefl) ⟩ ⟩
 
   -- reach up for expressions
   reachup-e : (ê : ZExp) → ∃[ ᾱ ] ᾱ movements × ê + ᾱ +e>* ‵▹ ê ◇ ◃
@@ -117,22 +117,22 @@ module hazelnut.untyped.reachability where
     with ⟨ ᾱ , ⟨ ᾱmv , +>*τ^ ⟩ ⟩ ← reachdown-τ τ^
        = ⟨ move (child 1) ∷ ᾱ ,
          ⟨ AMICons (child 1) ᾱmv ,
-           TITyp TMArrChild1 (ziplem-tarr1 +>*τ^) ⟩ ⟩
+           TITyp ATMArrChild1 (ziplem-tarr1 +>*τ^) ⟩ ⟩
   reachdown-τ (τ -→₂ τ^)
     with ⟨ ᾱ , ⟨ ᾱmv , +>*τ^ ⟩ ⟩ ← reachdown-τ τ^
        = ⟨ move (child 2) ∷ ᾱ ,
          ⟨ AMICons (child 2) ᾱmv ,
-           TITyp TMArrChild2 (ziplem-tarr2 +>*τ^) ⟩ ⟩
+           TITyp ATMArrChild2 (ziplem-tarr2 +>*τ^) ⟩ ⟩
   reachdown-τ (τ^ -×₁ τ)
     with ⟨ ᾱ , ⟨ ᾱmv , +>*τ^ ⟩ ⟩ ← reachdown-τ τ^
        = ⟨ move (child 1) ∷ ᾱ ,
          ⟨ AMICons (child 1) ᾱmv ,
-           TITyp TMProdChild1 (ziplem-tprod1 +>*τ^) ⟩ ⟩
+           TITyp ATMProdChild1 (ziplem-tprod1 +>*τ^) ⟩ ⟩
   reachdown-τ (τ -×₂ τ^)
     with ⟨ ᾱ , ⟨ ᾱmv , +>*τ^ ⟩ ⟩ ← reachdown-τ τ^
        = ⟨ move (child 2) ∷ ᾱ ,
          ⟨ AMICons (child 2) ᾱmv ,
-           TITyp TMProdChild2 (ziplem-tprod2 +>*τ^) ⟩ ⟩
+           TITyp ATMProdChild2 (ziplem-tprod2 +>*τ^) ⟩ ⟩
 
   reachdown-e : (ê : ZExp) → ∃[ ᾱ ] ᾱ movements ×  ‵▹ ê ◇ ◃ + ᾱ +e>* ê
   reachdown-e ‵▹ e ◃ = ⟨ [] , ⟨ AMINil , EIRefl ⟩ ⟩

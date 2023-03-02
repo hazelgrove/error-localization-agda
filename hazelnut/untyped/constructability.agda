@@ -9,19 +9,19 @@ open import hazelnut.untyped.erasure
 module hazelnut.untyped.constructability where
   -- constructability of types
   constructability-τ : (τ : Typ) → ∃[ ᾱ ] ▹ unknown ◃ + ᾱ +τ>* ▹ τ ◃
-  constructability-τ num = ⟨ ∣[ construct tnum ] , TITyp TConNum TIRefl ⟩
-  constructability-τ bool = ⟨ ∣[ construct tbool ] , TITyp TConBool TIRefl ⟩
+  constructability-τ num = ⟨ ∣[ construct tnum ] , TITyp ATConNum TIRefl ⟩
+  constructability-τ bool = ⟨ ∣[ construct tbool ] , TITyp ATConBool TIRefl ⟩
   constructability-τ unknown = ⟨ [] , TIRefl ⟩
   constructability-τ (τ₁ -→ τ₂)
     with ⟨ ᾱ₁ , +>*τ₁ ⟩ ← constructability-τ τ₁
        | ⟨ ᾱ₂ , +>*τ₂ ⟩ ← constructability-τ τ₂
        = ⟨ ᾱ₁ ++ construct tarrow₁ ∷ ᾱ₂ ++ ∣[ move parent ] ,
-           +τ>*-++ +>*τ₁ (TITyp TConArrow1 (+τ>*-++ (ziplem-tarr2 +>*τ₂) (TITyp TMArrParent2 TIRefl))) ⟩
+           +τ>*-++ +>*τ₁ (TITyp ATConArrow1 (+τ>*-++ (ziplem-tarr2 +>*τ₂) (TITyp ATMArrParent2 TIRefl))) ⟩
   constructability-τ (τ₁ -× τ₂)
     with ⟨ ᾱ₁ , +>*τ₁ ⟩ ← constructability-τ τ₁
        | ⟨ ᾱ₂ , +>*τ₂ ⟩ ← constructability-τ τ₂
        = ⟨ ᾱ₁ ++ construct tprod₁ ∷ ᾱ₂ ++ ∣[ move parent ] ,
-           +τ>*-++ +>*τ₁ (TITyp TConProd1 (+τ>*-++ (ziplem-tprod2 +>*τ₂) (TITyp TMProdParent2 TIRefl))) ⟩
+           +τ>*-++ +>*τ₁ (TITyp ATConProd1 (+τ>*-++ (ziplem-tprod2 +>*τ₂) (TITyp ATMProdParent2 TIRefl))) ⟩
 
   uz : Hole
   uz = 0

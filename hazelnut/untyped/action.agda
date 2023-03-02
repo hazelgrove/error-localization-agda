@@ -8,52 +8,52 @@ module hazelnut.untyped.action where
   -- type actions
   data _+_+τ>_ : (τ : ZTyp) → (α : Action) → (τ′ : ZTyp) → Set where
     -- movement
-    TMArrChild1 : ∀ {τ₁ τ₂ : Typ}
-                 → ▹ τ₁ -→ τ₂ ◃ + move (child 1) +τ> ▹ τ₁ ◃ -→₁ τ₂
-    TMArrChild2 : ∀ {τ₁ τ₂ : Typ}
-                 → ▹ τ₁ -→ τ₂ ◃ + move (child 2) +τ> τ₁ -→₂ ▹ τ₂ ◃
-    TMArrParent1 : ∀ {τ₁ τ₂ : Typ}
-                 → ▹ τ₁ ◃ -→₁ τ₂ + move parent +τ> ▹ τ₁ -→ τ₂ ◃
-    TMArrParent2 : ∀ {τ₁ τ₂ : Typ}
-                 → τ₁ -→₂ ▹ τ₂ ◃ + move parent +τ> ▹ τ₁ -→ τ₂ ◃
-    TMProdChild1 : ∀ {τ₁ τ₂ : Typ}
-                 → ▹ τ₁ -× τ₂ ◃ + move (child 1) +τ> ▹ τ₁ ◃ -×₁ τ₂
-    TMProdChild2 : ∀ {τ₁ τ₂ : Typ}
-                 → ▹ τ₁ -× τ₂ ◃ + move (child 2) +τ> τ₁ -×₂ ▹ τ₂ ◃
-    TMProdParent1 : ∀ {τ₁ τ₂ : Typ}
-                 → ▹ τ₁ ◃ -×₁ τ₂ + move parent +τ> ▹ τ₁ -× τ₂ ◃
-    TMProdParent2 : ∀ {τ₁ τ₂ : Typ}
-                 → τ₁ -×₂ ▹ τ₂ ◃ + move parent +τ> ▹ τ₁ -× τ₂ ◃
+    ATMArrChild1   : ∀ {τ₁ τ₂ : Typ}
+                   → ▹ τ₁ -→ τ₂ ◃ + move (child 1) +τ> ▹ τ₁ ◃ -→₁ τ₂
+    ATMArrChild2   : ∀ {τ₁ τ₂ : Typ}
+                   → ▹ τ₁ -→ τ₂ ◃ + move (child 2) +τ> τ₁ -→₂ ▹ τ₂ ◃
+    ATMArrParent1  : ∀ {τ₁ τ₂ : Typ}
+                   → ▹ τ₁ ◃ -→₁ τ₂ + move parent +τ> ▹ τ₁ -→ τ₂ ◃
+    ATMArrParent2  : ∀ {τ₁ τ₂ : Typ}
+                   → τ₁ -→₂ ▹ τ₂ ◃ + move parent +τ> ▹ τ₁ -→ τ₂ ◃
+    ATMProdChild1  : ∀ {τ₁ τ₂ : Typ}
+                   → ▹ τ₁ -× τ₂ ◃ + move (child 1) +τ> ▹ τ₁ ◃ -×₁ τ₂
+    ATMProdChild2  : ∀ {τ₁ τ₂ : Typ}
+                   → ▹ τ₁ -× τ₂ ◃ + move (child 2) +τ> τ₁ -×₂ ▹ τ₂ ◃
+    ATMProdParent1 : ∀ {τ₁ τ₂ : Typ}
+                   → ▹ τ₁ ◃ -×₁ τ₂ + move parent +τ> ▹ τ₁ -× τ₂ ◃
+    ATMProdParent2 : ∀ {τ₁ τ₂ : Typ}
+                   → τ₁ -×₂ ▹ τ₂ ◃ + move parent +τ> ▹ τ₁ -× τ₂ ◃
 
     -- deletion
-    TDel : ∀ {τ : Typ} {u : Hole}
-         → ▹ τ ◃ + (del u) +τ> ▹ unknown ◃
+    ATDel : ∀ {τ : Typ} {u : Hole}
+          → ▹ τ ◃ + (del u) +τ> ▹ unknown ◃
 
     -- construction
-    TConArrow1 : ∀ {τ : Typ}
-               → ▹ τ ◃ + construct tarrow₁ +τ> τ -→₂ ▹ unknown ◃
-    TConArrow2 : ∀ {τ : Typ}
-               → ▹ τ ◃ + construct tarrow₂ +τ> ▹ unknown ◃ -→₁ τ
-    TConProd1 : ∀ {τ : Typ}
-               → ▹ τ ◃ + construct tprod₁ +τ> τ -×₂ ▹ unknown ◃
-    TConProd2 : ∀ {τ : Typ}
-               → ▹ τ ◃ + construct tprod₂ +τ> ▹ unknown ◃ -×₁ τ
-    TConNum    : ▹ unknown ◃ + construct tnum +τ> ▹ num ◃
-    TConBool   : ▹ unknown ◃ + construct tbool +τ> ▹ bool ◃
+    ATConArrow1 : ∀ {τ : Typ}
+                → ▹ τ ◃ + construct tarrow₁ +τ> τ -→₂ ▹ unknown ◃
+    ATConArrow2 : ∀ {τ : Typ}
+                → ▹ τ ◃ + construct tarrow₂ +τ> ▹ unknown ◃ -→₁ τ
+    ATConProd1  : ∀ {τ : Typ}
+                → ▹ τ ◃ + construct tprod₁ +τ> τ -×₂ ▹ unknown ◃
+    ATConProd2  : ∀ {τ : Typ}
+                → ▹ τ ◃ + construct tprod₂ +τ> ▹ unknown ◃ -×₁ τ
+    ATConNum    : ▹ unknown ◃ + construct tnum +τ> ▹ num ◃
+    ATConBool   : ▹ unknown ◃ + construct tbool +τ> ▹ bool ◃
 
     -- zipper
-    TZipArr1 : ∀ {τ^ τ^′ : ZTyp} {τ : Typ} {α : Action}
-             → (τ^+>τ^′ : τ^ + α +τ> τ^′)
-             → τ^ -→₁ τ + α +τ> τ^′ -→₁ τ
-    TZipArr2 : ∀ {τ^ τ^′ : ZTyp} {τ : Typ} {α : Action}
-             → (τ^+>τ^′ : τ^ + α +τ> τ^′)
-             → τ -→₂ τ^ + α +τ> τ -→₂ τ^′
-    TZipProd1 : ∀ {τ^ τ^′ : ZTyp} {τ : Typ} {α : Action}
-             → (τ^+>τ^′ : τ^ + α +τ> τ^′)
-             → τ^ -×₁ τ + α +τ> τ^′ -×₁ τ
-    TZipProd2 : ∀ {τ^ τ^′ : ZTyp} {τ : Typ} {α : Action}
-             → (τ^+>τ^′ : τ^ + α +τ> τ^′)
-             → τ -×₂ τ^ + α +τ> τ -×₂ τ^′
+    ATZipArr1  : ∀ {τ^ τ^′ : ZTyp} {τ : Typ} {α : Action}
+               → (τ^+>τ^′ : τ^ + α +τ> τ^′)
+               → τ^ -→₁ τ + α +τ> τ^′ -→₁ τ
+    ATZipArr2  : ∀ {τ^ τ^′ : ZTyp} {τ : Typ} {α : Action}
+               → (τ^+>τ^′ : τ^ + α +τ> τ^′)
+               → τ -→₂ τ^ + α +τ> τ -→₂ τ^′
+    ATZipProd1 : ∀ {τ^ τ^′ : ZTyp} {τ : Typ} {α : Action}
+               → (τ^+>τ^′ : τ^ + α +τ> τ^′)
+               → τ^ -×₁ τ + α +τ> τ^′ -×₁ τ
+    ATZipProd2 : ∀ {τ^ τ^′ : ZTyp} {τ : Typ} {α : Action}
+               → (τ^+>τ^′ : τ^ + α +τ> τ^′)
+               → τ -×₂ τ^ + α +τ> τ -×₂ τ^′
 
   -- expression actions
   data _+_+e>_ : (ê : ZExp) → (α : Action) → (ê′ : ZExp) → Set where
@@ -242,19 +242,19 @@ module hazelnut.untyped.action where
   -- type zippers
   ziplem-tarr1 : ∀ {τ^ τ^′ τ ᾱ} → τ^ + ᾱ +τ>* τ^′ → (τ^ -→₁ τ) + ᾱ +τ>* (τ^′ -→₁ τ)
   ziplem-tarr1 TIRefl                    = TIRefl
-  ziplem-tarr1 (TITyp τ^+>τ^′ τ^′+>*τ^″) = TITyp (TZipArr1 τ^+>τ^′) (ziplem-tarr1 τ^′+>*τ^″)
+  ziplem-tarr1 (TITyp τ^+>τ^′ τ^′+>*τ^″) = TITyp (ATZipArr1 τ^+>τ^′) (ziplem-tarr1 τ^′+>*τ^″)
 
   ziplem-tarr2 : ∀ {τ^ τ^′ τ ᾱ} → τ^ + ᾱ +τ>* τ^′ → (τ -→₂ τ^) + ᾱ +τ>* (τ -→₂ τ^′)
   ziplem-tarr2 TIRefl                    = TIRefl
-  ziplem-tarr2 (TITyp τ^+>τ^′ τ^′+>*τ^″) = TITyp (TZipArr2 τ^+>τ^′) (ziplem-tarr2 τ^′+>*τ^″)
+  ziplem-tarr2 (TITyp τ^+>τ^′ τ^′+>*τ^″) = TITyp (ATZipArr2 τ^+>τ^′) (ziplem-tarr2 τ^′+>*τ^″)
 
   ziplem-tprod1 : ∀ {τ^ τ^′ τ ᾱ} → τ^ + ᾱ +τ>* τ^′ → (τ^ -×₁ τ) + ᾱ +τ>* (τ^′ -×₁ τ)
   ziplem-tprod1 TIRefl                    = TIRefl
-  ziplem-tprod1 (TITyp τ^+>τ^′ τ^′+>*τ^″) = TITyp (TZipProd1 τ^+>τ^′) (ziplem-tprod1 τ^′+>*τ^″)
+  ziplem-tprod1 (TITyp τ^+>τ^′ τ^′+>*τ^″) = TITyp (ATZipProd1 τ^+>τ^′) (ziplem-tprod1 τ^′+>*τ^″)
 
   ziplem-tprod2 : ∀ {τ^ τ^′ τ ᾱ} → τ^ + ᾱ +τ>* τ^′ → (τ -×₂ τ^) + ᾱ +τ>* (τ -×₂ τ^′)
   ziplem-tprod2 TIRefl                    = TIRefl
-  ziplem-tprod2 (TITyp τ^+>τ^′ τ^′+>*τ^″) = TITyp (TZipProd2 τ^+>τ^′) (ziplem-tprod2 τ^′+>*τ^″)
+  ziplem-tprod2 (TITyp τ^+>τ^′ τ^′+>*τ^″) = TITyp (ATZipProd2 τ^+>τ^′) (ziplem-tprod2 τ^′+>*τ^″)
 
   -- expression zippers
   ziplem-lam1 : ∀ {x τ^ τ^′ e ᾱ} → τ^ + ᾱ +τ>* τ^′ → (‵λ₁ x ∶ τ^ ∙ e) + ᾱ +e>* (‵λ₁ x ∶ τ^′ ∙ e)

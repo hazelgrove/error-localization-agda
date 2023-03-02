@@ -8,33 +8,33 @@ open import hazelnut.untyped.erasure
 
 module hazelnut.untyped.determinism where
   determinism-τ : ∀ {τ^ τ^′ τ^″ α} → τ^ + α +τ> τ^′ → τ^ + α +τ> τ^″ → τ^′ ≡ τ^″
-  determinism-τ TMArrChild1        TMArrChild1   = refl
-  determinism-τ TMArrChild2        TMArrChild2   = refl
-  determinism-τ TMArrParent1       TMArrParent1  = refl
-  determinism-τ TMArrParent1       (TZipArr1 ())
-  determinism-τ TMArrParent2       TMArrParent2  = refl
-  determinism-τ TMArrParent2       (TZipArr2 ())
-  determinism-τ TMProdChild1       TMProdChild1  = refl
-  determinism-τ TMProdChild2       TMProdChild2  = refl
-  determinism-τ TMProdParent1      TMProdParent1 = refl
-  determinism-τ TMProdParent1      (TZipProd1 ())
-  determinism-τ TMProdParent2      TMProdParent2 = refl
-  determinism-τ TMProdParent2      (TZipProd2 ())
-  determinism-τ TDel               TDel          = refl
-  determinism-τ TConArrow1         TConArrow1    = refl
-  determinism-τ TConArrow2         TConArrow2    = refl
-  determinism-τ TConProd1          TConProd1     = refl
-  determinism-τ TConProd2          TConProd2     = refl
-  determinism-τ TConNum            TConNum       = refl
-  determinism-τ TConBool           TConBool      = refl
-  determinism-τ (TZipArr1 ())      TMArrParent1
-  determinism-τ (TZipArr1 τ^+>τ^′) (TZipArr1 τ^+>τ^″)
+  determinism-τ ATMArrChild1        ATMArrChild1   = refl
+  determinism-τ ATMArrChild2        ATMArrChild2   = refl
+  determinism-τ ATMArrParent1       ATMArrParent1  = refl
+  determinism-τ ATMArrParent1       (ATZipArr1 ())
+  determinism-τ ATMArrParent2       ATMArrParent2  = refl
+  determinism-τ ATMArrParent2       (ATZipArr2 ())
+  determinism-τ ATMProdChild1       ATMProdChild1  = refl
+  determinism-τ ATMProdChild2       ATMProdChild2  = refl
+  determinism-τ ATMProdParent1      ATMProdParent1 = refl
+  determinism-τ ATMProdParent1      (ATZipProd1 ())
+  determinism-τ ATMProdParent2      ATMProdParent2 = refl
+  determinism-τ ATMProdParent2      (ATZipProd2 ())
+  determinism-τ ATDel               ATDel          = refl
+  determinism-τ ATConArrow1         ATConArrow1    = refl
+  determinism-τ ATConArrow2         ATConArrow2    = refl
+  determinism-τ ATConProd1          ATConProd1     = refl
+  determinism-τ ATConProd2          ATConProd2     = refl
+  determinism-τ ATConNum            ATConNum       = refl
+  determinism-τ ATConBool           ATConBool      = refl
+  determinism-τ (ATZipArr1 ())      ATMArrParent1
+  determinism-τ (ATZipArr1 τ^+>τ^′) (ATZipArr1 τ^+>τ^″)
     rewrite determinism-τ τ^+>τ^′ τ^+>τ^″        = refl
-  determinism-τ (TZipArr2 τ^+>τ^′) (TZipArr2 τ^+>τ^″)
+  determinism-τ (ATZipArr2 τ^+>τ^′) (ATZipArr2 τ^+>τ^″)
     rewrite determinism-τ τ^+>τ^′ τ^+>τ^″        = refl
-  determinism-τ (TZipProd1 τ^+>τ^′) (TZipProd1 τ^+>τ^″)
+  determinism-τ (ATZipProd1 τ^+>τ^′) (ATZipProd1 τ^+>τ^″)
     rewrite determinism-τ τ^+>τ^′ τ^+>τ^″        = refl
-  determinism-τ (TZipProd2 τ^+>τ^′) (TZipProd2 τ^+>τ^″)
+  determinism-τ (ATZipProd2 τ^+>τ^′) (ATZipProd2 τ^+>τ^″)
     rewrite determinism-τ τ^+>τ^′ τ^+>τ^″        = refl
 
   determinism*-τ : ∀ {τ^ τ^′ τ^″ ᾱ} → τ^ + ᾱ +τ>* τ^′ → τ^ + ᾱ +τ>* τ^″ → τ^′ ≡ τ^″

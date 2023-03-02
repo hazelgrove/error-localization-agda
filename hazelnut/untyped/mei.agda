@@ -9,21 +9,21 @@ open import hazelnut.untyped.erasure
 module hazelnut.untyped.mei where
   -- movement erasure invariance
   movement-erasure-invariance-τ : ∀ {τ^ τ^′ δ} → τ^ + move δ +τ> τ^′ → τ^ ◇τ ≡ τ^′ ◇τ
-  movement-erasure-invariance-τ TMArrChild1       = refl
-  movement-erasure-invariance-τ TMArrChild2       = refl
-  movement-erasure-invariance-τ TMArrParent1      = refl
-  movement-erasure-invariance-τ TMArrParent2      = refl
-  movement-erasure-invariance-τ (TZipArr1 τ^+>τ^′)
+  movement-erasure-invariance-τ ATMArrChild1       = refl
+  movement-erasure-invariance-τ ATMArrChild2       = refl
+  movement-erasure-invariance-τ ATMArrParent1      = refl
+  movement-erasure-invariance-τ ATMArrParent2      = refl
+  movement-erasure-invariance-τ (ATZipArr1 τ^+>τ^′)
     rewrite movement-erasure-invariance-τ τ^+>τ^′ = refl
-  movement-erasure-invariance-τ (TZipArr2 τ^+>τ^′)
+  movement-erasure-invariance-τ (ATZipArr2 τ^+>τ^′)
     rewrite movement-erasure-invariance-τ τ^+>τ^′ = refl
-  movement-erasure-invariance-τ TMProdChild1       = refl
-  movement-erasure-invariance-τ TMProdChild2       = refl
-  movement-erasure-invariance-τ TMProdParent1      = refl
-  movement-erasure-invariance-τ TMProdParent2      = refl
-  movement-erasure-invariance-τ (TZipProd1 τ^+>τ^′)
+  movement-erasure-invariance-τ ATMProdChild1       = refl
+  movement-erasure-invariance-τ ATMProdChild2       = refl
+  movement-erasure-invariance-τ ATMProdParent1      = refl
+  movement-erasure-invariance-τ ATMProdParent2      = refl
+  movement-erasure-invariance-τ (ATZipProd1 τ^+>τ^′)
     rewrite movement-erasure-invariance-τ τ^+>τ^′ = refl
-  movement-erasure-invariance-τ (TZipProd2 τ^+>τ^′)
+  movement-erasure-invariance-τ (ATZipProd2 τ^+>τ^′)
     rewrite movement-erasure-invariance-τ τ^+>τ^′ = refl
 
   movement-erasure-invariance-e : ∀ {ê ê′ δ} → ê + move δ +e> ê′ → ê ◇ ≡ ê′ ◇
