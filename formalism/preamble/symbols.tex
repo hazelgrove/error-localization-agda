@@ -19,21 +19,21 @@
 \newcommand{\notEqual}[2]{\ensuremath{#1 \neq #2}}
 
 % consistency
-\newcommand{\consistent}[2]{\ensuremath{#1 \sim #2}}
+\newcommand{\consistent}[2]{\ensuremath{#1 \goodcolor{Black!60}{\sim} #2}}
 \newcommand{\inconsistentRel}{\ensuremath{\nsim}}
-\newcommand{\inconsistent}[2]{\ensuremath{#1 \inconsistentRel #2}}
+\newcommand{\inconsistent}[2]{\ensuremath{#1 \goodcolor{red}{\inconsistentRel} #2}}
 
 % matching
-\newcommand{\matchedRel}[1]{\ensuremath{\blacktriangleright_{#1}}}
+\newcommand{\matchedRel}[1]{\ensuremath{\goodcolor{Black!40}{\blacktriangleright_{#1}}}}
 \newcommand{\notMatchedRel}[1]{\ensuremath{\blacktriangleright_{\centernot#1}}}
 \newcommand{\matchedArrowRel}{\ensuremath{\matchedRel{\to}}}
 \newcommand{\notMatchedArrowRel}{\ensuremath{\notMatchedRel{\to}}}
 \newcommand{\matchedArrow}[3]{\ensuremath{#1 \matchedArrowRel \TArrow{#2}{#3}}}
-\newcommand{\notMatchedArrow}[1]{\ensuremath{#1 \notMatchedArrowRel}}
+\newcommand{\notMatchedArrow}[1]{\ensuremath{#1 \goodcolor{red}{\notMatchedArrowRel}}}
 \newcommand{\matchedProdRel}{\ensuremath{\matchedRel{\times}}}
 \newcommand{\notMatchedProdRel}{\ensuremath{\notMatchedRel{\times}}}
 \newcommand{\matchedProd}[3]{\ensuremath{#1 \matchedProdRel \TProd{#2}{#3}}}
-\newcommand{\notMatchedProd}[1]{\ensuremath{#1 \notMatchedProdRel}}
+\newcommand{\notMatchedProd}[1]{\ensuremath{#1 \goodcolor{red}{\notMatchedProdRel}}}
 
 % base types
 \newcommand{\base}[1]{\ensuremath{#1 ~{\normalfont\textsf{base}}}}
@@ -43,7 +43,7 @@
 \newcommand{\extendCtx}[3]{\ensuremath{#1 , ~\assignType{#2}{#3}}}
 \DeclareMathOperator{\dom}{dom}
 \newcommand{\inCtx}[3]{\ensuremath{\assignType{#2}{#3} \in #1}}
-\newcommand{\notInCtx}[2]{\ensuremath{#2 \not\in \dom(#1)}}
+\newcommand{\notInCtx}[2]{\ensuremath{#2 \goodcolor{red}{\not\in} \dom(#1)}}
 \newcommand{\withCtx}[2]{\ensuremath{#1 \vdash #2}}
 
 % typing
@@ -54,46 +54,84 @@
 \newcommand{\ctxSynType}[3]{\ensuremath{\withCtx{#1}{\synType{#2}{#3}}}}
 \newcommand{\ctxNotSynType}[3]{\ensuremath{\withCtx{#1}{\notSynType{#2}{#3}}}}
 \newcommand{\anaType}[2]{\ensuremath{#1 \Leftarrow #2}}
-\newcommand{\notAnaType}[2]{\ensuremath{#1 \not\Leftarrow #2}}
+\newcommand{\notAnaType}[2]{\ensuremath{#1 \goodcolor{red}{\not\Leftarrow} #2}}
 \newcommand{\ctxAnaType}[3]{\ensuremath{\withCtx{#1}{\anaType{#2}{#3}}}}
 \newcommand{\ctxNotAnaType}[3]{\ensuremath{\withCtx{#1}{\notAnaType{#2}{#3}}}}
 
 % unmarked typing
-\newcommand{\withCtxU}[2]{\ensuremath{#1 \vdash_{U} #2}}
+\newcommand{\withCtxU}[2]{\ensuremath{#1 \goodcolor{
+PineGreen!100}{\vdash_{\hspace{-4.25pt}\scaleto{U}{3.5pt}}} #2}}
 \newcommand{\assignTypeU}[2]{\ensuremath{#1 : #2}}
 \newcommand{\ctxAssignTypeU}[3]{\ensuremath{\withCtxU{#1}{\assignTypeU{#2}{#3}}}}
-\newcommand{\synTypeU}[2]{\ensuremath{#1 \Rightarrow #2}}
+\newcommand{\synTypeU}[2]{\ensuremath{#1 \goodcolor{
+PineGreen!90}{\Rightarrow} #2}}
 \newcommand{\notSynTypeU}[2]{\ensuremath{#1 \not\Rightarrow #2}}
-\newcommand{\ctxSynTypeU}[3]{\ensuremath{\withCtxU{#1}{\synTypeU{#2}{#3}}}}
+\newcommand{\ctxSynTypeU}[3]{
+    \begin{mybox}{Aquamarine!15}
+    \ensuremath{\withCtxU{#1}{\synTypeU{#2}{#3}}}
+    \end{mybox}
+}
 \newcommand{\ctxNotSynTypeU}[3]{\ensuremath{\withCtxU{#1}{\notSynTypeU{#2}{#3}}}}
-\newcommand{\anaTypeU}[2]{\ensuremath{#1 \Leftarrow #2}}
-\newcommand{\notAnaTypeU}[2]{\ensuremath{#1 \not\Leftarrow #2}}
-\newcommand{\ctxAnaTypeU}[3]{\ensuremath{\withCtxU{#1}{\anaTypeU{#2}{#3}}}}
+\newcommand{\anaTypeU}[2]{\ensuremath{#1 \goodcolor{PineGreen!90}{\Leftarrow} #2}}
+\newcommand{\notAnaTypeU}[2]{\ensuremath{#1 \goodcolor{red}{\not\Leftarrow} #2}}
+\newcommand{\ctxAnaTypeU}[3]{
+    \begin{mybox}{LimeGreen!15}
+    \ensuremath{\withCtxU{#1}{\anaTypeU{#2}{#3}}}
+    \end{mybox}
+}
 \newcommand{\ctxNotAnaTypeU}[3]{\ensuremath{\withCtxU{#1}{\notAnaTypeU{#2}{#3}}}}
 
 % marked typing
-\newcommand{\withCtxM}[2]{\ensuremath{#1 \vdash_{M} #2}}
+\newcommand{\withCtxM}[2]{\ensuremath{#1 \goodcolor{DarkOrchid}{\vdash_{\hspace{-4.75pt}\scaleto{M}{3.5pt}}} #2}}
 \newcommand{\assignTypeM}[2]{\ensuremath{#1 : #2}}
 \newcommand{\ctxAssignTypeM}[3]{\ensuremath{\withCtxM{#1}{\assignTypeM{#2}{#3}}}}
-\newcommand{\synTypeM}[2]{\ensuremath{#1 \Rightarrow #2}}
+\newcommand{\synTypeM}[2]{\ensuremath{#1 \goodcolor{DarkOrchid}{\Rightarrow} #2}}
 \newcommand{\notSynTypeM}[2]{\ensuremath{#1 \not\Rightarrow #2}}
-\newcommand{\ctxSynTypeM}[3]{\ensuremath{\withCtxM{#1}{\synTypeM{#2}{#3}}}}
+\newcommand{\ctxSynTypeM}[3]{
+    \begin{mybox}{Periwinkle!17}
+    \ensuremath{\withCtxM{#1}{\synTypeM{#2}{#3}}}
+    \end{mybox}
+}
 \newcommand{\ctxNotSynTypeM}[3]{\ensuremath{\withCtxM{#1}{\notSynTypeM{#2}{#3}}}}
-\newcommand{\anaTypeM}[2]{\ensuremath{#1 \Leftarrow #2}}
-\newcommand{\notAnaTypeM}[2]{\ensuremath{#1 \not\Leftarrow #2}}
-\newcommand{\ctxAnaTypeM}[3]{\ensuremath{\withCtxM{#1}{\anaTypeM{#2}{#3}}}}
+\newcommand{\anaTypeM}[2]{\ensuremath{#1 \goodcolor{DarkOrchid}{\Leftarrow} #2}}
+\newcommand{\notAnaTypeM}[2]{\ensuremath{#1 \goodcolor{red}{\not\Leftarrow} #2}}
+\newcommand{\ctxAnaTypeM}[3]{
+    \begin{mybox}{Mulberry!17}
+    \ensuremath{\withCtxM{#1}{\anaTypeM{#2}{#3}}}
+    \end{mybox}
+}
 \newcommand{\ctxNotAnaTypeM}[3]{\ensuremath{\withCtxM{#1}{\notAnaTypeM{#2}{#3}}}}
 
 % unmarked pattern typing
-\newcommand{\ctxSynPatU}[3]{\ensuremath{\withCtxU{#1}{\synTypeU{#2}{#3}}}}
-\newcommand{\ctxAnaPatU}[4]{\ensuremath{\withCtxU{#1}{\anaTypeU{#2}{#3 \dashv #4}}}}
-\newcommand{\notAnaPatU}[2]{\ensuremath{#1 \not\Leftarrow #2}}
-\newcommand{\ctxNotAnaPatU}[4]{\ensuremath{\withCtxU{#1}{\notAnaPatU{#2}{#3 \dashv #4}}}}
+\newcommand{\ctxSynPatU}[3]{
+    \begin{mybox}{Aquamarine!15}
+    \ensuremath{\withCtxU{#1}{\synTypeU{#2}{#3}}}
+    \end{mybox}
+}
+\newcommand{\ctxAnaPatU}[4]{
+    \begin{mybox}{LimeGreen!15}
+    \ensuremath{\withCtxU{#1}{\anaTypeU{#2}{#3 \goodcolor{PineGreen!90}{\dashv} #4}}}
+    \end{mybox}
+}
+\newcommand{\notAnaPatU}[2]{\ensuremath{#1 \goodcolor{red}{\not\Leftarrow} #2}}
+\newcommand{\ctxNotAnaPatU}[4]{
+    \begin{mybox}{LimeGreen!15}
+    \ensuremath{\withCtxU{#1}{\notAnaPatU{#2}{#3 \goodcolor{PineGreen!90}{\dashv} #4}}}
+    \end{mybox}
+}
 
 % marked pattern typing
-\newcommand{\ctxSynPatM}[3]{\ensuremath{\withCtxM{#1}{\synTypeM{#2}{#3}}}}
-\newcommand{\ctxAnaPatM}[4]{\ensuremath{\withCtxM{#1}{\anaTypeM{#2}{#3 \dashv #4}}}}
-\newcommand{\notAnaPatM}[2]{\ensuremath{#1 \not\Leftarrow #2}}
+\newcommand{\ctxSynPatM}[3]{
+    \begin{mybox}{Periwinkle!17}
+    \ensuremath{\withCtxM{#1}{\synTypeM{#2}{#3}}}
+    \end{mybox}
+}
+\newcommand{\ctxAnaPatM}[4]{
+    \begin{mybox}{Mulberry!17}
+    \ensuremath{\withCtxM{#1}{\anaTypeM{#2}{#3 \dashv #4}}}
+    \end{mybox}
+}
+\newcommand{\notAnaPatM}[2]{\ensuremath{#1 \goodcolor{red}{\not\Leftarrow} #2}}
 \newcommand{\ctxNotAnaPatM}[4]{\ensuremath{\withCtxM{#1}{\notAnaPatM{#2}{#3 \dashv #4}}}}
 
 % subsumable
@@ -107,14 +145,38 @@
 \newcommand{\erasesTo}[2]{\ensuremath{#1^{\square} = #2}}
 
 % marking
-\newcommand{\synFixedInto}[3]{\ensuremath{\synType{#1 \looparrowright #2}{#3}}}
-\newcommand{\ctxSynFixedInto}[4]{\ensuremath{\withCtx{#1}{\synFixedInto{#2}{#3}{#4}}}}
-\newcommand{\anaFixedInto}[3]{\ensuremath{\anaType{#1 \looparrowright #2}{#3}}}
-\newcommand{\ctxAnaFixedInto}[4]{\ensuremath{\withCtx{#1}{\anaFixedInto{#2}{#3}{#4}}}}
+\newcommand{\withCtxMK}[2]{\ensuremath{#1 \goodcolor{Bittersweet}{\vdash} #2}}
+\newcommand{\synTypeMK}[2]{\ensuremath{#1 \goodcolor{Bittersweet}{\Rightarrow} #2}}
+\newcommand{\anaTypeMK}[2]{\ensuremath{#1 \goodcolor{Bittersweet}{\Leftarrow} #2}}
+\newcommand{\synFixedInto}[3]{\ensuremath{\synTypeMK{#1 \goodcolor{Bittersweet}{\looparrowright} #2}{#3}}}
+\newcommand{\ctxSynFixedInto}[4]{
+    \begin{mybox}{Goldenrod!22}
+    \ensuremath{{\withCtxMK{#1}{\synFixedInto{#2}{#3}{#4}}}}
+    \end{mybox}
+}
+\newcommand{\anaFixedInto}[3]{\ensuremath{\anaTypeMK{#1 \goodcolor{Bittersweet}{\looparrowright} #2}{#3}}}
+\newcommand{\ctxAnaFixedInto}[4]{
+    \begin{mybox}{Peach!17}
+    \ensuremath{\withCtxMK{#1}{\anaFixedInto{#2}{#3}{#4}}}
+    \end{mybox}
+    }
 
 % pattern marking
-\newcommand{\ctxSynFixedIntoPat}[4]{\ensuremath{\withCtx{#1}{\synFixedInto{#2}{#3}{#4}}}}
-\newcommand{\ctxAnaFixedIntoPat}[5]{\ensuremath{\withCtx{#1}{\anaFixedInto{#2}{#3}{#4 \dashv #5}}}}
+\newcommand{\withCtxMKPat}[2]{\ensuremath{#1 \goodcolor{Bittersweet}{\vdash} #2}}
+\newcommand{\synTypeMKPat}[2]{\ensuremath{#1 \goodcolor{Bittersweet}{\Rightarrow} #2}}
+\newcommand{\anaTypeMKPAt}[2]{\ensuremath{#1 \goodcolor{Bittersweet}{\Leftarrow} #2}}
+\newcommand{\synFixedIntoPat}[3]{\ensuremath{\synTypeMKPat{#1 \goodcolor{Bittersweet}{\looparrowright} #2}{#3}}}
+\newcommand{\ctxSynFixedIntoPat}[4]{
+    \begin{mybox}{Goldenrod!22}
+    \ensuremath{\withCtxMKPat{#1}{\synFixedIntoPat{#2}{#3}{#4}}}
+    \end{mybox}
+}
+\newcommand{\anaFixedIntoPat}[3]{\ensuremath{\anaTypeMKPAt{#1 \goodcolor{Bittersweet}{\looparrowright} #2}{#3}}}
+\newcommand{\ctxAnaFixedIntoPat}[5]{
+    \begin{mybox}{Peach!17}
+    \ensuremath{\withCtxMKPat{#1}{\anaFixedIntoPat{#2}{#3}{#4 \dashv #5}}}
+    \end{mybox}
+}
 
 % cursor erasure
 \newcommand{\cursorErase}[1]{\ensuremath{#1^{\diamond}}}

@@ -7,8 +7,6 @@
 \fi
 \usepackage[scaled=0.8]{FiraMono}
 
-\usepackage{xcolor}
-
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{amsfonts}
@@ -23,6 +21,31 @@
 
 \usepackage{hyperref}
 \usepackage{enumitem}
+
+% rounded boxes and colors
+\usepackage{scalerel}
+\usepackage[dvipsnames]{xcolor}
+\usepackage[most]{tcolorbox}
+\newtcolorbox{mybox}[2][]
+{
+  on line,
+  hbox,
+  boxsep=0pt,
+  left=1pt,
+  right=1pt,
+  top=1pt,
+  bottom=1pt,
+  colframe=white,
+  colback=#2
+  #1,
+}
+\newcommand\goodcolor[2]{%
+  \protect\leavevmode
+  \begingroup
+    \color{#1}%
+    #2%
+  \endgroup
+}
 
 \declaretheorem[name=Theorem, parent=section]{theorem}
 \declaretheorem[name=Lemma, parent=theorem]{lemma}
