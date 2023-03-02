@@ -84,6 +84,18 @@
 \newcommand{\ctxAnaTypeM}[3]{\ensuremath{\withCtxM{#1}{\anaTypeM{#2}{#3}}}}
 \newcommand{\ctxNotAnaTypeM}[3]{\ensuremath{\withCtxM{#1}{\notAnaTypeM{#2}{#3}}}}
 
+% unmarked pattern typing
+\newcommand{\ctxSynPatU}[3]{\ensuremath{\withCtxU{#1}{\synTypeU{#2}{#3}}}}
+\newcommand{\ctxAnaPatU}[4]{\ensuremath{\withCtxU{#1}{\anaTypeU{#2}{#3 \dashv #4}}}}
+\newcommand{\notAnaPatU}[2]{\ensuremath{#1 \not\Leftarrow #2}}
+\newcommand{\ctxNotAnaPatU}[4]{\ensuremath{\withCtxU{#1}{\notAnaPatU{#2}{#3 \dashv #4}}}}
+
+% marked pattern typing
+\newcommand{\ctxSynPatM}[3]{\ensuremath{\withCtxM{#1}{\synTypeM{#2}{#3}}}}
+\newcommand{\ctxAnaPatM}[4]{\ensuremath{\withCtxM{#1}{\anaTypeM{#2}{#3 \dashv #4}}}}
+\newcommand{\notAnaPatM}[2]{\ensuremath{#1 \not\Leftarrow #2}}
+\newcommand{\ctxNotAnaPatM}[4]{\ensuremath{\withCtxM{#1}{\notAnaPatM{#2}{#3 \dashv #4}}}}
+
 % subsumable
 \newcommand{\subsumable}[1]{\ensuremath{#1 ~{\normalfont\textsf{subsumable}}}}
 
@@ -99,6 +111,10 @@
 \newcommand{\ctxSynFixedInto}[4]{\ensuremath{\withCtx{#1}{\synFixedInto{#2}{#3}{#4}}}}
 \newcommand{\anaFixedInto}[3]{\ensuremath{\anaType{#1 \looparrowright #2}{#3}}}
 \newcommand{\ctxAnaFixedInto}[4]{\ensuremath{\withCtx{#1}{\anaFixedInto{#2}{#3}{#4}}}}
+
+% pattern marking
+\newcommand{\ctxSynFixedIntoPat}[4]{\ensuremath{\withCtx{#1}{\synFixedInto{#2}{#3}{#4}}}}
+\newcommand{\ctxAnaFixedIntoPat}[5]{\ensuremath{\withCtx{#1}{\anaFixedInto{#2}{#3}{#4 \dashv #5}}}}
 
 % cursor erasure
 \newcommand{\cursorErase}[1]{\ensuremath{#1^{\diamond}}}
@@ -120,7 +136,9 @@
 
 \DeclareMathOperator{\?}{?}
 \newcommand{\TUnknown}{\ensuremath{\?}}
+\newcommand{\TUnknownSwitch}{\ensuremath{\?^{\Rightarrow}}}
 \newcommand{\TNum}{\ensuremath{{\normalfont\textsf{num}}}}
+\newcommand{\TVar}{\ensuremath{{\normalfont\textsf{var}}}}
 \newcommand{\TBool}{\ensuremath{{\normalfont\textsf{bool}}}}
 \newcommand{\TArrow}[2]{\ensuremath{#1 \to #2}}
 \newcommand{\TProd}[2]{\ensuremath{#1 \times #2}}
@@ -247,6 +265,27 @@
 \newcommand{\ECProjRSynNonMatchedProd}[1]{\ensuremath{\ECProjR{\ECSynNonMatchedProd{#1}}}}
 \newcommand{\ECLamAnaNonMatchedArrow}[3]{\ensuremath{\ECAnaNonMatchedArrow{\ECLam{#1}{#2}{#3}}}}
 \newcommand{\ECPairAnaNonMatchedProd}[2]{\ensuremath{\ECAnaNonMatchedProd{\ECPair{#1}{#2}}}}
+
+%
+% patterns
+%
+\newcommand{\PMName}{{\normalfont\textsf{UPat}}}
+\newcommand{\PMV}{\ensuremath{p}}
+
+\newcommand{\PWild}{\ensuremath{\PCWild}}
+\newcommand{\PVar}[1]{\ensuremath{\PCVar{#1}}}
+\newcommand{\PAsc}[2]{\ensuremath{\PCAsc{#1}{#2}}}
+\newcommand{\PPair}[2]{\ensuremath{\PCPair{#1}{#2}}}
+
+\newcommand{\PCMName}{{\normalfont\textsf{MPat}}}
+\newcommand{\PCMV}{\ensuremath{\check{p}}}
+
+\newcommand{\PCWild}{\ensuremath{\_}}
+\newcommand{\PCVar}[1]{\ensuremath{#1}}
+\newcommand{\PCAsc}[2]{\ensuremath{\assignType{#1}{#2}}}
+\newcommand{\PCPair}[2]{\ensuremath{\ECPair{#1}{#2}}}
+\newcommand{\PCInconType}[1]{\ensuremath{\ECInconType{#1}}}
+\newcommand{\PCAnaNonMatchedProd}[1]{\ensuremath{\ECAnaNonMatchedProd{#1}}}
 
 %
 % zippered expressions
