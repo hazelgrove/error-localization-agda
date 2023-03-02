@@ -205,40 +205,40 @@ lambda calculus, with rules organized by judgment.
   \judgment{
     \matchedArrow{\TMV_3}{\TMV_1}{\TMV_2} \\
     \consistent{\TMV}{\TMV_1} \\
-    \ctxAnaType{\extendCtx{\ctx}{x}{\TMV}}{\EMV}{\TMV_2}
+    \ctxAnaTypeU{\extendCtx{\ctx}{x}{\TMV}}{\EMV}{\TMV_2}
   }{
-    \ctxAnaType{\ctx}{\ECLam{x}{\TMV}{\EMV}}{\TMV_3}
+    \ctxAnaTypeU{\ctx}{\ECLam{x}{\TMV}{\EMV}}{\TMV_3}
   }{UALam}
 
   \judgment{
-    \ctxSynType{\ctx}{\EMV_1}{\TMV_1} \\
-    \ctxAnaType{\extendCtx{\ctx}{x}{\TMV_1}}{\EMV_2}{\TMV_2}
+    \ctxSynTypeU{\ctx}{\EMV_1}{\TMV_1} \\
+    \ctxAnaTypeU{\extendCtx{\ctx}{x}{\TMV_1}}{\EMV_2}{\TMV_2}
   }{
-    \ctxAnaType{\ctx}{\ELet{x}{\EMV_1}{\EMV_2}}{\TMV_2}
+    \ctxAnaTypeU{\ctx}{\ELet{x}{\EMV_1}{\EMV_2}}{\TMV_2}
   }{UALet}
 
   \judgment{
-    \ctxAnaType{\ctx}{\EMV_1}{\TBool} \\
-    \ctxAnaType{\ctx}{\EMV_1}{\TMV} \\
-    \ctxAnaType{\ctx}{\EMV_2}{\TMV}
+    \ctxAnaTypeU{\ctx}{\EMV_1}{\TBool} \\
+    \ctxAnaTypeU{\ctx}{\EMV_1}{\TMV} \\
+    \ctxAnaTypeU{\ctx}{\EMV_2}{\TMV}
   }{
-    \ctxAnaType{\ctx}{\ECIf{\EMV_1}{\EMV_2}{\EMV_3}}{\TMV}
+    \ctxAnaTypeU{\ctx}{\ECIf{\EMV_1}{\EMV_2}{\EMV_3}}{\TMV}
   }{UAIf}
 
   \judgment{
     \matchedProd{\TMV}{\TMV_1}{\TMV_2} \\
-    \ctxAnaType{\ctx}{\EMV_1}{\TMV_1} \\
-    \ctxAnaType{\ctx}{\EMV_2}{\TMV_2}
+    \ctxAnaTypeU{\ctx}{\EMV_1}{\TMV_1} \\
+    \ctxAnaTypeU{\ctx}{\EMV_2}{\TMV_2}
   }{
-    \ctxAnaType{\ctx}{\EPair{\EMV_1}{\EMV_2}}{\TMV}
+    \ctxAnaTypeU{\ctx}{\EPair{\EMV_1}{\EMV_2}}{\TMV}
   }{UAPair}
 
   \judgment{
-    \ctxSynType{\ctx}{\EMV}{\TMV'} \\
+    \ctxSynTypeU{\ctx}{\EMV}{\TMV'} \\
     \consistent{\TMV}{\TMV'} \\
     \subsumable{\EMV}
   }{
-    \ctxAnaType{\ctx}{\EMV}{\TMV}
+    \ctxAnaTypeU{\ctx}{\EMV}{\TMV}
   }{UASubsume}
 \end{mathpar} \\
 
@@ -898,7 +898,7 @@ $\judgbox{\erase{\ECMV}}$ is a metafunction defined as follows:
     \ctxAnaPatU{\ctx}{\PMV}{\TMV_{1}}{\ctx'} \\
     \ctxSynTypeU{\ctx'}{\EMV_{2}}{\TMV_2}
   }{
-    \ctxSynType{\ctx}{\ELet{\PMV}{\EMV_{1}}{\EMV_{2}}}{\TMV_2}
+    \ctxSynTypeU{\ctx}{\ELet{\PMV}{\EMV_{1}}{\EMV_{2}}}{\TMV_2}
   }{USLetPat}
 \end{mathpar}
 
@@ -906,9 +906,9 @@ $\judgbox{\erase{\ECMV}}$ is a metafunction defined as follows:
 %
 \begin{mathpar}
   \judgment{
-    \ctxSynType{\ctx}{\EMV}{\ctx'}
+    \ctxSynTypeU{\ctx}{\EMV}{\ctx'}
   }{
-    \ctxAnaType{\ctx}{\EMV}{\TUnknownSwitch}
+    \ctxAnaTypeU{\ctx}{\EMV}{\TUnknownSwitch}
   }{UASynSwitch}
 
   \judgment{
@@ -1038,32 +1038,32 @@ $\judgbox{\erase{\ECMV}}$ is a metafunction defined as follows:
  %
 \begin{mathpar}
   \judgment{ }{
-    \ctxSynFixedInto{\ctx}{\PWild}{\PCWild}{\TUnknownSwitch}
+    \ctxSynFixedIntoPat{\ctx}{\PWild}{\PCWild}{\TUnknownSwitch}
   }{ISPWild}
    
   \judgment{ }{
-    \ctxSynFixedInto{\ctx}{\PVar{x}}{\PCVar{x}}{\TUnknownSwitch}
+    \ctxSynFixedIntoPat{\ctx}{\PVar{x}}{\PCVar{x}}{\TUnknownSwitch}
   }{ISPVar}
 
   \judgment{
-    \ctxSynFixedInto{\ctx}{\PMV_1}{\PCMV_1}{\TMV_1} \\\\
-    \ctxSynFixedInto{\ctx}{\PMV_2}{\PCMV_2}{\TMV_2}
+    \ctxSynFixedIntoPat{\ctx}{\PMV_1}{\PCMV_1}{\TMV_1} \\\\
+    \ctxSynFixedIntoPat{\ctx}{\PMV_2}{\PCMV_2}{\TMV_2}
   }{
-     \ctxSynFixedInto{\ctx}{\EPair{\PMV_1}{\PMV_2}}{\ECPair{\PCMV_1}{\PCMV_2}}{\TProd{\TMV_1}{\TMV_2}}
+     \ctxSynFixedIntoPat{\ctx}{\EPair{\PMV_1}{\PMV_2}}{\ECPair{\PCMV_1}{\PCMV_2}}{\TProd{\TMV_1}{\TMV_2}}
   }{ISPPair}
 
   \judgment{
     \ctxAnaPatU{\ctx}{\PMV{}}{\TMV}{\ctx'} \\
     \ctxAnaFixedIntoPat{\ctx}{\PMV}{\PCMV}{\TMV}{\ctx''}
   }{
-    \ctxSynFixedInto{\ctx}{\PAsc{\PMV}{\TMV}}{\PCAsc{\PCMV}{\TMV}}{\tau}
+    \ctxSynFixedIntoPat{\ctx}{\PAsc{\PMV}{\TMV}}{\PCAsc{\PCMV}{\TMV}}{\tau}
   }{ISPAnn1}
 
   \judgment{
     \ctxNotAnaPatU{\ctx}{\PMV{}}{\TMV}{\ctx'} \\
     \ctxAnaFixedIntoPat{\ctx}{\PMV}{\PCMV}{\TUnknown}{\ctx''}
   }{
-    \ctxSynFixedInto{\ctx}{\PAsc{\PMV}{\TMV}}{\PCAsc{\PCInconType{\PCMV}}{\TMV}}{\TMV}
+    \ctxSynFixedIntoPat{\ctx}{\PAsc{\PMV}{\TMV}}{\PCAsc{\PCInconType{\PCMV}}{\TMV}}{\TMV}
   }{ISPAnn2}
 \end{mathpar}
 
@@ -1118,7 +1118,7 @@ $\judgbox{\erase{\ECMV}}$ is a metafunction defined as follows:
   }{MSPWild}
 
   \judgment{ }{
-    \ctxSynPatU{\ctx}{\PCVar{x}}{\TUnknownSwitch}
+    \ctxSynPatM{\ctx}{\PCVar{x}}{\TUnknownSwitch}
   }{MSPVar}
 
   \judgment{
@@ -1139,11 +1139,11 @@ $\judgbox{\erase{\ECMV}}$ is a metafunction defined as follows:
 %
 \begin{mathpar}
   \judgment{ }{
-    \ctxAnaPatU{\ctx}{\PCWild}{\TMV}{\ctx}
+    \ctxAnaPatM{\ctx}{\PCWild}{\TMV}{\ctx}
   }{MAPWild}
    
   \judgment{ }{
-    \ctxAnaPatU{\ctx}{\PCVar{x}}{\TMV}{\extendCtx{\ctx}{x}{\TMV}}
+    \ctxAnaPatM{\ctx}{\PCVar{x}}{\TMV}{\extendCtx{\ctx}{x}{\TMV}}
   }{MAPVar}
 
   \judgment{
