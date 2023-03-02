@@ -15,7 +15,7 @@
 \section{Marked Lambda Calculus}
 The \emph{marked lambda calculus} is a judgmental framework for bidirectional type error
 localization and recovery. Below is the complete formalization of the calculus on a gradually typed
-lambda calculus, with rules organized by judgment.
+lambda calculus, with rules organized by judgment form.
 
 \subsection{Syntax}
 \[\begin{array}{rrcl}
@@ -882,6 +882,13 @@ $\judgbox{\erase{\ECMV}}$ is a metafunction defined as follows:
 \end{theorem}
 
 \subsection{Alternative Conditional Rules}
+There are alternative ways to formulate error localization in conditionals. Below, we provide two
+alternatives to the rules above.
+
+\subsubsection{Localize to Second}
+In this formulation, we always select the first branch as ``correct'' and localize errors to the
+second. \\
+
 \judgbox{\ctxSynTypeU{\ctx}{\EMV}{\TMV}} $\EMV$ synthesizes type $\TMV$
 %
 \begin{mathpar}
@@ -915,7 +922,47 @@ $\judgbox{\erase{\ECMV}}$ is a metafunction defined as follows:
     \ctxAnaTypeM{\ctx}{\ECMV_3}{\TMV}
   }{
     \ctxSynTypeM{\ctx}{\ECIf{\ECMV_1}{\ECMV_2}{\ECMV_3}}{\TMV}
-  }{MSIf}
+  }{MSIf'}
+\end{mathpar}
+
+\subsubsection{Localize to First}
+In this formulation, we always select the second branch as ``correct'' and localize errors to the
+first. \\
+
+\judgbox{\ctxSynTypeU{\ctx}{\EMV}{\TMV}} $\EMV$ synthesizes type $\TMV$
+%
+\begin{mathpar}
+  \judgment{
+    \ctxAnaTypeU{\ctx}{\EMV_1}{\TBool} \\
+    \ctxSynTypeU{\ctx}{\EMV_3}{\TMV} \\
+    \ctxAnaTypeU{\ctx}{\EMV_2}{\TMV}
+  }{
+    \ctxSynTypeU{\ctx}{\EIf{\EMV_1}{\EMV_2}{\EMV_3}}{\TMV}
+  }{USIf''}
+\end{mathpar}
+
+\judgbox{\ctxSynFixedInto{\ctx}{\EMV}{\ECMV}{\TMV}} $\EMV$ is marked into $\ECMV$ and synthesizes type $\TMV$
+%
+\begin{mathpar}
+  \judgment{
+    \ctxAnaFixedInto{\ctx}{\EMV_1}{\ECMV_1}{\TBool} \\
+    \ctxSynFixedInto{\ctx}{\EMV_3}{\ECMV_3}{\TMV} \\
+    \ctxAnaFixedInto{\ctx}{\EMV_2}{\ECMV_2}{\TMV}
+  }{
+    \ctxSynFixedInto{\ctx}{\EIf{\EMV_1}{\EMV_2}{\EMV_3}}{\ECIf{\ECMV_1}{\ECMV_2}{\ECMV_3}}{\TMV}
+  }{MKSIf''}
+\end{mathpar}
+
+\judgbox{\ctxSynTypeM{\ctx}{\ECMV}{\TMV}} $\ECMV$ synthesizes type $\TMV$
+%
+\begin{mathpar}
+  \judgment{
+    \ctxAnaTypeM{\ctx}{\ECMV_1}{\TBool} \\
+    \ctxSynTypeM{\ctx}{\ECMV_3}{\TMV} \\
+    \ctxAnaTypeM{\ctx}{\ECMV_2}{\TMV}
+  }{
+    \ctxSynTypeM{\ctx}{\ECIf{\ECMV_1}{\ECMV_2}{\ECMV_3}}{\TMV}
+  }{MSIf''}
 \end{mathpar}
 
 \subsection{Patterned Let Expressions}
