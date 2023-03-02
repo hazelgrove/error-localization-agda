@@ -231,7 +231,7 @@ module core.typ where
 
     -- matched arrow
     data _▸_-→_ : (τ τ₁ τ₂ : Typ) → Set where
-      TMAHole : unknown ▸ unknown -→ unknown
+      TMAUnknown : unknown ▸ unknown -→ unknown
       TMAArr  : {τ₁ τ₂ : Typ} → τ₁ -→ τ₂ ▸ τ₁ -→ τ₂
 
     -- no matched
@@ -242,19 +242,19 @@ module core.typ where
     _▸-→? : (τ : Typ) → Dec (∃[ τ₁ ] ∃[ τ₂ ] τ ▸ τ₁ -→ τ₂)
     num        ▸-→? = no (λ ())
     bool       ▸-→? = no (λ ())
-    unknown    ▸-→? = yes ⟨ unknown , ⟨ unknown , TMAHole ⟩ ⟩
-    (τ₁ -→ τ₂) ▸-→? = yes ⟨ τ₁      , ⟨ τ₂      , TMAArr  ⟩ ⟩
+    unknown    ▸-→? = yes ⟨ unknown , ⟨ unknown , TMAUnknown ⟩ ⟩
+    (τ₁ -→ τ₂) ▸-→? = yes ⟨ τ₁      , ⟨ τ₂      , TMAArr     ⟩ ⟩
     (τ₁ -× τ₂) ▸-→? = no (λ ())
 
     -- matched arrow derivation equality
     ▸-→-≡ : ∀ {τ τ₁ τ₂} → (τ▸ : τ ▸ τ₁ -→ τ₂) → (τ▸′ : τ ▸ τ₁ -→ τ₂) → τ▸ ≡ τ▸′
-    ▸-→-≡ TMAHole TMAHole = refl
-    ▸-→-≡ TMAArr  TMAArr  = refl
+    ▸-→-≡ TMAUnknown TMAUnknown = refl
+    ▸-→-≡ TMAArr     TMAArr     = refl
 
     -- matched arrow unicity
     ▸-→-unicity : ∀ {τ τ₁ τ₂ τ₃ τ₄} → (τ ▸ τ₁ -→ τ₂) → (τ ▸ τ₃ -→ τ₄) → τ₁ -→ τ₂ ≡ τ₃ -→ τ₄
-    ▸-→-unicity TMAHole TMAHole = refl
-    ▸-→-unicity TMAArr  TMAArr  = refl
+    ▸-→-unicity TMAUnknown TMAUnknown = refl
+    ▸-→-unicity TMAArr     TMAArr     = refl
 
     -- no matched arrow derivation equality
     !▸-→-≡ : ∀ {τ} → (τ!▸ : τ !▸-→) → (τ!▸′ : τ !▸-→) → τ!▸ ≡ τ!▸′
@@ -262,29 +262,29 @@ module core.typ where
 
     -- only consistent types arrow match
     ▸-→→~ : ∀ {τ τ₁ τ₂} → τ ▸ τ₁ -→ τ₂ → τ ~ τ₁ -→ τ₂
-    ▸-→→~ TMAHole = TCUnknownArr
-    ▸-→→~ TMAArr  = ~-refl
+    ▸-→→~ TMAUnknown = TCUnknownArr
+    ▸-→→~ TMAArr     = ~-refl
 
     ▸-→-~̸₁ : ∀ {τ τ₁ τ₂ τ₁′} → τ ▸ τ₁ -→ τ₂ → τ₁′ ~̸ τ₁ → τ ~̸ τ₁′ -→ τ₂
-    ▸-→-~̸₁ TMAArr  τ₁′~̸τ₁ (TCArr τ₁~τ₁′ _) = τ₁′~̸τ₁ (~-sym τ₁~τ₁′)
-    ▸-→-~̸₁ TMAHole τ₁′~̸τ₁ TCUnknownArr     = τ₁′~̸τ₁ ~-unknown₂
+    ▸-→-~̸₁ TMAArr     τ₁′~̸τ₁ (TCArr τ₁~τ₁′ _) = τ₁′~̸τ₁ (~-sym τ₁~τ₁′)
+    ▸-→-~̸₁ TMAUnknown τ₁′~̸τ₁ TCUnknownArr     = τ₁′~̸τ₁ ~-unknown₂
 
     ▸-→-~̸₂ : ∀ {τ τ₁ τ₂ τ₂′} → τ ▸ τ₁ -→ τ₂ → τ₂′ ~̸ τ₂ → τ ~̸ τ₁ -→ τ₂′
-    ▸-→-~̸₂ TMAHole τ₂′~̸τ₂ TCUnknownArr     = τ₂′~̸τ₂ ~-unknown₂
-    ▸-→-~̸₂ TMAArr  τ₂′~̸τ₂ (TCArr _ τ₂~τ₂′) = τ₂′~̸τ₂ (~-sym τ₂~τ₂′)
+    ▸-→-~̸₂ TMAUnknown τ₂′~̸τ₂ TCUnknownArr     = τ₂′~̸τ₂ ~-unknown₂
+    ▸-→-~̸₂ TMAArr     τ₂′~̸τ₂ (TCArr _ τ₂~τ₂′) = τ₂′~̸τ₂ (~-sym τ₂~τ₂′)
 
     -- consistency with an arrow type implies existence of a matched arrow type
     ~→▸-→ : ∀ {τ τ₁ τ₂} → τ ~ τ₁ -→ τ₂ → ∃[ τ₁′ ] ∃[ τ₂′ ] τ ▸ τ₁′ -→ τ₂′
-    ~→▸-→ (TCArr {τ₁ = τ₁} {τ₂ = τ₂} τ₁~ τ₂~) = ⟨ τ₁ , ⟨ τ₂ , TMAArr ⟩ ⟩
-    ~→▸-→ TCUnknownArr = ⟨ unknown , ⟨ unknown , TMAHole ⟩ ⟩
+    ~→▸-→ (TCArr {τ₁ = τ₁} {τ₂ = τ₂} τ₁~ τ₂~) = ⟨ τ₁      , ⟨ τ₂      , TMAArr ⟩ ⟩
+    ~→▸-→ TCUnknownArr                        = ⟨ unknown , ⟨ unknown , TMAUnknown ⟩ ⟩
 
     ~-▸-→→~ : ∀ {τ τ₁ τ₂ τ₁′ τ₂′} → τ ~ τ₁ -→ τ₂ → τ ▸ τ₁′ -→ τ₂′ → τ₁ -→ τ₂ ~ τ₁′ -→ τ₂′
-    ~-▸-→→~ (TCArr τ₁~ τ₂~) TMAArr = TCArr (~-sym τ₁~) (~-sym τ₂~)
-    ~-▸-→→~ TCUnknownArr TMAHole = TCArr ~-unknown₂ ~-unknown₂
+    ~-▸-→→~ (TCArr τ₁~ τ₂~) TMAArr     = TCArr (~-sym τ₁~) (~-sym τ₂~)
+    ~-▸-→→~ TCUnknownArr    TMAUnknown = TCArr ~-unknown₂ ~-unknown₂
 
     -- matched product
     data _▸_-×_ : (τ τ₁ τ₂ : Typ) → Set where
-      TMPHole : unknown ▸ unknown -× unknown
+      TMPUnknown : unknown ▸ unknown -× unknown
       TMPProd  : {τ₁ τ₂ : Typ} → τ₁ -× τ₂ ▸ τ₁ -× τ₂
 
     -- no matched
@@ -295,19 +295,19 @@ module core.typ where
     _▸-×? : (τ : Typ) → Dec (∃[ τ₁ ] ∃[ τ₂ ] τ ▸ τ₁ -× τ₂)
     num        ▸-×? = no (λ ())
     bool       ▸-×? = no (λ ())
-    unknown    ▸-×? = yes ⟨ unknown , ⟨ unknown , TMPHole ⟩ ⟩
+    unknown    ▸-×? = yes ⟨ unknown , ⟨ unknown , TMPUnknown ⟩ ⟩
     (τ₁ -→ τ₂) ▸-×? = no (λ ())
-    (τ₁ -× τ₂) ▸-×? = yes ⟨ τ₁      , ⟨ τ₂      , TMPProd  ⟩ ⟩
+    (τ₁ -× τ₂) ▸-×? = yes ⟨ τ₁      , ⟨ τ₂      , TMPProd    ⟩ ⟩
 
     -- matched product derivation equality
     ▸-×-≡ : ∀ {τ τ₁ τ₂} → (τ▸ : τ ▸ τ₁ -× τ₂) → (τ▸′ : τ ▸ τ₁ -× τ₂) → τ▸ ≡ τ▸′
-    ▸-×-≡ TMPHole TMPHole = refl
-    ▸-×-≡ TMPProd TMPProd = refl
+    ▸-×-≡ TMPUnknown TMPUnknown = refl
+    ▸-×-≡ TMPProd    TMPProd    = refl
 
     -- matched product unicity
     ▸-×-unicity : ∀ {τ τ₁ τ₂ τ₃ τ₄} → (τ ▸ τ₁ -× τ₂) → (τ ▸ τ₃ -× τ₄) → τ₁ -× τ₂ ≡ τ₃ -× τ₄
-    ▸-×-unicity TMPHole TMPHole = refl
-    ▸-×-unicity TMPProd TMPProd = refl
+    ▸-×-unicity TMPUnknown TMPUnknown = refl
+    ▸-×-unicity TMPProd    TMPProd    = refl
 
     -- no matched product derivation equality
     !▸-×-≡ : ∀ {τ} → (τ!▸ : τ !▸-×) → (τ!▸′ : τ !▸-×) → τ!▸ ≡ τ!▸′
@@ -315,25 +315,25 @@ module core.typ where
 
     -- only consistent types product match
     ▸-×→~ : ∀ {τ τ₁ τ₂} → τ ▸ τ₁ -× τ₂ → τ ~ τ₁ -× τ₂
-    ▸-×→~ TMPHole = TCUnknownProd
-    ▸-×→~ TMPProd = ~-refl
+    ▸-×→~ TMPUnknown = TCUnknownProd
+    ▸-×→~ TMPProd    = ~-refl
 
     ▸-×-~̸₁ : ∀ {τ τ₁ τ₂ τ₁′} → τ ▸ τ₁ -× τ₂ → τ₁′ ~̸ τ₁ → τ ~̸ τ₁′ -× τ₂
-    ▸-×-~̸₁ TMPProd τ₁′~̸τ₁ (TCProd τ₁~τ₁′ _) = τ₁′~̸τ₁ (~-sym τ₁~τ₁′)
-    ▸-×-~̸₁ TMPHole τ₁′~̸τ₁ TCUnknownProd     = τ₁′~̸τ₁ ~-unknown₂
+    ▸-×-~̸₁ TMPProd    τ₁′~̸τ₁ (TCProd τ₁~τ₁′ _) = τ₁′~̸τ₁ (~-sym τ₁~τ₁′)
+    ▸-×-~̸₁ TMPUnknown τ₁′~̸τ₁ TCUnknownProd     = τ₁′~̸τ₁ ~-unknown₂
 
     ▸-×-~̸₂ : ∀ {τ τ₁ τ₂ τ₂′} → τ ▸ τ₁ -× τ₂ → τ₂′ ~̸ τ₂ → τ ~̸ τ₁ -× τ₂′
-    ▸-×-~̸₂ TMPHole  τ₂′~̸τ₂ TCUnknownProd     = τ₂′~̸τ₂ ~-unknown₂
-    ▸-×-~̸₂ TMPProd  τ₂′~̸τ₂ (TCProd _ τ₂~τ₂′) = τ₂′~̸τ₂ (~-sym τ₂~τ₂′)
+    ▸-×-~̸₂ TMPUnknown  τ₂′~̸τ₂ TCUnknownProd     = τ₂′~̸τ₂ ~-unknown₂
+    ▸-×-~̸₂ TMPProd     τ₂′~̸τ₂ (TCProd _ τ₂~τ₂′) = τ₂′~̸τ₂ (~-sym τ₂~τ₂′)
 
     -- consistency with an product type implies existence of a matched product type
     ~→▸-× : ∀ {τ τ₁ τ₂} → τ ~ τ₁ -× τ₂ → ∃[ τ₁′ ] ∃[ τ₂′ ] τ ▸ τ₁′ -× τ₂′
-    ~→▸-× (TCProd {τ₁ = τ₁} {τ₂ = τ₂} τ₁~ τ₂~) = ⟨ τ₁ , ⟨ τ₂ , TMPProd ⟩ ⟩
-    ~→▸-× TCUnknownProd = ⟨ unknown , ⟨ unknown , TMPHole ⟩ ⟩
+    ~→▸-× (TCProd {τ₁ = τ₁} {τ₂ = τ₂} τ₁~ τ₂~) = ⟨ τ₁      , ⟨ τ₂      , TMPProd ⟩ ⟩
+    ~→▸-× TCUnknownProd                        = ⟨ unknown , ⟨ unknown , TMPUnknown ⟩ ⟩
 
     ~-▸-×→~ : ∀ {τ τ₁ τ₂ τ₁′ τ₂′} → τ ~ τ₁ -× τ₂ → τ ▸ τ₁′ -× τ₂′ → τ₁ -× τ₂ ~ τ₁′ -× τ₂′
-    ~-▸-×→~ (TCProd τ₁~ τ₂~) TMPProd = TCProd (~-sym τ₁~) (~-sym τ₂~)
-    ~-▸-×→~ TCUnknownProd TMPHole = TCProd ~-unknown₂ ~-unknown₂
+    ~-▸-×→~ (TCProd τ₁~ τ₂~) TMPProd    = TCProd (~-sym τ₁~) (~-sym τ₂~)
+    ~-▸-×→~ TCUnknownProd    TMPUnknown = TCProd ~-unknown₂ ~-unknown₂
 
   module join where
     open base

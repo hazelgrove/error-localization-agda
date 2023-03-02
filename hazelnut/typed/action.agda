@@ -426,7 +426,7 @@ module hazelnut.typed.action where
         → Γ ⊢ ⊢▹ ě ◃ ~ construct (ap₁ u) ~⇒ ⊢⸨ ě ⸩∙₂ (⊢▹ ⊢∙ ⊢⦇-⦈^ u [ ~-unknown₂ ∙ MSuHole ] ◃) [ τ!▸ ]
       ESConApR : ∀ {Γ τ u}
         → {ě : Γ ⊢⇒ τ}
-        → Γ ⊢ ⊢▹ ě ◃ ~ construct (ap₂ u) ~⇒ ⊢ (⊢▹ ⊢⦇-⦈^ u ◃) ∙₁ (proj₁ (⊢⇒-⊢⇐ ě)) [ TMAHole ]
+        → Γ ⊢ ⊢▹ ě ◃ ~ construct (ap₂ u) ~⇒ ⊢ (⊢▹ ⊢⦇-⦈^ u ◃) ∙₁ (proj₁ (⊢⇒-⊢⇐ ě)) [ TMAUnknown ]
       ESConLet1 : ∀ {Γ τ x u}
         → {ě : Γ ⊢⇒ τ}
         → Γ ⊢ ⊢▹ ě ◃ ~ construct (let₁ x u) ~⇒ (⊢ x ←₂ ě ∙ ⊢▹ ⊢⦇-⦈^ u ◃)
