@@ -9,89 +9,89 @@ open import hazelnut.untyped.erasure
 module hazelnut.untyped.constructability where
   -- constructability of types
   constructability-τ : (τ : Typ) → ∃[ ᾱ ] ▹ unknown ◃ + ᾱ +τ>* ▹ τ ◃
-  constructability-τ num = ⟨ ∣[ construct tnum ] , TITyp ATConNum TIRefl ⟩
-  constructability-τ bool = ⟨ ∣[ construct tbool ] , TITyp ATConBool TIRefl ⟩
-  constructability-τ unknown = ⟨ [] , TIRefl ⟩
+  constructability-τ num = ⟨ ∣[ construct tnum ] , ATITyp ATConNum ATIRefl ⟩
+  constructability-τ bool = ⟨ ∣[ construct tbool ] , ATITyp ATConBool ATIRefl ⟩
+  constructability-τ unknown = ⟨ [] , ATIRefl ⟩
   constructability-τ (τ₁ -→ τ₂)
     with ⟨ ᾱ₁ , +>*τ₁ ⟩ ← constructability-τ τ₁
        | ⟨ ᾱ₂ , +>*τ₂ ⟩ ← constructability-τ τ₂
        = ⟨ ᾱ₁ ++ construct tarrow₁ ∷ ᾱ₂ ++ ∣[ move parent ] ,
-           +τ>*-++ +>*τ₁ (TITyp ATConArrow1 (+τ>*-++ (ziplem-tarr2 +>*τ₂) (TITyp ATMArrParent2 TIRefl))) ⟩
+           +τ>*-++ +>*τ₁ (ATITyp ATConArrow1 (+τ>*-++ (ziplem-tarr2 +>*τ₂) (ATITyp ATMArrParent2 ATIRefl))) ⟩
   constructability-τ (τ₁ -× τ₂)
     with ⟨ ᾱ₁ , +>*τ₁ ⟩ ← constructability-τ τ₁
        | ⟨ ᾱ₂ , +>*τ₂ ⟩ ← constructability-τ τ₂
        = ⟨ ᾱ₁ ++ construct tprod₁ ∷ ᾱ₂ ++ ∣[ move parent ] ,
-           +τ>*-++ +>*τ₁ (TITyp ATConProd1 (+τ>*-++ (ziplem-tprod2 +>*τ₂) (TITyp ATMProdParent2 TIRefl))) ⟩
+           +τ>*-++ +>*τ₁ (ATITyp ATConProd1 (+τ>*-++ (ziplem-tprod2 +>*τ₂) (ATITyp ATMProdParent2 ATIRefl))) ⟩
 
   uz : Hole
   uz = 0
 
   -- constructability of expressions
   constructability-e : ∀ {u} → (e : UExp) → ∃[ ᾱ ] ‵▹ ‵⦇-⦈^ u ◃ + ᾱ +e>* ‵▹ e ◃
-  constructability-e (‵⦇-⦈^ u) = ⟨ ∣[ del _ ] , EIExp EDel EIRefl ⟩
-  constructability-e (‵ x) = ⟨ ∣[ construct (var x) ] , EIExp EConVar EIRefl ⟩
+  constructability-e (‵⦇-⦈^ u) = ⟨ ∣[ del _ ] , AEIExp AEDel AEIRefl ⟩
+  constructability-e (‵ x) = ⟨ ∣[ construct (var x) ] , AEIExp AEConVar AEIRefl ⟩
   constructability-e (‵λ x ∶ τ ∙ e)
     with ⟨ ᾱ₁ , +>*e ⟩ ← constructability-e e
        | ⟨ ᾱ₂ , +>*τ ⟩ ← constructability-τ τ
        = ⟨ ᾱ₁ ++ construct (lam x) ∷ ᾱ₂ ++ ∣[ move parent ] ,
            +e>*-++ +>*e
-             (EIExp EConLam
+             (AEIExp AEConLam
                (+e>*-++ (ziplem-lam1 +>*τ)
-                 (EIExp EMLamParent1 EIRefl))) ⟩
+                 (AEIExp AEMLamParent1 AEIRefl))) ⟩
   constructability-e (‵ e₁ ∙ e₂)
     with ⟨ ᾱ₁ , +>*e₁ ⟩ ← constructability-e e₁
        | ⟨ ᾱ₂ , +>*e₂ ⟩ ← constructability-e e₂
        = ⟨ ᾱ₁ ++ construct (ap₁ uz) ∷ ᾱ₂ ++ ∣[ move parent ] ,
            +e>*-++ +>*e₁
-             (EIExp EConAp1
+             (AEIExp AEConAp1
                (+e>*-++ (ziplem-ap2 +>*e₂)
-                 (EIExp EMApParent2 EIRefl))) ⟩
+                 (AEIExp AEMApParent2 AEIRefl))) ⟩
   constructability-e (‵ x ← e₁ ∙ e₂)
     with ⟨ ᾱ₁ , +>*e₁ ⟩ ← constructability-e e₁
        | ⟨ ᾱ₂ , +>*e₂ ⟩ ← constructability-e e₂
        = ⟨ ᾱ₁ ++ construct (let₁ x uz) ∷ ᾱ₂ ++ ∣[ move parent ] ,
            +e>*-++ +>*e₁
-             (EIExp EConLet1
+             (AEIExp AEConLet1
                (+e>*-++ (ziplem-let2 +>*e₂)
-                 (EIExp EMLetParent2 EIRefl))) ⟩
-  constructability-e (‵ℕ n) = ⟨ ∣[ construct (num n) ] , EIExp EConNum EIRefl ⟩
+                 (AEIExp AEMLetParent2 AEIRefl))) ⟩
+  constructability-e (‵ℕ n) = ⟨ ∣[ construct (num n) ] , AEIExp AEConNum AEIRefl ⟩
   constructability-e (‵ e₁ + e₂)
     with ⟨ ᾱ₁ , +>*e₁ ⟩ ← constructability-e e₁
        | ⟨ ᾱ₂ , +>*e₂ ⟩ ← constructability-e e₂
        = ⟨ ᾱ₁ ++ construct (plus₁ uz) ∷ ᾱ₂ ++ ∣[ move parent ] ,
            +e>*-++ +>*e₁
-             (EIExp EConPlus1
+             (AEIExp AEConPlus1
                (+e>*-++ (ziplem-plus2 +>*e₂)
-                 (EIExp EMPlusParent2 EIRefl))) ⟩
-  constructability-e ‵tt = ⟨ ∣[ construct tt ] , EIExp EConTrue EIRefl ⟩
-  constructability-e ‵ff = ⟨ ∣[ construct ff ] , EIExp EConFalse EIRefl ⟩
+                 (AEIExp AEMPlusParent2 AEIRefl))) ⟩
+  constructability-e ‵tt = ⟨ ∣[ construct tt ] , AEIExp AEConTrue AEIRefl ⟩
+  constructability-e ‵ff = ⟨ ∣[ construct ff ] , AEIExp AEConFalse AEIRefl ⟩
   constructability-e (‵ e₁ ∙ e₂ ∙ e₃)
     with ⟨ ᾱ₁ , +>*e₁ ⟩ ← constructability-e e₁
        | ⟨ ᾱ₂ , +>*e₂ ⟩ ← constructability-e e₂
        | ⟨ ᾱ₃ , +>*e₃ ⟩ ← constructability-e e₃
        = ⟨ ᾱ₁ ++ construct (if₁ uz uz) ∷ ᾱ₂ ++ move parent ∷ move (child 3) ∷ ᾱ₃ ++ ∣[ move parent ] ,
            +e>*-++ +>*e₁
-             (EIExp EConIf1
+             (AEIExp AEConIf1
                (+e>*-++ (ziplem-if2 +>*e₂)
-                 (EIExp EMIfParent2
-                   (EIExp EMIfChild3
+                 (AEIExp AEMIfParent2
+                   (AEIExp AEMIfChild3
                      (+e>*-++ (ziplem-if3 +>*e₃)
-                       (EIExp EMIfParent3 EIRefl)))))) ⟩
+                       (AEIExp AEMIfParent3 AEIRefl)))))) ⟩
   constructability-e (‵⟨ e₁ , e₂ ⟩)
     with ⟨ ᾱ₁ , +>*e₁ ⟩ ← constructability-e e₁
        | ⟨ ᾱ₂ , +>*e₂ ⟩ ← constructability-e e₂
        = ⟨ ᾱ₁ ++ construct (pair₁ uz) ∷ ᾱ₂ ++ ∣[ move parent ] ,
            +e>*-++ +>*e₁
-             (EIExp EConPair1
+             (AEIExp AEConPair1
                (+e>*-++ (ziplem-pair2 +>*e₂)
-                 (EIExp EMPairParent2 EIRefl))) ⟩
+                 (AEIExp AEMPairParent2 AEIRefl))) ⟩
   constructability-e (‵π₁ e)
     with ⟨ ᾱ , +>*e ⟩ ← constructability-e e
        = ⟨ ᾱ ++ ∣[ construct projl ] ,
            +e>*-++ +>*e
-             (EIExp EConProjL EIRefl) ⟩
+             (AEIExp AEConProjL AEIRefl) ⟩
   constructability-e (‵π₂ e)
     with ⟨ ᾱ , +>*e ⟩ ← constructability-e e
        = ⟨ ᾱ ++ ∣[ construct projr ] ,
            +e>*-++ +>*e
-             (EIExp EConProjR EIRefl) ⟩
+             (AEIExp AEConProjR AEIRefl) ⟩

@@ -27,63 +27,63 @@ module hazelnut.untyped.mei where
     rewrite movement-erasure-invariance-τ τ^+>τ^′ = refl
 
   movement-erasure-invariance-e : ∀ {ê ê′ δ} → ê + move δ +e> ê′ → ê ◇ ≡ ê′ ◇
-  movement-erasure-invariance-e EMLamChild1       = refl
-  movement-erasure-invariance-e EMLamChild2       = refl
-  movement-erasure-invariance-e EMLamParent1      = refl
-  movement-erasure-invariance-e EMLamParent2      = refl
-  movement-erasure-invariance-e EMApChild1        = refl
-  movement-erasure-invariance-e EMApChild2        = refl
-  movement-erasure-invariance-e EMApParent1       = refl
-  movement-erasure-invariance-e EMApParent2       = refl
-  movement-erasure-invariance-e EMLetChild1       = refl
-  movement-erasure-invariance-e EMLetChild2       = refl
-  movement-erasure-invariance-e EMLetParent1      = refl
-  movement-erasure-invariance-e EMLetParent2      = refl
-  movement-erasure-invariance-e EMPlusChild1      = refl
-  movement-erasure-invariance-e EMPlusChild2      = refl
-  movement-erasure-invariance-e EMPlusParent1     = refl
-  movement-erasure-invariance-e EMPlusParent2     = refl
-  movement-erasure-invariance-e EMIfChild1        = refl
-  movement-erasure-invariance-e EMIfChild2        = refl
-  movement-erasure-invariance-e EMIfChild3        = refl
-  movement-erasure-invariance-e EMIfParent1       = refl
-  movement-erasure-invariance-e EMIfParent2       = refl
-  movement-erasure-invariance-e EMIfParent3       = refl
-  movement-erasure-invariance-e EMPairChild1      = refl
-  movement-erasure-invariance-e EMPairChild2      = refl
-  movement-erasure-invariance-e EMPairParent1     = refl
-  movement-erasure-invariance-e EMPairParent2     = refl
-  movement-erasure-invariance-e EMProjLChild      = refl
-  movement-erasure-invariance-e EMProjLParent     = refl
-  movement-erasure-invariance-e EMProjRChild      = refl
-  movement-erasure-invariance-e EMProjRParent     = refl
-  movement-erasure-invariance-e (EZipLam1 τ^+>τ^′)
+  movement-erasure-invariance-e AEMLamChild1       = refl
+  movement-erasure-invariance-e AEMLamChild2       = refl
+  movement-erasure-invariance-e AEMLamParent1      = refl
+  movement-erasure-invariance-e AEMLamParent2      = refl
+  movement-erasure-invariance-e AEMApChild1        = refl
+  movement-erasure-invariance-e AEMApChild2        = refl
+  movement-erasure-invariance-e AEMApParent1       = refl
+  movement-erasure-invariance-e AEMApParent2       = refl
+  movement-erasure-invariance-e AEMLetChild1       = refl
+  movement-erasure-invariance-e AEMLetChild2       = refl
+  movement-erasure-invariance-e AEMLetParent1      = refl
+  movement-erasure-invariance-e AEMLetParent2      = refl
+  movement-erasure-invariance-e AEMPlusChild1      = refl
+  movement-erasure-invariance-e AEMPlusChild2      = refl
+  movement-erasure-invariance-e AEMPlusParent1     = refl
+  movement-erasure-invariance-e AEMPlusParent2     = refl
+  movement-erasure-invariance-e AEMIfChild1        = refl
+  movement-erasure-invariance-e AEMIfChild2        = refl
+  movement-erasure-invariance-e AEMIfChild3        = refl
+  movement-erasure-invariance-e AEMIfParent1       = refl
+  movement-erasure-invariance-e AEMIfParent2       = refl
+  movement-erasure-invariance-e AEMIfParent3       = refl
+  movement-erasure-invariance-e AEMPairChild1      = refl
+  movement-erasure-invariance-e AEMPairChild2      = refl
+  movement-erasure-invariance-e AEMPairParent1     = refl
+  movement-erasure-invariance-e AEMPairParent2     = refl
+  movement-erasure-invariance-e AEMProjLChild      = refl
+  movement-erasure-invariance-e AEMProjLParent     = refl
+  movement-erasure-invariance-e AEMProjRChild      = refl
+  movement-erasure-invariance-e AEMProjRParent     = refl
+  movement-erasure-invariance-e (AEZipLam1 τ^+>τ^′)
     rewrite movement-erasure-invariance-τ τ^+>τ^′ = refl
-  movement-erasure-invariance-e (EZipLam2 ê+>ê′)
+  movement-erasure-invariance-e (AEZipLam2 ê+>ê′)
     rewrite movement-erasure-invariance-e ê+>ê′   = refl
-  movement-erasure-invariance-e (EZipAp1 ê+>ê′) 
+  movement-erasure-invariance-e (AEZipAp1 ê+>ê′) 
     rewrite movement-erasure-invariance-e ê+>ê′   = refl
-  movement-erasure-invariance-e (EZipAp2 ê+>ê′) 
+  movement-erasure-invariance-e (AEZipAp2 ê+>ê′) 
     rewrite movement-erasure-invariance-e ê+>ê′   = refl
-  movement-erasure-invariance-e (EZipLet1 ê+>ê′) 
+  movement-erasure-invariance-e (AEZipLet1 ê+>ê′) 
     rewrite movement-erasure-invariance-e ê+>ê′   = refl
-  movement-erasure-invariance-e (EZipLet2 ê+>ê′) 
+  movement-erasure-invariance-e (AEZipLet2 ê+>ê′) 
     rewrite movement-erasure-invariance-e ê+>ê′   = refl
-  movement-erasure-invariance-e (EZipPlus1 ê+>ê′) 
+  movement-erasure-invariance-e (AEZipPlus1 ê+>ê′) 
     rewrite movement-erasure-invariance-e ê+>ê′   = refl
-  movement-erasure-invariance-e (EZipPlus2 ê+>ê′) 
+  movement-erasure-invariance-e (AEZipPlus2 ê+>ê′) 
     rewrite movement-erasure-invariance-e ê+>ê′   = refl
-  movement-erasure-invariance-e (EZipIf1 ê+>ê′) 
+  movement-erasure-invariance-e (AEZipIf1 ê+>ê′) 
     rewrite movement-erasure-invariance-e ê+>ê′   = refl
-  movement-erasure-invariance-e (EZipIf2 ê+>ê′) 
+  movement-erasure-invariance-e (AEZipIf2 ê+>ê′) 
     rewrite movement-erasure-invariance-e ê+>ê′   = refl
-  movement-erasure-invariance-e (EZipIf3 ê+>ê′)
+  movement-erasure-invariance-e (AEZipIf3 ê+>ê′)
     rewrite movement-erasure-invariance-e ê+>ê′   = refl
-  movement-erasure-invariance-e (EZipPair1 ê+>ê′) 
+  movement-erasure-invariance-e (AEZipPair1 ê+>ê′) 
     rewrite movement-erasure-invariance-e ê+>ê′   = refl
-  movement-erasure-invariance-e (EZipPair2 ê+>ê′) 
+  movement-erasure-invariance-e (AEZipPair2 ê+>ê′) 
     rewrite movement-erasure-invariance-e ê+>ê′   = refl
-  movement-erasure-invariance-e (EZipProjL ê+>ê′) 
+  movement-erasure-invariance-e (AEZipProjL ê+>ê′) 
     rewrite movement-erasure-invariance-e ê+>ê′   = refl
-  movement-erasure-invariance-e (EZipProjR ê+>ê′) 
+  movement-erasure-invariance-e (AEZipProjR ê+>ê′) 
     rewrite movement-erasure-invariance-e ê+>ê′   = refl
