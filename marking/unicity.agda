@@ -306,19 +306,19 @@ module marking.unicity where
          | refl ← ~-≡ τ~τ′ τ~τ′′
       rewrite USu→MSu-unicity USuProjR e↬⇒ě e↬⇒ě′ = refl
 
-  -- ↬⇒-unicity-sig : ∀ {Γ : Ctx} {τ₁ τ₂ : Typ} → τ₁ ≡ τ₂ → Γ ⊢⇒ τ₁ → Γ ⊢⇒ τ₂ → Set
-  -- ↬⇒-unicity-sig refl e₁ e₂ = e₁ ≡ e₂
+  ↬⇒-unicity-sig : ∀ {Γ : Ctx} {τ₁ τ₂ : Typ} → τ₁ ≡ τ₂ → Γ ⊢⇒ τ₁ → Γ ⊢⇒ τ₂ → Set
+  ↬⇒-unicity-sig refl e₁ e₂ = e₁ ≡ e₂
 
-  -- ↬⇒-unicity : ∀ {Γ : Ctx} {e : UExp} {τ₁ τ₂ : Typ} {ě₁ : Γ ⊢⇒ τ₁} {ě₂ : Γ ⊢⇒ τ₂}
-             -- → (e↬⇒ě₁ : Γ ⊢ e ↬⇒ ě₁)
-             -- → (e↬⇒ě₂ : Γ ⊢ e ↬⇒ ě₂)
-             -- → Σ[ τ₁≡τ₂ ∈ τ₁ ≡ τ₂ ] ↬⇒-unicity-sig τ₁≡τ₂ ě₁ ě₂
-  -- ↬⇒-unicity e↬⇒ě₁ e↬⇒ě₂
-    -- with refl ← ↬⇒-τ-unicity e↬⇒ě₁ e↬⇒ě₂
-       -- = ⟨ refl , ↬⇒-ě-unicity e↬⇒ě₁ e↬⇒ě₂ ⟩
+  ↬⇒-unicity : ∀ {Γ : Ctx} {e : UExp} {τ₁ τ₂ : Typ} {ě₁ : Γ ⊢⇒ τ₁} {ě₂ : Γ ⊢⇒ τ₂}
+             → (e↬⇒ě₁ : Γ ⊢ e ↬⇒ ě₁)
+             → (e↬⇒ě₂ : Γ ⊢ e ↬⇒ ě₂)
+             → Σ[ τ₁≡τ₂ ∈ τ₁ ≡ τ₂ ] ↬⇒-unicity-sig τ₁≡τ₂ ě₁ ě₂
+  ↬⇒-unicity e↬⇒ě₁ e↬⇒ě₂
+    with refl ← ↬⇒-τ-unicity e↬⇒ě₁ e↬⇒ě₂
+       = ⟨ refl , ↬⇒-ě-unicity e↬⇒ě₁ e↬⇒ě₂ ⟩
 
-  -- ↬⇐-unicity : ∀ {Γ : Ctx} {e : UExp} {τ : Typ} {ě₁ : Γ ⊢⇐ τ} {ě₂ : Γ ⊢⇐ τ}
-             -- → Γ ⊢ e ↬⇐ ě₁
-             -- → Γ ⊢ e ↬⇐ ě₂
-             -- → ě₁ ≡ ě₂
-  -- ↬⇐-unicity = ↬⇐-ě-unicity
+  ↬⇐-unicity : ∀ {Γ : Ctx} {e : UExp} {τ : Typ} {ě₁ : Γ ⊢⇐ τ} {ě₂ : Γ ⊢⇐ τ}
+             → Γ ⊢ e ↬⇐ ě₁
+             → Γ ⊢ e ↬⇐ ě₂
+             → ě₁ ≡ ě₂
+  ↬⇐-unicity = ↬⇐-ě-unicity
