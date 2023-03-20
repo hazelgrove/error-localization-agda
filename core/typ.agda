@@ -106,21 +106,21 @@ module core.typ where
       TCUnknownBase : {τ : Typ} → (b : τ base) → unknown ~ τ
       TCBaseUnknown : {τ : Typ} → (b : τ base) → τ ~ unknown
       TCArr         : {τ₁ τ₂ τ₁′ τ₂′ : Typ}
-                     → (τ₁~τ₁′ : τ₁ ~ τ₁′)
-                     → (τ₂~τ₂′ : τ₂ ~ τ₂′)
-                     → τ₁ -→ τ₂ ~ τ₁′ -→ τ₂′
+                    → (τ₁~τ₁′ : τ₁ ~ τ₁′)
+                    → (τ₂~τ₂′ : τ₂ ~ τ₂′)
+                    → τ₁ -→ τ₂ ~ τ₁′ -→ τ₂′
       TCUnknownArr  : {τ₁ τ₂ : Typ}
-                     → unknown ~ τ₁ -→ τ₂
+                    → unknown ~ τ₁ -→ τ₂
       TCArrUnknown  : {τ₁ τ₂ : Typ}
-                     → τ₁ -→ τ₂ ~ unknown
+                    → τ₁ -→ τ₂ ~ unknown
       TCProd        : {τ₁ τ₂ τ₁′ τ₂′ : Typ}
-                     → (τ₁~τ₁′ : τ₁ ~ τ₁′)
-                     → (τ₂~τ₂′ : τ₂ ~ τ₂′)
-                     → τ₁ -× τ₂ ~ τ₁′ -× τ₂′
-      TCUnknownProd  : {τ₁ τ₂ : Typ}
-                     → unknown ~ τ₁ -× τ₂
-      TCProdUnknown  : {τ₁ τ₂ : Typ}
-                     → τ₁ -× τ₂ ~ unknown
+                    → (τ₁~τ₁′ : τ₁ ~ τ₁′)
+                    → (τ₂~τ₂′ : τ₂ ~ τ₂′)
+                    → τ₁ -× τ₂ ~ τ₁′ -× τ₂′
+      TCUnknownProd : {τ₁ τ₂ : Typ}
+                    → unknown ~ τ₁ -× τ₂
+      TCProdUnknown : {τ₁ τ₂ : Typ}
+                    → τ₁ -× τ₂ ~ unknown
 
     -- inconsistency
     _~̸_ : (τ₁ : Typ) → (τ₂ : Typ) → Set
@@ -225,6 +225,63 @@ module core.typ where
     ...                           | _          | no ¬τ₂~τ₂′ = no λ { (TCBase ()) ; (TCProd _ τ₂~τ₂′) → ¬τ₂~τ₂′ τ₂~τ₂′ }
     ...                           | no ¬τ₁~τ₁′ | _          = no λ { (TCBase ()) ; (TCProd τ₁~τ₁′ _) → ¬τ₁~τ₁′ τ₁~τ₁′ }
 
+    module formalism where
+      data _~′_ : (τ₁ τ₂ : Typ) → Set where
+        TCUnknown1 : {τ : Typ} → unknown ~′ τ
+        TCUnknown2 : {τ : Typ} → τ ~′ unknown
+        TCRefl     : {τ : Typ} → τ ~′ τ
+        TCArr      : {τ₁ τ₁′ τ₂ τ₂′ : Typ}
+                   → (τ₁~τ₁′ : τ₁ ~′ τ₁′)
+                   → (τ₂~τ₂′ : τ₂ ~′ τ₂′)
+                   → τ₁ -→ τ₂ ~′ τ₁′ -→ τ₂′
+        TCProd     : {τ₁ τ₁′ τ₂ τ₂′ : Typ}
+                   → (τ₁~τ₁′ : τ₁ ~′ τ₁′)
+                   → (τ₂~τ₂′ : τ₂ ~′ τ₂′)
+                   → τ₁ -× τ₂ ~′ τ₁′ -× τ₂′
+
+      ~→~′ : ∀ {τ₁ τ₂ : Typ} → τ₁ ~ τ₂ → τ₁ ~′ τ₂
+      ~→~′ TCUnknown               = TCRefl
+      ~→~′ (TCBase TBNum)          = TCRefl
+      ~→~′ (TCBase TBBool)         = TCRefl
+      ~→~′ (TCUnknownBase b)       = TCUnknown1
+      ~→~′ (TCBaseUnknown b)       = TCUnknown2
+      ~→~′ (TCArr τ₁~τ₁′ τ₂~τ₂′)
+        with τ₁~τ₁′′ ← ~→~′ τ₁~τ₁′
+           | τ₂~τ₂′′ ← ~→~′ τ₂~τ₂′ = TCArr τ₁~τ₁′′ τ₂~τ₂′′
+      ~→~′ TCUnknownArr            = TCUnknown1
+      ~→~′ TCArrUnknown            = TCUnknown2
+      ~→~′ (TCProd τ₁~τ₁′ τ₂~τ₂′)
+        with τ₁~τ₁′′ ← ~→~′ τ₁~τ₁′
+           | τ₂~τ₂′′ ← ~→~′ τ₂~τ₂′ = TCProd τ₁~τ₁′′ τ₂~τ₂′′
+      ~→~′ TCUnknownProd           = TCUnknown1
+      ~→~′ TCProdUnknown           = TCUnknown2
+
+      ~′→~ : ∀ {τ₁ τ₂ : Typ} → τ₁ ~′ τ₂ → τ₁ ~ τ₂
+      ~′→~ {τ₂ = num} TCUnknown1 = TCUnknownBase TBNum
+      ~′→~ {τ₂ = bool} TCUnknown1 = TCUnknownBase TBBool
+      ~′→~ {τ₂ = unknown} TCUnknown1 = TCUnknown
+      ~′→~ {τ₂ = _ -→ _} TCUnknown1 = TCUnknownArr
+      ~′→~ {τ₂ = _ -× _} TCUnknown1 = TCUnknownProd
+      ~′→~ {τ₁ = num} TCUnknown2 = TCBaseUnknown TBNum
+      ~′→~ {τ₁ = bool} TCUnknown2 = TCBaseUnknown TBBool
+      ~′→~ {τ₁ = unknown} TCUnknown2 = TCUnknown
+      ~′→~ {τ₁ = _ -→ _} TCUnknown2 = TCArrUnknown
+      ~′→~ {τ₁ = _ -× _} TCUnknown2 = TCProdUnknown
+      ~′→~ {τ₁ = num} TCRefl = TCBase TBNum
+      ~′→~ {τ₁ = bool} TCRefl = TCBase TBBool
+      ~′→~ {τ₁ = unknown} TCRefl = TCUnknown
+      ~′→~ {τ₁ = _ -→ _} TCRefl = TCArr (~′→~ TCRefl) (~′→~ TCRefl)
+      ~′→~ {τ₁ = _ -× _} TCRefl = TCProd (~′→~ TCRefl) (~′→~ TCRefl)
+      ~′→~ (TCArr τ₁~τ₁′ τ₂~τ₂′) = TCArr (~′→~ τ₁~τ₁′) (~′→~ τ₂~τ₂′)
+      ~′→~ (TCProd τ₁~τ₁′ τ₂~τ₂′) = TCProd (~′→~ τ₁~τ₁′) (~′→~ τ₂~τ₂′)
+
+      ~⇔~′ : ∀ {τ₁ τ₂ : Typ} → (τ₁ ~ τ₂) ⇔ (τ₁ ~′ τ₂)
+      ~⇔~′ =
+        record
+          { to   = ~→~′
+          ; from = ~′→~
+          }
+      
   module matched where
     open equality
     open consistency
