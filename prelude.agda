@@ -146,9 +146,29 @@ module prelude where
     []       ++ ys = ys
     (x ∷ xs) ++ ys = x ∷ (xs ++ ys)
 
+  module iso where
+    open eq using (_≡_)
+
+    infix 0 _≃_
+    record _≃_ (A B : Set) : Set where
+      field
+        to      : A → B
+        from    : B → A
+        from∘to : ∀ (x : A) → from (to x) ≡ x
+        to∘from : ∀ (y : B) → to (from y) ≡ y
+
+  module iff where
+    infix 0 _⇔_
+    record _⇔_ (A B : Set) : Set where
+      field
+        to : A → B
+        from : B → A
+
   open negation public
   open decidability public
   open eq public
   open nat public
   open product public
   open list public
+  open iso public
+  open iff public
