@@ -1,8 +1,7 @@
 %
 % utilities
 %
-\newtcolorbox{mybox}[2][]
-{
+\newtcolorbox{highlightbox}[2][]{
   on line,
   hbox,
   boxsep=0pt,
@@ -22,25 +21,25 @@
   \endgroup
 }
 
-\newcommand{\colorSideJudge}{Black!50}
+\newcommand{\colorOkSideJudge}{Black!50}
+\newcommand{\colorFailSideJudge}{red}
+
 \newcommand{\colorUText}{PineGreen!90}
-%\newcommand{\colorUBkgSyn}{Aquamarine!15}
-%\newcommand{\colorUBkgAna}{LimeGreen!15}
 \newcommand{\colorUBkgSyn}{Gray!5}
 \newcommand{\colorUBkgAna}{Gray!5}
+
 \newcommand{\colorMText}{DarkOrchid}
-%\newcommand{\colorMBkgSyn}{Periwinkle!17}
-%\newcommand{\colorMBkgAna}{Mulberry!17}
 \newcommand{\colorMBkgSyn}{Gray!5}
 \newcommand{\colorMBkgAna}{Gray!5}
+
 \newcommand{\colorMKText}{Bittersweet}
-%\newcommand{\colorMKBkgSyn}{Goldenrod!22}
-%\newcommand{\colorMKBkgAna}{Peach!17}
 \newcommand{\colorMKBkgSyn}{Gray!5}
 \newcommand{\colorMKBkgAna}{Gray!5}
+
 \newcommand{\colorCText}{\colorUText}
 \newcommand{\colorCBkgSyn}{\colorUBkgSyn}
 \newcommand{\colorCBkgAna}{\colorUBkgAna}
+
 \definecolor{hole}{RGB}{162,85,162}
 \definecolor{cursorhighlight}{RGB}{230,255,230}
 \definecolor{cursor}{RGB}{76,170,76}
@@ -59,21 +58,22 @@
 \newcommand{\notEqual}[2]{\ensuremath{#1 \neq #2}}
 
 % consistency
-\newcommand{\consistent}[2]{\ensuremath{#1 \goodcolor{\colorSideJudge}{\sim} #2}}
+\newcommand{\consistentRel}{\ensuremath{\sim}}
+\newcommand{\consistent}[2]{\ensuremath{#1 \goodcolor{\colorOkSideJudge}{\consistentRel} #2}}
 \newcommand{\inconsistentRel}{\ensuremath{\nsim}}
-\newcommand{\inconsistent}[2]{\ensuremath{\goodcolor{red}{#1 \inconsistentRel #2}}}
+\newcommand{\inconsistent}[2]{\ensuremath{\goodcolor{\colorFailSideJudge}{#1 \inconsistentRel #2}}}
 
 % matching
-\newcommand{\matchedRel}[1]{\ensuremath{\goodcolor{\colorSideJudge}{\blacktriangleright_{#1}}}}
+\newcommand{\matchedRel}[1]{\ensuremath{\blacktriangleright_{#1}}}
 \newcommand{\notMatchedRel}[1]{\ensuremath{\blacktriangleright_{\centernot#1}}}
 \newcommand{\matchedArrowRel}{\ensuremath{\matchedRel{\to}}}
 \newcommand{\notMatchedArrowRel}{\ensuremath{\notMatchedRel{\to}}}
-\newcommand{\matchedArrow}[3]{\ensuremath{#1 \matchedArrowRel \TArrow{#2}{#3}}}
-\newcommand{\notMatchedArrow}[1]{\ensuremath{\goodcolor{red}{#1 \notMatchedArrowRel}}}
+\newcommand{\matchedArrow}[3]{\ensuremath{#1 \goodcolor{\colorOkSideJudge}{\matchedArrowRel} \TArrow{#2}{#3}}}
+\newcommand{\notMatchedArrow}[1]{\ensuremath{\goodcolor{\colorFailSideJudge}{#1 \notMatchedArrowRel}}}
 \newcommand{\matchedProdRel}{\ensuremath{\matchedRel{\times}}}
 \newcommand{\notMatchedProdRel}{\ensuremath{\notMatchedRel{\times}}}
-\newcommand{\matchedProd}[3]{\ensuremath{#1 \matchedProdRel \TProd{#2}{#3}}}
-\newcommand{\notMatchedProd}[1]{\ensuremath{\goodcolor{red}{#1 \notMatchedProdRel}}}
+\newcommand{\matchedProd}[3]{\ensuremath{#1 \goodcolor{\colorOkSideJudge}{\matchedProdRel} \TProd{#2}{#3}}}
+\newcommand{\notMatchedProd}[1]{\ensuremath{\goodcolor{\colorFailSideJudge}{#1 \notMatchedProdRel}}}
 
 % base types
 \newcommand{\base}[1]{\ensuremath{#1 ~{\normalfont\textsf{base}}}}
@@ -83,7 +83,7 @@
 \newcommand{\extendCtx}[3]{\ensuremath{#1 , ~\assignType{#2}{#3}}}
 \DeclareMathOperator{\dom}{dom}
 \newcommand{\inCtx}[3]{\ensuremath{\assignType{#2}{#3} \in #1}}
-\newcommand{\notInCtx}[2]{\ensuremath{\goodcolor{red}{#2 \not\in \dom(#1)}}}
+\newcommand{\notInCtx}[2]{\ensuremath{\goodcolor{\colorFailSideJudge}{#2 \not\in \dom(#1)}}}
 \newcommand{\withCtx}[2]{\ensuremath{#1 \vdash #2}}
 
 % typing
@@ -94,31 +94,28 @@
 \newcommand{\ctxSynType}[3]{\ensuremath{\withCtx{#1}{\synType{#2}{#3}}}}
 \newcommand{\ctxNotSynType}[3]{\ensuremath{\withCtx{#1}{\notSynType{#2}{#3}}}}
 \newcommand{\anaType}[2]{\ensuremath{#1 \Leftarrow #2}}
-\newcommand{\notAnaType}[2]{\ensuremath{#1 \goodcolor{red}{\not\Leftarrow} #2}}
+\newcommand{\notAnaType}[2]{\ensuremath{#1 \goodcolor{\colorFailSideJudge}{\not\Leftarrow} #2}}
 \newcommand{\ctxAnaType}[3]{\ensuremath{\withCtx{#1}{\anaType{#2}{#3}}}}
 \newcommand{\ctxNotAnaType}[3]{\ensuremath{\withCtx{#1}{\notAnaType{#2}{#3}}}}
 
 % unmarked typing
-\newcommand{\withCtxU}[2]{\ensuremath{#1 \goodcolor{
-\colorUText}{\vdash_{\hspace{-4.25pt}\scaleto{U}{3.5pt}}} #2}}
+\newcommand{\withCtxU}[2]{\ensuremath{#1 \goodcolor{\colorUText}{\vdash_{\hspace{-4.25pt}\scaleto{U}{3.5pt}}} #2}}
 \newcommand{\assignTypeU}[2]{\ensuremath{#1 : #2}}
 \newcommand{\ctxAssignTypeU}[3]{\ensuremath{\withCtxU{#1}{\assignTypeU{#2}{#3}}}}
-\newcommand{\synTypeU}[2]{\ensuremath{#1 \goodcolor{
-\colorUText}{\Rightarrow} #2}}
+\newcommand{\synTypeU}[2]{\ensuremath{#1 \goodcolor{\colorUText}{\Rightarrow} #2}}
 \newcommand{\notSynTypeU}[2]{\ensuremath{#1 \not\Rightarrow #2}}
 \newcommand{\ctxSynTypeU}[3]{
-    \begin{mybox}{\colorUBkgSyn}
+  \begin{highlightbox}{\colorUBkgSyn}
     \ensuremath{\withCtxU{#1}{\synTypeU{#2}{#3}}}
-    \end{mybox}
-}
+  \end{highlightbox}}
 \newcommand{\ctxNotSynTypeU}[3]{\ensuremath{\withCtxU{#1}{\notSynTypeU{#2}{#3}}}}
+
 \newcommand{\anaTypeU}[2]{\ensuremath{#1 \goodcolor{\colorUText}{\Leftarrow} #2}}
-\newcommand{\notAnaTypeU}[2]{\ensuremath{#1 \goodcolor{red}{\not\Leftarrow} #2}}
+\newcommand{\notAnaTypeU}[2]{\ensuremath{#1 \goodcolor{\colorFailSideJudge}{\not\Leftarrow} #2}}
 \newcommand{\ctxAnaTypeU}[3]{
-    \begin{mybox}{\colorUBkgAna}
+  \begin{highlightbox}{\colorUBkgAna}
     \ensuremath{\withCtxU{#1}{\anaTypeU{#2}{#3}}}
-    \end{mybox}
-}
+  \end{highlightbox}}
 \newcommand{\ctxNotAnaTypeU}[3]{\ensuremath{\withCtxU{#1}{\notAnaTypeU{#2}{#3}}}}
 
 % marked typing
@@ -128,50 +125,43 @@
 \newcommand{\synTypeM}[2]{\ensuremath{#1 \goodcolor{\colorMText}{\Rightarrow} #2}}
 \newcommand{\notSynTypeM}[2]{\ensuremath{#1 \not\Rightarrow #2}}
 \newcommand{\ctxSynTypeM}[3]{
-    \begin{mybox}{\colorMBkgSyn}
+  \begin{highlightbox}{\colorMBkgSyn}
     \ensuremath{\withCtxM{#1}{\synTypeM{#2}{#3}}}
-    \end{mybox}
-}
+  \end{highlightbox}}
 \newcommand{\ctxNotSynTypeM}[3]{\ensuremath{\withCtxM{#1}{\notSynTypeM{#2}{#3}}}}
 \newcommand{\anaTypeM}[2]{\ensuremath{#1 \goodcolor{\colorMText}{\Leftarrow} #2}}
-\newcommand{\notAnaTypeM}[2]{\ensuremath{#1 \goodcolor{red}{\not\Leftarrow} #2}}
+\newcommand{\notAnaTypeM}[2]{\ensuremath{#1 \goodcolor{\colorFailSideJudge}{\not\Leftarrow} #2}}
 \newcommand{\ctxAnaTypeM}[3]{
-    \begin{mybox}{\colorMBkgAna}
+  \begin{highlightbox}{\colorMBkgAna}
     \ensuremath{\withCtxM{#1}{\anaTypeM{#2}{#3}}}
-    \end{mybox}
-}
+  \end{highlightbox}}
 \newcommand{\ctxNotAnaTypeM}[3]{\ensuremath{\withCtxM{#1}{\notAnaTypeM{#2}{#3}}}}
 
 % unmarked pattern typing
 \newcommand{\ctxSynPatU}[3]{
-    \begin{mybox}{\colorUBkgSyn}
+  \begin{highlightbox}{\colorUBkgSyn}
     \ensuremath{\withCtxU{#1}{\synTypeU{#2}{#3}}}
-    \end{mybox}
-}
+  \end{highlightbox}}
 \newcommand{\ctxAnaPatU}[4]{
-    \begin{mybox}{\colorUBkgAna}
+  \begin{highlightbox}{\colorUBkgAna}
     \ensuremath{\withCtxU{#1}{\anaTypeU{#2}{#3 \goodcolor{\colorUText}{\dashv} #4}}}
-    \end{mybox}
-}
-\newcommand{\notAnaPatU}[2]{\ensuremath{#1 \goodcolor{red}{\not\Leftarrow} #2}}
+  \end{highlightbox}}
+\newcommand{\notAnaPatU}[2]{\ensuremath{#1 \goodcolor{\colorFailSideJudge}{\not\Leftarrow} #2}}
 \newcommand{\ctxNotAnaPatU}[4]{
-    \begin{mybox}{\colorUBkgAna}
+  \begin{highlightbox}{\colorUBkgAna}
     \ensuremath{\withCtxU{#1}{\notAnaPatU{#2}{#3 \goodcolor{\colorUText}{\dashv} #4}}}
-    \end{mybox}
-}
+  \end{highlightbox}}
 
 % marked pattern typing
 \newcommand{\ctxSynPatM}[3]{
-    \begin{mybox}{\colorMBkgSyn}
+  \begin{highlightbox}{\colorMBkgSyn}
     \ensuremath{\withCtxM{#1}{\synTypeM{#2}{#3}}}
-    \end{mybox}
-}
+  \end{highlightbox}}
 \newcommand{\ctxAnaPatM}[4]{
-    \begin{mybox}{\colorMBkgAna}
+  \begin{highlightbox}{\colorMBkgAna}
     \ensuremath{\withCtxM{#1}{\anaTypeM{#2}{#3 \dashv #4}}}
-    \end{mybox}
-}
-\newcommand{\notAnaPatM}[2]{\ensuremath{#1 \goodcolor{red}{\not\Leftarrow} #2}}
+  \end{highlightbox}}
+\newcommand{\notAnaPatM}[2]{\ensuremath{#1 \goodcolor{\colorFailSideJudge}{\not\Leftarrow} #2}}
 \newcommand{\ctxNotAnaPatM}[4]{\ensuremath{\withCtxM{#1}{\notAnaPatM{#2}{#3 \dashv #4}}}}
 
 % subsumable
@@ -190,16 +180,14 @@
 \newcommand{\anaTypeMK}[2]{\ensuremath{#1 \goodcolor{\colorMKText}{\Leftarrow} #2}}
 \newcommand{\synFixedInto}[3]{\ensuremath{\synTypeMK{#1 \goodcolor{\colorMKText}{\looparrowright} #2}{#3}}}
 \newcommand{\ctxSynFixedInto}[4]{
-    \begin{mybox}{\colorMKBkgSyn}
+  \begin{highlightbox}{\colorMKBkgSyn}
     \ensuremath{{\withCtxMK{#1}{\synFixedInto{#2}{#3}{#4}}}}
-    \end{mybox}
-}
+  \end{highlightbox}}
 \newcommand{\anaFixedInto}[3]{\ensuremath{\anaTypeMK{#1 \goodcolor{\colorMKText}{\looparrowright} #2}{#3}}}
 \newcommand{\ctxAnaFixedInto}[4]{
-    \begin{mybox}{\colorMKBkgAna}
+  \begin{highlightbox}{\colorMKBkgAna}
     \ensuremath{\withCtxMK{#1}{\anaFixedInto{#2}{#3}{#4}}}
-    \end{mybox}
-    }
+  \end{highlightbox}}
 
 % pattern marking
 \newcommand{\withCtxMKPat}[2]{\ensuremath{#1 \goodcolor{\colorMKText}{\vdash} #2}}
@@ -207,16 +195,14 @@
 \newcommand{\anaTypeMKPAt}[2]{\ensuremath{#1 \goodcolor{\colorMKText}{\Leftarrow} #2}}
 \newcommand{\synFixedIntoPat}[3]{\ensuremath{\synTypeMKPat{#1 \goodcolor{\colorMKText}{\looparrowright} #2}{#3}}}
 \newcommand{\ctxSynFixedIntoPat}[4]{
-    \begin{mybox}{\colorMKBkgSyn}
+    \begin{highlightbox}{\colorMKBkgSyn}
     \ensuremath{\withCtxMKPat{#1}{\synFixedIntoPat{#2}{#3}{#4}}}
-    \end{mybox}
-}
+    \end{highlightbox}}
 \newcommand{\anaFixedIntoPat}[3]{\ensuremath{\anaTypeMKPAt{#1 \goodcolor{\colorMKText}{\looparrowright} #2}{#3}}}
 \newcommand{\ctxAnaFixedIntoPat}[5]{
-    \begin{mybox}{\colorMKBkgAna}
+    \begin{highlightbox}{\colorMKBkgAna}
     \ensuremath{\withCtxMKPat{#1}{\anaFixedIntoPat{#2}{#3}{#4 \dashv #5}}}
-    \end{mybox}
-}
+    \end{highlightbox}}
 
 % cursor erasure
 \newcommand{\cursorErase}[1]{\ensuremath{#1^{\diamond}}}
@@ -707,19 +693,19 @@
 
 % constraints
 \newcommand{\matchedArrowConstraint}[4]{
-    \matchedArrow{#1}{#2}{#3}\goodcolor{\colorSideJudge}{~|~} {#4}
+    \matchedArrow{#1}{#2}{#3}\goodcolor{\colorOkSideJudge}{~|~} {#4}
 }
 \newcommand{\constraintTurn}{\goodcolor{\colorCText}{\vdash}}
 \newcommand{\constraintBar}{\goodcolor{\colorCText}{~|~}}
 \newcommand{\constraintSyn}{\goodcolor{\colorCText}{\Rightarrow}}
 \newcommand{\constraintAna}{\goodcolor{\colorCText}{\Leftarrow}}
 \newcommand{\synConstraint}[4]{
-    \begin{mybox}{\colorCBkgSyn}
+    \begin{highlightbox}{\colorCBkgSyn}
     \ensuremath{{#1} \constraintTurn {#2} \constraintSyn {#3} \constraintBar {#4}}
-    \end{mybox}
+    \end{highlightbox}
 }
 \newcommand{\anaConstraint}[4]{
-    \begin{mybox}{\colorCBkgAna}
+    \begin{highlightbox}{\colorCBkgAna}
     \ensuremath{{#1} \constraintTurn {#2} \constraintAna {#3} \constraintBar {#4}}
-    \end{mybox}
+    \end{highlightbox}
 }
