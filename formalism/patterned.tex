@@ -1,4 +1,4 @@
-\subsection{Patterned Let Expressions}
+\subsection{Extension: patterned let expressions}
 \subsubsection{Syntax}
 \[\begin{array}{rrcl}
   \TMName  & \TMV  & \Coloneqq & \cdots \mid \TUnknownSwitch \\
@@ -9,7 +9,7 @@
                                \mid \PCInconType{\PCMV} \mid \PCAnaNonMatchedProd{\PCMV}
 \end{array}\]
 
-\subsubsection{Unmarked Expressions}
+\subsubsection{Unmarked expressions}
 \judgbox{\ctxSynTypeU{\ctx}{\EMV}{\TMV}} $\EMV$ synthesizes type $\TMV$
 %
 \begin{mathpar}
@@ -73,7 +73,7 @@
   }
 \end{mathpar}
 
-\subsubsection{Marked Expressions}
+\subsubsection{Marked expressions}
 \judgbox{\ctxSynTypeM{\ctx}{\ECMV}{\TMV}} $\ECMV$ synthesizes type $\TMV$
 %
 \begin{mathpar}
@@ -102,7 +102,7 @@
   }
 \end{mathpar}
 
-\subsubsection{Unmarked Patterns}
+\subsubsection{Unmarked patterns}
 \judgbox{\ensuremath{\ctxSynPatU{\ctx}{\PMV}{\TMV}}} $\PMV$ synthesizes type $\TMV$
 %
 \begin{mathpar}
@@ -155,7 +155,7 @@
   }
 \end{mathpar}
 
-\subsubsection{Pattern Marking}
+\subsubsection{Pattern marking}
 \judgbox{\ensuremath{\ctxSynFixedIntoPat{\ctx}{\PMV}{\PCMV}{\TMV}}} $\PMV$ is marked into $\PCMV$ and synthesizes $\TMV$
  %
 \begin{mathpar}
@@ -231,7 +231,7 @@
   }
 \end{mathpar}
 
-\subsubsection{Marked Patterns}
+\subsubsection{Marked patterns}
 \judgbox{\ensuremath{\ctxSynPatM{\ctx}{\PCMV}{\TMV}}} $\PCMV$ synthesizes type $\TMV$
 %
 \begin{mathpar}

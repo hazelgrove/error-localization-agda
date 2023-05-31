@@ -104,7 +104,7 @@ lambda calculus, with rules organized by judgment form.
   }
 \end{mathpar}
 
-\subsection{Unmarked Expressions}
+\subsection{Unmarked expressions}
 \judgbox{\ctxSynTypeU{\ctx}{\EMV}{\TMV}} $\EMV$ synthesizes type $\TMV$
 %
 \begin{mathpar}
@@ -482,7 +482,7 @@ lambda calculus, with rules organized by judgment form.
   }
 \end{mathpar}
 
-\subsection{Marked Expressions}
+\subsection{Marked expressions}
 \judgbox{\ctxSynTypeM{\ctx}{\ECMV}{\TMV}} $\ECMV$ synthesizes type $\TMV$
 %
 \begin{mathpar}
@@ -793,7 +793,7 @@ lambda calculus, with rules organized by judgment form.
   }
 \end{mathpar}
 
-\subsection{Mark Erasure}
+\subsection{Mark erasure}
 $\judgbox{\erase{\ECMV}}$ is a metafunction defined as follows:
 %
 \newcommand{\erasesToRow}[2]{\erase{#1} & = & #2}
@@ -867,11 +867,11 @@ $\judgbox{\erase{\ECMV}}$ is a metafunction defined as follows:
   \end{enumerate}
 \end{theorem}
 
-\subsection{Alternative Conditional Rules}
+\subsection{Alternative conditional rules}
 There are alternative ways to formulate error localization in conditionals. Below, we provide two
 alternatives to the rules above.
 
-\subsubsection{Localize to Second}
+\subsubsection{Localize to second}
 In this formulation, we always select the first branch as ``correct'' and localize errors to the
 second. \\
 
@@ -911,7 +911,7 @@ second. \\
   }
 \end{mathpar}
 
-\subsubsection{Localize to First}
+\subsubsection{Localize to first}
 In this formulation, we always select the second branch as ``correct'' and localize errors to the
 first. \\
 

@@ -15,8 +15,8 @@
            &       & \mid         & \ZPairL{\ZMV}{\EMV} \mid \ZPairR{\EMV}{\ZMV} \mid \ZProjL{\ZMV} \mid \ZProjR{\ZMV} \\
 \end{array}\]
 
-\subsection{Cursor Erasure}
-\subsubsection{Type Cursor Erasure}
+\subsection{Cursor erasure}
+\subsubsection{Type cursor erasure}
 \judgbox{\ensuremath{\cursorErase{\ZTMV}}} is a metafunction defined as follows:
 %
 \newcommand{\cursorErasesToRow}[2]{\ensuremath{\cursorErase{#1} & = & #2}}
@@ -28,7 +28,7 @@
   \cursorErasesToRow{(\ZTProdR{\TMV}{\ZTMV})}{\TProd{\TMV}{\cursorErase{\ZTMV}}} \\
 \end{array}\]
 
-\subsubsection{Expression Cursor Erasure}
+\subsubsection{Expression cursor erasure}
 \judgbox{\ensuremath{\cursorErase{\ZMV}}} is a metafunction defined as follows:
 %
 \[\begin{array}{rcl}
@@ -50,7 +50,7 @@
   \cursorErasesToRow{(\ZProjR{\ZMV})}{\EProjR{\cursorErase{\ZMV}}} \\
 \end{array}\]
 
-\subsection{Action Model}
+\subsection{Action model}
 \[\begin{array}{rrcl}
   \AMName  & \AMV  & \Coloneqq & \AMove{\MMV} \mid \ACon{\SMV} \mid \ADel \\
   \AIMName & \AIMV & \Coloneqq & \AINil \mid \AICons{\AMV}{\AIMV} \\
@@ -63,7 +63,7 @@
            &       & \mid         & \SPairL \mid \SPairR \mid \SProjL \mid \SProjR
 \end{array}\]
 
-\subsubsection{Shape Sort}
+\subsubsection{Shape sort}
 \judgbox{\ensuremath{\tshape{\SMV}}} $\SMV$ is a shape on types
 %
 \begin{mathpar}
@@ -168,7 +168,7 @@
   }
 \end{mathpar}
 
-\subsubsection{Type Actions}
+\subsubsection{Type actions}
 \judgbox{\ensuremath{\AUTAction{\ZTMV}{\ZTMV'}{\AMV}}}
 
 \paragraph{Movement}
@@ -267,7 +267,7 @@
   }
 \end{mathpar}
 
-\subsubsection{Expression Movement}
+\subsubsection{Expression movement}
 \judgbox{\ensuremath{\AUEMove{\ZMV}{\ZMV'}{\MMV}}}
 %
 \begin{mathpar}
@@ -392,7 +392,7 @@
   }
 \end{mathpar}
 
-\subsubsection{Expression Actions}
+\subsubsection{Expression actions}
 \judgbox{\ensuremath{\AUEAction{\ZMV}{\ZMV'}{\AMV}}}
 
 \paragraph{Movement}
@@ -579,7 +579,7 @@
   }
 \end{mathpar}
 
-\subsubsection{Iterated Actions}
+\subsubsection{Iterated actions}
 \judgbox{\ensuremath{\AUTActionIter{\ZTMV}{\ZTMV'}{\AIMV}}}
 %
 \begin{mathpar}
@@ -624,7 +624,7 @@
   }
 \end{mathpar}
 
-\subsubsection{Metatheorems}
+\subsection{Metatheorems}
 \begin{theorem}[name=Sensibility]
 \end{theorem}
 
