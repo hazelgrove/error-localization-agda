@@ -1,6 +1,8 @@
 \documentclass[formalism.tex]{subfiles}
 
 \begin{document}
+\input{symbols/typed}
+
 \section{Typed Hazelnut}
 
 \subsection{Syntax}
@@ -153,99 +155,99 @@ Type actions are the same as in the untyped model.
 %
 \begin{mathpar}
   \inferrule[AEMLamChild1]{ }{
-    \ASEMLamChildT{x}{\TMV}{\ECMV}
+    \ASEMChild{\ECLam{x}{\TMV}{\ECMV}}{\ZLamT{x}{\ZTCursor{\TMV}}{\ECMV}}{1}
   }
 
   \inferrule[AEMLamChild2]{ }{
-    \ASEMLamChildE{x}{\TMV}{\ECMV}
+    \ASEMChild{\ECLam{x}{\TMV}{\ECMV}}{\ZLamE{x}{\TMV}{\ZCursor{\ECMV}}}{2}
   } \\
 
   \inferrule[AEMLamParent1]{ }{
-    \ASEMLamParentT{x}{\TMV}{\ECMV}
+    \ASEMParent{\ZLamT{x}{\ZTCursor{\TMV}}{\ECMV}}{\ECLam{x}{\TMV}{\ECMV}}
   }
 
   \inferrule[AEMLamParent2]{ }{
-    \ASEMLamParentE{x}{\TMV}{\ECMV}
+    \ASEMParent{\ZLamE{x}{\TMV}{\ZCursor{\ECMV}}}{\ECLam{x}{\TMV}{\ECMV}}
   }
 \end{mathpar}
 
 \begin{mathpar}
   \inferrule[AEMApChild1]{ }{
-    \ASEMApChildL{\ECMV_1}{\ECMV_2}
+    \ASEMChild{\ECAp{\ECMV_1}{\ECMV_2}}{\ZApL{\ZCursor{\ECMV_1}}{\ECMV_2}}{1}
   }
 
   \inferrule[AEMApChild2]{ }{
-    \ASEMApChildR{\ECMV_1}{\ECMV_2}
+    \ASEMChild{\ECAp{\ECMV_1}{\ECMV_2}}{\ZApR{\ECMV_1}{\ZCursor{\ECMV_2}}}{2}
   } \\
 
   \inferrule[AEMApParent1]{ }{
-    \ASEMApParentL{\ECMV_1}{\ECMV_2}
+    \ASEMParent{\ZApL{\ZCursor{\ECMV_1}}{\ECMV_2}}{\ECAp{\ECMV_1}{\ECMV_2}}
   }
 
   \inferrule[AEMApParent2]{ }{
-    \ASEMApParentR{\ECMV_1}{\ECMV_2}
+    \ASEMParent{\ZApR{\ECMV_1}{\ZCursor{\ECMV_2}}}{\ECAp{\ECMV_1}{\ECMV_2}}
   }
 \end{mathpar}
 
 \begin{mathpar}
   \inferrule[AEMLetChild1]{ }{
-    \ASEMLetChildL{x}{\ECMV_1}{\ECMV_2}
+    \ASEMChild{\ECLet{x}{\ECMV_1}{\ECMV_2}}{\ZLetL{x}{\ZCursor{\ECMV_1}}{\ECMV_2}}{1}
   }
 
   \inferrule[AEMLetChild2]{ }{
-    \ASEMLetChildR{x}{\ECMV_1}{\ECMV_2}
+    \ASEMChild{\ECLet{x}{\ECMV_1}{\ECMV_2}}{\ZLetR{x}{\ECMV_1}{\ZCursor{\ECMV_2}}}{2}
   } \\
 
   \inferrule[AEMLetParent1]{ }{
-    \ASEMLetParentL{x}{\ECMV_1}{\ECMV_2}
+    \ASEMParent{\ZLetL{x}{\ZCursor{\ECMV_1}}{\ECMV_2}}{\ECLet{x}{\ECMV_1}{\ECMV_2}}
   }
 
   \inferrule[AEMLetParent2]{ }{
-    \ASEMLetParentR{x}{\ECMV_1}{\ECMV_2}
+    \ASEMParent{\ZLetR{x}{\ECMV_1}{\ZCursor{\ECMV_2}}}{\ECLet{x}{\ECMV_1}{\ECMV_2}}
   }
 \end{mathpar}
 
 \begin{mathpar}
   \inferrule[AEMPlusChild1]{ }{
-    \ASEMPlusChildL{\ECMV_1}{\ECMV_2}
+    \ASEMChild{\ECPlus{\ECMV_1}{\ECMV_2}}{\ZPlusL{\ZCursor{\ECMV_1}}{\ECMV_2}}{1}
   }
 
   \inferrule[AEMPlusChild2]{ }{
-    \ASEMPlusChildR{\ECMV_1}{\ECMV_2}
+    \ASEMChild{\ECPlus{\ECMV_1}{\ECMV_2}}{\ZPlusR{\ECMV_1}{\ZCursor{\ECMV_2}}}{2}
   } \\
 
   \inferrule[AEMPlusParent1]{ }{
-    \ASEMPlusParentL{\ECMV_1}{\ECMV_2}
+    \ASEMParent{\ZPlusL{\ZCursor{\ECMV_1}}{\ECMV_2}}{\ECPlus{\ECMV_1}{\ECMV_2}}
   }
 
   \inferrule[AEMPlusParent2]{ }{
-    \ASEMPlusParentR{\ECMV_1}{\ECMV_2}
+    \ASEMParent{\ZPlusR{\ECMV_1}{\ZCursor{\ECMV_2}}}{\ECPlus{\ECMV_1}{\ECMV_2}}
   }
 \end{mathpar}
 
 \begin{mathpar}
   \inferrule[AEMIfChild1]{ }{
-    \ASEMIfChildC{\ECMV_1}{\ECMV_2}{\ECMV_3}
+    \ASEMChild{\ECIf{\ECMV_1}{\ECMV_2}{\ECMV_3}}{\ZIfC{\ZCursor{\ECMV_1}}{\ECMV_2}{\ECMV_3}}{1}
   }
 
   \inferrule[AEMIfChild2]{ }{
-    \ASEMIfChildL{\ECMV_1}{\ECMV_2}{\ECMV_3}
+    \ASEMChild{\ECIf{\ECMV_1}{\ECMV_2}{\ECMV_3}}{\ZIfL{\ECMV_1}{\ZCursor{\ECMV_2}}{\ECMV_3}}{2}
   }
 
   \inferrule[AEMIfChild3]{ }{
-    \ASEMIfChildR{\ECMV_1}{\ECMV_2}{\ECMV_3}
+    \ASEMChild{\ECIf{\ECMV_1}{\ECMV_2}{\ECMV_3}}{\ZIfR{\ECMV_1}{\ECMV_2}{\ZCursor{\ECMV_3}}}{3}
   } \\
 
   \inferrule[AEMIfParent1]{ }{
-    \ASEMIfParentC{\ECMV_1}{\ECMV_2}{\ECMV_3}
+    \ASEMParent{\ZIfC{\ZCursor{\ECMV_1}}{\ECMV_2}{\ECMV_3}}{\ECIf{\ECMV_1}{\ECMV_2}{\ECMV_3}}
   }
 
   \inferrule[AEMIfParent2]{ }{
-    \ASEMIfParentL{\ECMV_1}{\ECMV_2}{\ECMV_3}
+    \ASEMParent{\ZIfL{\ECMV_1}{\ZCursor{\ECMV_2}}{\ECMV_3}}{\ECIf{\ECMV_1}{\ECMV_2}{\ECMV_3}}
   }
 
   \inferrule[AEMIfParent3]{ }{
-    \ASEMIfParentR{\ECMV_1}{\ECMV_2}{\ECMV_3}
+    \ASEMParent{\ZIfR{\ECMV_1}{\ECMV_2}{\ZCursor{\ECMV_3}}}{\ECIf{\ECMV_1}{\ECMV_2}{\ECMV_3}}
   }
 \end{mathpar}
 
@@ -253,39 +255,39 @@ Type actions are the same as in the untyped model.
   \inferrule[AEMInconsistentTypesChild]{
     \ASEMChild{\ZMV}{\ZMV'}{\MChildNMV}
   }{
-    \ASEMInconTypeChild{\ZMV}{\ZMV'}{\MChildNMV}
+    \ASEMChild{\ZInconType{\ZMV}}{\ZInconType{\ZMV'}}{\MChildNMV}
   }
 
   \inferrule[AEMInconsistentTypesParent]{
     \ASEMParent{\ZMV}{\ZMV'}
   }{
-    \ASEMInconTypeParent{\ZMV}{\ZMV'}
+    \ASEMParent{\ZInconType{\ZMV}}{\ZInconType{\ZMV'}}
   }
 \end{mathpar}
 
 \begin{mathpar}
   \inferrule[AEMInconsistentBranchesChild1]{ }{
-    \ASEMInconBrChildC{\ECMV_1}{\ECMV_2}{\ECMV_3}
+    \ASEMChild{\ECInconBr{\ECMV_1}{\ECMV_2}{\ECMV_3}}{\ZInconBrC{\ZCursor{\ECMV_1}}{\ECMV_2}{\ECMV_3}}{1}
   }
 
   \inferrule[AEMInconsistentBranchesChild2]{ }{
-    \ASEMInconBrChildL{\ECMV_1}{\ECMV_2}{\ECMV_3}
+    \ASEMChild{\ECInconBr{\ECMV_1}{\ECMV_2}{\ECMV_3}}{\ZInconBrL{\ECMV_1}{\ZCursor{\ECMV_2}}{\ECMV_3}}{2}
   }
 
   \inferrule[AEMInconsistentBranchesChild3]{ }{
-    \ASEMInconBrChildR{\ECMV_1}{\ECMV_2}{\ECMV_3}
+    \ASEMChild{\ECInconBr{\ECMV_1}{\ECMV_2}{\ECMV_3}}{\ZInconBrR{\ECMV_1}{\ECMV_2}{\ZCursor{\ECMV_3}}}{3}
   } \\
 
   \inferrule[AEMInconsistentBranchesParent1]{ }{
-    \ASEMInconBrParentC{\ECMV_1}{\ECMV_2}{\ECMV_3}
+    \ASEMParent{\ZInconBrC{\ZCursor{\ECMV_1}}{\ECMV_2}{\ECMV_3}}{\ECInconBr{\ECMV_1}{\ECMV_2}{\ECMV_3}}
   }
 
   \inferrule[AEMInconsistentBranchesParent2]{ }{
-    \ASEMInconBrParentL{\ECMV_1}{\ECMV_2}{\ECMV_3}
+    \ASEMParent{\ZInconBrC{\ECMV_1}{\ZCursor{\ECMV_2}}{\ECMV_3}}{\ECInconBr{\ECMV_1}{\ECMV_2}{\ECMV_3}}
   }
 
   \inferrule[AEMInconsistentBranchesParent3]{ }{
-    \ASEMInconBrParentR{\ECMV_1}{\ECMV_2}{\ECMV_3}
+    \ASEMParent{\ZInconBrC{\ECMV_1}{\ECMV_2}{\ZCursor{\ECMV_3}}}{\ECInconBr{\ECMV_1}{\ECMV_2}{\ECMV_3}}
   }
 \end{mathpar}
 
@@ -313,13 +315,13 @@ Type actions are the same as in the untyped model.
   \inferrule[ASEConVar]{
     \inCtx{\ctx}{x}{\TMV}
   }{
-    \ASEConBoundVar{\ctx}{x}{\TMV}
+    \ASCon{\ctx}{\ZCursor{\ECEHole}}{\TUnknown}{\ZCursor{x}}{\TMV}{\SVar{x}}
   }
 
   \inferrule[ASEConUnbound]{
     \notInCtx{\ctx}{x}
   }{
-    \ASEConUnboundVar{\ctx}{x}
+    \ASCon{\ctx}{\ZCursor{\ECEHole}}{\TUnknown}{\ZCursor{\ZUnbound{x}}}{\TUnknown}{\SVar{x}}
   }
 \end{mathpar}
 
@@ -327,65 +329,65 @@ Type actions are the same as in the untyped model.
   \inferrule[ASEConLam]{
     \ctxSynFixedInto{\extendCtx{\ctx}{x}{\TUnknown}}{\erase{\ECMV}}{\ECMV'}{\TMV'}
   }{
-    \ASEConLam{\ctx}{\ECMV}{\TMV}{\ECMV'}{\TMV'}{x}
+    \ASCon{\ctx}{\ZCursor{\ECMV}}{\TMV}{\ZLamT{x}{\ZTCursor{\TUnknown}}{\ECMV'}}{\TArrow{\TUnknown}{\TMV'}}{\SLam{x}}
   }
 
   \inferrule[ASEConApL1]{
     \matchedArrow{\TMV}{\TMV_1}{\TMV_2}
   }{
-    \ASEConApL{\ctx}{\ECMV}{\TMV}{\ECMV}{\TMV_2}
+    \ASCon{\ctx}{\ZCursor{\ECMV}}{\TMV}{\ZApL{\ECInconType{\ECMV}}{\ZCursor{\ECEHole}}}{\TMV_2}{\SApL}
   }
 
   \inferrule[ASEConApL2]{
     \notMatchedArrow{\TMV}
   }{
-    \ASEConApL{\ctx}{\ECMV}{\TMV}{\ECInconType{\ECMV}}{\TUnknown}
+    \ASCon{\ctx}{\ZCursor{\ECMV}}{\TMV}{\ZApL{\ECInconType{\ECMV}}{\ZCursor{\ECEHole}}}{\TUnknown}{\SApL}
   }
 
   \inferrule[ASEConApR]{ }{
-    \ASEConApR{\ctx}{\ECMV}{\TMV}{\ECMV}{\TUnknown}
+    \ASCon{\ctx}{\ZCursor{\ECMV}}{\TMV}{\ZApR{\ZCursor{\ECEHole}}{\ECMV}}{\TUnknown}{\SApR}
   }
 \end{mathpar}
 
 \begin{mathpar}
   \inferrule[ASEConLet1]{ }{
-    \ASEConLetL{\ctx}{\ECMV}{\TMV}{\ECMV}{x}
+    \ASCon{\ctx}{\ZCursor{\ECMV}}{\TMV}{\ZLetL{x}{\ECMV}{\ZCursor{\ECEHole}}}{\TUnknown}{\SLetL{x}}
   }
 
   \inferrule[ASEConLet2]{
     \ctxSynFixedInto{\extendCtx{\ctx}{x}{\TUnknown}}{\erase{\ECMV}}{\ECMV'}{\TMV'}
   }{
-    \ASEConLetR{\ctx}{\ECMV}{\TMV}{\ECMV'}{\TMV'}{x}
+    \ASCon{\ctx}{\ZCursor{\ECMV}}{\TMV}{\ZLetR{x}{\ZCursor{\ECEHole}}{\ECMV'}}{\TMV'}{\SLetL{x}}
   }
 \end{mathpar}
 
 \begin{mathpar}
   \inferrule[ASEConNum]{ }{
-    \ASEConNum{\ctx}{\ENumMV}
+    \ASCon{\ctx}{\ZCursor{\ECEHole}}{\TUnknown}{\ZCursor{\ENumMV}}{\TNum}{\SLit{\ENumMV}}
   }
 
   \inferrule[ASEConPlusL1]{
     \consistent{\TMV}{\TNum}
   }{
-    \ASEConPlusL{\ctx}{\ECMV}{\TMV}{\ECMV}
+    \ASCon{\ctx}{\ZCursor{\ECMV}}{\TMV}{\ZPlusR{\ECMV}{\ZCursor{\ECEHole}}}{\TNum}{\SPlusL}
   }
 
   \inferrule[ASEConPlusL2]{
     \inconsistent{\TMV}{\TNum}
   }{
-    \ASEConPlusL{\ctx}{\ECMV}{\TMV}{\ECInconType{\ECMV}}
+    \ASCon{\ctx}{\ZCursor{\ECMV}}{\TMV}{\ZPlusR{\ECInconType{\ECMV}}{\ZCursor{\ECEHole}}}{\TNum}{\SPlusL}
   } \\
 
   \inferrule[ASEConPlusR1]{
     \consistent{\TMV}{\TNum}
   }{
-    \ASEConPlusR{\ctx}{\ECMV}{\TMV}{\ECMV}
+    \ASCon{\ctx}{\ZCursor{\ECMV}}{\TMV}{\ZPlusL{\ZCursor{\ECEHole}}{\ECMV}}{\TNum}{\SPlusR}
   }
 
   \inferrule[ASEConPlusR2]{
     \inconsistent{\TMV}{\TNum}
   }{
-    \ASEConPlusR{\ctx}{\ECMV}{\TMV}{\ECInconType{\ECMV}}
+    \ASCon{\ctx}{\ZCursor{\ECMV}}{\TMV}{\ZPlusL{\ZCursor{\ECEHole}}{\ECInconType{\ECMV}}}{\TNum}{\SPlusR}
   }
 \end{mathpar}
 
@@ -393,21 +395,21 @@ Type actions are the same as in the untyped model.
   \inferrule[ASEConIfC1]{
     \consistent{\TMV}{\TBool}
   }{
-    \ASEConIfC{\ctx}{\ECMV}{\TMV}{\ECMV}
+    \ASCon{\ctx}{\ZCursor{\ECMV}}{\TMV}{\ZIfL{\ECMV}{\ZCursor{\ECEHole}}{\ECEHole}}{\TUnknown}{\SIfC}
   }
 
   \inferrule[ASEConIfC2]{
     \inconsistent{\TMV}{\TBool}
   }{
-    \ASEConIfC{\ctx}{\ECMV}{\TMV}{\ECInconType{\ECMV}}
+    \ASCon{\ctx}{\ZCursor{\ECMV}}{\TMV}{\ZIfL{\ECInconType{\ECMV}}{\ZCursor{\ECEHole}}{\ECEHole}}{\TUnknown}{\SIfC}
   }
 
   \inferrule[ASEConIfL]{ }{
-    \ASEConIfL{\ctx}{\ECMV}{\TMV}{\ECMV}{\TMV}
+    \ASCon{\ctx}{\ZCursor{\ECMV}}{\TMV}{\ZIfC{\ZCursor{\ECEHole}}{\ECMV}{\ECEHole}}{\TMV}{\SIfL}
   }
 
   \inferrule[ASEConIfR]{ }{
-    \ASEConIfR{\ctx}{\ECMV}{\TMV}{\ECMV}{\TMV}
+    \ASCon{\ctx}{\ZCursor{\ECMV}}{\TMV}{\ZIfC{\ZCursor{\ECEHole}}{\ECEHole}{\ECMV}}{\TMV}{\SIfR}
   }
 \end{mathpar}
 
