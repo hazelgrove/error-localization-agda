@@ -1,5 +1,7 @@
 \hbadness=99999
 
+\usepackage{silence}
+
 \usepackage{iftex}
 \ifPDFTeX
   \usepackage{libertinust1math}
@@ -19,7 +21,8 @@
 \usepackage{mathtools}
 \usepackage{mathpartir}
 \usepackage{stmaryrd}
-\SetSymbolFont{stmry}{bold}{U}{stmry}{m}{n}
+\WarningFilter{latexfont}{Font shape `U/stmry/b/n' undefined}
+\WarningFilter{latexfont}{Some font shapes were not available}
 
 \usepackage{bm}
 \usepackage{relsize}
