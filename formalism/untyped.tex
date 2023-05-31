@@ -67,105 +67,105 @@
 \judgbox{\ensuremath{\tshape{\SMV}}} $\SMV$ is a shape on types
 %
 \begin{mathpar}
-  \judgment{ }{
+  \inferrule[ASortArrow1]{ }{
     \tshape{\STArrowL}
-  }{ASortArrow1}
+  }
 
-  \judgment{ }{
+  \inferrule[ASortArrow2]{ }{
     \tshape{\STArrowR}
-  }{ASortArrow2}
+  }
 
-  \judgment{ }{
+  \inferrule[ASortProd1]{ }{
     \tshape{\STProdL}
-  }{ASortProd1}
+  }
 
-  \judgment{ }{
+  \inferrule[ASortProd2]{ }{
     \tshape{\STProdR}
-  }{ASortProd2}
+  }
 
-  \judgment{ }{
+  \inferrule[ASortNum]{ }{
     \tshape{\STNum}
-  }{ASortNum}
+  }
 
-  \judgment{ }{
+  \inferrule[ASortBool]{ }{
     \tshape{\STBool}
-  }{ASortBool}
+  }
 \end{mathpar}
 
 \judgbox{\ensuremath{\eshape{\SMV}}} $\SMV$ is a shape on expressions
 %
 \begin{mathpar}
-  \judgment{ }{
+  \inferrule[ASortVar]{ }{
     \eshape{\SVar{x}}
-  }{ASortVar}
+  }
 
-  \judgment{ }{
+  \inferrule[ASortLam]{ }{
     \eshape{\SLam{x}}
-  }{ASortLam}
+  }
 
-  \judgment{ }{
+  \inferrule[ASortAp1]{ }{
     \eshape{\SApL}
-  }{ASortAp1}
+  }
 
-  \judgment{ }{
+  \inferrule[ASortAp2]{ }{
     \eshape{\SApR}
-  }{ASortAp2}
+  }
 
-  \judgment{ }{
+  \inferrule[ASortLet1]{ }{
     \eshape{\SLetL{x}}
-  }{ASortLet1}
+  }
 
-  \judgment{ }{
+  \inferrule[ASortLet2]{ }{
     \eshape{\SLetR{x}}
-  }{ASortLet2}
+  }
 
-  \judgment{ }{
+  \inferrule[ASortLit]{ }{
     \eshape{\SLit{n}}
-  }{ASortLit}
+  }
 
-  \judgment{ }{
+  \inferrule[ASortPlus1]{ }{
     \eshape{\SPlusL}
-  }{ASortPlus1}
+  }
 
-  \judgment{ }{
+  \inferrule[ASortPlus2]{ }{
     \eshape{\SPlusR}
-  }{ASortPlus2}
+  }
 
-  \judgment{ }{
+  \inferrule[ASortTrue]{ }{
     \eshape{\STrue}
-  }{ASortTrue}
+  }
 
-  \judgment{ }{
+  \inferrule[ASortFalse]{ }{
     \eshape{\SFalse}
-  }{ASortFalse}
+  }
 
-  \judgment{ }{
+  \inferrule[ASortIf1]{ }{
     \eshape{\SIfC}
-  }{ASortIf1}
+  }
 
-  \judgment{ }{
+  \inferrule[ASortIf2]{ }{
     \eshape{\SIfL}
-  }{ASortIf2}
+  }
 
-  \judgment{ }{
+  \inferrule[ASortIf3]{ }{
     \eshape{\SIfR}
-  }{ASortIf3}
+  }
 
-  \judgment{ }{
+  \inferrule[ASortPairL]{ }{
     \eshape{\SPairL}
-  }{ASortPairL}
+  }
 
-  \judgment{ }{
+  \inferrule[ASortPairR]{ }{
     \eshape{\SPairR}
-  }{ASortPairR}
+  }
 
-  \judgment{ }{
+  \inferrule[ASortProjL]{ }{
     \eshape{\SProjL}
-  }{ASortProjL}
+  }
 
-  \judgment{ }{
+  \inferrule[ASortProjR]{ }{
     \eshape{\SProjR}
-  }{ASortProjR}
+  }
 \end{mathpar}
 
 \subsubsection{Type Actions}
@@ -173,223 +173,223 @@
 
 \paragraph{Movement}
 \begin{mathpar}
-  \judgment{ }{
+  \inferrule[ATMArrChild1]{ }{
     \AUTMArrowChildL{\TMV_1}{\TMV_2}
-  }{ATMArrChild1}
+  }
 
-  \judgment{ }{
+  \inferrule[ATMArrChild2]{ }{
     \AUTMArrowChildR{\TMV_1}{\TMV_2}
-  }{ATMArrChild2}
+  }
 
-  \judgment{ }{
+  \inferrule[ATMArrParent1]{ }{
     \AUTMArrowParentL{\TMV_1}{\TMV_2}
-  }{ATMArrParent1}
+  }
 
-  \judgment{ }{
+  \inferrule[ATMArrParent2]{ }{
     \AUTMArrowParentR{\TMV_1}{\TMV_2}
-  }{ATMArrParent2}
+  }
 
-  \judgment{ }{
+  \inferrule[ATMProdChild1]{ }{
     \AUTMProdChildL{\TMV_1}{\TMV_2}
-  }{ATMProdChild1}
+  }
 
-  \judgment{ }{
+  \inferrule[ATMProdChild2]{ }{
     \AUTMProdChildR{\TMV_1}{\TMV_2}
-  }{ATMProdChild2}
+  }
 
-  \judgment{ }{
+  \inferrule[ATMProdParent1]{ }{
     \AUTMProdParentL{\TMV_1}{\TMV_2}
-  }{ATMProdParent1}
+  }
 
-  \judgment{ }{
+  \inferrule[ATMProdParent2]{ }{
     \AUTMProdParentR{\TMV_1}{\TMV_2}
-  }{ATMProdParent2}
+  }
 \end{mathpar}
 
 \paragraph{Deletion}
 \begin{mathpar}
-  \judgment{ }{
+  \inferrule[ATDel]{ }{
     \AUTDel{\TMV}
-  }{ATDel}
+  }
 \end{mathpar}
 
 \paragraph{Construction}
 \begin{mathpar}
-  \judgment{ }{
+  \inferrule[ATConArrow1]{ }{
     \AUTConArrowL{\TMV}
-  }{ATConArrow1}
+  }
 
-  \judgment{ }{
+  \inferrule[ATConArrow2]{ }{
     \AUTConArrowR{\TMV}
-  }{ATConArrow2}
+  }
 
-  \judgment{ }{
+  \inferrule[ATConProd1]{ }{
     \AUTConProdL{\TMV}
-  }{ATConProd1}
+  }
 
-  \judgment{ }{
+  \inferrule[ATConProd2]{ }{
     \AUTConProdR{\TMV}
-  }{ATConProd2}
+  }
 
-  \judgment{ }{
+  \inferrule[ATConNum]{ }{
     \AUTConNum
-  }{ATConNum}
+  }
 
-  \judgment{ }{
+  \inferrule[ATConBool]{ }{
     \AUTConBool
-  }{ATConBool}
+  }
 \end{mathpar}
 
 \paragraph{Zipper Cases}
 \begin{mathpar}
-  \judgment{
+  \inferrule[ATZipArr1]{
     \AUTAction{\ZTMV}{\ZTMV'}{\AMV}
   }{
     \AUTAction{\ZTArrowL{\ZTMV}{\TMV}}{\ZTArrowL{\ZTMV'}{\TMV}}{\AMV}
-  }{ATZipArr1}
+  }
 
-  \judgment{
+  \inferrule[ATZipArr2]{
     \AUTAction{\ZTMV}{\ZTMV'}{\AMV}
   }{
     \AUTAction{\ZTArrowR{\TMV}{\ZTMV}}{\ZTArrowR{\TMV}{\ZTMV'}}{\AMV}
-  }{ATZipArr2}
+  }
 
-  \judgment{
+  \inferrule[ATZipProd1]{
     \AUTAction{\ZTMV}{\ZTMV'}{\AMV}
   }{
     \AUTAction{\ZTProdL{\ZTMV}{\TMV}}{\ZTProdL{\ZTMV'}{\TMV}}{\AMV}
-  }{ATZipProd1}
+  }
 
-  \judgment{
+  \inferrule[ATZipProd2]{
     \AUTAction{\ZTMV}{\ZTMV'}{\AMV}
   }{
     \AUTAction{\ZTProdR{\TMV}{\ZTMV}}{\ZTProdR{\TMV}{\ZTMV'}}{\AMV}
-  }{ATZipProd2}
+  }
 \end{mathpar}
 
 \subsubsection{Expression Movement}
 \judgbox{\ensuremath{\AUEMove{\ZMV}{\ZMV'}{\MMV}}}
 %
 \begin{mathpar}
-  \judgment{ }{
+  \inferrule[AEMLamChild1]{ }{
     \AUEMLamChildT{x}{\TMV}{\EMV}
-  }{AEMLamChild1}
+  }
 
-  \judgment{ }{
+  \inferrule[AEMLamChild2]{ }{
     \AUEMLamChildE{x}{\TMV}{\EMV}
-  }{AEMLamChild2} \\
+  } \\
 
-  \judgment{ }{
+  \inferrule[AEMLamParent1]{ }{
     \AUEMLamParentT{x}{\TMV}{\EMV}
-  }{AEMLamParent1}
+  }
 
-  \judgment{ }{
+  \inferrule[AEMLamParent2]{ }{
     \AUEMLamParentE{x}{\TMV}{\EMV}
-  }{AEMLamParent2} \\
+  } \\
 
-  \judgment{ }{
+  \inferrule[AEMApChild1]{ }{
     \AUEMApChildL{\EMV_1}{\EMV_2}
-  }{AEMApChild1}
+  }
 
-  \judgment{ }{
+  \inferrule[AEMApChild2]{ }{
     \AUEMApChildR{\EMV_1}{\EMV_2}
-  }{AEMApChild2} \\
+  } \\
 
-  \judgment{ }{
+  \inferrule[AEMApParent1]{ }{
     \AUEMApParentL{\EMV_1}{\EMV_2}
-  }{AEMApParent1}
+  }
 
-  \judgment{ }{
+  \inferrule[AEMApParent2]{ }{
     \AUEMApParentR{\EMV_1}{\EMV_2}
-  }{AEMApParent2} \\
+  } \\
 
-  \judgment{ }{
+  \inferrule[AEMLetChild1]{ }{
     \AUEMLetChildL{x}{\EMV_1}{\EMV_2}
-  }{AEMLetChild1}
+  }
 
-  \judgment{ }{
+  \inferrule[AEMLetChild2]{ }{
     \AUEMLetChildR{x}{\EMV_1}{\EMV_2}
-  }{AEMLetChild2} \\
+  } \\
 
-  \judgment{ }{
+  \inferrule[AEMLetParent1]{ }{
     \AUEMLetParentL{x}{\EMV_1}{\EMV_2}
-  }{AEMLetParent1}
+  }
 
-  \judgment{ }{
+  \inferrule[AEMLetParent2]{ }{
     \AUEMLetParentR{x}{\EMV_1}{\EMV_2}
-  }{AEMLetParent2} \\
+  } \\
 
-  \judgment{ }{
+  \inferrule[AEMPlusChild1]{ }{
     \AUEMPlusChildL{\EMV_1}{\EMV_2}
-  }{AEMPlusChild1}
+  }
 
-  \judgment{ }{
+  \inferrule[AEMPlusChild2]{ }{
     \AUEMPlusChildR{\EMV_1}{\EMV_2}
-  }{AEMPlusChild2} \\
+  } \\
 
-  \judgment{ }{
+  \inferrule[AEMPlusParent1]{ }{
     \AUEMPlusParentL{\EMV_1}{\EMV_2}
-  }{AEMPlusParent1}
+  }
 
-  \judgment{ }{
+  \inferrule[AEMPlusParent2]{ }{
     \AUEMPlusParentR{\EMV_1}{\EMV_2}
-  }{AEMPlusParent2} \\
+  } \\
 
-  \judgment{ }{
+  \inferrule[AEMIfChild1]{ }{
     \AUEMIfChildC{\EMV_1}{\EMV_2}{\EMV_3}
-  }{AEMIfChild1}
+  }
 
-  \judgment{ }{
+  \inferrule[AEMIfChild2]{ }{
     \AUEMIfChildL{\EMV_1}{\EMV_2}{\EMV_3}
-  }{AEMIfChild2}
+  }
 
-  \judgment{ }{
+  \inferrule[AEMIfChild3]{ }{
     \AUEMIfChildR{\EMV_1}{\EMV_2}{\EMV_3}
-  }{AEMIfChild3}
+  }
 
-  \judgment{ }{
+  \inferrule[AEMIfParent1]{ }{
     \AUEMIfParentC{\EMV_1}{\EMV_2}{\EMV_3}
-  }{AEMIfParent1}
+  }
 
-  \judgment{ }{
+  \inferrule[AEMIfParent2]{ }{
     \AUEMIfParentL{\EMV_1}{\EMV_2}{\EMV_3}
-  }{AEMIfParent2}
+  }
 
-  \judgment{ }{
+  \inferrule[AEMIfParent3]{ }{
     \AUEMIfParentR{\EMV_1}{\EMV_2}{\EMV_3}
-  }{AEMIfParent3} \\
+  } \\
 
-  \judgment{ }{
+  \inferrule[AEMPairChild1]{ }{
     \AUEMPairChildL{\EMV_1}{\EMV_2}
-  }{AEMPairChild1}
+  }
 
-  \judgment{ }{
+  \inferrule[AEMPairChild2]{ }{
     \AUEMPairChildR{\EMV_1}{\EMV_2}
-  }{AEMPairChild2} \\
+  } \\
 
-  \judgment{ }{
+  \inferrule[AEMPairParent1]{ }{
     \AUEMPairParentL{\EMV_1}{\EMV_2}
-  }{AEMPairParent1}
+  }
 
-  \judgment{ }{
+  \inferrule[AEMPairParent2]{ }{
     \AUEMPairParentR{\EMV_1}{\EMV_2}
-  }{AEMPairParent2}
+  }
 
-  \judgment{ }{
+  \inferrule[AEMProjLChild]{ }{
     \AUEMProjLChild{\EMV_1}
-  }{AEMProjLChild}
+  }
 
-  \judgment{ }{
+  \inferrule[AEMProjLParent]{ }{
     \AUEMProjLParent{\EMV_1}
-  }{AEMProjLParent}
+  }
 
-  \judgment{ }{
+  \inferrule[AEMProjRChild]{ }{
     \AUEMProjRChild{\EMV_1}
-  }{AEMProjRChild}
+  }
 
-  \judgment{ }{
+  \inferrule[AEMProjRParent]{ }{
     \AUEMProjRParent{\EMV_1}
-  }{AEMProjRParent}
+  }
 \end{mathpar}
 
 \subsubsection{Expression Actions}
@@ -397,231 +397,231 @@
 
 \paragraph{Movement}
 \begin{mathpar}
-  \judgment{
+  \inferrule[AEMove]{
     \AUEMove{\ZMV}{\ZMV'}{\MMV}
   }{
     \AUEMove{\ZMV}{\ZMV'}{\MMV}
-  }{AEMove}
+  }
 \end{mathpar}
 
 \paragraph{Deletion}
 \begin{mathpar}
-  \judgment{ }{
+  \inferrule[AEDel]{ }{
     \AUEDel{\EMV}
-  }{AEDel}
+  }
 \end{mathpar}
 
 \paragraph{Construction}
 \begin{mathpar}
-  \judgment{ }{
+  \inferrule[AEConVar]{ }{
     \AUEConVar{x}
-  }{AEConVar} \\
+  } \\
 
-  \judgment{ }{
+  \inferrule[AEConLam]{ }{
     \AUEConLam{x}{\EMV}
-  }{AEConLam} \\
+  } \\
 
-  \judgment{ }{
+  \inferrule[AEConAp1]{ }{
     \AUEConApL{\EMV}
-  }{AEConAp1}
+  }
 
-  \judgment{ }{
+  \inferrule[AEConAp2]{ }{
     \AUEConApR{\EMV}
-  }{AEConAp2} \\
+  } \\
 
-  \judgment{ }{
+  \inferrule[AEConLet1]{ }{
     \AUEConLetL{x}{\EMV}
-  }{AEConLet1}
+  }
 
-  \judgment{ }{
+  \inferrule[AEConLet2]{ }{
     \AUEConLetR{x}{\EMV}
-  }{AEConLet2} \\
+  } \\
 
-  \judgment{ }{
+  \inferrule[AEConNum]{ }{
     \AUEConNum{\ENumMV}
-  }{AEConNum}
+  }
 
-  \judgment{ }{
+  \inferrule[AEConPlus1]{ }{
     \AUEConPlusL{\EMV}
-  }{AEConPlus1}
+  }
 
-  \judgment{ }{
+  \inferrule[AEConPlus2]{ }{
     \AUEConPlusR{\EMV}
-  }{AEConPlus2} \\
+  } \\
 
-  \judgment{ }{
+  \inferrule[AEConTrue]{ }{
     \AUEConTrue
-  }{AEConTrue}
+  }
 
-  \judgment{ }{
+  \inferrule[AEConFalse]{ }{
     \AUEConFalse
-  }{AEConFalse} \\
+  } \\
   
-  \judgment{ }{
+  \inferrule[AEConIf1]{ }{
     \AUEConIfC{\EMV}
-  }{AEConIf1}
+  }
   
-  \judgment{ }{
+  \inferrule[AEConIf2]{ }{
     \AUEConIfL{\EMV}
-  }{AEConIf2}
+  }
   
-  \judgment{ }{
+  \inferrule[AEConIf3]{ }{
     \AUEConIfR{\EMV}
-  }{AEConIf3} \\
+  } \\
 
-  \judgment{ }{
+  \inferrule[AEConPair1]{ }{
     \AUEConPairL{\EMV}
-  }{AEConPair1}
+  }
 
-  \judgment{ }{
+  \inferrule[AEConPair2]{ }{
     \AUEConPairR{\EMV}
-  }{AEConPair2} \\
+  } \\
 
-  \judgment{ }{
+  \inferrule[AEConProjL]{ }{
     \AUEConProjL{\EMV}
-  }{AEConProjL}
+  }
 
-  \judgment{ }{
+  \inferrule[AEConProjR]{ }{
     \AUEConProjR{\EMV}
-  }{AEConProjR}
+  }
 \end{mathpar}
 
 \paragraph{Zipper Cases}
 \begin{mathpar}
-  \judgment{
+  \inferrule[AEZipLam1]{
     \AUTAction{\ZTMV}{\ZTMV'}{\AMV}
   }{
     \AUEAction{\ZLamT{x}{\ZTMV}{\EMV}}{\ZLamT{x}{\ZTMV'}{\EMV}}{\AMV}
-  }{AEZipLam1}
+  }
 
-  \judgment{
+  \inferrule[AEZipLam2]{
     \AUEAction{\ZMV}{\ZMV'}{\AMV}
   }{
     \AUEAction{\ZLamE{x}{\TMV}{\ZMV}}{\ZLamE{x}{\TMV}{\ZMV'}}{\AMV}
-  }{AEZipLam2} \\
+  } \\
 
-  \judgment{
+  \inferrule[AEZipAp1]{
     \AUEAction{\ZMV}{\ZMV'}{\AMV}
   }{
     \AUEAction{\ZApL{\ZMV}{\EMV}}{\ZApL{\ZMV'}{\EMV}}{\AMV}
-  }{AEZipAp1}
+  }
 
-  \judgment{
+  \inferrule[AEZipAp2]{
     \AUEAction{\ZMV}{\ZMV'}{\AMV}
   }{
     \AUEAction{\ZApR{\EMV}{\ZMV}}{\ZApR{\EMV}{\ZMV'}}{\AMV}
-  }{AEZipAp2} \\
+  } \\
 
-  \judgment{
+  \inferrule[AEZipLet1]{
     \AUTAction{\ZMV}{\ZMV'}{\AMV}
   }{
     \AUEAction{\ZLetL{x}{\ZMV}{\EMV}}{\ZLetL{x}{\ZMV'}{\EMV}}{\AMV}
-  }{AEZipLet1}
+  }
 
-  \judgment{
+  \inferrule[AEZipLet2]{
     \AUEAction{\ZMV}{\ZMV'}{\AMV}
   }{
     \AUEAction{\ZLetR{x}{\EMV}{\ZMV}}{\ZLetR{x}{\EMV}{\ZMV'}}{\AMV}
-  }{AEZipLet2} \\
+  } \\
 
-  \judgment{
+  \inferrule[AEZipPlus1]{
     \AUEAction{\ZMV}{\ZMV'}{\AMV}
   }{
     \AUEAction{\ZPlusL{\ZMV}{\EMV}}{\ZPlusL{\ZMV'}{\EMV}}{\AMV}
-  }{AEZipPlus1}
+  }
 
-  \judgment{
+  \inferrule[AEZipPlus2]{
     \AUEAction{\ZMV}{\ZMV'}{\AMV}
   }{
     \AUEAction{\ZPlusR{\EMV}{\ZMV}}{\ZPlusR{\EMV}{\ZMV'}}{\AMV}
-  }{AEZipPlus2} \\
+  } \\
 
-  \judgment{
+  \inferrule[AEZipIf1]{
     \AUEAction{\ZMV}{\ZMV'}{\AMV}
   }{
     \AUEAction{\ZIfC{\ZMV}{\EMV_1}{\EMV_2}}{\ZIfC{\ZMV'}{\EMV_1}{\EMV_2}}{\AMV}
-  }{AEZipIf1}
+  }
 
-  \judgment{
+  \inferrule[AEZipIf2]{
     \AUEAction{\ZMV}{\ZMV'}{\AMV}
   }{
     \AUEAction{\ZIfL{\EMV_1}{\ZMV}{\EMV_2}}{\ZIfL{\EMV_1}{\ZMV'}{\EMV_2}}{\AMV}
-  }{AEZipIf2}
+  }
 
-  \judgment{
+  \inferrule[AEZipIf3]{
     \AUEAction{\ZMV}{\ZMV'}{\AMV}
   }{
     \AUEAction{\ZIfR{\EMV_1}{\EMV_2}{\ZMV}}{\ZIfR{\EMV_1}{\EMV_2}{\ZMV'}}{\AMV}
-  }{AEZipIf3} \\
+  } \\
 
-  \judgment{
+  \inferrule[AEZipPair1]{
     \AUEAction{\ZMV}{\ZMV'}{\AMV}
   }{
     \AUEAction{\ZPairL{\ZMV}{\EMV}}{\ZPairL{\ZMV'}{\EMV}}{\AMV}
-  }{AEZipPair1}
+  }
 
-  \judgment{
+  \inferrule[AEZipPair2]{
     \AUEAction{\ZMV}{\ZMV'}{\AMV}
   }{
     \AUEAction{\ZPairR{\EMV}{\ZMV}}{\ZPairR{\EMV}{\ZMV'}}{\AMV}
-  }{AEZipPair2} \\
+  } \\
 
-  \judgment{
+  \inferrule[AEZipProjL]{
     \AUEAction{\ZMV}{\ZMV'}{\AMV}
   }{
     \AUEAction{\ZProjL{\ZMV}{\EMV}}{\ZProjL{\ZMV'}{\EMV}}{\AMV}
-  }{AEZipProjL}
+  }
 
-  \judgment{
+  \inferrule[AEZipProjR]{
     \AUEAction{\ZMV}{\ZMV'}{\AMV}
   }{
     \AUEAction{\ZProjR{\EMV}{\ZMV}}{\ZProjR{\EMV}{\ZMV'}}{\AMV}
-  }{AEZipProjR}
+  }
 \end{mathpar}
 
 \subsubsection{Iterated Actions}
 \judgbox{\ensuremath{\AUTActionIter{\ZTMV}{\ZTMV'}{\AIMV}}}
 %
 \begin{mathpar}
-  \judgment{ }{
+  \inferrule[ATIRefl]{ }{
     \AUTActionIter{\ZTMV}{\ZTMV}{\AINil}
-  }{ATIRefl}
+  }
 
-  \judgment{
+  \inferrule[ATITyp]{
     \AUTAction{\ZTMV}{\ZTMV'}{\AMV} \\
     \AUTActionIter{\ZTMV'}{\ZTMV''}{\AIMV}
   }{
     \AUTActionIter{\ZTMV}{\ZTMV''}{\AICons{\AMV}{\AIMV}}
-  }{ATITyp}
+  }
 \end{mathpar}
 
 \judgbox{\ensuremath{\AUEActionIter{\ZMV}{\ZMV'}{\AIMV}}}
 %
 \begin{mathpar}
-  \judgment{ }{
+  \inferrule[AEIRefl]{ }{
     \AUEActionIter{\ZMV}{\ZMV}{\AINil}
-  }{AEIRefl}
+  }
 
-  \judgment{
+  \inferrule[AEIExp]{
     \AUEAction{\ZMV}{\ZMV'}{\AMV} \\
     \AUEActionIter{\ZMV'}{\ZMV''}{\AIMV}
   }{
     \AUEActionIter{\ZMV}{\ZMV''}{\AICons{\AMV}{\AIMV}}
-  }{AEIExp}
+  }
 \end{mathpar}
 
 \judgbox{\ensuremath{\movements{\AIMV}}}
 %
 \begin{mathpar}
-  \judgment{ }{
+  \inferrule[AMINil]{ }{
     \movements{\AINil}
-  }{AMINil}
+  }
 
-  \judgment{
+  \inferrule[AMICons]{
     \movements{\AIMV}
   }{
     \movements{\AICons{\AMove{\MMV}}{\AIMV}}
-  }{AMICons}
+  }
 \end{mathpar}
 
 \subsubsection{Metatheorems}

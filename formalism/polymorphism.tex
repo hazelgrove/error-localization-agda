@@ -11,43 +11,43 @@
 \judgbox{\ensuremath{\tvarCtxWF{\tvarCtx}{\TMV}}} $\TMV$ is well-formed
 %
 \begin{mathpar}
-  \judgment{ }{
+  \inferrule[TWFUnknown]{ }{
     \tvarCtxWF{\tvarCtx}{\TUnknown}
-  }{TWFUnknown}
+  }
 
-  \judgment{ }{
+  \inferrule[TWFNum]{ }{
     \tvarCtxWF{\tvarCtx}{\TNum}
-  }{TWFNum}
+  }
 
-  \judgment{ }{
+  \inferrule[TWFBool]{ }{
     \tvarCtxWF{\tvarCtx}{\TBool}
-  }{TWFBool}
+  }
 
-  \judgment{
+  \inferrule[TWFArr]{
     \tvarCtxWF{\tvarCtx}{\TMV_1} \\
     \tvarCtxWF{\tvarCtx}{\TMV_2}
   }{
     \tvarCtxWF{\tvarCtx}{\TArrow{\TMV_1}{\TMV_2}}
-  }{TWFArr}
+  }
 
-  \judgment{
+  \inferrule[TWFProd]{
     \tvarCtxWF{\tvarCtx}{\TMV_1} \\
     \tvarCtxWF{\tvarCtx}{\TMV_2}
   }{
     \tvarCtxWF{\tvarCtx}{\TProd{\TMV_1}{\TMV_2}}
-  }{TWFProd}
+  }
 
-  \judgment{
+  \inferrule[TWFVar]{
     \inTvarCtx{\tvarCtx}{\TVarMV}
   }{
     \tvarCtxWF{\tvarCtx}{\TVarMV}
-  }{TWFVar}
+  }
 
-  \judgment{
+  \inferrule[TWFForall]{
     \tvarCtxWF{\extendTvarCtx{\tvarCtx}{\TVarMV}}{\TMV}
   }{
     \tvarCtxWF{\tvarCtx}{\TForall{\TVarMV}{\TMV}}
-  }{TWFForall}
+  }
 \end{mathpar}
 
 \judgbox{\ensuremath{\tvarCtxConsistent{\tvarCtx}{\TMV_1}{\TMV_2}}} $\TMV_1$ and $\TMV_2$ are consistent
@@ -55,17 +55,17 @@
 \begin{mathpar}
   \cdots
 
-  \judgment{
+  \inferrule[TCVar]{
     \inTvarCtx{\tvarCtx}{\TVarMV}
   }{
     \tvarCtxConsistent{\tvarCtx}{\TVarMV}{\TVarMV}
-  }{TCVar}
+  }
 
-  \judgment{
+  \inferrule[TCForall]{
     \tvarCtxConsistent{\extendTvarCtx{\tvarCtx}{\TVarMV}}{\TMV}{\TMV'}
   }{
     \tvarCtxConsistent{\tvarCtx}{\TForall{\TVarMV}{\TMV}}{\TForall{\TVarMV}{\TMV'}}
-  }{TCForall}
+  }
 \end{mathpar}
 
 \subsubsection{Unmarked Expressions}
@@ -74,19 +74,19 @@
 \begin{mathpar}
   \cdots
 
-  \judgment{
+  \inferrule[USTypeLam]{
     \bothCtxSynTypeU{\extendTvarCtx{\tvarCtx}{\TVarMV}}{\ctx}{\EMV}{\TMV}
   }{
     \bothCtxSynTypeU{\tvarCtx}{\ctx}{\ETypeLam{\TVarMV}{\EMV}}{\TForall{\TVarMV}{\TMV}}
-  }{USTypeLam}
+  }
 
-  \judgment{
+  \inferrule[USTypeAp]{
     \bothCtxSynTypeU{\tvarCtx}{\ctx}{\EMV}{\TMV} \\
     \tvarCtxWF{\tvarCtx}{\TMV_2} \\
     \matchedForall{\TMV}{\TVarMV}{\TMV_1}
   }{
     \bothCtxSynTypeU{\tvarCtx}{\ctx}{\ETypeAp{\EMV}{\TMV_2}}{\subst{\TMV_1}{\TMV_2}{\TVarMV}}
-  }{USTypeAp}
+  }
 \end{mathpar}
 
 \judgbox{\ensuremath{\bothCtxAnaTypeU{\tvarCtx}{\ctx}{\EMV}{\TMV}}} $\EMV$ analyzes against type $\TMV$
@@ -94,12 +94,12 @@
 \begin{mathpar}
   \cdots
 
-  \judgment{
+  \inferrule[UATypeLam]{
     \matchedForall{\TMV}{\TVarMV}{\TMV'} \\
     \bothCtxAnaTypeU{\extendTvarCtx{\tvarCtx}{\TVarMV}}{\ctx}{\EMV}{\TMV'}
   }{
     \bothCtxAnaTypeU{\tvarCtx}{\ctx}{\ETypeLam{\TVarMV}{\EMV}}{\TMV}
-  }{UATypeLam}
+  }
 \end{mathpar}
 
 \judgbox{\ensuremath{\subsumable{\EMV}}} $\EMV$ is subsumable
@@ -107,7 +107,7 @@
 \begin{mathpar}
   \cdots
 
-  \judgment{ }{
+  \inferrule[USuTypeAp]{ }{
     \subsumable{\ETypeAp{\EMV}{\TMV}}
-  }{USuTypeAp}
+  }
 \end{mathpar}
