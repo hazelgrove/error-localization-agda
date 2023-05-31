@@ -1331,7 +1331,7 @@ first. \\
   }{TCVar}
 
   \judgment{
-    \tvarCtxConsistent{\tvarCtx}{\TMV}{\TMV'}
+    \tvarCtxConsistent{\extendTvarCtx{\tvarCtx}{\TVarMV}}{\TMV}{\TMV'}
   }{
     \tvarCtxConsistent{\tvarCtx}{\TForall{\TVarMV}{\TMV}}{\TForall{\TVarMV}{\TMV'}}
   }{TCForall}
