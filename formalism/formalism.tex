@@ -1272,12 +1272,12 @@ first. \\
 \subsubsection{Syntax}
 \[\begin{array}{rrcl}
   \TMName  & \TMV  & \Coloneqq & \cdots \mid \TVarMV \mid \TForall{\TVarMV}{\TMV} \\
-  \EMName  & \EMV  & \Coloneqq & \cdots \mid \ETypLam{\TVarMV}{\EMV} \mid \ETypAp{\EMV}{\TMV} \\
-  \ECMName & \ECMV & \Coloneqq & \cdots \mid \ECTypLam{\TVarMV}{\ECMV} \mid \ECTypAp{\ECMV}{\TMV}
+  \EMName  & \EMV  & \Coloneqq & \cdots \mid \ETypeLam{\TVarMV}{\EMV} \mid \ETypeAp{\EMV}{\TMV} \\
+  \ECMName & \ECMV & \Coloneqq & \cdots \mid \ECTypeLam{\TVarMV}{\ECMV} \mid \ECTypeAp{\ECMV}{\TMV}
 \end{array}\]
 
 \subsubsection{Types}
-\judgbox{\ensuremath{\tvarCtxWF{\tvarCtx}{\TMV}}} $\TMV$ is well-formed under context $\tvarCtx$
+\judgbox{\ensuremath{\tvarCtxWF{\tvarCtx}{\TMV}}} $\TMV$ is well-formed
 %
 \begin{mathpar}
   \judgment{ }{
@@ -1319,7 +1319,7 @@ first. \\
   }{TWFForall}
 \end{mathpar}
 
-\judgbox{\ensuremath{\tvarCtxConsistent{\tvarCtx}{\TMV_1}{\TMV_2}}} $\TMV_1$ and $\TMV_2$ are consistent under context $\tvarCtx$
+\judgbox{\ensuremath{\tvarCtxConsistent{\tvarCtx}{\TMV_1}{\TMV_2}}} $\TMV_1$ and $\TMV_2$ are consistent
 %
 \begin{mathpar}
   \cdots
@@ -1335,6 +1335,50 @@ first. \\
   }{
     \tvarCtxConsistent{\tvarCtx}{\TForall{\TVarMV}{\TMV}}{\TForall{\TVarMV}{\TMV'}}
   }{TCForall}
+\end{mathpar}
+
+\subsubsection{Unmarked Expressions}
+\judgbox{\ensuremath{\bothCtxSynTypeU{\tvarCtx}{\ctx}{\EMV}{\TMV}}} $\EMV$ synthesizes type $\TMV$
+%
+\begin{mathpar}
+  \cdots
+
+  \judgment{
+    \bothCtxSynTypeU{\extendTvarCtx{\tvarCtx}{\TVarMV}}{\ctx}{\EMV}{\TMV}
+  }{
+    \bothCtxSynTypeU{\tvarCtx}{\ctx}{\ETypeLam{\TVarMV}{\EMV}}{\TForall{\TVarMV}{\TMV}}
+  }{USTypeLam}
+
+  \judgment{
+    \bothCtxSynTypeU{\tvarCtx}{\ctx}{\EMV}{\TMV} \\
+    \tvarCtxWF{\tvarCtx}{\TMV_2} \\
+    \matchedForall{\TMV}{\TVarMV}{\TMV_1}
+  }{
+    \bothCtxSynTypeU{\tvarCtx}{\ctx}{\ETypeAp{\EMV}{\TMV_2}}{\subst{\TMV_1}{\TMV_2}{\TVarMV}}
+  }{USTypeAp}
+\end{mathpar}
+
+\judgbox{\ensuremath{\bothCtxAnaTypeU{\tvarCtx}{\ctx}{\EMV}{\TMV}}} $\EMV$ analyzes against type $\TMV$
+%
+\begin{mathpar}
+  \cdots
+
+  \judgment{
+    \matchedForall{\TMV}{\TVarMV}{\TMV'} \\
+    \bothCtxAnaTypeU{\extendTvarCtx{\tvarCtx}{\TVarMV}}{\ctx}{\EMV}{\TMV'}
+  }{
+    \bothCtxAnaTypeU{\tvarCtx}{\ctx}{\ETypeLam{\TVarMV}{\EMV}}{\TMV}
+  }{UATypeLam}
+\end{mathpar}
+
+\judgbox{\ensuremath{\subsumable{\EMV}}} $\EMV$ is subsumable
+%
+\begin{mathpar}
+  \cdots
+
+  \judgment{ }{
+    \subsumable{\ETypeAp{\EMV}{\TMV}}
+  }{USuTypeAp}
 \end{mathpar}
 
 \newpage

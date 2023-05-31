@@ -75,6 +75,12 @@
 \newcommand{\matchedProd}[3]{\ensuremath{#1 \goodcolor{\colorOkSideJudge}{\matchedProdRel} \TProd{#2}{#3}}}
 \newcommand{\notMatchedProd}[1]{\ensuremath{\goodcolor{\colorFailSideJudge}{#1 \notMatchedProdRel}}}
 
+\newcommand{\matchedForallRel}{\ensuremath{\matchedRel{\forall}}}
+\newcommand{\matchedForall}[3]{\ensuremath{#1 \goodcolor{\colorOkSideJudge}{\matchedForallRel} \TForall{#2}{#3}}}
+
+% substitution
+\newcommand{\subst}[3]{\ensuremath{#1[#2 / #3]}}
+
 % base types
 \newcommand{\base}[1]{\ensuremath{#1 ~{\normalfont\textsf{base}}}}
 
@@ -111,7 +117,6 @@
 
 % unmarked typing
 \newcommand{\withCtxU}[2]{\ensuremath{#1 \goodcolor{\colorUText}{\vdash_{\hspace{-4.25pt}\scaleto{U}{3.5pt}}} #2}}
-\newcommand{\assignTypeU}[2]{\ensuremath{\assignType{#1}{#2}}}
 \newcommand{\synTypeU}[2]{\ensuremath{#1 \goodcolor{\colorUText}{\Rightarrow} #2}}
 \newcommand{\notSynTypeU}[2]{\ensuremath{#1 \not\Rightarrow #2}}
 \newcommand{\ctxSynTypeU}[3]{
@@ -129,7 +134,6 @@
 \newcommand{\ctxNotAnaTypeU}[3]{\ensuremath{\withCtxU{#1}{\notAnaTypeU{#2}{#3}}}}
 
 \newcommand{\withBothCtxU}[3]{\ensuremath{#1; #2 \goodcolor{\colorUText}{\vdash_{\hspace{-4.25pt}\scaleto{U}{3.5pt}}} #3}}
-\newcommand{\bothCtxAssignTypeU}[3]{\ensuremath{\withCtxU{#1}{\assignTypeU{#2}{#3}}}}
 \newcommand{\bothCtxSynTypeU}[4]{
   \begin{highlightbox}{\colorUBkgSyn}
     \ensuremath{\withBothCtxU{#1}{#2}{\synTypeU{#3}{#4}}}
@@ -141,7 +145,6 @@
 
 % marked typing
 \newcommand{\withCtxM}[2]{\ensuremath{#1 \goodcolor{\colorMText}{\vdash_{\hspace{-4.75pt}\scaleto{M}{3.5pt}}} #2}}
-\newcommand{\assignTypeM}[2]{\ensuremath{\assignType{#1}{#2}}}
 \newcommand{\synTypeM}[2]{\ensuremath{#1 \goodcolor{\colorMText}{\Rightarrow} #2}}
 \newcommand{\notSynTypeM}[2]{\ensuremath{#1 \not\Rightarrow #2}}
 \newcommand{\ctxSynTypeM}[3]{
@@ -262,7 +265,7 @@
 \newcommand{\TArrow}[2]{\ensuremath{#1 \to #2}}
 \newcommand{\TProd}[2]{\ensuremath{#1 \times #2}}
 
-\newcommand{\TVarMV}{\ensuremath{X}}
+\newcommand{\TVarMV}{\ensuremath{\alpha}}
 \newcommand{\TForall}[2]{\ensuremath{\forall #1. ~#2}}
 
 %
@@ -299,8 +302,8 @@
 \newcommand{\ELet}[3]{\ensuremath{\ECLet{#1}{#2}{#3}}}
 
 % polymorphism
-\newcommand{\ETypLam}[2]{\ensuremath{\ECTypLam{#1}{#2}}}
-\newcommand{\ETypAp}[2]{\ensuremath{\ECTypAp{#1}{#2}}}
+\newcommand{\ETypeLam}[2]{\ensuremath{\ECTypLam{#1}{#2}}}
+\newcommand{\ETypeAp}[2]{\ensuremath{\ECTypAp{#1}{#2}}}
 
 %
 % cursor types
@@ -354,8 +357,8 @@
 \newcommand{\ECLet}[3]{\ensuremath{\textsf{let}~ #1 = #2 ~\textsf{in}~ #3}}
 
 % polymorphism
-\newcommand{\ECTypLam}[2]{\ensuremath{\Lambda #1. #2}}
-\newcommand{\ECTypAp}[2]{\ensuremath{#1 ~#2}}
+\newcommand{\ECTypLam}[2]{\ensuremath{\Lambda #1. ~#2}}
+\newcommand{\ECTypAp}[2]{\ensuremath{#1 ~[#2]}}
 
 % errors
 \newcommand{\MRUnbound}{\ensuremath{\mathsmaller{\mathsmaller{\mathsmaller{\square}}}}}
