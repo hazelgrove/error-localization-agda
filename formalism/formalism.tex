@@ -1267,6 +1267,76 @@ first. \\
   }{MAPAnn2}
 \end{mathpar}
 
+\subsection{Polymorphism}
+
+\subsubsection{Syntax}
+\[\begin{array}{rrcl}
+  \TMName  & \TMV  & \Coloneqq & \cdots \mid \TVarMV \mid \TForall{\TVarMV}{\TMV} \\
+  \EMName  & \EMV  & \Coloneqq & \cdots \mid \ETypLam{\TVarMV}{\EMV} \mid \ETypAp{\EMV}{\TMV} \\
+  \ECMName & \ECMV & \Coloneqq & \cdots \mid \ECTypLam{\TVarMV}{\ECMV} \mid \ECTypAp{\ECMV}{\TMV}
+\end{array}\]
+
+\subsubsection{Types}
+\judgbox{\ensuremath{\tvarCtxWF{\tvarCtx}{\TMV}}} $\TMV$ is well-formed under context $\tvarCtx$
+%
+\begin{mathpar}
+  \judgment{ }{
+    \tvarCtxWF{\tvarCtx}{\TUnknown}
+  }{TWFUnknown}
+
+  \judgment{ }{
+    \tvarCtxWF{\tvarCtx}{\TNum}
+  }{TWFNum}
+
+  \judgment{ }{
+    \tvarCtxWF{\tvarCtx}{\TBool}
+  }{TWFBool}
+
+  \judgment{
+    \tvarCtxWF{\tvarCtx}{\TMV_1} \\
+    \tvarCtxWF{\tvarCtx}{\TMV_2}
+  }{
+    \tvarCtxWF{\tvarCtx}{\TArrow{\TMV_1}{\TMV_2}}
+  }{TWFArr}
+
+  \judgment{
+    \tvarCtxWF{\tvarCtx}{\TMV_1} \\
+    \tvarCtxWF{\tvarCtx}{\TMV_2}
+  }{
+    \tvarCtxWF{\tvarCtx}{\TProd{\TMV_1}{\TMV_2}}
+  }{TWFProd}
+
+  \judgment{
+    \inTvarCtx{\tvarCtx}{\TVarMV}
+  }{
+    \tvarCtxWF{\tvarCtx}{\TVarMV}
+  }{TWFVar}
+
+  \judgment{
+    \tvarCtxWF{\extendTvarCtx{\tvarCtx}{\TVarMV}}{\TMV}
+  }{
+    \tvarCtxWF{\tvarCtx}{\TForall{\TVarMV}{\TMV}}
+  }{TWFForall}
+\end{mathpar}
+
+\judgbox{\ensuremath{\tvarCtxConsistent{\tvarCtx}{\TMV_1}{\TMV_2}}} $\TMV_1$ and $\TMV_2$ are consistent under context $\tvarCtx$
+%
+\begin{mathpar}
+  \cdots
+
+  \judgment{
+    \inTvarCtx{\tvarCtx}{\TVarMV}
+  }{
+    \tvarCtxConsistent{\tvarCtx}{\TVarMV}{\TVarMV}
+  }{TCVar}
+
+  \judgment{
+    \tvarCtxConsistent{\tvarCtx}{\TMV}{\TMV'}
+  }{
+    \tvarCtxConsistent{\tvarCtx}{\TForall{\TVarMV}{\TMV}}{\TForall{\TVarMV}{\TMV'}}
+  }{TCForall}
+\end{mathpar}
+
 \newpage
 \section{Untyped Hazelnut}
 

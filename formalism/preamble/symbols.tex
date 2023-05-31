@@ -86,9 +86,20 @@
 \newcommand{\notInCtx}[2]{\ensuremath{\goodcolor{\colorFailSideJudge}{#2 \not\in \dom(#1)}}}
 \newcommand{\withCtx}[2]{\ensuremath{#1 \vdash #2}}
 
+\newcommand{\tvarCtx}{\ensuremath{\Sigma}}
+\newcommand{\extendTvarCtx}[2]{\ensuremath{#1, #2}}
+\newcommand{\inTvarCtx}[2]{\ensuremath{#2 \in #1}}
+\newcommand{\notInTvarCtx}[2]{\ensuremath{\goodcolor{\colorFailSideJudge}{#2 \not\in \dom(#1)}}}
+\newcommand{\withTvarCtx}[2]{\ensuremath{#1 \vdash #2}}
+
+\newcommand{\withBothCtx}[3]{\ensuremath{#1; #2 \vdash #3}}
+
+% type well-formedness
+\newcommand{\tvarCtxWF}[2]{\ensuremath{\withTvarCtx{#1}{#2}}}
+\newcommand{\tvarCtxConsistent}[3]{\ensuremath{\withTvarCtx{#1}{\consistent{#2}{#3}}}}
+
 % typing
 \newcommand{\assignType}[2]{\ensuremath{#1 : #2}}
-\newcommand{\ctxAssignType}[3]{\ensuremath{\withCtx{#1}{\assignType{#2}{#3}}}}
 \newcommand{\synType}[2]{\ensuremath{#1 \Rightarrow #2}}
 \newcommand{\notSynType}[2]{\ensuremath{#1 \not\Rightarrow #2}}
 \newcommand{\ctxSynType}[3]{\ensuremath{\withCtx{#1}{\synType{#2}{#3}}}}
@@ -100,8 +111,7 @@
 
 % unmarked typing
 \newcommand{\withCtxU}[2]{\ensuremath{#1 \goodcolor{\colorUText}{\vdash_{\hspace{-4.25pt}\scaleto{U}{3.5pt}}} #2}}
-\newcommand{\assignTypeU}[2]{\ensuremath{#1 : #2}}
-\newcommand{\ctxAssignTypeU}[3]{\ensuremath{\withCtxU{#1}{\assignTypeU{#2}{#3}}}}
+\newcommand{\assignTypeU}[2]{\ensuremath{\assignType{#1}{#2}}}
 \newcommand{\synTypeU}[2]{\ensuremath{#1 \goodcolor{\colorUText}{\Rightarrow} #2}}
 \newcommand{\notSynTypeU}[2]{\ensuremath{#1 \not\Rightarrow #2}}
 \newcommand{\ctxSynTypeU}[3]{
@@ -118,10 +128,20 @@
   \end{highlightbox}}
 \newcommand{\ctxNotAnaTypeU}[3]{\ensuremath{\withCtxU{#1}{\notAnaTypeU{#2}{#3}}}}
 
+\newcommand{\withBothCtxU}[3]{\ensuremath{#1; #2 \goodcolor{\colorUText}{\vdash_{\hspace{-4.25pt}\scaleto{U}{3.5pt}}} #3}}
+\newcommand{\bothCtxAssignTypeU}[3]{\ensuremath{\withCtxU{#1}{\assignTypeU{#2}{#3}}}}
+\newcommand{\bothCtxSynTypeU}[4]{
+  \begin{highlightbox}{\colorUBkgSyn}
+    \ensuremath{\withBothCtxU{#1}{#2}{\synTypeU{#3}{#4}}}
+  \end{highlightbox}}
+\newcommand{\bothCtxAnaTypeU}[4]{
+  \begin{highlightbox}{\colorUBkgAna}
+    \ensuremath{\withBothCtxU{#1}{#2}{\anaTypeU{#3}{#4}}}
+  \end{highlightbox}}
+
 % marked typing
 \newcommand{\withCtxM}[2]{\ensuremath{#1 \goodcolor{\colorMText}{\vdash_{\hspace{-4.75pt}\scaleto{M}{3.5pt}}} #2}}
-\newcommand{\assignTypeM}[2]{\ensuremath{#1 : #2}}
-\newcommand{\ctxAssignTypeM}[3]{\ensuremath{\withCtxM{#1}{\assignTypeM{#2}{#3}}}}
+\newcommand{\assignTypeM}[2]{\ensuremath{\assignType{#1}{#2}}}
 \newcommand{\synTypeM}[2]{\ensuremath{#1 \goodcolor{\colorMText}{\Rightarrow} #2}}
 \newcommand{\notSynTypeM}[2]{\ensuremath{#1 \not\Rightarrow #2}}
 \newcommand{\ctxSynTypeM}[3]{
@@ -129,6 +149,7 @@
     \ensuremath{\withCtxM{#1}{\synTypeM{#2}{#3}}}
   \end{highlightbox}}
 \newcommand{\ctxNotSynTypeM}[3]{\ensuremath{\withCtxM{#1}{\notSynTypeM{#2}{#3}}}}
+
 \newcommand{\anaTypeM}[2]{\ensuremath{#1 \goodcolor{\colorMText}{\Leftarrow} #2}}
 \newcommand{\notAnaTypeM}[2]{\ensuremath{#1 \goodcolor{\colorFailSideJudge}{\not\Leftarrow} #2}}
 \newcommand{\ctxAnaTypeM}[3]{
@@ -136,6 +157,16 @@
     \ensuremath{\withCtxM{#1}{\anaTypeM{#2}{#3}}}
   \end{highlightbox}}
 \newcommand{\ctxNotAnaTypeM}[3]{\ensuremath{\withCtxM{#1}{\notAnaTypeM{#2}{#3}}}}
+
+\newcommand{\withBothCtxM}[3]{\ensuremath{#1; #2 \goodcolor{\colorMText}{\vdash_{\hspace{-4.75pt}\scaleto{M}{3.5pt}}} #3}}
+\newcommand{\bothCtxSynTypeM}[4]{
+  \begin{highlightbox}{\colorMBkgSyn}
+    \ensuremath{\withBothCtxM{#1}{#2}{\synTypeM{#3}{#4}}}
+  \end{highlightbox}}
+\newcommand{\bothCtxAnaTypeM}[4]{
+  \begin{highlightbox}{\colorMBkgAna}
+    \ensuremath{\withBothCtxM{#1}{#2}{\anaTypeM{#3}{#4}}}
+  \end{highlightbox}}
 
 % unmarked pattern typing
 \newcommand{\ctxSynPatU}[3]{
@@ -231,6 +262,9 @@
 \newcommand{\TArrow}[2]{\ensuremath{#1 \to #2}}
 \newcommand{\TProd}[2]{\ensuremath{#1 \times #2}}
 
+\newcommand{\TVarMV}{\ensuremath{X}}
+\newcommand{\TForall}[2]{\ensuremath{\forall #1. ~#2}}
+
 %
 % external expressions
 %
@@ -263,6 +297,10 @@
 
 % let
 \newcommand{\ELet}[3]{\ensuremath{\ECLet{#1}{#2}{#3}}}
+
+% polymorphism
+\newcommand{\ETypLam}[2]{\ensuremath{\ECTypLam{#1}{#2}}}
+\newcommand{\ETypAp}[2]{\ensuremath{\ECTypAp{#1}{#2}}}
 
 %
 % cursor types
@@ -315,6 +353,10 @@
 % let
 \newcommand{\ECLet}[3]{\ensuremath{\textsf{let}~ #1 = #2 ~\textsf{in}~ #3}}
 
+% polymorphism
+\newcommand{\ECTypLam}[2]{\ensuremath{\Lambda #1. #2}}
+\newcommand{\ECTypAp}[2]{\ensuremath{#1 ~#2}}
+
 % errors
 \newcommand{\MRUnbound}{\ensuremath{\mathsmaller{\mathsmaller{\mathsmaller{\square}}}}}
 \newcommand{\MRInconType}{\ensuremath{\mathsmaller{\inconsistentRel}}}
@@ -324,6 +366,7 @@
 \newcommand{\MRSynNonMatchedProd}{\ensuremath{\mathsmaller{\notMatchedProdRel}}}
 \newcommand{\MRAnaNonMatchedArrow}{\ensuremath{\mathsmaller{\notMatchedArrowRel}}}
 \newcommand{\MRAnaNonMatchedProd}{\ensuremath{\mathsmaller{\notMatchedProdRel}}}
+\newcommand{\MRUnboundTypeVar}{\ensuremath{\MRUnbound}}
 
 \newcommand{\MRSyn}{\ensuremath{\mathsmaller{\Rightarrow}}}
 \newcommand{\MRAna}{\ensuremath{\mathsmaller{\Leftarrow}}}
