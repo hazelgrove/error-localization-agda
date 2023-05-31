@@ -1,0 +1,24 @@
+%
+% color
+%
+\newtcolorbox{highlightbox}[2][]{
+  on line,
+  hbox,
+  boxsep=0pt,
+  left=1pt,
+  right=1pt,
+  top=1pt,
+  bottom=1pt,
+  colframe=white,
+  colback=#2
+  #1,
+}
+\newcommand\goodcolor[2]{%
+  \protect\leavevmode
+  \begingroup
+    \color{#1}%
+    #2%
+  \endgroup
+}
+
+\newcommand{\mathcolorbox}[2]{{\fboxsep=1pt\colorbox{#1}{$\displaystyle #2$}}}

@@ -1,26 +1,3 @@
-%
-% utilities
-%
-\newtcolorbox{highlightbox}[2][]{
-  on line,
-  hbox,
-  boxsep=0pt,
-  left=1pt,
-  right=1pt,
-  top=1pt,
-  bottom=1pt,
-  colframe=white,
-  colback=#2
-  #1,
-}
-\newcommand\goodcolor[2]{%
-  \protect\leavevmode
-  \begingroup
-    \color{#1}%
-    #2%
-  \endgroup
-}
-
 \newcommand{\colorOkSideJudge}{Black!50}
 \newcommand{\colorFailSideJudge}{red}
 
@@ -43,7 +20,6 @@
 \definecolor{hole}{RGB}{162,85,162}
 \definecolor{cursorhighlight}{RGB}{230,255,230}
 \definecolor{cursor}{RGB}{76,170,76}
-\newcommand{\mathcolorbox}[2]{{\fboxsep=1pt\colorbox{#1}{$\displaystyle #2$}}}
 
 %
 % judgments
