@@ -1,0 +1,939 @@
+\section{Typed Hazelnut}
+
+\subsection{Syntax}
+Zippered types are the same as in the untyped model.
+
+\[\begin{array}{rrcl}
+  \ZMName  & \ZMV  & \Coloneqq & \ZCursor{\ECMV} \mid \ZLamT{x}{\ZTMV}{\ECMV} \mid \ZLamE{x}{\TMV}{\ZMV} \mid \ZApL{\ZMV}{\ECMV} \mid \ZApR{\ECMV}{\ZMV} \\
+           &       & \mid         & \ZLetL{x}{\ZMV}{\ECMV} \mid \ZLetR{x}{\ECMV}{\ZMV} \\
+           &       & \mid         & \ZPlusL{\ZMV}{\ECMV} \mid \ZPlusR{\ECMV}{\ZMV} \\
+           &       & \mid         & \ZIfC{\ZMV}{\ECMV}{\ECMV} \mid \ZIfL{\ECMV}{\ZMV}{\ECMV} \mid \ZIfR{\ECMV}{\ECMV}{\ZMV} \\
+           &       & \mid         & \ZInconType{\ZMV} \mid \ZInconBrC{\ZMV}{\ECMV}{\ECMV} \mid \ZInconBrL{\ECMV}{\ZMV}{\ECMV} \mid \ZInconBrR{\ECMV}{\ECMV}{\ZMV} \\
+\end{array}\]
+
+\subsubsection{Well-Formedness}
+\judgbox{\ensuremath{\zWellFormed{\ZMV}}} $\ZMV$ is well-formed
+%
+\begin{mathpar}
+  \judgment{ }{
+    \zWellFormed{\ZCursor{\ECMV}}
+  }{WFCursor}
+
+  \judgment{ }{
+    \zWellFormed{\ZLamT{x}{\ZTMV}{\ECMV}}
+  }{WFLamT}
+
+  \judgment{
+    \zWellFormed{\ZMV}
+  }{
+    \zWellFormed{\ZLamE{x}{\TMV}{\ZMV}}
+  }{WFLamE}
+
+  \judgment{
+    \zWellFormed{\ZMV}
+  }{
+    \zWellFormed{\ZApL{\ZMV}{\ECMV}}
+  }{WFApL}
+
+  \judgment{
+    \zWellFormed{\ZMV}
+  }{
+    \zWellFormed{\ZApR{\ECMV}{\ZMV}}
+  }{WFApR}
+
+  \judgment{
+    \zWellFormed{\ZMV}
+  }{
+    \zWellFormed{\ZLetL{x}{\ZMV}{\ECMV}}
+  }{WFLetL}
+
+  \judgment{
+    \zWellFormed{\ZMV}
+  }{
+    \zWellFormed{\ZLetR{x}{\ECMV}{\ZMV}}
+  }{WFLetR}
+
+  \judgment{
+    \zWellFormed{\ZMV}
+  }{
+    \zWellFormed{\ZPlusL{\ZMV}{\ECMV}}
+  }{WFPlusL}
+
+  \judgment{
+    \zWellFormed{\ZMV}
+  }{
+    \zWellFormed{\ZPlusR{\ECMV}{\ZMV}}
+  }{WFPlusR}
+
+  \judgment{
+    \zWellFormed{\ZMV}
+  }{
+    \zWellFormed{\ZIfC{\ZMV}{\ECMV_1}{\ECMV_2}}
+  }{WFIfC}
+
+  \judgment{
+    \zWellFormed{\ZMV}
+  }{
+    \zWellFormed{\ZIfL{\ECMV_1}{\ZMV}{\ECMV_2}}
+  }{WFIfL}
+
+  \judgment{
+    \zWellFormed{\ZMV}
+  }{
+    \zWellFormed{\ZIfL{\ZMV}{\ECMV_1}{\ECMV_2}}
+  }{WFIfC}
+
+  \judgment{
+    \zWellFormed{\ZMV}
+  }{
+    \zWellFormed{\ZInconBrC{\ZMV}{\ECMV_1}{\ECMV_2}}
+  }{WFInconsistentBranchesC}
+
+  \judgment{
+    \zWellFormed{\ZMV}
+  }{
+    \zWellFormed{\ZInconBrL{\ECMV_1}{\ZMV}{\ECMV_2}}
+  }{WFInconsistentBranchesL}
+
+  \judgment{
+    \zWellFormed{\ZMV}
+  }{
+    \zWellFormed{\ZInconBrL{\ZMV}{\ECMV_1}{\ECMV_2}}
+  }{WFInconsistentBranchesR}
+
+  \judgment{
+    \notEqual{\ZMV}{\ZCursor{\ECMV}} \\
+    \zWellFormed{\ZMV}
+  }{
+    \zWellFormed{\ZInconType{\ZMV}}
+  }{WFInconsistentTypes}
+\end{mathpar}
+
+\subsection{Cursor Erasure}
+\subsubsection{Type Cursor Erasure}
+Type cursor erasure is the same as in the untyped model.
+
+\subsubsection{Expression Cursor Erasure}
+\judgbox{\ensuremath{\cursorErase{\ZMV}}} is a metafunction defined as follows:
+%
+\[\begin{array}{rcl}
+  \cursorErasesToRow{\ZCursor{\ECMV}}{\ECMV} \\
+  \cursorErasesToRow{(\ZLamT{x}{\ZTMV}{\ECMV})}{\ECLam{x}{\cursorErase{\ZTMV}}{\ECMV}} \\
+  \cursorErasesToRow{(\ZLamE{x}{\TMV}{\ZMV})}{\ECLam{x}{\TMV}{\cursorErase{\ZMV}}} \\
+  \cursorErasesToRow{(\ZApL{\ZMV}{\ECMV})}{\ECAp{\cursorErase{\ZMV}}{\ECMV}} \\
+  \cursorErasesToRow{(\ZApR{\ECMV}{\ZMV})}{\ECAp{\ECMV}{\cursorErase{\ZMV}}} \\
+  \cursorErasesToRow{(\ZLetL{x}{\ZMV}{\ECMV})}{\ECLet{x}{\cursorErase{\ZMV}}{\ECMV}} \\
+  \cursorErasesToRow{(\ZLetR{x}{\ECMV}{\ZMV})}{\ECLet{x}{\ECMV}{\cursorErase{\ZMV}}} \\
+  \cursorErasesToRow{(\ZPlusL{\ZMV}{\ECMV})}{\ECPlus{\cursorErase{\ZMV}}{\ECMV}} \\
+  \cursorErasesToRow{(\ZPlusR{\ECMV}{\ZMV})}{\ECPlus{\ECMV}{\cursorErase{\ZMV}}} \\
+  \cursorErasesToRow{(\ZIfC{\ZMV}{\ECMV_1}{\ECMV_2})}{\ECIf{\cursorErase{\ZMV}}{\ECMV_1}{\ECMV_2}} \\
+  \cursorErasesToRow{(\ZIfL{\ECMV_1}{\ZMV}{\ECMV_2})}{\ECIf{\ECMV_1}{\cursorErase{\ZMV}}{\ECMV_2}} \\
+  \cursorErasesToRow{(\ZIfL{\ECMV_1}{\ECMV_2}{\ZMV})}{\ECIf{\ECMV_1}{\ECMV_2}{\cursorErase{\ZMV}}} \\
+  \cursorErasesToRow{\ZInconType{\ZMV}}{\cursorErase{\ZMV}} \\
+  \cursorErasesToRow{\ZInconBrC{\ZMV}{\ECMV_1}{\ECMV_2}}{\ECIf{\cursorErase{\ZMV}}{\ECMV_1}{\ECMV_2}} \\
+  \cursorErasesToRow{\ZInconBrL{\ECMV_1}{\ZMV}{\ECMV_2}}{\ECIf{\ECMV_1}{\cursorErase{\ZMV}}{\ECMV_2}} \\
+  \cursorErasesToRow{\ZInconBrR{\ECMV_1}{\ECMV_2}{\ZMV}}{\ECIf{\ECMV_1}{\ECMV_2}{\cursorErase{\ZMV}}} \\
+\end{array}\]
+
+\subsection{Action Model}
+The action syntax is the same in the untyped model.
+
+\subsubsection{Shape Sort}
+The shape sort judgments are the same as in the untyped model.
+
+\subsubsection{Type Actions}
+Type actions are the same as in the untyped model.
+
+\subsubsection{Expression Movement}
+\judgbox{\ensuremath{\AUEMove{\ZMV}{\ZMV'}{\MMV}}}
+%
+\begin{mathpar}
+  \judgment{ }{
+    \ASEMLamChildT{x}{\TMV}{\ECMV}
+  }{AEMLamChild1}
+
+  \judgment{ }{
+    \ASEMLamChildE{x}{\TMV}{\ECMV}
+  }{AEMLamChild2} \\
+
+  \judgment{ }{
+    \ASEMLamParentT{x}{\TMV}{\ECMV}
+  }{AEMLamParent1}
+
+  \judgment{ }{
+    \ASEMLamParentE{x}{\TMV}{\ECMV}
+  }{AEMLamParent2}
+\end{mathpar}
+
+\begin{mathpar}
+  \judgment{ }{
+    \ASEMApChildL{\ECMV_1}{\ECMV_2}
+  }{AEMApChild1}
+
+  \judgment{ }{
+    \ASEMApChildR{\ECMV_1}{\ECMV_2}
+  }{AEMApChild2} \\
+
+  \judgment{ }{
+    \ASEMApParentL{\ECMV_1}{\ECMV_2}
+  }{AEMApParent1}
+
+  \judgment{ }{
+    \ASEMApParentR{\ECMV_1}{\ECMV_2}
+  }{AEMApParent2}
+\end{mathpar}
+
+\begin{mathpar}
+  \judgment{ }{
+    \ASEMLetChildL{x}{\ECMV_1}{\ECMV_2}
+  }{AEMLetChild1}
+
+  \judgment{ }{
+    \ASEMLetChildR{x}{\ECMV_1}{\ECMV_2}
+  }{AEMLetChild2} \\
+
+  \judgment{ }{
+    \ASEMLetParentL{x}{\ECMV_1}{\ECMV_2}
+  }{AEMLetParent1}
+
+  \judgment{ }{
+    \ASEMLetParentR{x}{\ECMV_1}{\ECMV_2}
+  }{AEMLetParent2}
+\end{mathpar}
+
+\begin{mathpar}
+  \judgment{ }{
+    \ASEMPlusChildL{\ECMV_1}{\ECMV_2}
+  }{AEMPlusChild1}
+
+  \judgment{ }{
+    \ASEMPlusChildR{\ECMV_1}{\ECMV_2}
+  }{AEMPlusChild2} \\
+
+  \judgment{ }{
+    \ASEMPlusParentL{\ECMV_1}{\ECMV_2}
+  }{AEMPlusParent1}
+
+  \judgment{ }{
+    \ASEMPlusParentR{\ECMV_1}{\ECMV_2}
+  }{AEMPlusParent2}
+\end{mathpar}
+
+\begin{mathpar}
+  \judgment{ }{
+    \ASEMIfChildC{\ECMV_1}{\ECMV_2}{\ECMV_3}
+  }{AEMIfChild1}
+
+  \judgment{ }{
+    \ASEMIfChildL{\ECMV_1}{\ECMV_2}{\ECMV_3}
+  }{AEMIfChild2}
+
+  \judgment{ }{
+    \ASEMIfChildR{\ECMV_1}{\ECMV_2}{\ECMV_3}
+  }{AEMIfChild3} \\
+
+  \judgment{ }{
+    \ASEMIfParentC{\ECMV_1}{\ECMV_2}{\ECMV_3}
+  }{AEMIfParent1}
+
+  \judgment{ }{
+    \ASEMIfParentL{\ECMV_1}{\ECMV_2}{\ECMV_3}
+  }{AEMIfParent2}
+
+  \judgment{ }{
+    \ASEMIfParentR{\ECMV_1}{\ECMV_2}{\ECMV_3}
+  }{AEMIfParent3}
+\end{mathpar}
+
+\begin{mathpar}
+  \judgment{
+    \ASEMChild{\ZMV}{\ZMV'}{\MChildNMV}
+  }{
+    \ASEMInconTypeChild{\ZMV}{\ZMV'}{\MChildNMV}
+  }{AEMInconsistentTypesChild}
+
+  \judgment{
+    \ASEMParent{\ZMV}{\ZMV'}
+  }{
+    \ASEMInconTypeParent{\ZMV}{\ZMV'}
+  }{AEMInconsistentTypesParent}
+\end{mathpar}
+
+\begin{mathpar}
+  \judgment{ }{
+    \ASEMInconBrChildC{\ECMV_1}{\ECMV_2}{\ECMV_3}
+  }{AEMInconsistentBranchesChild1}
+
+  \judgment{ }{
+    \ASEMInconBrChildL{\ECMV_1}{\ECMV_2}{\ECMV_3}
+  }{AEMInconsistentBranchesChild2}
+
+  \judgment{ }{
+    \ASEMInconBrChildR{\ECMV_1}{\ECMV_2}{\ECMV_3}
+  }{AEMInconsistentBranchesChild3} \\
+
+  \judgment{ }{
+    \ASEMInconBrParentC{\ECMV_1}{\ECMV_2}{\ECMV_3}
+  }{AEMInconsistentBranchesParent1}
+
+  \judgment{ }{
+    \ASEMInconBrParentL{\ECMV_1}{\ECMV_2}{\ECMV_3}
+  }{AEMInconsistentBranchesParent2}
+
+  \judgment{ }{
+    \ASEMInconBrParentR{\ECMV_1}{\ECMV_2}{\ECMV_3}
+  }{AEMInconsistentBranchesParent3}
+\end{mathpar}
+
+\subsubsection{Synthetic Expression Actions}
+\judgbox{\ensuremath{\ASAction{\ctx}{\ZMV}{\TMV}{\ZMV'}{\TMV'}{\AMV}}}
+
+\paragraph{Movement}
+\begin{mathpar}
+  \judgment{
+    \ASEMove{\ZMV}{\ZMV'}{\MMV}
+  }{
+    \ASMove{\ctx}{\ZMV}{\TMV}{\ZMV'}{\TMV}{\MMV}
+  }{ASEMove}
+\end{mathpar}
+
+\paragraph{Deletion}
+\begin{mathpar}
+  \judgment{ }{
+    \ASEDel{\ctx}{\ECMV}{\TMV}
+  }{ASEDel}
+\end{mathpar}
+
+\paragraph{Construction}
+\begin{mathpar}
+  \judgment{
+    \inCtx{\ctx}{x}{\TMV}
+  }{
+    \ASEConBoundVar{\ctx}{x}{\TMV}
+  }{ASEConVar}
+
+  \judgment{
+    \notInCtx{\ctx}{x}
+  }{
+    \ASEConUnboundVar{\ctx}{x}
+  }{ASEConUnbound}
+\end{mathpar}
+
+\begin{mathpar}
+  \judgment{
+    \ctxSynFixedInto{\extendCtx{\ctx}{x}{\TUnknown}}{\erase{\ECMV}}{\ECMV'}{\TMV'}
+  }{
+    \ASEConLam{\ctx}{\ECMV}{\TMV}{\ECMV'}{\TMV'}{x}
+  }{ASEConLam}
+
+  \judgment{
+    \matchedArrow{\TMV}{\TMV_1}{\TMV_2}
+  }{
+    \ASEConApL{\ctx}{\ECMV}{\TMV}{\ECMV}{\TMV_2}
+  }{ASEConApL1}
+
+  \judgment{
+    \notMatchedArrow{\TMV}
+  }{
+    \ASEConApL{\ctx}{\ECMV}{\TMV}{\ECInconType{\ECMV}}{\TUnknown}
+  }{ASEConApL2}
+
+  \judgment{
+  }{
+    \ASEConApR{\ctx}{\ECMV}{\TMV}{\ECMV}{\TUnknown}
+  }{ASEConApR}
+\end{mathpar}
+
+\begin{mathpar}
+  \judgment{
+  }{
+    \ASEConLetL{\ctx}{\ECMV}{\TMV}{\ECMV}{x}
+  }{ASEConLet1}
+
+  \judgment{
+    \ctxSynFixedInto{\extendCtx{\ctx}{x}{\TUnknown}}{\erase{\ECMV}}{\ECMV'}{\TMV'}
+  }{
+    \ASEConLetR{\ctx}{\ECMV}{\TMV}{\ECMV'}{\TMV'}{x}
+  }{ASEConLet2}
+\end{mathpar}
+
+\begin{mathpar}
+  \judgment{ }{
+    \ASEConNum{\ctx}{\ENumMV}
+  }{ASEConNum}
+
+  \judgment{
+    \consistent{\TMV}{\TNum}
+  }{
+    \ASEConPlusL{\ctx}{\ECMV}{\TMV}{\ECMV}
+  }{ASEConPlusL1}
+
+  \judgment{
+    \inconsistent{\TMV}{\TNum}
+  }{
+    \ASEConPlusL{\ctx}{\ECMV}{\TMV}{\ECInconType{\ECMV}}
+  }{ASEConPlusL2} \\
+
+  \judgment{
+    \consistent{\TMV}{\TNum}
+  }{
+    \ASEConPlusR{\ctx}{\ECMV}{\TMV}{\ECMV}
+  }{ASEConPlusR1}
+
+  \judgment{
+    \inconsistent{\TMV}{\TNum}
+  }{
+    \ASEConPlusR{\ctx}{\ECMV}{\TMV}{\ECInconType{\ECMV}}
+  }{ASEConPlusR2}
+\end{mathpar}
+
+\begin{mathpar}
+  \judgment{
+    \consistent{\TMV}{\TBool}
+  }{
+    \ASEConIfC{\ctx}{\ECMV}{\TMV}{\ECMV}
+  }{ASEConIfC1}
+
+  \judgment{
+    \inconsistent{\TMV}{\TBool}
+  }{
+    \ASEConIfC{\ctx}{\ECMV}{\TMV}{\ECInconType{\ECMV}}
+  }{ASEConIfC2}
+
+  \judgment{ }{
+    \ASEConIfL{\ctx}{\ECMV}{\TMV}{\ECMV}{\TMV}
+  }{ASEConIfL}
+
+  \judgment{ }{
+    \ASEConIfR{\ctx}{\ECMV}{\TMV}{\ECMV}{\TMV}
+  }{ASEConIfR}
+\end{mathpar}
+
+\paragraph{Zipper Cases}
+\begin{mathpar}
+  \judgment{
+    \AUTAction{\ZTMV_1}{\ZTMV_1'}{\AMV} \\
+    \equal{\cursorErase{\ZTMV_1}}{\cursorErase{\ZTMV_1'}}
+  }{
+    \ASEAction{\ctx}{\ZLamT{x}{\ZTMV_1}{\ECMV}}{\TArrow{\cursorErase{\ZTMV_1}}{\TMV_2}}{\ZLamT{x}{\ZTMV_1'}{\ECMV}}{\TArrow{\cursorErase{\ZTMV_1}}{\TMV_2}}{\AMV}
+  }{ASEZipLamT1}
+
+  \judgment{
+    \AUTAction{\ZTMV_1}{\ZTMV_1'}{\AMV} \\
+    \notEqual{\cursorErase{\ZTMV_1}}{\cursorErase{\ZTMV_1'}} \\
+    \ctxSynFixedInto{\extendCtx{\ctx}{x}{\cursorErase{\ZTMV_1'}}}{\erase{\ECMV}}{\ECMV'}{\TMV_2'}
+  }{
+    \ASEAction{\ctx}{\ZLamT{x}{\ZTMV_1}{\ECMV}}{\TArrow{\cursorErase{\ZTMV_1}}{\TMV_2}}{\ZLamT{x}{\ZTMV_1'}{\ECMV'}}{\TArrow{\cursorErase{\ZTMV_1'}}{\TMV_2'}}{\AMV}
+  }{ASEZipLamT2}
+
+  \judgment{
+    \ASEAction{\extendCtx{\ctx}{x}{\TMV_1}}{\ZMV}{\TMV_2}{\ZMV'}{\TMV_2'}{\AMV}
+  }{
+    \ASEAction{\ctx}{\ZLamE{x}{\TMV_1}{\ZMV}}{\TArrow{\TMV_1}{\TMV_2}}{\ZLamE{x}{\TMV_1}{\ZMV'}}{\TArrow{\ZTMV_1}{\TMV_2'}}{\AMV}
+  }{ASEZipLamE}
+\end{mathpar}
+
+\begin{mathpar}
+  \judgment{
+    \ctxSynTypeM{\ctx}{\cursorErase{\ZMV_1}}{\TMV_1} \\
+    \ASEAction{\ctx}{\ZMV_1}{\TMV_1}{\ZMV_1'}{\TMV_1'}{\AMV} \\\\
+    \matchedArrow{\TMV_1'}{\TMV_2}{\TMV_3} \\
+    \ctxAnaType{\ctx}{\ECMV_2}{\TMV_2}
+  }{
+    \ASEAction{\ctx}{\ZApL{\ZMV_1}{\ECMV_2}}{\TMV}{\ZApL{\ZMV_1'}{\ECMV_2}}{\TMV_3}{\AMV}
+  }{ASEZipApL1}
+
+  \judgment{
+    \ctxSynTypeM{\ctx}{\cursorErase{\ZMV_1}}{\TMV_1} \\
+    \ASEAction{\ctx}{\ZMV_1}{\TMV_1}{\ZMV_1'}{\TMV_1'}{\AMV} \\\\
+    \matchedArrow{\TMV_1'}{\TMV_2}{\TMV_3} \\
+    \ctxNotAnaType{\ctx}{\ECMV_2}{\TMV_2}
+  }{
+    \ASEAction{\ctx}{\ZApL{\ZMV_1}{\ECMV_2}}{\TMV}{\ZApL{\ZMV_1'}{\ECInconType{\ECMV_2}}}{\TMV_3}{\AMV}
+  }{ASEZipApL2}
+
+  \judgment{
+    \ctxSynTypeM{\ctx}{\cursorErase{\ZMV_1}}{\TMV_1} \\
+    \ASEAction{\ctx}{\ZMV}{\TMV_1}{\ZMV'}{\TMV_1'}{\AMV} \\\\
+    \notMatchedArrow{\TMV_1'}
+  }{
+    \ASEAction{\ctx}{\ZApL{\ZMV_1}{\ECMV_2}}{\TMV}{\ZApL{\ECInconType{\ZMV_1'}}{\ECMV_2}}{\TUnknown}{\AMV}
+  }{ASEZipApL3}
+
+  \judgment{
+    \ctxSynTypeM{\ctx}{\cursorErase{\ZMV_1}}{\TMV_1} \\
+    \ASEAction{\ctx}{\ZMV_1}{\TMV_1}{\ZMV_1'}{\TMV_1'}{\AMV} \\\\
+    \matchedArrow{\TMV_1'}{\TMV_2}{\TMV_3} \\
+    \ctxAnaType{\ctx}{\ECMV_2}{\TMV_2}
+  }{
+    \ASEAction{\ctx}{\ZApL{\ECInconType{\ZMV_1}}{\ECMV_2}}{\TUnknown}{\ZApL{\ZMV_1'}{\ECMV_2}}{\TMV_3}{\AMV}
+  }{ASEZipApL4}
+
+  \judgment{
+    \ctxSynTypeM{\ctx}{\cursorErase{\ZMV_1}}{\TMV_1} \\
+    \ASEAction{\ctx}{\ZMV_1}{\TMV_1}{\ZMV_1'}{\TMV_1'}{\AMV} \\\\
+    \matchedArrow{\TMV_1'}{\TMV_2}{\TMV_3} \\
+    \ctxNotAnaType{\ctx}{\ECMV_2}{\TMV_2}
+  }{
+    \ASEAction{\ctx}{\ZApL{\ECInconType{\ZMV_1}}{\ECMV_2}}{\TUnknown}{\ZApL{\ZMV_1'}{\ECInconType{\ECMV_2}}}{\TMV_3}{\AMV}
+  }{ASEZipApL5}
+
+  \judgment{
+    \ctxSynTypeM{\ctx}{\cursorErase{\ZMV_1}}{\TMV_1} \\
+    \ASEAction{\ctx}{\ZMV_1}{\TMV_1}{\ZMV_1'}{\TMV_1'}{\AMV} \\\\
+    \notMatchedArrow{\TMV_1'}
+  }{
+    \ASEAction{\ctx}{\ZApL{\ECInconType{\ZMV_1}}{\ECMV_2}}{\TUnknown}{\ZApL{\ECInconType{\ZMV_1'}}{\ECMV_2}}{\TUnknown}{\AMV}
+  }{ASEZipApL6}
+
+  \judgment{
+    \ctxSynTypeM{\ctx}{\ECMV_1}{\TMV_1} \\
+    \matchedArrow{\TMV_1}{\TMV_2}{\TMV_3} \\
+    \AAEAction{\ctx}{\ZMV_2}{\ZMV_2'}{\TMV_2}{\AMV}
+  }{
+    \ASEAction{\ctx}{\ZApR{\ECMV_1}{\ZMV_2}}{\TMV}{\ZApR{\ECMV_1}{\ZMV_2'}}{\TMV_3}{\AMV}
+  }{ASEZipApR}
+\end{mathpar}
+
+\begin{mathpar}
+  \judgment{
+    \ctxSynTypeM{\ctx}{\cursorErase{\ZMV_1}}{\TMV_1} \\
+    \ASEAction{\ctx}{\ZMV_1}{\TMV_1}{\ZMV_1'}{\TMV_1'}{\AMV} \\
+    \consistent{\TMV_1}{\TMV_1'}
+  }{
+    \ASEAction{\ctx}{\ZLetL{x}{\ZMV_1}{\ECMV_2}}{\TMV_2}{\ZLetL{x}{\ZMV_1'}{\ECMV_2}}{\TMV_2}{\AMV}
+  }{ASEZipLetL1}
+
+  \judgment{
+    \ctxSynTypeM{\ctx}{\cursorErase{\ZMV_1}}{\TMV_1} \\
+    \ASEAction{\ctx}{\ZMV_1}{\TMV_1}{\ZMV_1'}{\TMV_1'}{\AMV} \\\\
+    \inconsistent{\TMV_1}{\TMV_1'} \\
+    \ctxSynFixedInto{\extendCtx{\ctx}{x}{\TMV_1'}}{\erase{\ECMV_2}}{\ECMV_2'}{\TMV_2'}
+  }{
+    \ASEAction{\ctx}{\ZLetL{x}{\ZMV_1}{\ECMV_2}}{\TMV_2}{\ZLetL{x}{\ZMV_1'}{\ECMV_2'}}{\TMV_2'}{\AMV}
+  }{ASEZipLetL2}
+
+  \judgment{
+    \ctxSynTypeM{\ctx}{\ECMV_1}{\TMV_1} \\
+    \ctxSynTypeM{\extendCtx{\ctx}{x}{\TMV_1}}{\cursorErase{\ZMV_2}}{\TMV_2} \\\\
+    \ASEAction{\extendCtx{\ctx}{x}{\TMV_1}}{\ZMV_2}{\TMV_2}{\ZMV_2'}{\TMV_2'}{\AMV}
+  }{
+    \ASEAction{\ctx}{\ZLetR{x}{\ECMV_1}{\ZMV_2}}{\TMV_2}{\ZLetR{x}{\ECMV_1}{\ZMV_2'}}{\TMV_2'}{\AMV}
+  }{ASEZipLetR}
+\end{mathpar}
+
+\begin{mathpar}
+  \judgment{
+    \AAEAction{\ctx}{\ZMV}{\ZMV'}{\TNum}{\AMV}
+  }{
+    \ASEAction{\ctx}{\ZPlusL{\ZMV}{\ECMV}}{\TNum}{\ZPlusL{\ZMV'}{\ECMV}}{\TNum}{\AMV}
+  }{ASEZipPlusL}
+
+  \judgment{
+    \AAEAction{\ctx}{\ZMV}{\ZMV'}{\TNum}{\AMV}
+  }{
+    \ASEAction{\ctx}{\ZPlusR{\ECMV}{\ZMV}}{\TNum}{\ZPlusR{\ECMV}{\ZMV'}}{\TNum}{\AMV}
+  }{ASEZipPlusR}
+\end{mathpar}
+
+\begin{mathpar}
+  \judgment{
+    \AAEAction{\ctx}{\ZMV}{\ZMV'}{\TBool}{\AMV}
+  }{
+    \ASEAction{\ctx}{\ZIfC{\ZMV}{\ECMV_1}{\ECMV_2}}{\TMV}{\ZIfC{\ZMV'}{\ECMV_1}{\ECMV_2}}{\TMV}{\AMV}
+  }{ASEZipIfC}
+
+  \judgment{
+    \ctxSynTypeM{\ctx}{\cursorErase{\ZMV}}{\TMV_1} \\
+    \ctxSynTypeM{\ctx}{\ECMV_2}{\TMV_2} \\\\
+    \ASEAction{\ctx}{\ZMV}{\TMV_1}{\ZMV'}{\TMV_1'}{\AMV} \\
+    \consistent{\TMV_1'}{\TMV_2}
+  }{
+    \ASEAction{\ctx}{\ZIfL{\ECMV_1}{\ZMV}{\ECMV_2}}{\TMV}{\ZIfL{\ECMV_1}{\ZMV'}{\ECMV_2}}{\TJoin{\TMV_1'}{\TMV_2}}{\AMV}
+  }{ASEZipIfL1}
+
+  \judgment{
+    \ctxSynTypeM{\ctx}{\cursorErase{\ZMV}}{\TMV_1} \\
+    \ctxSynTypeM{\ctx}{\ECMV_2}{\TMV_2} \\\\
+    \ASEAction{\ctx}{\ZMV}{\TMV_1}{\ZMV'}{\TMV_1'}{\AMV} \\
+    \inconsistent{\TMV_1'}{\TMV_2}
+  }{
+    \ASEAction{\ctx}{\ZIfL{\ECMV_1}{\ZMV}{\ECMV_2}}{\TMV}{\ZInconBrL{\ECMV_1}{\ZMV'}{\ECMV_2}}{\TUnknown}{\AMV}
+  }{ASEZipIfL2}
+
+  \judgment{
+    \ctxSynTypeM{\ctx}{\ECMV_2}{\TMV_1} \\
+    \ctxSynTypeM{\ctx}{\cursorErase{\ZMV}}{\TMV_2} \\\\
+    \ASEAction{\ctx}{\ZMV}{\TMV_2}{\ZMV'}{\TMV_2'}{\AMV} \\
+    \consistent{\TMV_1}{\TMV_2'}
+  }{
+    \ASEAction{\ctx}{\ZIfR{\ECMV_1}{\ECMV_2}{\ZMV}}{\TMV}{\ZIfR{\ECMV_1}{\ECMV_2}{\ZMV'}}{\TJoin{\TMV_1}{\TMV_2'}}{\AMV}
+  }{ASEZipIfR1}
+
+  \judgment{
+    \ctxSynTypeM{\ctx}{\ECMV_1}{\TMV_1} \\
+    \ctxSynTypeM{\ctx}{\cursorErase{\ZMV}}{\TMV_2} \\\\
+    \ASEAction{\ctx}{\ZMV}{\TMV_2}{\ZMV'}{\TMV_2'}{\AMV} \\
+    \inconsistent{\TMV_1}{\TMV_2'}
+  }{
+    \ASEAction{\ctx}{\ZIfR{\ECMV_1}{\ECMV_2}{\ZMV}}{\TMV}{\ZInconBrR{\ECMV_1}{\ECMV_2}{\ZMV'}}{\TUnknown}{\AMV}
+  }{ASEZipIfR2}
+\end{mathpar}
+
+\begin{mathpar}
+  \judgment{
+    \AAEAction{\ctx}{\ZMV}{\ZMV'}{\TBool}{\AMV}
+  }{
+    \ASEAction{\ctx}{\ZInconBrC{\ZMV}{\ECMV_1}{\ECMV_2}}{\TMV}{\ZInconBrC{\ZMV'}{\ECMV_1}{\ECMV_2}}{\TMV}{\AMV}
+  }{ASEZipInconsistentBranchesC}
+
+  \judgment{
+    \ASEAction{\ctx}{\ZMV}{\TMV_1}{\ZMV'}{\TMV_1'}{\AMV} \\
+    \ctxSynTypeM{\ctx}{\ECMV_2}{\TMV_2} \\
+    \consistent{\TMV_1'}{\TMV_2}
+  }{
+    \ASEAction{\ctx}{\ZInconBrL{\ECMV_1}{\ZMV}{\ECMV_2}}{\TMV}{\ZIfL{\ECMV_1}{\ZMV'}{\ECMV_2}}{\TJoin{\TMV_1'}{\TMV_2}}{\AMV}
+  }{ASEZipInconsistentBranchesL1}
+
+  \judgment{
+    \ASEAction{\ctx}{\ZMV}{\TMV_1}{\ZMV'}{\TMV_1'}{\AMV} \\
+    \ctxSynTypeM{\ctx}{\ECMV_2}{\TMV_2} \\
+    \inconsistent{\TMV_1'}{\TMV_2}
+  }{
+    \ASEAction{\ctx}{\ZInconBrL{\ECMV_1}{\ZMV}{\ECMV_2}}{\TMV}{\ZInconBrL{\ECMV_1}{\ZMV'}{\ECMV_2}}{\TUnknown}{\AMV}
+  }{ASEZipInconsistentBranchesL2}
+
+  \judgment{
+    \ctxSynTypeM{\ctx}{\ECMV_1}{\TMV_1} \\
+    \ASEAction{\ctx}{\ZMV}{\TMV_2}{\ZMV'}{\TMV_2'}{\AMV} \\
+    \consistent{\TMV_1}{\TMV_2'}
+  }{
+    \ASEAction{\ctx}{\ZInconBrR{\ECMV_1}{\ECMV_2}{\ZMV}}{\TMV}{\ZIfL{\ECMV_1}{\ECMV_2}{\ZMV'}}{\TJoin{\TMV_1}{\TMV_2'}}{\AMV}
+  }{ASEZipInconsistentBranchesR1}
+
+  \judgment{
+    \ctxSynTypeM{\ctx}{\ECMV_2}{\TMV_1} \\
+    \ASEAction{\ctx}{\ZMV}{\TMV_2}{\ZMV'}{\TMV_2'}{\AMV} \\
+    \inconsistent{\TMV_1}{\TMV_2'}
+  }{
+    \ASEAction{\ctx}{\ZInconBrR{\ECMV_1}{\ECMV_2}{\ZMV}}{\TMV}{\ZInconBrR{\ECMV_1}{\ECMV_2}{\ZMV'}}{\TUnknown}{\AMV}
+  }{ASEZipInconsistentBranchesR2}
+\end{mathpar}
+
+\subsubsection{Analytic Expression Actions}
+\judgbox{\ensuremath{\AAAction{\ctx}{\ZMV}{\ZMV'}{\TMV'}{\AMV}}}
+
+\paragraph{Subsumption}
+\begin{mathpar}
+  \judgment{
+    \ctxSynTypeM{\ctx}{\cursorErase{\ZMV}}{\TMV'} \\
+    \ASAction{\ctx}{\ZMV}{\TMV'}{\ZMV'}{\TMV''}{\AMV} \\\\
+    \consistent{\TMV}{\TMV''} \\
+    \subsumable{\cursorErase{\ZMV}}
+  }{
+    \AAAction{\ctx}{\ZMV}{\ZMV'}{\TMV}{\AMV}
+  }{AAESubsume1}
+
+  \judgment{
+    \ctxSynTypeM{\ctx}{\cursorErase{\ZMV}}{\TMV'} \\
+    \ASAction{\ctx}{\ZMV}{\TMV'}{\ZMV'}{\TMV''}{\AMV} \\\\
+    \inconsistent{\TMV}{\TMV''} \\
+    \subsumable{\cursorErase{\ZMV}}
+  }{
+    \AAAction{\ctx}{\ZMV}{\ZInconType{\ZMV'}}{\TMV}{\AMV}
+  }{AAESubsume2}
+
+  \judgment{
+    \ctxSynTypeM{\ctx}{\cursorErase{\ZMV}}{\TMV'} \\
+    \ASAction{\ctx}{\ZMV}{\TMV'}{\ZMV'}{\TMV''}{\AMV} \\\\
+    \inconsistent{\TMV}{\TMV''} \\
+    \subsumable{\cursorErase{\ZMV}}
+  }{
+    \AAAction{\ctx}{\ZInconType{\ZMV}}{\ZInconType{\ZMV'}}{\TMV}{\AMV}
+  }{AAEInconsistentTypes1}
+
+  \judgment{
+    \ctxSynTypeM{\ctx}{\cursorErase{\ZMV}}{\TMV'} \\
+    \ASAction{\ctx}{\ZMV}{\TMV'}{\ZMV'}{\TMV''}{\AMV} \\\\
+    \consistent{\TMV}{\TMV''} \\
+    \subsumable{\cursorErase{\ZMV}}
+  }{
+    \AAAction{\ctx}{\ZInconType{\ZMV}}{\ZMV'}{\TMV}{\AMV}
+  }{AAEInconsistentTypes2}
+\end{mathpar}
+
+\paragraph{Movement}
+\begin{mathpar}
+  \judgment{
+    \ASEMove{\ZMV}{\ZMV'}{\MMV}
+  }{
+    \AAMove{\ctx}{\ZMV}{\ZMV'}{\TMV}{\MMV}
+  }{AAEMove}
+\end{mathpar}
+
+\paragraph{Deletion}
+\begin{mathpar}
+  \judgment{ }{
+    \AAEDel{\ctx}{\ECMV}{\TMV}
+  }{AAEDel}
+\end{mathpar}
+
+\paragraph{Construction}
+\begin{mathpar}
+  \judgment{
+    \matchedArrow{\TMV}{\TMV_1}{\TMV_2} \\
+    \ctxAnaFixedInto{\extendCtx{\ctx}{x}{\TMV_1}}{\ECMV}{\ECMV'}{\TMV_2}
+  }{
+    \AACon{\ctx}{\ZCursor{\ECMV}}{\ZLamT{x}{\ZTCursor{\TMV_1}}{\ECMV'}}{\TMV}{\SLam{x}}
+  }{AAEConLam1}
+
+  \judgment{
+    \notMatchedArrow{\TMV} \\
+    \ctxAnaFixedInto{\extendCtx{\ctx}{x}{\TUnknown}}{\ECMV}{\ECMV'}{\TUnknown}
+  }{
+    \AACon{\ctx}{\ZCursor{\ECMV}}{\ZInconType{\ZLamT{x}{\ZTCursor{\TUnknown}}{\ECMV'}}}{\TMV}{\SLam{x}}
+  }{AAEConLam2}
+\end{mathpar}
+
+\begin{mathpar}
+  \judgment{
+  }{
+    \AACon{\ctx}{\ZCursor{\ECMV}}{\ZLetL{x}{\ECMV}{\ZCursor{\ECEHole}}}{\TMV}{\SLetL{x}}
+  }{AAEConLetL}
+
+  \judgment{
+    \ctxAnaFixedInto{\extendCtx{\ctx}{x}{\TUnknown}}{\erase{\ECMV}}{\ECMV'}{\TMV}
+  }{
+    \AACon{\ctx}{\ZCursor{\ECMV}}{\ZLetR{x}{\ZCursor{\ECEHole}}{\ECMV'}}{\TMV}{\SLetR{x}}
+  }{AAEConLetR}
+\end{mathpar}
+ 
+\begin{mathpar}
+  \judgment{ }{
+    \AACon{\ctx}{\ZCursor{\ECMV}}{\ZIfC{\ZCursor{\ECEHole}}{\ECMV}{\ECEHole}}{\TMV}{\SIfL}
+  }{AAEConIfL}
+
+  \judgment{
+  }{
+    \AACon{\ctx}{\ZCursor{\ECMV}}{\ZIfC{\ZCursor{\ECEHole}}{\ECEHole}{\ECMV}}{\TMV}{\SIfR}
+  }{AAEConIfR}
+\end{mathpar}
+
+\paragraph{Zipper Cases}
+\begin{mathpar}
+  \judgment{
+    \AUTAction{\ZTMV}{\ZTMV'}{\AMV} \\
+    \consistent{\cursorErase{\ZTMV}}{\cursorErase{\ZTMV'}}
+  }{
+    \AAAction{\ctx}{\ZLamT{x}{\ZTMV}{\ECMV}}{\ZLamT{x}{\ZTMV'}{\ECMV}}{\TMV}{\AMV}
+  }{AAEZipLamT1}
+
+  \judgment{
+    \AUTAction{\ZTMV}{\ZTMV'}{\AMV} \\
+    \inconsistent{\cursorErase{\ZTMV}}{\cursorErase{\ZTMV'}} \\
+    \matchedArrow{\TMV}{\TMV_1}{\TMV_2} \\\\
+    \consistent{\cursorErase{\ZTMV'}}{\TMV_1} \\
+    \ctxAnaFixedInto{\extendCtx{\ctx}{x}{\cursorErase{\ZTMV'}}}{\erase{\ECMV}}{\ECMV'}{\TMV_2}
+  }{
+    \AAAction{\ctx}{\ZLamT{x}{\ZTMV}{\ECMV}}{\ZLamT{x}{\ZTMV'}{\ECMV'}}{\TMV}{\AMV}
+  }{AAEZipLamT2}
+
+  \judgment{
+    \AUTAction{\ZTMV}{\ZTMV'}{\AMV} \\
+    \inconsistent{\cursorErase{\ZTMV}}{\cursorErase{\ZTMV'}} \\
+    \matchedArrow{\TMV}{\TMV_1}{\TMV_2} \\\\
+    \inconsistent{\cursorErase{\ZTMV'}}{\TMV_1} \\
+    \ctxAnaFixedInto{\extendCtx{\ctx}{x}{\TMV_1}}{\erase{\ECMV}}{\ECMV'}{\TMV_2}
+  }{
+    \AAAction{\ctx}{\ZLamT{x}{\ZTMV}{\ECMV}}{\ZInconType{\ZLamT{x}{\ZTMV'}{\ECMV'}}}{\TMV}{\AMV}
+  }{AAEZipLamT3}
+
+  \judgment{
+    \matchedArrow{\TMV}{\TMV_1}{\TMV_2} \\
+    \AAAction{\extendCtx{\ctx}{x}{\TMV_3}}{\ZMV}{\ZMV'}{\TMV_2}{\AMV}
+  }{
+    \AAAction{\ctx}{\ZLamE{x}{\TMV_3}{\ZMV}}{\ZLamE{x}{\TMV_3}{\ZMV'}}{\TMV}{\AMV}
+  }{AAEZipLamE}
+\end{mathpar}
+
+\begin{mathpar}
+  \judgment{
+    \ctxSynTypeM{\ctx}{\cursorErase{\ZMV}}{\TMV_1} \\
+    \ASEAction{\ctx}{\ZMV}{\TMV_1}{\ZMV'}{\TMV_1'}{\AMV} \\
+    \consistent{\TMV_1}{\TMV_1'}
+  }{
+    \AAAction{\ctx}{\ZLetL{x}{\ZMV}{\ECMV}}{\ZLetL{x}{\ZMV'}{\ECMV}}{\TMV}{\AMV}
+  }{AAEZipLetL1}
+
+  \judgment{
+    \ctxSynTypeM{\ctx}{\cursorErase{\ZMV}}{\TMV_1} \\
+    \ASEAction{\ctx}{\ZMV}{\TMV_1}{\ZMV'}{\TMV_1'}{\AMV} \\\\
+    \ctxAnaFixedInto{\extendCtx{\ctx}{x}{\TMV_1'}}{\erase{\ECMV}}{\ECMV'}{\TMV}
+  }{
+    \AAAction{\ctx}{\ZLetL{x}{\ZMV}{\ECMV}}{\ZLetL{x}{\ZMV'}{\ECMV'}}{\TMV}{\AMV}
+  }{AAEZipLetL2}
+
+  \judgment{
+    \ctxSynTypeM{\ctx}{\ECMV}{\TMV'} \\
+    \AAAction{\extendCtx{\ctx}{x}{\TMV'}}{\ZMV}{\ZMV'}{\TMV}{\AMV}
+  }{
+    \AAAction{\ctx}{\ZLetR{x}{\ECMV}{\ZMV}}{\ZLetL{x}{\ECMV}{\ZMV'}}{\TMV}{\AMV}
+  }{AAEZipLetR}
+\end{mathpar}
+
+\begin{mathpar}
+  \judgment{
+    \AAAction{\ctx}{\ZMV}{\ZMV'}{\TBool}{\AMV}
+  }{
+    \AAAction{\ctx}{\ZIfC{\ZMV}{\ECMV_1}{\ECMV_2}}{\ZIfC{\ZMV'}{\ECMV_1}{\ECMV_2}}{\TMV}{\AMV}
+  }{AAEZipIfC}
+
+  \judgment{
+    \AAAction{\ctx}{\ZMV}{\ZMV'}{\TMV}{\AMV}
+  }{
+    \AAAction{\ctx}{\ZIfL{\ECMV_1}{\ZMV}{\ECMV_2}}{\ZIfL{\ECMV_1}{\ZMV'}{\ECMV_2}}{\TMV}{\AMV}
+  }{AAEZipIfL}
+
+  \judgment{
+    \AAAction{\ctx}{\ZMV}{\ZMV'}{\TMV}{\AMV}
+  }{
+    \AAAction{\ctx}{\ZIfR{\ECMV_1}{\ECMV_2}{\ZMV}}{\ZIfR{\ECMV_1}{\ECMV_2}{\ZMV'}}{\TMV}{\AMV}
+  }{AAEZipIfR}
+\end{mathpar}
+
+\subsubsection{Iterated Actions}
+The iterated type action and movements judgments are the same as in the untyped model. \\
+
+\judgbox{\ensuremath{\ASEActionIter{\ctx}{\ZMV}{\TMV}{\ZMV'}{\TMV'}{\AIMV}}}
+%
+\begin{mathpar}
+  \judgment{ }{
+    \ASEActionIter{\ctx}{\ZMV}{\TMV}{\ZMV}{\TMV}{\AINil}
+  }{ASEIRefl}
+
+  \judgment{
+    \ASEAction{\ctx}{\ZMV}{\TMV}{\ZMV'}{\TMV'}{\AMV} \\
+    \ASEActionIter{\ctx}{\ZMV'}{\TMV'}{\ZMV''}{\TMV''}{\AIMV}
+  }{
+    \ASEActionIter{\ctx}{\ZMV}{\TMV}{\ZMV''}{\TMV''}{\AICons{\AMV}{\AIMV}}
+  }{ASEIExp}
+\end{mathpar}
+
+\judgbox{\ensuremath{\AAEActionIter{\ctx}{\ZMV}{\ZMV'}{\TMV}{\AIMV}}}
+%
+\begin{mathpar}
+  \judgment{ }{
+    \AAEActionIter{\ctx}{\ZMV}{\ZMV}{\TMV}{\AINil}
+  }{AAEIRefl}
+
+  \judgment{
+    \AAEAction{\ctx}{\ZMV}{\ZMV'}{\TMV'}{\AMV} \\
+    \AAEActionIter{\ctx}{\ZMV'}{\ZMV''}{\TMV''}{\AIMV}
+  }{
+    \AAEActionIter{\ctx}{\ZMV}{\ZMV''}{\TMV''}{\AICons{\AMV}{\AIMV}}
+  }{AAEIExp}
+\end{mathpar}
+
+\subsubsection{Metatheorems}
+\begin{theorem}[name=Sensibility] \
+  \begin{enumerate}
+    \item If $\zWellFormed{\ZMV}$ and $\ctxSynTypeM{\ctx}{\cursorErase{\ZMV}}{\TMV}$ and
+      $\ASEAction{\ctx}{\ZMV}{\TMV}{\ZMV'}{\TMV'}{\AMV}$, then $\zWellFormed{\ZMV'}$ and
+      $\ctxSynTypeM{\ctx}{\cursorErase{\ZMV'}}{\TMV'}$.
+
+    \item If $\zWellFormed{\ZMV}$ and $\ctxAnaType{\ctx}{\cursorErase{\ZMV}}{\TMV}$ and
+      $\AAEAction{\ctx}{\ZMV}{\ZMV'}{\TMV}{\AMV}$, then $\zWellFormed{\ZMV'}$ and
+      $\ctxAnaType{\ctx}{\cursorErase{\ZMV'}}{\TMV}$.
+  \end{enumerate}
+\end{theorem}
+
+\begin{theorem}[name=Movement Erasure Invariance] \
+  \begin{enumerate}
+    \item If $\AUTAction{\ZTMV}{\ZTMV'}{\AMove{\MMV}}$, then $\cursorErase{\ZTMV} =
+      \cursorErase{\ZTMV'}$.
+
+    \item If $\zWellFormed{\ZMV}$ and $\ctxSynTypeM{\ctx}{\cursorErase{\ZMV}}{\TMV}$ and
+      $\ASEAction{\ctx}{\ZMV}{\TMV}{\ZMV'}{\TMV'}{\AMove{\MMV}}$, then $\zWellFormed{\ZMV'}$ and
+      $\cursorErase{\ZMV} = \cursorErase{\ZMV'}$ and $\equal{\TMV}{\TMV'}$.
+
+    \item If $\zWellFormed{\ZMV}$ and $\ctxAnaType{\ctx}{\cursorErase{\ZMV}}{\TMV}$ and
+      $\AAEAction{\ctx}{\ZMV}{\ZMV'}{\TMV}{\AMove{\MMV}}$, then $\zWellFormed{\ZMV'}$ and
+      $\cursorErase{\ZMV} = \cursorErase{\ZMV'}$.
+  \end{enumerate}
+\end{theorem}
+
+\begin{theorem}[name=Reachability] \
+  \begin{enumerate}
+    \item If $\cursorErase{\ZTMV} = \cursorErase{\ZTMV'}$, then there exists $\AIMV$ such that
+      $\movements{\AIMV}$ and $\AUTActionIter{\ZTMV}{\ZTMV'}{\AIMV}$.
+
+    \item If $\zWellFormed{\ZMV}$ and $\zWellFormed{\ZMV'}$ and
+      $\ctxSynTypeM{\ctx}{\cursorErase{\ZMV}}{\TMV}$ and $\cursorErase{\ZMV} = \cursorErase{\ZMV'}$,
+      then there exists $\AIMV$ such that $\movements{\AIMV}$ and
+      $\ASEActionIter{\ctx}{\ZMV}{\TMV}{\ZMV'}{\TMV}{\AIMV}$.
+
+    \item If $\zWellFormed{\ZMV}$ and $\zWellFormed{\ZMV'}$ and
+      $\ctxAnaType{\ctx}{\cursorErase{\ZMV}}{\TMV}$ and $\cursorErase{\ZMV} = \cursorErase{\ZMV'}$,
+      then there exists $\AIMV$ such that $\movements{\AIMV}$ and
+      $\AAEActionIter{\ctx}{\ZMV}{\ZMV'}{\TMV}{\AIMV}$.
+  \end{enumerate}
+\end{theorem}
+
+\begin{lemma}[name=Reach Up] \
+  \begin{enumerate}
+    \item If $\cursorErase{\ZTMV} = \TMV$, then there exists $\AIMV$ such that $\movements{\AIMV}$
+      and $\AUTActionIter{\ZTMV}{\ZTCursor{\TMV}}{\AIMV}$.
+
+    \item If $\zWellFormed{\ZMV}$ and $\ctxSynTypeM{\ctx}{\cursorErase{\ZMV}}{\TMV}$ and
+      $\cursorErase{\ZMV} = \ECMV$, then there exists $\AIMV$ such that $\movements{\AIMV}$ and
+      $\ASEActionIter{\ctx}{\ZMV}{\TMV}{\ZTCursor{\ECMV}}{\TMV}{\AIMV}$.
+
+    \item If $\zWellFormed{\ZMV}$ and $\ctxAnaType{\ctx}{\cursorErase{\ZMV}}{\TMV}$ and
+      $\cursorErase{\ZMV} = \ECMV$, then there exists $\AIMV$ such that $\movements{\AIMV}$ and
+      $\AAEActionIter{\ctx}{\ZMV}{\ZTCursor{\ECMV}}{\TMV}{\AIMV}$.
+  \end{enumerate}
+\end{lemma}
+
+\begin{lemma}[name=Reach Down] \
+  \begin{enumerate}
+    \item If $\cursorErase{\ZTMV} = \TMV$, then there exists $\AIMV$ such that $\movements{\AIMV}$
+      and $\AUTActionIter{\ZTCursor{\TMV}}{\ZTMV}{\AIMV}$.
+
+    \item If $\zWellFormed{\ZMV}$ and $\ctxSynTypeM{\ctx}{\cursorErase{\ZMV}}{\TMV}$ and
+      $\cursorErase{\ZMV} = \ECMV$, then there exists $\AIMV$ such that $\movements{\AIMV}$ and
+      $\ASEActionIter{\ctx}{\ZTCursor{\ECMV}}{\TMV}{\ZMV}{\TMV}{\AIMV}$.
+
+    \item If $\zWellFormed{\ZMV}$ and $\ctxAnaType{\ctx}{\cursorErase{\ZMV}}{\TMV}$ and
+      $\cursorErase{\ZMV} = \ECMV$, then there exists $\AIMV$ such that $\movements{\AIMV}$ and
+      $\AAEActionIter{\ctx}{\ZTCursor{\ECMV}}{\ZMV}{\TMV}{\AIMV}$.
+  \end{enumerate}
+\end{lemma}
+
+\begin{theorem}[name=Constructability] \
+  \begin{enumerate}
+    \item For every $\TMV$, there exists $\AIMV$ such that
+      $\AUTActionIter{\ZTCursor{\TUnknown}}{\ZTCursor{\TMV}}{\AIMV}$.
+
+    \item If $\ctxSynTypeM{\ctx}{\ECMV}{\TMV}$, then there exists $\AIMV$ such that
+      $\ASEActionIter{\ctx}{\ZCursor{\EEHole}}{\TUnknown}{\ZCursor{\ECMV}}{\TMV}{\AIMV}$.
+
+    \item If $\ctxAnaType{\ctx}{\ECMV}{\TMV}$, then there exists $\AIMV$ such that
+      $\AAEActionIter{\ctx}{\ZCursor{\EEHole}}{\ZCursor{\ECMV}}{\TMV}{\AIMV}$.
+  \end{enumerate}
+\end{theorem}
+
+\begin{theorem}[name=Determinism] \
+  \begin{enumerate}
+    \item If $\AUTActionIter{\ZTMV}{\ZTMV'}{\AMV}$ and $\AUTActionIter{\ZTMV}{\ZTMV''}{\AMV}$, then
+      $\ZTMV' = \ZTMV''$.
+
+    \item If $\zWellFormed{\ZMV}$ and $\ctxSynTypeM{\ctx}{\cursorErase{\ZMV}}{\TMV}$ and
+      $\ASEActionIter{\ctx}{\ZMV}{\TMV}{\ZMV'}{\TMV'}{\AMV}$ and
+      $\ASEActionIter{\ctx}{\ZMV}{\TMV}{\ZMV''}{\TMV''}{\AMV}$, then $\ZMV' = \ZMV''$ and
+      $\equal{\TMV'}{\TMV''}$.
+
+    \item If $\zWellFormed{\ZMV}$ and $\ctxAnaType{\ctx}{\cursorErase{\ZMV}}{\TMV}$ and
+      $\AAEActionIter{\ctx}{\ZMV}{\ZMV'}{\TMV}{\AMV}$ and
+      $\AAEActionIter{\ctx}{\ZMV}{\ZMV''}{\TMV}{\AMV}$, then $\ZMV' = \ZMV''$.
+  \end{enumerate}
+\end{theorem}

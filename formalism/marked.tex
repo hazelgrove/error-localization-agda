@@ -1,0 +1,955 @@
+\section{Marked Lambda Calculus}
+The \emph{marked lambda calculus} is a judgmental framework for bidirectional type error
+localization and recovery. Below is the complete formalization of the calculus on a gradually typed
+lambda calculus, with rules organized by judgment form.
+
+\subsection{Syntax}
+\[\begin{array}{rrcl}
+  \TMName  & \TMV  & \Coloneqq & \TUnknown \mid \TNum \mid \TBool \mid \TArrow{\TMV}{\TMV} \mid \TProd{\TMV}{\TMV} \\
+  \EMName  & \EMV  & \Coloneqq & x \mid \ELam{x}{\TMV}{\EMV} \mid \EAp{\EMV}{\EMV} \mid \ELet{x}{\EMV}{\EMV}
+                     \mid           \ENumMV \mid \EPlus{\EMV}{\EMV} \\
+           &       & \mid         & \ETrue \mid \EFalse \mid \EIf{\EMV}{\EMV}{\EMV}
+                     \mid           \EPair{\EMV}{\EMV}
+                     \mid           \EProjL{\EMV} \mid \EProjR{\EMV}
+                     \mid           \EEHole \\
+  \ECMName & \ECMV & \Coloneqq & x \mid \ECLam{x}{\TMV}{\ECMV} \mid \ECAp{\ECMV}{\ECMV} \mid \ECLet{x}{\ECMV}{\ECMV}
+                     \mid           \ECNumMV \mid \ECPlus{\ECMV}{\ECMV} \\
+           &       & \mid         & \ECTrue \mid \ECFalse \mid \ECIf{\ECMV}{\ECMV}{\ECMV}
+                     \mid           \ECPair{\ECMV}{\ECMV} \mid \ECProjL{\ECMV} \mid \ECProjR{\ECMV}
+                     \mid           \ECEHole \\
+           &       & \mid         & \ECUnbound{x} \mid \ECInconType{\ECMV} \mid \ECInconBr{\ECMV}{\ECMV}{\ECMV} \mid \ECLamInconAsc{x}{\TMV}{\ECMV} \\
+           &       & \mid         & \ECSynNonMatchedArrow{\ECMV} \mid \ECAnaNonMatchedArrow{\ECMV}
+                     \mid           \ECSynNonMatchedProd{\ECMV} \mid \ECAnaNonMatchedProd{\ECMV}
+\end{array}\]
+
+\subsection{Types}
+\judgbox{\ensuremath{\consistent{\TMV_1}{\TMV_2}}} $\TMV_1$ is consistent with $\TMV_2$
+%
+\begin{mathpar}
+  \judgment{ }{
+    \consistent{\TUnknown}{\TMV}
+  }{TCUnknown1}
+
+  \judgment{ }{
+    \consistent{\TMV}{\TUnknown}
+  }{TCUnknown2}
+
+  \judgment{ }{
+    \consistent{\TMV}{\TMV}
+  }{TCRefl}
+
+  \judgment{
+    \consistent{\TMV_1}{\TMV_1'} \\
+    \consistent{\TMV_2}{\TMV_2'} \\
+  }{
+    \consistent{\TArrow{\TMV_1}{\TMV_2}}{\TArrow{\TMV_1'}{\TMV_2'}}
+  }{TCArr}
+
+  \judgment{
+    \consistent{\TMV_1}{\TMV_1'} \\
+    \consistent{\TMV_2}{\TMV_2'} \\
+  }{
+    \consistent{\TProd{\TMV_1}{\TMV_2}}{\TProd{\TMV_1'}{\TMV_2'}}
+  }{TCProd}
+\end{mathpar} \\
+
+\judgbox{\ensuremath{\matchedArrow{\TMV}{\TMV_1}{\TMV_2}}} $\TMV$ has matched arrow type $\TArrow{\TMV_1}{\TMV_2}$
+%
+\begin{mathpar}
+  \judgment{ }{
+    \matchedArrow{\TUnknown}{\TUnknown}{\TUnknown}
+  }{TMAUnknown}
+
+  \judgment{ }{
+    \matchedArrow{\TArrow{\TMV_1}{\TMV_2}}{\TMV_1}{\TMV_2}
+  }{TMAArr}
+\end{mathpar} \\
+
+\judgbox{\ensuremath{\matchedProd{\TMV}{\TMV_1}{\TMV_2}}} $\TMV$ has matched binary product type $\TProd{\TMV_1}{\TMV_2}$
+%
+\begin{mathpar}
+  \judgment{ }{
+    \matchedProd{\TUnknown}{\TUnknown}{\TUnknown}
+  }{TMPUnknown}
+
+  \judgment{ }{
+    \matchedProd{\TProd{\TMV_1}{\TMV_2}}{\TMV_1}{\TMV_2}
+  }{TMPProd}
+\end{mathpar} \\
+
+\judgbox{\ensuremath{\TJoin{\TMV_1}{\TMV_2}}} is a \emph{partial} metafunction defined as follows:
+%
+\newcommand{\joinsTo}[3]{\ensuremath{\TJoin{#1}{#2} & = & #3}}
+\[\begin{array}{rcl}
+  \joinsTo{\TUnknown}{\TMV}{\TMV} \\
+  \joinsTo{\TMV}{\TUnknown}{\TMV} \\
+  \joinsTo{\TNum}{\TNum}{\TNum} \\
+  \joinsTo{\TBool}{\TBool}{\TBool} \\
+  \joinsTo{(\TArrow{\TMV_1}{\TMV_2})}{(\TArrow{\TMV_1'}{\TMV_2'})}{\TArrow{(\TJoin{\TMV_1}{\TMV_1'})}{(\TJoin{\TMV_2}{\TMV_2'})}} \\
+  \joinsTo{(\TProd{\TMV_1}{\TMV_2})}{(\TProd{\TMV_1'}{\TMV_2'})}{\TProd{(\TJoin{\TMV_1}{\TMV_1'})}{(\TJoin{\TMV_2}{\TMV_2'})}}
+\end{array}\] \\
+
+\judgbox{\ensuremath{\base{\TMV}}} $\TMV$ is a base type
+%
+\begin{mathpar}
+  \judgment{ }{
+    \base{\TNum}
+  }{TBNum}
+
+  \judgment{ }{
+    \base{\TBool}
+  }{TBBool}
+\end{mathpar}
+
+\subsection{Unmarked Expressions}
+\judgbox{\ctxSynTypeU{\ctx}{\EMV}{\TMV}} $\EMV$ synthesizes type $\TMV$
+%
+\begin{mathpar}
+  \judgment{ }{
+    \ctxSynTypeU{\ctx}{\EEHole}{\TUnknown}
+  }{USHole}
+
+  \judgment{
+    \inCtx{\ctx}{x}{\TMV}
+  }{
+    \ctxSynTypeU{\ctx}{x}{\TMV}
+  }{USVar}
+
+  \judgment{
+    \ctxSynTypeU{\extendCtx{\ctx}{x}{\TMV}}{\EMV}{\TMV_2}
+  }{
+    \ctxSynTypeU{\ctx}{\ELam{x}{\TMV_1}{\EMV}}{\TArrow{\TMV_1}{\TMV_2}}
+  }{USLam}
+
+  \judgment{
+    \ctxSynTypeU{\ctx}{\EMV_1}{\TMV} \\
+    \matchedArrow{\TMV}{\TMV_1}{\TMV_2} \\
+    \ctxAnaTypeU{\ctx}{\EMV_2}{\TMV_1}
+  }{
+    \ctxSynTypeU{\ctx}{\EAp{\EMV_1}{\EMV_2}}{\TMV_2}
+  }{USAp}
+
+  \judgment{
+    \ctxSynTypeU{\ctx}{\EMV_1}{\TMV_1} \\
+    \ctxSynTypeU{\extendCtx{\ctx}{x}{\TMV_1}}{\EMV_2}{\TMV_2}
+  }{
+    \ctxSynTypeU{\ctx}{\ELet{x}{\EMV_1}{\EMV_2}}{\TMV_2}
+  }{USLet}
+
+  \judgment{ }{
+    \ctxSynTypeU{\ctx}{\ENumMV}{\TNum}
+  }{USNum}
+
+  \judgment{
+    \ctxAnaTypeU{\ctx}{\EMV_1}{\TNum} \\
+    \ctxAnaTypeU{\ctx}{\EMV_2}{\TNum}
+  }{
+    \ctxSynTypeU{\ctx}{\EPlus{\EMV_1}{\EMV_2}}{\TNum}
+  }{USPlus}
+
+  \judgment{ }{
+    \ctxSynTypeU{\ctx}{\ETrue}{\TBool}
+  }{USTrue}
+
+  \judgment{ }{
+    \ctxSynTypeU{\ctx}{\EFalse}{\TBool}
+  }{USFalse}
+
+  \judgment{
+    \ctxAnaTypeU{\ctx}{\EMV_1}{\TBool} \\
+    \ctxSynTypeU{\ctx}{\EMV_2}{\TMV_1} \\
+    \ctxSynTypeU{\ctx}{\EMV_3}{\TMV_2}
+  }{
+    \ctxSynTypeU{\ctx}{\EIf{\EMV_1}{\EMV_2}{\EMV_3}}{\TJoin{\TMV_1}{\TMV_2}}
+  }{USIf}
+
+  \judgment{
+    \ctxSynTypeU{\ctx}{\EMV_1}{\TMV_1} \\
+    \ctxSynTypeU{\ctx}{\EMV_2}{\TMV_2}
+  }{
+    \ctxSynTypeU{\ctx}{\EPair{\EMV_1}{\EMV_2}}{\TProd{\TMV_1}{\TMV_2}}
+  }{USPair}
+
+  \judgment{
+    \ctxSynTypeU{\ctx}{\EMV}{\TMV} \\
+    \matchedProd{\TMV}{\TMV_1}{\TMV_2}
+  }{
+    \ctxSynTypeU{\ctx}{\EProjL{\EMV}}{\TMV_1}
+  }{USProjL}
+
+  \judgment{
+    \ctxSynTypeU{\ctx}{\EMV}{\TMV} \\
+    \matchedProd{\TMV}{\TMV_1}{\TMV_2}
+  }{
+    \ctxSynTypeU{\ctx}{\EProjR{\EMV}}{\TMV_2}
+  }{USProjR}
+\end{mathpar} \\
+
+\judgbox{\ctxAnaTypeU{\ctx}{\EMV}{\TMV}} $\EMV$ analyzes against type $\TMV$
+%
+\begin{mathpar}
+  \judgment{
+    \matchedArrow{\TMV_3}{\TMV_1}{\TMV_2} \\
+    \consistent{\TMV}{\TMV_1} \\
+    \ctxAnaTypeU{\extendCtx{\ctx}{x}{\TMV}}{\EMV}{\TMV_2}
+  }{
+    \ctxAnaTypeU{\ctx}{\ECLam{x}{\TMV}{\EMV}}{\TMV_3}
+  }{UALam}
+
+  \judgment{
+    \ctxSynTypeU{\ctx}{\EMV_1}{\TMV_1} \\
+    \ctxAnaTypeU{\extendCtx{\ctx}{x}{\TMV_1}}{\EMV_2}{\TMV_2}
+  }{
+    \ctxAnaTypeU{\ctx}{\ELet{x}{\EMV_1}{\EMV_2}}{\TMV_2}
+  }{UALet}
+
+  \judgment{
+    \ctxAnaTypeU{\ctx}{\EMV_1}{\TBool} \\
+    \ctxAnaTypeU{\ctx}{\EMV_1}{\TMV} \\
+    \ctxAnaTypeU{\ctx}{\EMV_2}{\TMV}
+  }{
+    \ctxAnaTypeU{\ctx}{\ECIf{\EMV_1}{\EMV_2}{\EMV_3}}{\TMV}
+  }{UAIf}
+
+  \judgment{
+    \matchedProd{\TMV}{\TMV_1}{\TMV_2} \\
+    \ctxAnaTypeU{\ctx}{\EMV_1}{\TMV_1} \\
+    \ctxAnaTypeU{\ctx}{\EMV_2}{\TMV_2}
+  }{
+    \ctxAnaTypeU{\ctx}{\EPair{\EMV_1}{\EMV_2}}{\TMV}
+  }{UAPair}
+
+  \judgment{
+    \ctxSynTypeU{\ctx}{\EMV}{\TMV'} \\
+    \consistent{\TMV}{\TMV'} \\
+    \subsumable{\EMV}
+  }{
+    \ctxAnaTypeU{\ctx}{\EMV}{\TMV}
+  }{UASubsume}
+\end{mathpar} \\
+
+\judgbox{\subsumable{\EMV}} $\EMV$ is subsumable
+%
+\begin{mathpar}
+  \judgment{ }{
+    \subsumable{\EEHole}
+  }{USuHole}
+
+  \judgment{ }{
+    \subsumable{x}
+  }{USuVar}
+
+  \judgment{ }{
+    \subsumable{\EAp{\EMV_1}{\EMV_2}}
+  }{USuAp}
+
+  \judgment{ }{
+    \subsumable{\ENumMV}
+  }{USuNum}
+
+  \judgment{ }{
+    \subsumable{\EPlus{\EMV_1}{\EMV_2}}
+  }{USuPlus}
+
+  \judgment{ }{
+    \subsumable{\ETrue}
+  }{USuTrue}
+
+  \judgment{ }{
+    \subsumable{\EFalse}
+  }{USuFalse}
+
+  \judgment{ }{
+    \subsumable{\EProjL{\EMV}}
+  }{USuProjL}
+
+  \judgment{ }{
+    \subsumable{\EProjR{\EMV}}
+  }{USuProjR}
+\end{mathpar}
+
+\subsection{Marking}
+\judgbox{\ctxSynFixedInto{\ctx}{\EMV}{\ECMV}{\TMV}} $\EMV$ is marked into $\ECMV$ and synthesizes type $\TMV$
+%
+\begin{mathpar}
+  \judgment{ }{
+    \ctxSynFixedInto{\ctx}{\EEHole}{\ECEHole}{\TUnknown}
+  }{MKSHole}
+
+  \judgment{
+    \inCtx{\ctx}{x}{\TMV}
+  }{
+    \ctxSynFixedInto{\ctx}{x}{x}{\TMV}
+  }{MKSVar}
+
+  \judgment{
+    \notInCtx{\ctx}{x}
+  }{
+    \ctxSynFixedInto{\ctx}{x}{\ECUnbound{x}}{\TUnknown}
+  }{MKSUnbound}
+
+  \judgment{
+    \ctxSynFixedInto{\extendCtx{\ctx}{x}{\TMV_1}}{\EMV}{\ECMV}{\TMV_2}
+  }{
+    \ctxSynFixedInto{\ctx}{\ELam{x}{\TMV_1}{\EMV}}{\ELam{x}{\TMV_1}{\ECMV}}{\TArrow{\TMV_1}{\TMV_2}}
+  }{MKSLam}
+
+  \judgment{
+    \ctxSynFixedInto{\ctx}{\EMV_1}{\ECMV_1}{\TMV} \\
+    \matchedArrow{\TMV}{\TMV_1}{\TMV_2} \\
+    \ctxAnaFixedInto{\ctx}{\EMV_2}{\ECMV_2}{\TMV_1} \\
+  }{
+    \ctxSynFixedInto{\ctx}{\EAp{\EMV_1}{\EMV_2}}{\ECAp{\ECMV_1}{\ECMV_2}}{\TMV_2}
+  }{MKSAp1}
+
+  % \judgment{
+    % \ctxSynFixedInto{\ctx}{\EMV_1}{\ECMV_1}{\TMV} \\
+    % \notMatchedArrow{\TMV} \\
+    % \ctxAnaFixedInto{\ctx}{\EMV_2}{\ECMV_2}{\TUnknown}
+  % }{
+    % \ctxSynFixedInto{\ctx}{\EAp{\EMV_1}{\EMV_2}}{\ECApNonMatched{\ECMV_1}{\ECMV_2}}{\TUnknown}
+  % }{MKSAp2}
+
+  % \judgment{
+    % \ctxSynFixedInto{\ctx}{\EMV_1}{\ECMV_1}{\TMV} \\
+    % \notMatchedArrow{\TMV} \\
+    % \ctxAnaFixedInto{\ctx}{\EMV_2}{\ECMV_2}{\TUnknown}
+  % }{
+    % \ctxSynFixedInto{\ctx}{\EAp{\EMV_1}{\EMV_2}}{\ECApNonMatchedAlt{\ECMV_1}{\ECMV_2}}{\TUnknown}
+  % }{MKSAp2}
+
+  \judgment{
+    \ctxSynFixedInto{\ctx}{\EMV_1}{\ECMV_1}{\TMV} \\
+    \notMatchedArrow{\TMV} \\
+    \ctxAnaFixedInto{\ctx}{\EMV_2}{\ECMV_2}{\TUnknown}
+  }{
+    \ctxSynFixedInto{\ctx}{\EAp{\EMV_1}{\EMV_2}}{\ECApSynNonMatchedArrow{\ECMV_1}{\ECMV_2}}{\TUnknown}
+  }{MKSAp2}
+
+  \judgment{
+    \ctxSynFixedInto{\ctx}{\EMV_1}{\ECMV_1}{\TMV_1} \\
+    \ctxSynFixedInto{\extendCtx{\ctx}{x}{\TMV_1}}{\EMV_2}{\ECMV_2}{\TMV_2}
+  }{
+    \ctxSynFixedInto{\ctx}{\ECLet{x}{\EMV_1}{\EMV_2}}{\ECLet{x}{\ECMV_1}{\ECMV_2}}{\TMV_2}
+  }{MKSLet}
+
+  \judgment{
+  }{
+    \ctxSynFixedInto{\ctx}{\ENumMV}{\ECNumMV}{\TNum}
+  }{MKSNum}
+
+  \judgment{
+    \ctxAnaFixedInto{\ctx}{\EMV_1}{\ECMV_1}{\TNum} \\
+    \ctxAnaFixedInto{\ctx}{\EMV_2}{\ECMV_2}{\TNum}
+  }{
+    \ctxSynFixedInto{\ctx}{\EPlus{\EMV_1}{\EMV_2}}{\ECPlus{\ECMV_1}{\ECMV_2}}{\TNum}
+  }{MKSPlus}
+
+  \judgment{
+  }{
+    \ctxSynFixedInto{\ctx}{\ETrue}{\ECTrue}{\TBool}
+  }{MKSTrue}
+
+  \judgment{
+  }{
+    \ctxSynFixedInto{\ctx}{\EFalse}{\ECFalse}{\TBool}
+  }{MKSFalse}
+
+  \judgment{
+    \ctxAnaFixedInto{\ctx}{\EMV_1}{\ECMV_1}{\TBool} \\
+    \ctxSynFixedInto{\ctx}{\EMV_2}{\ECMV_2}{\TMV_1} \\
+    \ctxSynFixedInto{\ctx}{\EMV_3}{\ECMV_3}{\TMV_2}
+  }{
+    \ctxSynFixedInto{\ctx}{\EIf{\EMV_1}{\EMV_2}{\EMV_3}}{\ECIf{\ECMV_1}{\ECMV_2}{\ECMV_3}}{\TJoin{\TMV_1}{\TMV_2}}
+  }{MKSIf}
+
+  \judgment{
+    \ctxAnaFixedInto{\ctx}{\EMV_1}{\ECMV_1}{\TBool} \\
+    \ctxSynFixedInto{\ctx}{\EMV_2}{\ECMV_2}{\TMV_1} \\
+    \ctxSynFixedInto{\ctx}{\EMV_3}{\ECMV_3}{\TMV_2} \\
+    \inconsistent{\TMV_1}{\TMV_2}
+  }{
+    \ctxSynFixedInto{\ctx}{\EIf{\EMV_1}{\EMV_2}{\EMV_3}}{\ECInconBr{\ECMV_1}{\ECMV_2}{\ECMV_3}}{\TUnknown}
+  }{MKSInconsistentBranches}
+
+  \judgment{
+    \ctxSynFixedInto{\ctx}{\EMV_1}{\ECMV_1}{\TMV_1} \\
+    \ctxSynFixedInto{\ctx}{\EMV_2}{\ECMV_2}{\TMV_2}
+  }{
+    \ctxSynFixedInto{\ctx}{\EPair{\EMV_1}{\EMV_2}}{\ECPair{\ECMV_1}{\ECMV_2}}{\TProd{\TMV_1}{\TMV_2}}
+  }{MKSPair}
+
+  \judgment{
+    \ctxSynFixedInto{\ctx}{\EMV}{\ECMV}{\TMV} \\
+    \matchedProd{\TMV}{\TMV_1}{\TMV_2}
+  }{
+    \ctxSynFixedInto{\ctx}{\EProjL{\EMV}}{\ECProjL{\ECMV}}{\TMV_1}
+  }{MKSProjL1}
+
+  \judgment{
+    \ctxSynFixedInto{\ctx}{\EMV}{\ECMV}{\TMV} \\
+    \notMatchedProd{\TMV}
+  }{
+    \ctxSynFixedInto{\ctx}{\EProjL{\EMV}}{\ECProjLSynNonMatchedProd{\ECMV}}{\TMV_1}
+  }{MKSProjL2}
+
+  \judgment{
+    \ctxSynFixedInto{\ctx}{\EMV}{\ECMV}{\TMV} \\
+    \matchedProd{\TMV}{\TMV_1}{\TMV_2}
+  }{
+    \ctxSynFixedInto{\ctx}{\EProjR{\EMV}}{\ECProjR{\ECMV}}{\TMV_2}
+  }{MKSProjR1}
+
+  \judgment{
+    \ctxSynFixedInto{\ctx}{\EMV}{\ECMV}{\TMV} \\
+    \notMatchedProd{\TMV}
+  }{
+    \ctxSynFixedInto{\ctx}{\EProjR{\EMV}}{\ECProjRSynNonMatchedProd{\ECMV}}{\TMV_2}
+  }{MKSProjR2}
+\end{mathpar} \\
+
+\judgbox{\ctxAnaFixedInto{\ctx}{\EMV}{\ECMV}{\TMV}} $\EMV$ is marked into $\ECMV$ and analyzes against type $\TMV$
+%
+\begin{mathpar}
+  \judgment{
+    \matchedArrow{\TMV_3}{\TMV_1}{\TMV_2} \\
+    \consistent{\TMV}{\TMV_1} \\
+    \ctxAnaFixedInto{\extendCtx{\ctx}{x}{\TMV}}{\EMV}{\ECMV}{\TMV_2}
+  }{
+    \ctxAnaFixedInto{\ctx}{\ELam{x}{\TMV}{\EMV}}{\ECLam{x}{\TMV}{\ECMV}}{\TMV_3}
+  }{MKALam1}
+
+  \judgment{
+    \notMatchedArrow{\TMV_3} \\
+    \ctxAnaFixedInto{\extendCtx{\ctx}{x}{\TMV}}{\EMV}{\ECMV}{\TUnknown}
+  }{
+    \ctxAnaFixedInto{\ctx}{\ELam{x}{\TMV}{\EMV}}{\ECLamAnaNonMatchedArrow{x}{\TMV}{\ECMV}}{\TMV_3}
+  }{MKALam2}
+
+  \judgment{
+    \matchedArrow{\TMV_3}{\TMV_1}{\TMV_2} \\
+    \inconsistent{\TMV}{\TMV_1} \\
+    \ctxAnaFixedInto{\extendCtx{\ctx}{x}{\TMV_1}}{\EMV}{\ECMV}{\TMV_2}
+  }{
+    \ctxAnaFixedInto{\ctx}{\ELam{x}{\TMV}{\EMV}}{\ECLamInconAsc{x}{\TMV}{\ECMV}}{\TMV_3}
+  }{MKALam3}
+
+  \judgment{
+    \ctxSynFixedInto{\ctx}{\EMV_1}{\ECMV_1}{\TMV_1} \\
+    \ctxAnaFixedInto{\extendCtx{\ctx}{x}{\TMV_1}}{\EMV_2}{\ECMV_2}{\TMV_2}
+  }{
+    \ctxAnaFixedInto{\ctx}{\ECLet{x}{\EMV_1}{\EMV_2}}{\ECLet{x}{\ECMV_1}{\ECMV_2}}{\TMV_2}
+  }{MKALet}
+
+  \judgment{
+    \ctxAnaFixedInto{\ctx}{\EMV_1}{\ECMV_1}{\TBool} \\
+    \ctxAnaFixedInto{\ctx}{\EMV_2}{\ECMV_2}{\TMV} \\
+    \ctxAnaFixedInto{\ctx}{\EMV_3}{\ECMV_3}{\TMV} \\
+  }{
+    \ctxAnaFixedInto{\ctx}{\EIf{\EMV_1}{\EMV_2}{\EMV_3}}{\ECIf{\ECMV_1}{\ECMV_2}{\ECMV_3}}{\TMV}
+  }{MKAIf}
+
+  \judgment{
+    \matchedProd{\TMV}{\TMV_1}{\TMV_2} \\
+    \ctxAnaFixedInto{\ctx}{\EMV_1}{\ECMV_1}{\TMV_1} \\
+    \ctxAnaFixedInto{\ctx}{\EMV_2}{\ECMV_2}{\TMV_2}
+  }{
+    \ctxAnaFixedInto{\ctx}{\EPair{\EMV_1}{\EMV_2}}{\ECPair{\ECMV_1}{\ECMV_2}}{\TMV}
+  }{MKAPair1}
+
+  \judgment{
+    \notMatchedProd{\TMV} \\
+    \ctxAnaFixedInto{\ctx}{\EMV_1}{\ECMV_1}{\TUnknown} \\
+    \ctxAnaFixedInto{\ctx}{\EMV_2}{\ECMV_2}{\TUnknown}
+  }{
+    \ctxAnaFixedInto{\ctx}{\EPair{\EMV_1}{\EMV_2}}{\ECPairAnaNonMatchedProd{\ECMV_1}{\ECMV_2}}{\TMV}
+  }{MKAPair2}
+
+  \judgment{
+    \ctxSynFixedInto{\ctx}{\EMV}{\ECMV}{\TMV'} \\
+    \inconsistent{\TMV}{\TMV'} \\
+    \subsumable{\EMV}
+  }{
+    \ctxAnaFixedInto{\ctx}{\EMV}{\ECInconType{\ECMV}}{\TMV}
+  }{MKAInconsistentTypes}
+
+  \judgment{
+    \ctxSynFixedInto{\ctx}{\EMV}{\ECMV}{\TMV'} \\
+    \consistent{\TMV}{\TMV'} \\
+    \subsumable{\EMV}
+  }{
+    \ctxAnaFixedInto{\ctx}{\EMV}{\ECMV}{\TMV}
+  }{MKASubsume}
+\end{mathpar}
+
+\subsection{Marked Expressions}
+\judgbox{\ctxSynTypeM{\ctx}{\ECMV}{\TMV}} $\ECMV$ synthesizes type $\TMV$
+%
+\begin{mathpar}
+  \judgment{ }{
+    \ctxSynTypeM{\ctx}{\ECEHole}{\TUnknown}
+  }{MSHole}
+
+  \judgment{
+    \inCtx{\ctx}{x}{\TMV}
+  }{
+    \ctxSynTypeM{\ctx}{x}{\TMV}
+  }{MSVar}
+
+  \judgment{
+    \notInCtx{\ctx}{x}
+  }{
+    \ctxSynTypeM{\ctx}{\ECUnbound{x}}{\TUnknown}
+  }{MSUnbound}
+
+  \judgment{
+    \ctxSynTypeM{\extendCtx{\ctx}{x}{\TMV}}{\ECMV}{\TMV_2}
+  }{
+    \ctxSynTypeM{\ctx}{\ECLam{x}{\TMV_1}{\ECMV}}{\TArrow{\TMV_1}{\TMV_2}}
+  }{MSLam}
+
+  \judgment{
+    \ctxSynTypeM{\ctx}{\ECMV_1}{\TMV} \\
+    \matchedArrow{\TMV}{\TMV_1}{\TMV_2} \\
+    \ctxAnaTypeM{\ctx}{\ECMV_2}{\TMV_1}
+  }{
+    \ctxSynTypeM{\ctx}{\ECAp{\ECMV_1}{\ECMV_2}}{\TMV_2}
+  }{MSAp1}
+
+  % \judgment{
+    % \ctxSynTypeM{\ctx}{\ECMV_1}{\TMV} \\
+    % \notMatchedArrow{\TMV} \\
+    % \ctxAnaTypeM{\ctx}{\ECMV_2}{\TUnknown}
+  % }{
+    % \ctxSynTypeM{\ctx}{\ECApNonMatched{\ECMV_1}{\ECMV_2}}{\TUnknown}
+  % }{MSAp2}
+
+  % \judgment{
+    % \ctxSynTypeM{\ctx}{\ECMV_1}{\TMV} \\
+    % \notMatchedArrow{\TMV} \\
+    % \ctxAnaTypeM{\ctx}{\ECMV_2}{\TUnknown}
+  % }{
+    % \ctxSynTypeM{\ctx}{\ECApNonMatchedAlt{\ECMV}{\ECMV}}{\TUnknown}
+  % }{MSAp2}
+
+  \judgment{
+    \ctxSynTypeM{\ctx}{\ECMV_1}{\TMV} \\
+    \notMatchedArrow{\TMV} \\
+    \ctxAnaTypeM{\ctx}{\ECMV_2}{\TUnknown}
+  }{
+    \ctxSynTypeM{\ctx}{\ECApSynNonMatchedArrow{\ECMV}{\ECMV}}{\TUnknown}
+  }{MSAp2}
+
+  \judgment{
+    \ctxSynTypeM{\ctx}{\ECMV_1}{\TMV_1} \\
+    \ctxSynTypeM{\extendCtx{\ctx}{x}{\TMV_1}}{\ECMV_2}{\TMV_2}
+  }{
+    \ctxSynTypeM{\ctx}{\ECLet{x}{\ECMV_1}{\ECMV_2}}{\TMV_2}
+  }{MSLet}
+
+  \judgment{ }{
+    \ctxSynTypeM{\ctx}{\ECNumMV}{\TNum}
+  }{MSNum}
+
+  \judgment{
+    \ctxAnaTypeM{\ctx}{\ECMV_1}{\TNum} \\
+    \ctxAnaTypeM{\ctx}{\ECMV_2}{\TNum}
+  }{
+    \ctxSynTypeM{\ctx}{\ECPlus{\ECMV_1}{\ECMV_2}}{\TNum}
+  }{MSPlus}
+
+  \judgment{ }{
+    \ctxSynTypeM{\ctx}{\ECTrue}{\TBool}
+  }{MSTrue}
+
+  \judgment{ }{
+    \ctxSynTypeM{\ctx}{\ECFalse}{\TBool}
+  }{MSFalse}
+
+  \judgment{
+    \ctxAnaTypeM{\ctx}{\ECMV_1}{\TBool} \\
+    \ctxSynTypeM{\ctx}{\ECMV_2}{\TMV_1} \\
+    \ctxSynTypeM{\ctx}{\ECMV_3}{\TMV_2}
+  }{
+    \ctxSynTypeM{\ctx}{\ECIf{\ECMV_1}{\ECMV_2}{\ECMV_3}}{\TJoin{\TMV_1}{\TMV_2}}
+  }{MSIf}
+
+  \judgment{
+    \ctxAnaTypeM{\ctx}{\ECMV_1}{\TBool} \\
+    \ctxSynTypeM{\ctx}{\ECMV_2}{\TMV_1} \\
+    \ctxSynTypeM{\ctx}{\ECMV_3}{\TMV_2} \\
+    \inconsistent{\TMV_1}{\TMV_2}
+  }{
+    \ctxSynTypeM{\ctx}{\ECInconBr{\ECMV_1}{\ECMV_2}{\ECMV_3}}{\TUnknown}
+  }{MSInconsistentBranches}
+
+  \judgment{
+    \ctxSynTypeM{\ctx}{\ECMV_1}{\TMV_1} \\
+    \ctxSynTypeM{\ctx}{\ECMV_2}{\TMV_2}
+  }{
+    \ctxSynTypeM{\ctx}{\ECPair{\ECMV_1}{\ECMV_2}}{\TProd{\TMV_1}{\TMV_2}}
+  }{MSPair}
+
+  \judgment{
+    \ctxSynTypeM{\ctx}{\ECMV}{\TMV} \\
+    \matchedProd{\TMV}{\TMV_1}{\TMV_2}
+  }{
+    \ctxSynTypeM{\ctx}{\ECProjL{\ECMV}}{\TMV_1}
+  }{MSProjL1}
+
+  \judgment{
+    \ctxSynTypeM{\ctx}{\ECMV}{\TMV} \\
+    \notMatchedProd{\TMV}
+  }{
+    \ctxSynTypeM{\ctx}{\ECProjLSynNonMatchedProd{\ECMV}}{\TUnknown}
+  }{MSProjL2}
+
+  \judgment{
+    \ctxSynTypeM{\ctx}{\ECMV}{\TMV} \\
+    \matchedProd{\TMV}{\TMV_1}{\TMV_2}
+  }{
+    \ctxSynTypeM{\ctx}{\ECProjR{\ECMV}}{\TMV_2}
+  }{MSProjR1}
+
+  \judgment{
+    \ctxSynTypeM{\ctx}{\ECMV}{\TMV} \\
+    \notMatchedProd{\TMV}
+  }{
+    \ctxSynTypeM{\ctx}{\ECProjRSynNonMatchedProd{\ECMV}}{\TUnknown}
+  }{MSProjR2}
+\end{mathpar} \\
+
+\judgbox{\ctxAnaTypeM{\ctx}{\ECMV}{\TMV}} $\ECMV$ analyzes against type $\TMV$
+%
+\begin{mathpar}
+  \judgment{
+    \matchedArrow{\TMV_3}{\TMV_1}{\TMV_2} \\
+    \consistent{\TMV}{\TMV_1} \\
+    \ctxAnaTypeM{\extendCtx{\ctx}{x}{\TMV}}{\ECMV}{\TMV_2}
+  }{
+    \ctxAnaTypeM{\ctx}{\ECLam{x}{\TMV}{\ECMV}}{\TMV_3}
+  }{MALam1}
+
+  \judgment{
+    \notMatchedArrow{\TMV_3} \\
+    \ctxAnaTypeM{\extendCtx{\ctx}{x}{\TMV}}{\ECMV}{\TUnknown}
+  }{
+    \ctxAnaTypeM{\ctx}{\ECLamAnaNonMatchedArrow{x}{\TMV}{\ECMV}}{\TMV_3}
+  }{MALam2}
+
+  \judgment{
+    \matchedArrow{\TMV_3}{\TMV_1}{\TMV_2} \\
+    \inconsistent{\TMV}{\TMV_1} \\
+    \ctxAnaTypeM{\extendCtx{\ctx}{x}{\TMV_1}}{\ECMV}{\TMV_2}
+  }{
+    \ctxAnaTypeM{\ctx}{\ECLamInconAsc{x}{\TMV}{\ECMV}}{\TMV_3}
+  }{MALam3}
+
+  \judgment{
+    \ctxSynTypeM{\ctx}{\ECMV_1}{\TMV_1} \\
+    \ctxAnaTypeM{\extendCtx{\ctx}{x}{\TMV_1}}{\ECMV_2}{\TMV_2}
+  }{
+    \ctxAnaTypeM{\ctx}{\ECLet{x}{\ECMV_1}{\ECMV_2}}{\TMV_2}
+  }{MALet}
+
+  \judgment{
+    \ctxAnaTypeM{\ctx}{\ECMV_1}{\TBool} \\
+    \ctxAnaTypeM{\ctx}{\ECMV_1}{\TMV} \\
+    \ctxAnaTypeM{\ctx}{\ECMV_2}{\TMV}
+  }{
+    \ctxAnaTypeM{\ctx}{\ECIf{\ECMV_1}{\ECMV_2}{\ECMV_3}}{\TMV}
+  }{MAIf}
+
+  \judgment{
+    \matchedProd{\TMV}{\TMV_1}{\TMV_2} \\
+    \ctxAnaTypeM{\ctx}{\ECMV_1}{\TMV_1} \\
+    \ctxAnaTypeM{\ctx}{\ECMV_2}{\TMV_2}
+  }{
+    \ctxAnaTypeM{\ctx}{\ECPair{\ECMV_1}{\ECMV_2}}{\TMV}
+  }{MAPair1}
+
+  \judgment{
+    \notMatchedProd{\TMV} \\
+    \ctxAnaTypeM{\ctx}{\ECMV_1}{\TUnknown} \\
+    \ctxAnaTypeM{\ctx}{\ECMV_2}{\TUnknown}
+  }{
+    \ctxAnaTypeM{\ctx}{\ECPairAnaNonMatchedProd{\ECMV_1}{\ECMV_2}}{\TMV}
+  }{MAPair2}
+
+  \judgment{
+    \ctxSynTypeM{\ctx}{\ECMV}{\TMV'} \\
+    \inconsistent{\TMV}{\TMV'} \\
+    \subsumable{\ECMV}
+  }{
+    \ctxAnaTypeM{\ctx}{\ECInconType{\ECMV}}{\TMV}
+  }{MAInconsistentTypes}
+
+  \judgment{
+    \ctxSynTypeM{\ctx}{\ECMV}{\TMV'} \\
+    \consistent{\TMV}{\TMV'} \\
+    \subsumable{\ECMV}
+  }{
+    \ctxAnaTypeM{\ctx}{\ECMV}{\TMV}
+  }{MASubsume}
+\end{mathpar} \\
+
+\judgbox{\subsumable{\ECMV}} $\ECMV$ is subsumable
+%
+\begin{mathpar}
+  \judgment{ }{
+    \subsumable{\ECEHole}
+  }{MSuHole}
+
+  \judgment{ }{
+    \subsumable{x}
+  }{MSuVar}
+
+  \judgment{ }{
+    \subsumable{\ECUnbound{x}}
+  }{MSuUnbound}
+
+  \judgment{ }{
+    \subsumable{\ECAp{\ECMV_1}{\ECMV_2}}
+  }{MSuAp}
+
+  \judgment{ }{
+    \subsumable{\ECNumMV}
+  }{MSuNum}
+
+  \judgment{ }{
+    \subsumable{\ECPlus{\ECMV_1}{\ECMV_2}}
+  }{MSuPlus}
+
+  \judgment{ }{
+    \subsumable{\ECTrue}
+  }{MSuTrue}
+
+  \judgment{ }{
+    \subsumable{\ECFalse}
+  }{MSuFalse}
+
+  \judgment{ }{
+    \subsumable{\ECInconBr{\ECMV_1}{\ECMV_2}{\ECMV_3}}
+  }{MSuInconsistentBranches}
+
+  \judgment{ }{
+    \subsumable{\ECProjL{\ECMV}}
+  }{MSuProjL}
+
+  \judgment{ }{
+    \subsumable{\ECProjR{\ECMV}}
+  }{MSuProjR}
+\end{mathpar} \\
+
+\judgbox{\markless{\ECMV}} $\ECMV$ has no marks
+%
+\begin{mathpar}
+  \judgment{ }{
+    \markless{\ECEHole}
+  }{MLHole}
+
+  \judgment{ }{
+    \markless{x}
+  }{MLVar}
+
+  \judgment{
+    \markless{\ECMV}
+  }{
+    \markless{\ECLam{x}{\TMV}{\ECMV}}
+  }{MLLam}
+
+  \judgment{
+    \markless{\ECMV_1} \\
+    \markless{\ECMV_2}
+  }{
+    \markless{\ECAp{\ECMV_1}{\ECMV_2}}
+  }{MLAp}
+
+  \judgment{ }{
+    \markless{\ECNumMV}
+  }{MLNum}
+
+  \judgment{
+    \markless{\ECMV_1} \\
+    \markless{\ECMV_2}
+  }{
+    \markless{\ECPlus{\ECMV_1}{\ECMV_2}}
+  }{MLPlus}
+
+  \judgment{ }{
+    \markless{\ECTrue}
+  }{MLTrue}
+
+  \judgment{ }{
+    \markless{\ECFalse}
+  }{MLFalse}
+
+  \judgment{
+    \markless{\ECMV_1} \\
+    \markless{\ECMV_2} \\
+    \markless{\ECMV_3}
+  }{
+    \markless{\ECIf{\ECMV_1}{\ECMV_2}{\ECMV_3}}
+  }{MLIf}
+\end{mathpar}
+
+\subsection{Mark Erasure}
+$\judgbox{\erase{\ECMV}}$ is a metafunction defined as follows:
+%
+\newcommand{\erasesToRow}[2]{\erase{#1} & = & #2}
+\[\begin{array}{rcl}
+  \erasesToRow{\ECEHole}{\EEHole} \\
+  \erasesToRow{x}{x} \\
+  \erasesToRow{(\ECLam{x}{\TMV}{\ECMV})}{\ELam{x}{\TMV}{(\erase{\ECMV})}} \\
+  \erasesToRow{(\ECAp{\ECMV_1}{\ECMV_2})}{\EAp{(\erase{\ECMV_1})}{(\erase{\ECMV_2})}} \\
+  \erasesToRow{(\ECLet{x}{\ECMV_1}{\ECMV_2})}{\ELet{x}{(\erase{\ECMV_1})}{(\erase{\ECMV_2})}} \\
+  \erasesToRow{\ECNumMV}{\ENumMV} \\
+  \erasesToRow{(\ECPlus{\ECMV_1}{\ECMV_2})}{\EPlus{(\erase{\ECMV_1})}{(\erase{\ECMV_2})}} \\
+  \erasesToRow{\ECTrue}{\ETrue} \\
+  \erasesToRow{\ECFalse}{\EFalse} \\
+  \erasesToRow{(\ECIf{\ECMV_1}{\ECMV_2}{\ECMV_3})}{\EIf{(\erase{\ECMV_1})}{(\erase{\ECMV_2})}{(\erase{\ECMV_3})}} \\
+  \erasesToRow{\ECUnbound{x}}{x} \\
+  \erasesToRow{\ECInconType{\ECMV}}{\erase{\ECMV}} \\
+  \erasesToRow{\ECInconBr{\ECMV_1}{\ECMV_2}{\ECMV_3}}{\EIf{(\erase{\ECMV_1})}{(\erase{\ECMV_2})}{(\erase{\ECMV_3})}} \\
+  \erasesToRow{\ECLamInconAsc{x}{\TMV}{\ECMV}}{\ELam{x}{\TMV}{(\erase{\ECMV})}} \\
+  \erasesToRow{\ECSynNonMatchedArrow{\ECMV}}{\erase{\ECMV}} \\
+  \erasesToRow{\ECSynNonMatchedProd{\ECMV}}{\erase{\ECMV}} \\
+  \erasesToRow{\ECAnaNonMatchedArrow{\ECMV}}{\erase{\ECMV}} \\
+  \erasesToRow{\ECAnaNonMatchedProd{\ECMV}}{\erase{\ECMV}} \\
+\end{array}\]
+
+\subsection{Metatheorems}
+\begin{theorem}[name=Marking Totality] \
+  \begin{enumerate}
+    \item For all $\ctx$ and $\EMV$, there exist $\ECMV$ and $\TMV$ such that
+      $\ctxSynFixedInto{\ctx}{\EMV}{\ECMV}{\TMV}$.
+    \item For all $\ctx$, $\EMV$, and $\TMV$, there exists $\ECMV$ such that
+      $\ctxAnaFixedInto{\ctx}{\EMV}{\ECMV}{\TMV}$.
+  \end{enumerate}
+\end{theorem}
+
+\begin{theorem}[name=Marking Well-Formedness] \
+  \begin{enumerate}
+    \item If $\ctxSynFixedInto{\ctx}{\EMV}{\ECMV}{\TMV}$, then $\ctxSynTypeM{\ctx}{\ECMV}{\TMV}$ and
+      $\erasesTo{\ECMV}{\EMV}$.
+    \item If $\ctxAnaFixedInto{\ctx}{\EMV}{\ECMV}{\TMV}$, then $\ctxAnaTypeM{\ctx}{\ECMV}{\TMV}$ and
+      $\erasesTo{\ECMV}{\EMV}$.
+  \end{enumerate}
+\end{theorem}
+
+\begin{theorem}[name=Marking of Well-Typed/Ill-Typed Expressions] \
+  \begin{enumerate}
+    \item \begin{enumerate}
+        \item If $\ctxSynTypeU{\ctx}{\EMV}{\TMV}$ and $\ctxSynFixedInto{\ctx}{\EMV}{\ECMV}{\TMV}$,
+          then $\markless{\ECMV}$.
+        \item If $\ctxAnaTypeU{\ctx}{\EMV}{\TMV}$ and $\ctxAnaFixedInto{\ctx}{\EMV}{\ECMV}{\TMV}$,
+          then $\markless{\ECMV}$.
+      \end{enumerate}
+
+    \item \begin{enumerate}
+        \item If there does not exist $\TMV$ such that $\ctxSynTypeU{\ctx}{\EMV}{\TMV}$, then for
+          all $\ECMV$ and $\TMV'$ such that $\ctxSynFixedInto{\ctx}{\EMV}{\ECMV}{\TMV'}$, it is not
+          the case that $\markless{\ECMV}$.
+        \item If there does not exist $\TMV$ such that $\ctxAnaTypeU{\ctx}{\EMV}{\TMV}$, then for
+          all $\ECMV$ and $\TMV'$ such that $\ctxAnaFixedInto{\ctx}{\EMV}{\ECMV}{\TMV'}$, it is not
+          the case that $\markless{\ECMV}$.
+      \end{enumerate}
+  \end{enumerate}
+\end{theorem}
+
+\begin{theorem}[name=Marking Unicity] \
+  \begin{enumerate}
+    \item If $\ctxSynFixedInto{\ctx}{\EMV}{\ECMV_1}{\TMV_1}$ and
+      $\ctxSynFixedInto{\ctx}{\EMV}{\ECMV_2}{\TMV_2}$, then $\ECMV_1 = \ECMV_2$ and $\TMV_1 =
+      \TMV_2$.
+    \item If $\ctxAnaFixedInto{\ctx}{\EMV}{\ECMV_1}{\TMV}$ and
+      $\ctxAnaFixedInto{\ctx}{\EMV}{\ECMV_2}{\TMV}$, then $\ECMV_1 = \ECMV_2$.
+  \end{enumerate}
+\end{theorem}
+
+\subsection{Alternative Conditional Rules}
+There are alternative ways to formulate error localization in conditionals. Below, we provide two
+alternatives to the rules above.
+
+\subsubsection{Localize to Second}
+In this formulation, we always select the first branch as ``correct'' and localize errors to the
+second. \\
+
+\judgbox{\ctxSynTypeU{\ctx}{\EMV}{\TMV}} $\EMV$ synthesizes type $\TMV$
+%
+\begin{mathpar}
+  \judgment{
+    \ctxAnaTypeU{\ctx}{\EMV_1}{\TBool} \\
+    \ctxSynTypeU{\ctx}{\EMV_2}{\TMV} \\
+    \ctxAnaTypeU{\ctx}{\EMV_3}{\TMV}
+  }{
+    \ctxSynTypeU{\ctx}{\EIf{\EMV_1}{\EMV_2}{\EMV_3}}{\TMV}
+  }{USIf'}
+\end{mathpar}
+
+\judgbox{\ctxSynFixedInto{\ctx}{\EMV}{\ECMV}{\TMV}} $\EMV$ is marked into $\ECMV$ and synthesizes type $\TMV$
+%
+\begin{mathpar}
+  \judgment{
+    \ctxAnaFixedInto{\ctx}{\EMV_1}{\ECMV_1}{\TBool} \\
+    \ctxSynFixedInto{\ctx}{\EMV_2}{\ECMV_2}{\TMV} \\
+    \ctxAnaFixedInto{\ctx}{\EMV_3}{\ECMV_3}{\TMV}
+  }{
+    \ctxSynFixedInto{\ctx}{\EIf{\EMV_1}{\EMV_2}{\EMV_3}}{\ECIf{\ECMV_1}{\ECMV_2}{\ECMV_3}}{\TMV}
+  }{MKSIf'}
+\end{mathpar}
+
+\judgbox{\ctxSynTypeM{\ctx}{\ECMV}{\TMV}} $\ECMV$ synthesizes type $\TMV$
+%
+\begin{mathpar}
+  \judgment{
+    \ctxAnaTypeM{\ctx}{\ECMV_1}{\TBool} \\
+    \ctxSynTypeM{\ctx}{\ECMV_2}{\TMV} \\
+    \ctxAnaTypeM{\ctx}{\ECMV_3}{\TMV}
+  }{
+    \ctxSynTypeM{\ctx}{\ECIf{\ECMV_1}{\ECMV_2}{\ECMV_3}}{\TMV}
+  }{MSIf'}
+\end{mathpar}
+
+\subsubsection{Localize to First}
+In this formulation, we always select the second branch as ``correct'' and localize errors to the
+first. \\
+
+\judgbox{\ctxSynTypeU{\ctx}{\EMV}{\TMV}} $\EMV$ synthesizes type $\TMV$
+%
+\begin{mathpar}
+  \judgment{
+    \ctxAnaTypeU{\ctx}{\EMV_1}{\TBool} \\
+    \ctxSynTypeU{\ctx}{\EMV_3}{\TMV} \\
+    \ctxAnaTypeU{\ctx}{\EMV_2}{\TMV}
+  }{
+    \ctxSynTypeU{\ctx}{\EIf{\EMV_1}{\EMV_2}{\EMV_3}}{\TMV}
+  }{USIf''}
+\end{mathpar}
+
+\judgbox{\ctxSynFixedInto{\ctx}{\EMV}{\ECMV}{\TMV}} $\EMV$ is marked into $\ECMV$ and synthesizes type $\TMV$
+%
+\begin{mathpar}
+  \judgment{
+    \ctxAnaFixedInto{\ctx}{\EMV_1}{\ECMV_1}{\TBool} \\
+    \ctxSynFixedInto{\ctx}{\EMV_3}{\ECMV_3}{\TMV} \\
+    \ctxAnaFixedInto{\ctx}{\EMV_2}{\ECMV_2}{\TMV}
+  }{
+    \ctxSynFixedInto{\ctx}{\EIf{\EMV_1}{\EMV_2}{\EMV_3}}{\ECIf{\ECMV_1}{\ECMV_2}{\ECMV_3}}{\TMV}
+  }{MKSIf''}
+\end{mathpar}
+
+\judgbox{\ctxSynTypeM{\ctx}{\ECMV}{\TMV}} $\ECMV$ synthesizes type $\TMV$
+%
+\begin{mathpar}
+  \judgment{
+    \ctxAnaTypeM{\ctx}{\ECMV_1}{\TBool} \\
+    \ctxSynTypeM{\ctx}{\ECMV_3}{\TMV} \\
+    \ctxAnaTypeM{\ctx}{\ECMV_2}{\TMV}
+  }{
+    \ctxSynTypeM{\ctx}{\ECIf{\ECMV_1}{\ECMV_2}{\ECMV_3}}{\TMV}
+  }{MSIf''}
+\end{mathpar}
+
+\input{patterned}
+\input{polymorphism}
