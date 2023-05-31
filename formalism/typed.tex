@@ -1,3 +1,6 @@
+\documentclass[formalism.tex]{subfiles}
+
+\begin{document}
 \section{Typed Hazelnut}
 
 \subsection{Syntax}
@@ -116,6 +119,7 @@ Type cursor erasure is the same as in the untyped model.
 \subsubsection{Expression Cursor Erasure}
 \judgbox{\ensuremath{\cursorErase{\ZMV}}} is a metafunction defined as follows:
 %
+\newcommand{\cursorErasesToRow}[2]{\ensuremath{\cursorErase{#1} & = & #2}}
 \[\begin{array}{rcl}
   \cursorErasesToRow{\ZCursor{\ECMV}}{\ECMV} \\
   \cursorErasesToRow{(\ZLamT{x}{\ZTMV}{\ECMV})}{\ECLam{x}{\cursorErase{\ZTMV}}{\ECMV}} \\
@@ -937,3 +941,5 @@ The iterated type action and movements judgments are the same as in the untyped 
       $\AAEActionIter{\ctx}{\ZMV}{\ZMV''}{\TMV}{\AMV}$, then $\ZMV' = \ZMV''$.
   \end{enumerate}
 \end{theorem}
+
+\end{document}

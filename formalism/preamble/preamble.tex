@@ -1,3 +1,5 @@
+\hbadness=99999
+
 \usepackage{iftex}
 \ifPDFTeX
   \usepackage{libertinust1math}
@@ -7,6 +9,8 @@
 \fi
 \usepackage[scaled=0.8]{FiraMono}
 
+\usepackage[margin=1in]{geometry}
+
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{amsfonts}
@@ -15,6 +19,8 @@
 \usepackage{mathtools}
 \usepackage{mathpartir}
 \usepackage{stmaryrd}
+\SetSymbolFont{stmry}{bold}{U}{stmry}{m}{n}
+
 \usepackage{bm}
 \usepackage{relsize}
 \usepackage{centernot}
@@ -32,3 +38,10 @@
 \declaretheorem[name=Definition, parent=section, style=definition]{definition}
 
 \input{preamble/symbols}
+
+\makeatletter
+\renewcommand\tableofcontents{%
+    \@starttoc{toc}%
+}
+\makeatother
+\setcounter{tocdepth}{2}

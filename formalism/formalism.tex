@@ -1,23 +1,17 @@
 \documentclass{article}
-\input{preamble/preamble}
-\usepackage[margin=1in]{geometry}
 
-\makeatletter
-\renewcommand\tableofcontents{%
-    \@starttoc{toc}%
-}
-\makeatother
+\input{preamble/preamble}
+\usepackage{subfiles}
 
 \begin{document}
-\setcounter{tocdepth}{2}
 \tableofcontents
 
 \renewcommand{\thesection}{\Alph{section}}
 
-\input{marked}
+\subfile{marked}
 \newpage
-\input{untyped}
+\subfile{untyped}
 \newpage
-\input{typed}
+\subfile{typed}
 
 \end{document}
