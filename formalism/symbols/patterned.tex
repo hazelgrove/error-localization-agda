@@ -1,0 +1,71 @@
+% !requires types, marked
+
+%
+% patterns
+%
+
+% unmarked
+\newcommand{\PMName}{{\normalfont\textsf{UPat}}}
+\newcommand{\PMV}{\ensuremath{p}}
+
+\newcommand{\PWild}{\ensuremath{\PCWild}}
+\newcommand{\PVar}[1]{\ensuremath{\PCVar{#1}}}
+\newcommand{\PAsc}[2]{\ensuremath{\PCAsc{#1}{#2}}}
+\newcommand{\PPair}[2]{\ensuremath{\PCPair{#1}{#2}}}
+
+% marked
+\newcommand{\PCMName}{{\normalfont\textsf{MPat}}}
+\newcommand{\PCMV}{\ensuremath{\check{p}}}
+
+\newcommand{\PCWild}{\ensuremath{\_}}
+\newcommand{\PCVar}[1]{\ensuremath{#1}}
+\newcommand{\PCAsc}[2]{\ensuremath{\assignType{#1}{#2}}}
+\newcommand{\PCPair}[2]{\ensuremath{\ECPair{#1}{#2}}}
+\newcommand{\PCInconType}[1]{\ensuremath{\ECInconType{#1}}}
+\newcommand{\PCAnaNonMatchedProd}[1]{\ensuremath{\ECAnaNonMatchedProd{#1}}}
+
+%
+% typing
+%
+
+% unmarked
+\newcommand{\ctxSynPatU}[3]{
+  \begin{highlightbox}{\colorUBkgSyn}
+    \ensuremath{\withCtxU{#1}{\synTypeU{#2}{#3}}}
+  \end{highlightbox}}
+\newcommand{\ctxAnaPatU}[4]{
+  \begin{highlightbox}{\colorUBkgAna}
+    \ensuremath{\withCtxU{#1}{\anaTypeU{#2}{#3 \goodcolor{\colorUText}{\dashv} #4}}}
+  \end{highlightbox}}
+\newcommand{\notAnaPatU}[2]{\ensuremath{#1 \goodcolor{\colorFailSideJudge}{\not\Leftarrow} #2}}
+\newcommand{\ctxNotAnaPatU}[4]{
+  \begin{highlightbox}{\colorUBkgAna}
+    \ensuremath{\withCtxU{#1}{\notAnaPatU{#2}{#3 \goodcolor{\colorUText}{\dashv} #4}}}
+  \end{highlightbox}}
+
+% marked
+\newcommand{\ctxSynPatM}[3]{
+  \begin{highlightbox}{\colorMBkgSyn}
+    \ensuremath{\withCtxM{#1}{\synTypeM{#2}{#3}}}
+  \end{highlightbox}}
+\newcommand{\ctxAnaPatM}[4]{
+  \begin{highlightbox}{\colorMBkgAna}
+    \ensuremath{\withCtxM{#1}{\anaTypeM{#2}{#3 \dashv #4}}}
+  \end{highlightbox}}
+\newcommand{\notAnaPatM}[2]{\ensuremath{#1 \goodcolor{\colorFailSideJudge}{\not\Leftarrow} #2}}
+\newcommand{\ctxNotAnaPatM}[4]{\ensuremath{\withCtxM{#1}{\notAnaPatM{#2}{#3 \dashv #4}}}}
+
+% marking
+\newcommand{\withCtxMKPat}[2]{\ensuremath{#1 \goodcolor{\colorMKText}{\vdash} #2}}
+\newcommand{\synTypeMKPat}[2]{\ensuremath{#1 \goodcolor{\colorMKText}{\Rightarrow} #2}}
+\newcommand{\anaTypeMKPAt}[2]{\ensuremath{#1 \goodcolor{\colorMKText}{\Leftarrow} #2}}
+\newcommand{\synFixedIntoPat}[3]{\ensuremath{\synTypeMKPat{#1 \goodcolor{\colorMKText}{\looparrowright} #2}{#3}}}
+\newcommand{\ctxSynFixedIntoPat}[4]{
+  \begin{highlightbox}{\colorMKBkgSyn}
+    \ensuremath{\withCtxMKPat{#1}{\synFixedIntoPat{#2}{#3}{#4}}}
+  \end{highlightbox}}
+\newcommand{\anaFixedIntoPat}[3]{\ensuremath{\anaTypeMKPAt{#1 \goodcolor{\colorMKText}{\looparrowright} #2}{#3}}}
+\newcommand{\ctxAnaFixedIntoPat}[5]{
+  \begin{highlightbox}{\colorMKBkgAna}
+    \ensuremath{\withCtxMKPat{#1}{\anaFixedIntoPat{#2}{#3}{#4 \dashv #5}}}
+  \end{highlightbox}}

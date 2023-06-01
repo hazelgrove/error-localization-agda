@@ -13,6 +13,7 @@
   colback=#2
   #1,
 }
+
 \newcommand\goodcolor[2]{%
   \protect\leavevmode
   \begingroup
@@ -22,3 +23,14 @@
 }
 
 \newcommand{\mathcolorbox}[2]{{\fboxsep=1pt\colorbox{#1}{$\displaystyle #2$}}}
+
+%
+% judgments
+%
+\newcommand{\judgbox}[1]{\noindent \fbox{$#1$}}
+
+%
+% math
+%
+\DeclareMathOperator{\?}{?}
+\DeclareMathOperator{\dom}{dom}

@@ -1,7 +1,7 @@
 \hbadness=99999
-
 \usepackage{silence}
 
+% font
 \usepackage{iftex}
 \ifPDFTeX
   \usepackage{libertinust1math}
@@ -11,8 +11,10 @@
 \fi
 \usepackage[scaled=0.8]{FiraMono}
 
+% geometry
 \usepackage[margin=1in]{geometry}
 
+% math and symbols
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{amsfonts}
@@ -28,18 +30,23 @@
 \usepackage{relsize}
 \usepackage{centernot}
 
+% hyperlinks
 \usepackage{hyperref}
+
+% enumeration
 \usepackage{enumitem}
 
-% rounded boxes and colors
+% colors
 \usepackage{scalerel}
 \usepackage[dvipsnames]{xcolor}
 \usepackage[most]{tcolorbox}
 
+% theorem types
 \declaretheorem[name=Theorem, parent=section]{theorem}
 \declaretheorem[name=Lemma, parent=theorem]{lemma}
 \declaretheorem[name=Definition, parent=section, style=definition]{definition}
 
+% toc
 \makeatletter
 \renewcommand\tableofcontents{%
     \@starttoc{toc}%
@@ -47,5 +54,5 @@
 \makeatother
 \setcounter{tocdepth}{2}
 
+% utilities
 \input{preamble/utilities}
-\input{symbols/symbols}

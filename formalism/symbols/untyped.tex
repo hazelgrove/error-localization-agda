@@ -1,5 +1,143 @@
+% !requires types
+
 %
-% untyped action judgments
+% zippered types
+%
+\newcommand{\ZTMName}{{\normalfont\textsf{ZType}}}
+\newcommand{\ZTMSet}{\ensuremath{\hat{T}}}
+\newcommand{\ZTMV}{\ensuremath{\hat{\tau}}}
+
+% cursor
+\newcommand{\ZTCursor}[1]{\ensuremath{\ZCursor{#1}}}
+
+% arrow
+\newcommand{\ZTArrowL}[2]{\ensuremath{\TArrow{#1}{#2}}}
+\newcommand{\ZTArrowR}[2]{\ensuremath{\TArrow{#1}{#2}}}
+\newcommand{\ZTProdL}[2]{\ensuremath{\TProd{#1}{#2}}}
+\newcommand{\ZTProdR}[2]{\ensuremath{\TProd{#1}{#2}}}
+
+%
+% zippered expressions
+%
+\newcommand{\ZMName}{{\normalfont\textsf{ZExp}}}
+\newcommand{\ZMSet}{\ensuremath{\hat{E}}}
+\newcommand{\ZMV}{\ensuremath{\hat{e}}}
+
+% cursor
+\definecolor{cursorhighlight}{RGB}{230,255,230}
+\definecolor{cursor}{RGB}{76,170,76}
+\newcommand{\ZCursor}[1]{\ensuremath{\mathcolorbox{cursorhighlight}{\textcolor{cursor}{\bm{\triangleright}}#1\textcolor{cursor}{\bm{\triangleleft}}}}}
+
+% integers
+\newcommand{\ZPlusL}[2]{\ensuremath{\ECPlus{#1}{#2}}}
+\newcommand{\ZPlusR}[2]{\ensuremath{\ECPlus{#1}{#2}}}
+
+% lambdas
+\newcommand{\ZLamT}[3]{\ensuremath{\ECLam{#1}{#2}{#3}}}
+\newcommand{\ZLamE}[3]{\ensuremath{\ECLam{#1}{#2}{#3}}}
+\newcommand{\ZApL}[2]{\ensuremath{\ECAp{#1}{#2}}}
+\newcommand{\ZApR}[2]{\ensuremath{\ECAp{#1}{#2}}}
+\newcommand{\ZApNonMatchedL}[2]{\ensuremath{\ECApNonMatched{#1}{#2}}}
+\newcommand{\ZApNonMatchedR}[2]{\ensuremath{\ECApNonMatched{#1}{#2}}}
+
+% booleans
+\newcommand{\ZIfC}[3]{\ensuremath{\ECIf{#1}{#2}{#3}}}
+\newcommand{\ZIfL}[3]{\ensuremath{\ECIf{#1}{#2}{#3}}}
+\newcommand{\ZIfR}[3]{\ensuremath{\ECIf{#1}{#2}{#3}}}
+\newcommand{\ZInconBrC}[3]{\ensuremath{\ECInconBr{#1}{#2}{#3}}}
+\newcommand{\ZInconBrL}[3]{\ensuremath{\ECInconBr{#1}{#2}{#3}}}
+\newcommand{\ZInconBrR}[3]{\ensuremath{\ECInconBr{#1}{#2}{#3}}}
+
+% let
+\newcommand{\ZLetL}[3]{\ensuremath{\ECLet{#1}{#2}{#3}}}
+\newcommand{\ZLetR}[3]{\ensuremath{\ECLet{#1}{#2}{#3}}}
+
+% pairs
+\newcommand{\ZPairL}[2]{\ensuremath{\ECPair{#1}{#2}}}
+\newcommand{\ZPairR}[2]{\ensuremath{\ECPair{#1}{#2}}}
+\newcommand{\ZProjL}[1]{\ensuremath{\ECProjL{#1}}}
+\newcommand{\ZProjR}[1]{\ensuremath{\ECProjR{#1}}}
+
+% errors
+\newcommand{\ZUnbound}[1]{\ensuremath{\ECUnbound{#1}}}
+\newcommand{\ZInconType}[1]{\ensuremath{\ECInconType{#1}}}
+\newcommand{\ZInconBr}[3]{\ensuremath{\ECInconBr{#1}{#2}{#3}}}
+
+%
+% zipper judgments
+%
+
+% cursor erasure
+\newcommand{\cursorErase}[1]{\ensuremath{#1^{\diamond}}}
+\newcommand{\cursorErasesTo}[2]{\ensuremath{#1^{\diamond} = #2}}
+
+% movements
+\newcommand{\movements}[1]{\ensuremath{#1 ~{\normalfont\textsf{movements}}}}
+
+% shape
+\newcommand{\tshape}[1]{\ensuremath{#1 ~{\normalfont\textsf{tshape}}}}
+\newcommand{\eshape}[1]{\ensuremath{#1 ~{\normalfont\textsf{eshape}}}}
+
+%
+% actions
+%
+\newcommand{\AMName}{{\normalfont\textsf{Action}}}
+\newcommand{\AMV}{\ensuremath{\alpha}}
+\newcommand{\AMove}[1]{\ensuremath{{\normalfont\textsf{move $#1$}}}}
+\newcommand{\ADel}{\ensuremath{{\normalfont\textsf{del}}}}
+\newcommand{\ACon}[1]{\ensuremath{{\normalfont\textsf{construct $#1$}}}}
+
+%
+% iterated actions
+%
+\newcommand{\AIMName}{{\normalfont\textsf{ActionList}}}
+\newcommand{\AIMV}{\ensuremath{\overline{\alpha}}}
+\newcommand{\AINil}{\ensuremath{\cdot}}
+\newcommand{\AICons}[2]{\ensuremath{#1; #2}}
+
+%
+% directions
+%
+\newcommand{\MMName}{{\normalfont\textsf{Dir}}}
+\newcommand{\MMV}{\ensuremath{\delta}}
+\newcommand{\MChild}[1]{\ensuremath{{\normalfont\textsf{child $#1$}}}}
+\newcommand{\MChildNMV}{\ensuremath{n}}
+\newcommand{\MParent}{\ensuremath{{\normalfont\textsf{parent}}}}
+
+%
+% shapes
+%
+\newcommand{\SMName}{{\normalfont\textsf{Shape}}}
+\newcommand{\SMV}{\ensuremath{\psi}}
+
+\newcommand{\STArrowL}{\ensuremath{{\normalfont\textsf{arrow\textsubscript{L}}}}}
+\newcommand{\STArrowR}{\ensuremath{{\normalfont\textsf{arrow\textsubscript{R}}}}}
+\newcommand{\STProdL}{\ensuremath{{\normalfont\textsf{prod\textsubscript{L}}}}}
+\newcommand{\STProdR}{\ensuremath{{\normalfont\textsf{prod\textsubscript{R}}}}}
+\newcommand{\STNum}{\ensuremath{{\normalfont\textsf{num}}}}
+\newcommand{\STBool}{\ensuremath{{\normalfont\textsf{bool}}}}
+
+\newcommand{\SVar}[1]{\ensuremath{{\normalfont\textsf{var $#1$}}}}
+\newcommand{\SLam}[1]{\ensuremath{{\normalfont\textsf{lam $#1$}}}}
+\newcommand{\SApL}{\ensuremath{{\normalfont\textsf{ap\textsubscript{L}}}}}
+\newcommand{\SApR}{\ensuremath{{\normalfont\textsf{ap\textsubscript{R}}}}}
+\newcommand{\SLetL}[1]{\ensuremath{{\normalfont\textsf{let\textsubscript{L} $#1$}}}}
+\newcommand{\SLetR}[1]{\ensuremath{{\normalfont\textsf{let\textsubscript{R} $#1$}}}}
+\newcommand{\SLit}[1]{\ensuremath{{\normalfont\textsf{lit $#1$}}}}
+\newcommand{\SPlusL}{\ensuremath{{\normalfont\textsf{plus\textsubscript{L}}}}}
+\newcommand{\SPlusR}{\ensuremath{{\normalfont\textsf{plus\textsubscript{R}}}}}
+\newcommand{\STrue}{\ensuremath{{\normalfont\textsf{true}}}}
+\newcommand{\SFalse}{\ensuremath{{\normalfont\textsf{false}}}}
+\newcommand{\SIfC}{\ensuremath{{\normalfont\textsf{if\textsubscript{C}}}}}
+\newcommand{\SIfL}{\ensuremath{{\normalfont\textsf{if\textsubscript{L}}}}}
+\newcommand{\SIfR}{\ensuremath{{\normalfont\textsf{if\textsubscript{R}}}}}
+\newcommand{\SPairL}{\ensuremath{{\normalfont\textsf{pair\textsubscript{L}}}}}
+\newcommand{\SPairR}{\ensuremath{{\normalfont\textsf{pair\textsubscript{R}}}}}
+\newcommand{\SProjL}{\ensuremath{{\normalfont\textsf{proj\textsubscript{L}}}}}
+\newcommand{\SProjR}{\ensuremath{{\normalfont\textsf{proj\textsubscript{R}}}}}
+
+%
+% action judgments
 %
 \newcommand{\AUAction}[3]{\ensuremath{#1 \xrightarrow{#3} #2}}
 \newcommand{\AUActionIter}[3]{\ensuremath{#1 \xrightarrow{#3}* #2}}
