@@ -59,12 +59,13 @@
 % judgments
 %
 
-% well-formedness
-\newcommand{\tvarCtxWF}[2]{\ensuremath{\withTvarCtx{#1}{#2}}}
+% consistency
 \newcommand{\tvarCtxConsistent}[3]{\ensuremath{\withTvarCtx{#1}{\consistent{#2}{#3}}}}
-
 \newcommand{\tvarCtxConsistentU}[3]{\ensuremath{\withTvarCtxU{#1}{\consistent{#2}{#3}}}}
 \newcommand{\tvarCtxConsistentM}[3]{\ensuremath{\withTvarCtxM{#1}{\consistent{#2}{#3}}}}
+
+% well-formedness
+\newcommand{\tvarCtxWF}[2]{\ensuremath{\withTvarCtx{#1}{#2}}}
 \newcommand{\tvarCtxWFU}[2]{
   \begin{highlightbox}{\colorUBkgSyn}
     \ensuremath{\withTvarCtxU{#1}{#2}}
@@ -73,6 +74,16 @@
   \begin{highlightbox}{\colorMBkgSyn}
     \ensuremath{\withTvarCtxM{#1}{#2}}
   \end{highlightbox}}
+
+\newcommand{\tvarCtxNotWF}[2]{\ensuremath{\withTvarCtxNot{#1}{#2}}}
+\newcommand{\tvarCtxNotWFU}[2]{\ensuremath{\withTvarCtxUNot{#1}{#2}}}
+\newcommand{\tvarCtxNotWFM}[2]{\ensuremath{\withTvarCtxMNot{#1}{#2}}}
+
+% matched forall
+\newcommand{\matchedForallRel}{\ensuremath{\matchedRel{\forall}}}
+\newcommand{\notMatchedForallRel}{\ensuremath{\notMatchedRel{\forall}}}
+\newcommand{\matchedForall}[3]{\ensuremath{#1 \goodcolor{\colorOkSideJudge}{\matchedForallRel} \TForall{#2}{#3}}}
+\newcommand{\notMatchedForall}[1]{\ensuremath{\goodcolor{\colorFailSideJudge}{#1 \notMatchedForallRel}}}
 
 % type marking
 \newcommand{\typeMarkedInto}[2]{\ensuremath{#1 \goodcolor{\colorMKText}{\looparrowright} #2}}
