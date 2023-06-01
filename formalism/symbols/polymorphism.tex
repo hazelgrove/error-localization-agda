@@ -39,6 +39,18 @@
 \newcommand{\ECTypeLam}[2]{\ensuremath{\Lambda #1. ~#2}}
 \newcommand{\ECTypeAp}[2]{\ensuremath{#1 ~[#2]}}
 
+\newcommand{\MRSynNonMatchedForall}{\ensuremath{\mathsmaller{\notMatchedForallRel}}}
+\newcommand{\MRAnaNonMatchedForall}{\ensuremath{\mathsmaller{\notMatchedForallRel}}}
+
+\newcommand{\ECMarkedSynNonMatchedForall}[1]{\ensuremath{\ECMarked{#1}{\MRSynNonMatchedForall}{\MRSyn}}}
+\newcommand{\ECMarkedAnaNonMatchedForall}[1]{\ensuremath{\ECMarked{#1}{\MRAnaNonMatchedForall}{\MRAna}}}
+
+\newcommand{\ECSynNonMatchedForall}[1]{\ensuremath{\ECMarkedSynNonMatchedForall{#1}}}
+\newcommand{\ECAnaNonMatchedForall}[1]{\ensuremath{\ECMarkedAnaNonMatchedForall{#1}}}
+
+\newcommand{\ECTypeApSynNonMatchedForall}[2]{\ensuremath{\ECTypeAp{\ECSynNonMatchedForall{#1}}{#2}}}
+\newcommand{\ECTypeLamAnaNonMatchedForall}[2]{\ensuremath{\ECAnaNonMatchedForall{\ECTypeLam{#1}{#2}}}}
+
 %
 % contexts
 %

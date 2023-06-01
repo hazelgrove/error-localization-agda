@@ -299,6 +299,36 @@
     \tvarCtxWFM{\tvarCtx}{\MTMV'} \\
     \notMatchedForall{\MTMV}
   }{
-    \bothCtxSynTypeM{\tvarCtx}{\ctx}{\ECTypeAp{\ECMV}{\MTMV'}}{\MTUnknown}
+    \bothCtxSynTypeM{\tvarCtx}{\ctx}{\ECTypeApSynNonMatchedForall{\ECMV}{\MTMV'}}{\MTUnknown}
+  }
+\end{mathpar}
+
+\judgbox{\ensuremath{\bothCtxAnaTypeM{\tvarCtx}{\ctx}{\ECMV}{\MTMV}}} $\ECMV$ analyzes against type $\MTMV$
+%
+\begin{mathpar}
+  \cdots
+
+  \inferrule[MATypeLam1]{
+    \matchedForall{\MTMV}{\MTVarMV}{\MTMV'} \\
+    \bothCtxAnaTypeM{\extendTvarCtx{\tvarCtx}{\MTVarMV}}{\ctx}{\ECMV}{\MTMV'}
+  }{
+    \bothCtxAnaTypeM{\tvarCtx}{\ctx}{\ECTypeLam{\MTVarMV}{\ECMV}}{\MTMV}
+  }
+
+  \inferrule[MATypeLam2]{
+    \notMatchedForall{\MTMV} \\
+    \bothCtxAnaTypeM{\extendTvarCtx{\tvarCtx}{\MTVarMV}}{\ctx}{\ECMV}{\MTUnknown}
+  }{
+    \bothCtxAnaTypeM{\tvarCtx}{\ctx}{\ECTypeLamAnaNonMatchedForall{\MTVarMV}{\ECMV}}{\MTMV}
+  }
+\end{mathpar}
+
+\judgbox{\ensuremath{\subsumable{\ECMV}}} $\ECMV$ is subsumable
+%
+\begin{mathpar}
+  \cdots
+
+  \inferrule[MSuTypeAp]{ }{
+    \subsumable{\ECTypeAp{\ECMV}{\MTMV}}
   }
 \end{mathpar}
