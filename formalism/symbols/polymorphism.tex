@@ -1,0 +1,65 @@
+% !requires types, marked
+
+%
+% types
+%
+
+% syntax
+\newcommand{\TVarMV}{\ensuremath{\alpha}}
+\newcommand{\TForall}[2]{\ensuremath{\forall #1. ~#2}}
+
+% substitution
+\newcommand{\subst}[3]{\ensuremath{#1[#2 / #3]}}
+
+%
+% expressions
+%
+
+% unmarked
+\newcommand{\ETypeLam}[2]{\ensuremath{\ECTypeLam{#1}{#2}}}
+\newcommand{\ETypeAp}[2]{\ensuremath{\ECTypeAp{#1}{#2}}}
+
+% marked
+\newcommand{\ECTypeLam}[2]{\ensuremath{\Lambda #1. ~#2}}
+\newcommand{\ECTypeAp}[2]{\ensuremath{#1 ~[#2]}}
+
+%
+% contexts
+%
+\newcommand{\tvarCtx}{\ensuremath{\Sigma}}
+\newcommand{\extendTvarCtx}[2]{\ensuremath{#1, #2}}
+\newcommand{\inTvarCtx}[2]{\ensuremath{#2 \in #1}}
+\newcommand{\notInTvarCtx}[2]{\ensuremath{\goodcolor{\colorFailSideJudge}{#2 \not\in \dom(#1)}}}
+\newcommand{\withTvarCtx}[2]{\ensuremath{#1 \vdash #2}}
+
+\newcommand{\withBothCtx}[3]{\ensuremath{#1; #2 \vdash #3}}
+
+%
+% judgments
+%
+
+% well-formedness
+\newcommand{\tvarCtxWF}[2]{\ensuremath{\withTvarCtx{#1}{#2}}}
+\newcommand{\tvarCtxConsistent}[3]{\ensuremath{\withTvarCtx{#1}{\consistent{#2}{#3}}}}
+
+% unmarked typing
+\newcommand{\withBothCtxU}[3]{\ensuremath{#1; #2 \goodcolor{\colorUText}{\vdash_{\hspace{-4.25pt}\scaleto{U}{3.5pt}}} #3}}
+\newcommand{\bothCtxSynTypeU}[4]{
+  \begin{highlightbox}{\colorUBkgSyn}
+    \ensuremath{\withBothCtxU{#1}{#2}{\synTypeU{#3}{#4}}}
+  \end{highlightbox}}
+\newcommand{\bothCtxAnaTypeU}[4]{
+  \begin{highlightbox}{\colorUBkgAna}
+    \ensuremath{\withBothCtxU{#1}{#2}{\anaTypeU{#3}{#4}}}
+  \end{highlightbox}}
+
+% marked typing
+\newcommand{\withBothCtxM}[3]{\ensuremath{#1; #2 \goodcolor{\colorMText}{\vdash_{\hspace{-4.75pt}\scaleto{M}{3.5pt}}} #3}}
+\newcommand{\bothCtxSynTypeM}[4]{
+  \begin{highlightbox}{\colorMBkgSyn}
+    \ensuremath{\withBothCtxM{#1}{#2}{\synTypeM{#3}{#4}}}
+  \end{highlightbox}}
+\newcommand{\bothCtxAnaTypeM}[4]{
+  \begin{highlightbox}{\colorMBkgAna}
+    \ensuremath{\withBothCtxM{#1}{#2}{\anaTypeM{#3}{#4}}}
+  \end{highlightbox}}
