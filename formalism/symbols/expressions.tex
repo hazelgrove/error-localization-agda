@@ -1,0 +1,110 @@
+% !requires types
+
+%
+% external expressions
+%
+\newcommand{\EMName}{{\normalfont\textsf{UExp}}}
+\newcommand{\EMSet}{\ensuremath{E}}
+\newcommand{\EMV}{\ensuremath{e}}
+
+% holes
+\newcommand{\EEHole}{\ensuremath{\ECEHole}}
+
+% integers
+\newcommand{\ENum}[1]{\ensuremath{\ECNum{#1}}}
+\newcommand{\ENumMV}{\ensuremath{\ECNumMV}}
+\newcommand{\EOpPlus}{\ensuremath{\ECOpPlus}}
+\newcommand{\EPlus}[2]{\ensuremath{\ECPlus{#1}{#2}}}
+
+% booleans
+\newcommand{\ETrue}{\ensuremath{\ECTrue}}
+\newcommand{\EFalse}{\ensuremath{\ECFalse}}
+\newcommand{\EIf}[3]{\ensuremath{\ECIf{#1}{#2}{#3}}}
+
+% lambdas
+\newcommand{\ELam}[3]{\ensuremath{\ECLam{#1}{#2}{#3}}}
+\newcommand{\EAp}[2]{\ensuremath{\ECAp{#1}{#2}}}
+
+% pairs
+\newcommand{\EPair}[2]{\ensuremath{\ECPair{#1}{#2}}}
+\newcommand{\EProjL}[1]{\ensuremath{\ECProjL{#1}}}
+\newcommand{\EProjR}[1]{\ensuremath{\ECProjR{#1}}}
+
+% let
+\newcommand{\ELet}[3]{\ensuremath{\ECLet{#1}{#2}{#3}}}
+
+%
+% marked expressions
+%
+\newcommand{\ECMName}{{\normalfont\textsf{MExp}}}
+\newcommand{\ECMSet}{\ensuremath{\check{E}}}
+\newcommand{\ECMV}{\ensuremath{\check{e}}}
+
+% holes
+\definecolor{hole}{RGB}{162,85,162}
+\newcommand{\ECEHole}{\ensuremath{\textcolor{hole}{\bm{\llparenthesis}}\textcolor{hole}{\bm{\rrparenthesis}}}}
+
+% integers
+\newcommand{\ECNum}[1]{\ensuremath{\underline{#1}}}
+\newcommand{\ECNumMV}{\ensuremath{\ECNum{n}}}
+\newcommand{\ECOpPlus}{\ensuremath{+}}
+\newcommand{\ECPlus}[2]{\ensuremath{#1 \ECOpPlus #2}}
+
+% booleans
+\newcommand{\ECTrue}{\ensuremath{{\normalfont\textsf{tt}}}}
+\newcommand{\ECFalse}{\ensuremath{{\normalfont\textsf{ff}}}}
+\newcommand{\ECIf}[3]{\ensuremath{#1 ~?~ #2 : #3}}
+
+% lambdas
+\newcommand{\ECLam}[3]{\ensuremath{\lambda #1 : #2. ~#3}}
+\newcommand{\ECAp}[2]{\ensuremath{#1 ~#2}}
+\newcommand{\ECApNonMatched}[2]{\ensuremath{\ECAp{\ECInconType{#1}}{#2}}}
+\newcommand{\ECApNonMatchedAlt}[2]{\ensuremath{\textcolor{red}{[}\ECAp{#1}{#2}\textcolor{red}{]}}}
+
+% pairs
+\newcommand{\ECPair}[2]{\ensuremath{(#1, #2)}}
+\newcommand{\ECProjL}[1]{\ensuremath{\pi_1 #1}}
+\newcommand{\ECProjR}[1]{\ensuremath{\pi_2 #1}}
+
+% let
+\newcommand{\ECLet}[3]{\ensuremath{\textsf{let}~ #1 = #2 ~\textsf{in}~ #3}}
+
+% errors
+\newcommand{\MRUnbound}{\ensuremath{\mathsmaller{\mathsmaller{\mathsmaller{\square}}}}}
+\newcommand{\MRInconType}{\ensuremath{\mathsmaller{\inconsistentRel}}}
+\newcommand{\MRInconBr}{\ensuremath{\mathlarger{\noJoinRel}}}
+\newcommand{\MRInconAsc}{\ensuremath{\bm{:}}}
+\newcommand{\MRSynNonMatchedArrow}{\ensuremath{\mathsmaller{\notMatchedArrowRel}}}
+\newcommand{\MRSynNonMatchedProd}{\ensuremath{\mathsmaller{\notMatchedProdRel}}}
+\newcommand{\MRAnaNonMatchedArrow}{\ensuremath{\mathsmaller{\notMatchedArrowRel}}}
+\newcommand{\MRAnaNonMatchedProd}{\ensuremath{\mathsmaller{\notMatchedProdRel}}}
+\newcommand{\MRUnboundTypeVar}{\ensuremath{\MRUnbound}}
+
+\newcommand{\MRSyn}{\ensuremath{\mathsmaller{\Rightarrow}}}
+\newcommand{\MRAna}{\ensuremath{\mathsmaller{\Leftarrow}}}
+
+\newcommand{\ECMarked}[3]{\ensuremath{\textcolor{red}{\bm{\llparenthesis}#1\bm{\rrparenthesis}_{#2}^{#3}}}}
+\newcommand{\ECMarkedUnbound}[1]{\ensuremath{\ECMarked{#1}{\MRUnbound}{}}}
+\newcommand{\ECMarkedInconType}[1]{\ensuremath{\ECMarked{#1}{\MRInconType}{}}}
+\newcommand{\ECMarkedInconBr}[1]{\ensuremath{\ECMarked{#1}{\MRInconBr}{}}}
+\newcommand{\ECMarkedInconAsc}[1]{\ensuremath{\ECMarked{#1}{\MRInconAsc}{}}}
+\newcommand{\ECMarkedSynNonMatchedArrow}[1]{\ensuremath{\ECMarked{#1}{\MRSynNonMatchedArrow}{\MRSyn}}}
+\newcommand{\ECMarkedSynNonMatchedProd}[1]{\ensuremath{\ECMarked{#1}{\MRSynNonMatchedProd}{\MRSyn}}}
+\newcommand{\ECMarkedAnaNonMatchedArrow}[1]{\ensuremath{\ECMarked{#1}{\MRAnaNonMatchedArrow}{\MRAna}}}
+\newcommand{\ECMarkedAnaNonMatchedProd}[1]{\ensuremath{\ECMarked{#1}{\MRAnaNonMatchedProd}{\MRAna}}}
+
+\newcommand{\ECUnbound}[1]{\ensuremath{\ECMarkedUnbound{#1}}}
+\newcommand{\ECInconType}[1]{\ensuremath{\ECMarkedInconType{#1}}}
+\newcommand{\ECInconBr}[3]{\ensuremath{\ECMarkedInconBr{\ECIf{#1}{#2}{#3}}}}
+\newcommand{\ECInconAsc}[1]{\ensuremath{\ECMarkedInconAsc{#1}}}
+\newcommand{\ECSynNonMatchedArrow}[1]{\ensuremath{\ECMarkedSynNonMatchedArrow{#1}}}
+\newcommand{\ECSynNonMatchedProd}[1]{\ensuremath{\ECMarkedSynNonMatchedProd{#1}}}
+\newcommand{\ECAnaNonMatchedArrow}[1]{\ensuremath{\ECMarkedAnaNonMatchedArrow{#1}}}
+\newcommand{\ECAnaNonMatchedProd}[1]{\ensuremath{\ECMarkedAnaNonMatchedProd{#1}}}
+
+\newcommand{\ECLamInconAsc}[3]{\ensuremath{\ECInconAsc{\ECLam{#1}{#2}{#3}}}}
+\newcommand{\ECApSynNonMatchedArrow}[2]{\ensuremath{\ECAp{\ECSynNonMatchedArrow{#1}}{#2}}}
+\newcommand{\ECProjLSynNonMatchedProd}[1]{\ensuremath{\ECProjL{\ECSynNonMatchedProd{#1}}}}
+\newcommand{\ECProjRSynNonMatchedProd}[1]{\ensuremath{\ECProjR{\ECSynNonMatchedProd{#1}}}}
+\newcommand{\ECLamAnaNonMatchedArrow}[3]{\ensuremath{\ECAnaNonMatchedArrow{\ECLam{#1}{#2}{#3}}}}
+\newcommand{\ECPairAnaNonMatchedProd}[2]{\ensuremath{\ECAnaNonMatchedProd{\ECPair{#1}{#2}}}}

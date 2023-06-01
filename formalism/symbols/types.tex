@@ -1,0 +1,75 @@
+\newcommand{\colorOkSideJudge}{Black!50}
+\newcommand{\colorFailSideJudge}{red}
+
+%
+% relations
+%
+
+% equality
+\newcommand{\equal}[2]{\ensuremath{#1 = #2}}
+\newcommand{\notEqual}[2]{\ensuremath{#1 \neq #2}}
+
+% consistency
+\newcommand{\consistentRel}{\ensuremath{\sim}}
+\newcommand{\consistent}[2]{\ensuremath{#1 \goodcolor{\colorOkSideJudge}{\consistentRel} #2}}
+\newcommand{\inconsistentRel}{\ensuremath{\nsim}}
+\newcommand{\inconsistent}[2]{\ensuremath{\goodcolor{\colorFailSideJudge}{#1 \inconsistentRel #2}}}
+
+% matching
+\newcommand{\matchedRel}[1]{\ensuremath{\blacktriangleright_{#1}}}
+\newcommand{\notMatchedRel}[1]{\ensuremath{\blacktriangleright_{\centernot#1}}}
+\newcommand{\matchedArrowRel}{\ensuremath{\matchedRel{\to}}}
+\newcommand{\notMatchedArrowRel}{\ensuremath{\notMatchedRel{\to}}}
+\newcommand{\matchedArrow}[3]{\ensuremath{#1 \goodcolor{\colorOkSideJudge}{\matchedArrowRel} \TArrow{#2}{#3}}}
+\newcommand{\notMatchedArrow}[1]{\ensuremath{\goodcolor{\colorFailSideJudge}{#1 \notMatchedArrowRel}}}
+\newcommand{\matchedProdRel}{\ensuremath{\matchedRel{\times}}}
+\newcommand{\notMatchedProdRel}{\ensuremath{\notMatchedRel{\times}}}
+\newcommand{\matchedProd}[3]{\ensuremath{#1 \goodcolor{\colorOkSideJudge}{\matchedProdRel} \TProd{#2}{#3}}}
+\newcommand{\notMatchedProd}[1]{\ensuremath{\goodcolor{\colorFailSideJudge}{#1 \notMatchedProdRel}}}
+
+\newcommand{\matchedForallRel}{\ensuremath{\matchedRel{\forall}}}
+\newcommand{\matchedForall}[3]{\ensuremath{#1 \goodcolor{\colorOkSideJudge}{\matchedForallRel} \TForall{#2}{#3}}}
+
+% base types
+\newcommand{\base}[1]{\ensuremath{#1 ~{\normalfont\textsf{base}}}}
+
+% 
+% syntax
+%
+\newcommand{\TMName}{{\normalfont\textsf{Type}}}
+\newcommand{\TMSet}{\ensuremath{T}}
+\newcommand{\TMV}{\ensuremath{\tau}}
+
+\newcommand{\joinRel}{\sqcup}
+\newcommand{\noJoinRel}{\centernot\sqcup}
+\newcommand{\TJoin}[2]{\ensuremath{#1 \joinRel #2}}
+
+\newcommand{\TUnknown}{\ensuremath{\?}}
+\newcommand{\TUnknownSwitch}{\ensuremath{\?^{\Rightarrow}}}
+\newcommand{\TNum}{\ensuremath{{\normalfont\textsf{num}}}}
+\newcommand{\TVar}{\ensuremath{{\normalfont\textsf{var}}}}
+\newcommand{\TBool}{\ensuremath{{\normalfont\textsf{bool}}}}
+\newcommand{\TArrow}[2]{\ensuremath{#1 \to #2}}
+\newcommand{\TProd}[2]{\ensuremath{#1 \times #2}}
+
+%
+% contexts
+%
+\newcommand{\ctx}{\ensuremath{\Gamma}}
+\newcommand{\extendCtx}[3]{\ensuremath{#1 , ~\assignType{#2}{#3}}}
+\newcommand{\inCtx}[3]{\ensuremath{\assignType{#2}{#3} \in #1}}
+\newcommand{\notInCtx}[2]{\ensuremath{\goodcolor{\colorFailSideJudge}{#2 \not\in \dom(#1)}}}
+\newcommand{\withCtx}[2]{\ensuremath{#1 \vdash #2}}
+
+%
+% typing
+%
+\newcommand{\assignType}[2]{\ensuremath{#1 : #2}}
+\newcommand{\synType}[2]{\ensuremath{#1 \Rightarrow #2}}
+\newcommand{\notSynType}[2]{\ensuremath{#1 \not\Rightarrow #2}}
+\newcommand{\ctxSynType}[3]{\ensuremath{\withCtx{#1}{\synType{#2}{#3}}}}
+\newcommand{\ctxNotSynType}[3]{\ensuremath{\withCtx{#1}{\notSynType{#2}{#3}}}}
+\newcommand{\anaType}[2]{\ensuremath{#1 \Leftarrow #2}}
+\newcommand{\notAnaType}[2]{\ensuremath{#1 \goodcolor{\colorFailSideJudge}{\not\Leftarrow} #2}}
+\newcommand{\ctxAnaType}[3]{\ensuremath{\withCtx{#1}{\anaType{#2}{#3}}}}
+\newcommand{\ctxNotAnaType}[3]{\ensuremath{\withCtx{#1}{\notAnaType{#2}{#3}}}}

@@ -1,0 +1,82 @@
+% !requires types
+
+%
+% typing
+%
+
+% unmarked
+\newcommand{\colorUText}{PineGreen!90}
+\newcommand{\colorUBkgSyn}{Gray!5}
+\newcommand{\colorUBkgAna}{Gray!5}
+
+\newcommand{\withCtxU}[2]{\ensuremath{#1 \goodcolor{\colorUText}{\vdash_{\hspace{-4.25pt}\scaleto{U}{3.5pt}}} #2}}
+\newcommand{\synTypeU}[2]{\ensuremath{#1 \goodcolor{\colorUText}{\Rightarrow} #2}}
+\newcommand{\notSynTypeU}[2]{\ensuremath{#1 \not\Rightarrow #2}}
+\newcommand{\ctxSynTypeU}[3]{
+  \begin{highlightbox}{\colorUBkgSyn}
+    \ensuremath{\withCtxU{#1}{\synTypeU{#2}{#3}}}
+  \end{highlightbox}}
+\newcommand{\ctxNotSynTypeU}[3]{\ensuremath{\withCtxU{#1}{\notSynTypeU{#2}{#3}}}}
+
+\newcommand{\anaTypeU}[2]{\ensuremath{#1 \goodcolor{\colorUText}{\Leftarrow} #2}}
+\newcommand{\notAnaTypeU}[2]{\ensuremath{#1 \goodcolor{\colorFailSideJudge}{\not\Leftarrow} #2}}
+\newcommand{\ctxAnaTypeU}[3]{
+  \begin{highlightbox}{\colorUBkgAna}
+    \ensuremath{\withCtxU{#1}{\anaTypeU{#2}{#3}}}
+  \end{highlightbox}}
+\newcommand{\ctxNotAnaTypeU}[3]{\ensuremath{\withCtxU{#1}{\notAnaTypeU{#2}{#3}}}}
+
+% marked
+\newcommand{\colorMText}{DarkOrchid}
+\newcommand{\colorMBkgSyn}{Gray!5}
+\newcommand{\colorMBkgAna}{Gray!5}
+
+\newcommand{\withCtxM}[2]{\ensuremath{#1 \goodcolor{\colorMText}{\vdash_{\hspace{-4.75pt}\scaleto{M}{3.5pt}}} #2}}
+\newcommand{\synTypeM}[2]{\ensuremath{#1 \goodcolor{\colorMText}{\Rightarrow} #2}}
+\newcommand{\notSynTypeM}[2]{\ensuremath{#1 \not\Rightarrow #2}}
+\newcommand{\ctxSynTypeM}[3]{
+  \begin{highlightbox}{\colorMBkgSyn}
+    \ensuremath{\withCtxM{#1}{\synTypeM{#2}{#3}}}
+  \end{highlightbox}}
+\newcommand{\ctxNotSynTypeM}[3]{\ensuremath{\withCtxM{#1}{\notSynTypeM{#2}{#3}}}}
+
+\newcommand{\anaTypeM}[2]{\ensuremath{#1 \goodcolor{\colorMText}{\Leftarrow} #2}}
+\newcommand{\notAnaTypeM}[2]{\ensuremath{#1 \goodcolor{\colorFailSideJudge}{\not\Leftarrow} #2}}
+\newcommand{\ctxAnaTypeM}[3]{
+  \begin{highlightbox}{\colorMBkgAna}
+    \ensuremath{\withCtxM{#1}{\anaTypeM{#2}{#3}}}
+  \end{highlightbox}}
+\newcommand{\ctxNotAnaTypeM}[3]{\ensuremath{\withCtxM{#1}{\notAnaTypeM{#2}{#3}}}}
+
+% marking
+\newcommand{\colorMKText}{Bittersweet}
+\newcommand{\colorMKBkgSyn}{Gray!5}
+\newcommand{\colorMKBkgAna}{Gray!5}
+
+\newcommand{\withCtxMK}[2]{\ensuremath{#1 \goodcolor{\colorMKText}{\vdash} #2}}
+\newcommand{\synTypeMK}[2]{\ensuremath{#1 \goodcolor{\colorMKText}{\Rightarrow} #2}}
+\newcommand{\anaTypeMK}[2]{\ensuremath{#1 \goodcolor{\colorMKText}{\Leftarrow} #2}}
+\newcommand{\synFixedInto}[3]{\ensuremath{\synTypeMK{#1 \goodcolor{\colorMKText}{\looparrowright} #2}{#3}}}
+\newcommand{\ctxSynFixedInto}[4]{
+  \begin{highlightbox}{\colorMKBkgSyn}
+    \ensuremath{{\withCtxMK{#1}{\synFixedInto{#2}{#3}{#4}}}}
+  \end{highlightbox}}
+\newcommand{\anaFixedInto}[3]{\ensuremath{\anaTypeMK{#1 \goodcolor{\colorMKText}{\looparrowright} #2}{#3}}}
+\newcommand{\ctxAnaFixedInto}[4]{
+  \begin{highlightbox}{\colorMKBkgAna}
+    \ensuremath{\withCtxMK{#1}{\anaFixedInto{#2}{#3}{#4}}}
+  \end{highlightbox}}
+
+%
+% judgments
+%
+
+% subsumable
+\newcommand{\subsumable}[1]{\ensuremath{#1 ~{\normalfont\textsf{subsumable}}}}
+
+% markless
+\newcommand{\markless}[1]{\ensuremath{#1 ~{\normalfont\textsf{markless}}}}
+
+% mark erasure
+\newcommand{\erase}[1]{\ensuremath{#1^{\square}}}
+\newcommand{\erasesTo}[2]{\ensuremath{#1^{\square} = #2}}
