@@ -5,8 +5,9 @@
 \subsubsection{Syntax}
 \[\begin{array}{rrcl}
   \TMName  & \TMV  & \Coloneqq & \cdots \mid \TForall{\TVarMV}{\TMV} \mid \TVarMV \\
-  \MTMName & \MTMV & \Coloneqq & \MTUnknown \mid \MTNum \mid \MTBool
-                     \mid \MTArrow{\MTMV}{\MTMV} \mid \MTProd{\MTMV}{\MTMV}
+  \MTMName & \MTMV & \Coloneqq & \cdots
+                     % \MTUnknown \mid \MTNum \mid \MTBool
+                     % \mid \MTArrow{\MTMV}{\MTMV} \mid \MTProd{\MTMV}{\MTMV}
                      \mid \MTForall{\MTVarMV}{\MTMV} \mid \MTVarMV \mid \MTUnbound{\MTVarMV} \\
   \EMName  & \EMV  & \Coloneqq & \cdots \mid \ETypeLam{\TVarMV}{\EMV} \mid \ETypeAp{\EMV}{\TMV} \\
   \ECMName & \ECMV & \Coloneqq & \cdots \mid \ECTypeLam{\TVarMV}{\ECMV} \mid \ECTypeAp{\ECMV}{\MTMV}
@@ -17,41 +18,41 @@
 %
 \begin{mathpar}
   \inferrule[TWFUnknown]{ }{
-    \tvarCtxWFU{\tvarCtx}{\TUnknown}
+    \tvarCtxWFU{\tvarCtx}{\MTUnknown}
   }
 
   \inferrule[TWFNum]{ }{
-    \tvarCtxWFU{\tvarCtx}{\TNum}
+    \tvarCtxWFU{\tvarCtx}{\MTNum}
   }
 
   \inferrule[TWFBool]{ }{
-    \tvarCtxWFU{\tvarCtx}{\TBool}
+    \tvarCtxWFU{\tvarCtx}{\MTBool}
   }
 
   \inferrule[TWFArr]{
-    \tvarCtxWFU{\tvarCtx}{\TMV_1} \\
-    \tvarCtxWFU{\tvarCtx}{\TMV_2}
+    \tvarCtxWFU{\tvarCtx}{\MTMV_1} \\
+    \tvarCtxWFU{\tvarCtx}{\MTMV_2}
   }{
-    \tvarCtxWFU{\tvarCtx}{\TArrow{\TMV_1}{\TMV_2}}
+    \tvarCtxWFU{\tvarCtx}{\TArrow{\MTMV_1}{\MTMV_2}}
   }
 
   \inferrule[TWFProd]{
-    \tvarCtxWFU{\tvarCtx}{\TMV_1} \\
-    \tvarCtxWFU{\tvarCtx}{\TMV_2}
+    \tvarCtxWFU{\tvarCtx}{\MTMV_1} \\
+    \tvarCtxWFU{\tvarCtx}{\MTMV_2}
   }{
-    \tvarCtxWFU{\tvarCtx}{\TProd{\TMV_1}{\TMV_2}}
-  }
-
-  \inferrule[TWFVar]{
-    \inTvarCtx{\tvarCtx}{\TVarMV}
-  }{
-    \tvarCtxWFU{\tvarCtx}{\TVarMV}
+    \tvarCtxWFU{\tvarCtx}{\TProd{\MTMV_1}{\MTMV_2}}
   }
 
   \inferrule[TWFForall]{
-    \tvarCtxWFU{\extendTvarCtx{\tvarCtx}{\TVarMV}}{\TMV}
+    \tvarCtxWFU{\extendTvarCtx{\tvarCtx}{\MTVarMV}}{\MTMV}
   }{
-    \tvarCtxWFU{\tvarCtx}{\TForall{\TVarMV}{\TMV}}
+    \tvarCtxWFU{\tvarCtx}{\MTForall{\MTVarMV}{\MTMV}}
+  }
+
+  \inferrule[TWFVar]{
+    \inTvarCtx{\tvarCtx}{\MTVarMV}
+  }{
+    \tvarCtxWFU{\tvarCtx}{\MTVarMV}
   }
 \end{mathpar}
 
@@ -60,16 +61,95 @@
 \begin{mathpar}
   \cdots
 
+  \inferrule[TCForall]{
+    \tvarCtxConsistentU{\extendTvarCtx{\tvarCtx}{\TVarMV}}{\TMV}{\TMV'}
+  }{
+    \tvarCtxConsistentU{\tvarCtx}{\TForall{\TVarMV}{\TMV}}{\TForall{\TVarMV}{\TMV'}}
+  }
+
   \inferrule[TCVar]{
     \inTvarCtx{\tvarCtx}{\TVarMV}
   }{
     \tvarCtxConsistentU{\tvarCtx}{\TVarMV}{\TVarMV}
   }
+\end{mathpar}
 
-  \inferrule[TCForall]{
-    \tvarCtxConsistentU{\extendTvarCtx{\tvarCtx}{\TVarMV}}{\TMV}{\TMV'}
+\subsubsection{Marked types}
+\judgbox{\ensuremath{\tvarCtxWFM{\tvarCtx}{\MTMV}}} $\MTMV$ is well-formed
+%
+\begin{mathpar}
+  \inferrule[MTWFUnknown]{ }{
+    \tvarCtxWFM{\tvarCtx}{\TUnknown}
+  }
+
+  \inferrule[MTWFNum]{ }{
+    \tvarCtxWFM{\tvarCtx}{\TNum}
+  }
+
+  \inferrule[MTWFBool]{ }{
+    \tvarCtxWFM{\tvarCtx}{\TBool}
+  }
+
+  \inferrule[MTWFArr]{
+    \tvarCtxWFM{\tvarCtx}{\MTMV_1} \\
+    \tvarCtxWFM{\tvarCtx}{\MTMV_2}
   }{
-    \tvarCtxConsistentU{\tvarCtx}{\TForall{\TVarMV}{\TMV}}{\TForall{\TVarMV}{\TMV'}}
+    \tvarCtxWFM{\tvarCtx}{\TArrow{\MTMV_1}{\MTMV_2}}
+  }
+
+  \inferrule[MTWFProd]{
+    \tvarCtxWFM{\tvarCtx}{\MTMV_1} \\
+    \tvarCtxWFM{\tvarCtx}{\MTMV_2}
+  }{
+    \tvarCtxWFM{\tvarCtx}{\TProd{\MTMV_1}{\MTMV_2}}
+  }
+
+  \inferrule[MTWFForall]{
+    \tvarCtxWFM{\extendTvarCtx{\tvarCtx}{\MTVarMV}}{\MTMV}
+  }{
+    \tvarCtxWFM{\tvarCtx}{\TForall{\MTVarMV}{\MTMV}}
+  }
+
+  \inferrule[MTWFVar]{
+    \inTvarCtx{\tvarCtx}{\MTVarMV}
+  }{
+    \tvarCtxWFM{\tvarCtx}{\MTVarMV}
+  }
+
+  \inferrule[MTWFUnbound]{
+    \notInTvarCtx{\tvarCtx}{\MTVarMV}
+  }{
+    \tvarCtxWFM{\tvarCtx}{\MTUnbound{\MTVarMV}}
+  }
+\end{mathpar}
+
+\judgbox{\ensuremath{\tvarCtxConsistentM{\tvarCtx}{\MTMV_1}{\MTMV_2}}} $\MTMV_1$ and $\MTMV_2$ are consistent
+%
+\begin{mathpar}
+  \cdots
+
+  \inferrule[MTCForall]{
+    \tvarCtxConsistentM{\extendTvarCtx{\tvarCtx}{\MTVarMV}}{\MTMV}{\MTMV'}
+  }{
+    \tvarCtxConsistentM{\tvarCtx}{\TForall{\MTVarMV}{\MTMV}}{\TForall{\MTVarMV}{\MTMV'}}
+  }
+
+  \inferrule[MTCVar]{
+    \inTvarCtx{\tvarCtx}{\MTVarMV}
+  }{
+    \tvarCtxConsistentM{\tvarCtx}{\MTVarMV}{\MTVarMV}
+  }
+
+  \inferrule[MTCUnbound1]{
+    \notInTvarCtx{\tvarCtx}{\MTVarMV}
+  }{
+    \tvarCtxConsistentM{\tvarCtx}{\MTUnbound{\MTVarMV}}{\MTMV}
+  }
+
+  \inferrule[MTCUnbound2]{
+    \notInTvarCtx{\tvarCtx}{\MTVarMV}
+  }{
+    \tvarCtxConsistentM{\tvarCtx}{\MTMV}{\MTUnbound{\MTVarMV}}
   }
 \end{mathpar}
 
