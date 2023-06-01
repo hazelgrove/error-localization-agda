@@ -4,12 +4,15 @@
 
 \subsubsection{Syntax}
 \[\begin{array}{rrcl}
-  \TMName  & \TMV  & \Coloneqq & \cdots \mid \TVarMV \mid \TForall{\TVarMV}{\TMV} \\
+  \TMName  & \TMV  & \Coloneqq & \cdots \mid \TForall{\TVarMV}{\TMV} \mid \TVarMV \\
+  \MTMName & \MTMV & \Coloneqq & \MTUnknown \mid \MTNum \mid \MTBool
+                     \mid \MTArrow{\MTMV}{\MTMV} \mid \MTProd{\MTMV}{\MTMV}
+                     \mid \MTForall{\MTVarMV}{\MTMV} \mid \MTVarMV \mid \MTUnbound{\MTVarMV} \\
   \EMName  & \EMV  & \Coloneqq & \cdots \mid \ETypeLam{\TVarMV}{\EMV} \mid \ETypeAp{\EMV}{\TMV} \\
-  \ECMName & \ECMV & \Coloneqq & \cdots \mid \ECTypeLam{\TVarMV}{\ECMV} \mid \ECTypeAp{\ECMV}{\TMV}
+  \ECMName & \ECMV & \Coloneqq & \cdots \mid \ECTypeLam{\TVarMV}{\ECMV} \mid \ECTypeAp{\ECMV}{\MTMV}
 \end{array}\]
 
-\subsubsection{Types}
+\subsubsection{Unmarked types}
 \judgbox{\ensuremath{\tvarCtxWF{\tvarCtx}{\TMV}}} $\TMV$ is well-formed
 %
 \begin{mathpar}

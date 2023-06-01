@@ -11,6 +11,23 @@
 % substitution
 \newcommand{\subst}[3]{\ensuremath{#1[#2 / #3]}}
 
+% marked
+\newcommand{\MTMName}{{\normalfont\textsf{MType}}}
+\newcommand{\MTMV}{\ensuremath{\check{\TMV}}}
+
+\newcommand{\MTUnknown}{\ensuremath{\?}}
+\newcommand{\MTNum}{\ensuremath{{\normalfont\textsf{num}}}}
+\newcommand{\MTVar}{\ensuremath{{\normalfont\textsf{var}}}}
+\newcommand{\MTBool}{\ensuremath{{\normalfont\textsf{bool}}}}
+\newcommand{\MTArrow}[2]{\ensuremath{#1 \to #2}}
+\newcommand{\MTProd}[2]{\ensuremath{#1 \times #2}}
+\newcommand{\MTVarMV}{\ensuremath{\alpha}}
+\newcommand{\MTUnbound}[1]{\ensuremath{\MTMarkedUnbound{#1}}}
+\newcommand{\MTForall}[2]{\ensuremath{\forall #1. ~#2}}
+
+\newcommand{\MTMarked}[3]{\ensuremath{\textcolor{red}{\bm{\llparenthesis}#1\bm{\rrparenthesis}_{#2}^{#3}}}}
+\newcommand{\MTMarkedUnbound}[1]{\ensuremath{\MTMarked{#1}{\MRUnbound}{}}}
+
 %
 % expressions
 %
