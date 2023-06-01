@@ -51,6 +51,9 @@
 
 \newcommand{\withBothCtx}[3]{\ensuremath{#1; #2 \vdash #3}}
 
+\newcommand{\withTvarCtxU}[2]{\ensuremath{#1 \goodcolor{\colorUText}{\vdash_{\hspace{-4.25pt}\scaleto{U}{3.5pt}}} #2}}
+\newcommand{\withTvarCtxM}[2]{\ensuremath{#1 \goodcolor{\colorMText}{\vdash_{\hspace{-4.25pt}\scaleto{M}{3.5pt}}} #2}}
+
 %
 % judgments
 %
@@ -58,6 +61,12 @@
 % well-formedness
 \newcommand{\tvarCtxWF}[2]{\ensuremath{\withTvarCtx{#1}{#2}}}
 \newcommand{\tvarCtxConsistent}[3]{\ensuremath{\withTvarCtx{#1}{\consistent{#2}{#3}}}}
+
+\newcommand{\tvarCtxWFU}[2]{\ensuremath{\withTvarCtxU{#1}{#2}}}
+\newcommand{\tvarCtxConsistentU}[3]{\ensuremath{\withTvarCtxU{#1}{\consistent{#2}{#3}}}}
+
+\newcommand{\tvarCtxWFM}[2]{\ensuremath{\withTvarCtxM{#1}{#2}}}
+\newcommand{\tvarCtxConsistentM}[3]{\ensuremath{\withTvarCtxM{#1}{\consistent{#2}{#3}}}}
 
 % unmarked typing
 \newcommand{\withBothCtxU}[3]{\ensuremath{#1; #2 \goodcolor{\colorUText}{\vdash_{\hspace{-4.25pt}\scaleto{U}{3.5pt}}} #3}}
