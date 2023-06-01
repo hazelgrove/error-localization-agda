@@ -45,13 +45,15 @@
 \newcommand{\tvarCtx}{\ensuremath{\Sigma}}
 \newcommand{\extendTvarCtx}[2]{\ensuremath{#1, #2}}
 \newcommand{\inTvarCtx}[2]{\ensuremath{#2 \in #1}}
-\newcommand{\notInTvarCtx}[2]{\ensuremath{\goodcolor{\colorFailSideJudge}{#2 \not\in \dom(#1)}}}
+\newcommand{\notInTvarCtx}[2]{\ensuremath{\goodcolor{\colorFailSideJudge}{#2 \not\in #1}}}
 \newcommand{\withTvarCtx}[2]{\ensuremath{#1 \vdash #2}}
-
-\newcommand{\withBothCtx}[3]{\ensuremath{#1; #2 \vdash #3}}
-
 \newcommand{\withTvarCtxU}[2]{\ensuremath{#1 \goodcolor{\colorUText}{\vdash_{\hspace{-4.25pt}\scaleto{U}{3.5pt}}} #2}}
 \newcommand{\withTvarCtxM}[2]{\ensuremath{#1 \goodcolor{\colorMText}{\vdash_{\hspace{-4.25pt}\scaleto{M}{3.5pt}}} #2}}
+\newcommand{\withTvarCtxMK}[2]{\ensuremath{#1 \goodcolor{\colorMKText}{\vdash} #2}}
+
+\newcommand{\withBothCtx}[3]{\ensuremath{#1; #2 \vdash #3}}
+\newcommand{\withBothCtxU}[3]{\ensuremath{#1; #2 \goodcolor{\colorUText}{\vdash_{\hspace{-4.25pt}\scaleto{U}{3.5pt}}} #3}}
+\newcommand{\withBothCtxM}[3]{\ensuremath{#1; #2 \goodcolor{\colorMText}{\vdash_{\hspace{-4.75pt}\scaleto{M}{3.5pt}}} #3}}
 
 %
 % judgments
@@ -61,14 +63,25 @@
 \newcommand{\tvarCtxWF}[2]{\ensuremath{\withTvarCtx{#1}{#2}}}
 \newcommand{\tvarCtxConsistent}[3]{\ensuremath{\withTvarCtx{#1}{\consistent{#2}{#3}}}}
 
-\newcommand{\tvarCtxWFU}[2]{\ensuremath{\withTvarCtxU{#1}{#2}}}
 \newcommand{\tvarCtxConsistentU}[3]{\ensuremath{\withTvarCtxU{#1}{\consistent{#2}{#3}}}}
-
-\newcommand{\tvarCtxWFM}[2]{\ensuremath{\withTvarCtxM{#1}{#2}}}
 \newcommand{\tvarCtxConsistentM}[3]{\ensuremath{\withTvarCtxM{#1}{\consistent{#2}{#3}}}}
+\newcommand{\tvarCtxWFU}[2]{
+  \begin{highlightbox}{\colorUBkgSyn}
+    \ensuremath{\withTvarCtxU{#1}{#2}}
+  \end{highlightbox}}
+\newcommand{\tvarCtxWFM}[2]{
+  \begin{highlightbox}{\colorMBkgSyn}
+    \ensuremath{\withTvarCtxM{#1}{#2}}
+  \end{highlightbox}}
+
+% type marking
+\newcommand{\typeMarkedInto}[2]{\ensuremath{#1 \goodcolor{\colorMKText}{\looparrowright} #2}}
+\newcommand{\tvarCtxTypeMarkedInto}[3]{
+  \begin{highlightbox}{\colorMKBkgSyn}
+    \ensuremath{{\withTvarCtxMK{#1}{\typeMarkedInto{#2}{#3}}}}
+  \end{highlightbox}}
 
 % unmarked typing
-\newcommand{\withBothCtxU}[3]{\ensuremath{#1; #2 \goodcolor{\colorUText}{\vdash_{\hspace{-4.25pt}\scaleto{U}{3.5pt}}} #3}}
 \newcommand{\bothCtxSynTypeU}[4]{
   \begin{highlightbox}{\colorUBkgSyn}
     \ensuremath{\withBothCtxU{#1}{#2}{\synTypeU{#3}{#4}}}
@@ -79,7 +92,6 @@
   \end{highlightbox}}
 
 % marked typing
-\newcommand{\withBothCtxM}[3]{\ensuremath{#1; #2 \goodcolor{\colorMText}{\vdash_{\hspace{-4.75pt}\scaleto{M}{3.5pt}}} #3}}
 \newcommand{\bothCtxSynTypeM}[4]{
   \begin{highlightbox}{\colorMBkgSyn}
     \ensuremath{\withBothCtxM{#1}{#2}{\synTypeM{#3}{#4}}}
