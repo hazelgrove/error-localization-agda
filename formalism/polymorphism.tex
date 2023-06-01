@@ -10,7 +10,7 @@
                      % \mid \MTArrow{\MTMV}{\MTMV} \mid \MTProd{\MTMV}{\MTMV}
                      \mid \MTForall{\MTVarMV}{\MTMV} \mid \MTVarMV \mid \MTUnbound{\MTVarMV} \\
   \EMName  & \EMV  & \Coloneqq & \cdots \mid \ETypeLam{\TVarMV}{\EMV} \mid \ETypeAp{\EMV}{\TMV} \\
-  \ECMName & \ECMV & \Coloneqq & \cdots \mid \ECTypeLam{\TVarMV}{\ECMV} \mid \ECTypeAp{\ECMV}{\MTMV}
+  \ECMName & \ECMV & \Coloneqq & \cdots \mid \ECTypeLam{\MTVarMV}{\ECMV} \mid \ECTypeAp{\ECMV}{\MTMV}
 \end{array}\]
 
 \subsubsection{Unmarked types}
@@ -71,6 +71,18 @@
     \inTvarCtx{\tvarCtx}{\MTVarMV}
   }{
     \tvarCtxWFU{\tvarCtx}{\MTVarMV}
+  }
+\end{mathpar}
+
+\judgbox{\ensuremath{\matchedForall{\TMV}{\TVarMV}{\TMV'}}} $\TMV$ has matched forall type $\TForall{\TVarMV}{\TMV'}$
+%
+\begin{mathpar}
+  \inferrule[TMFUnknown]{ }{
+    \matchedForall{\TUnknown}{\TVarMV}{\TUnknown}
+  }
+
+  \inferrule[TMFForall]{ }{
+    \matchedForall{\TForall{\TVarMV}{\TMV}}{\TVarMV}{\TMV}
   }
 \end{mathpar}
 
@@ -150,6 +162,22 @@
     \notInTvarCtx{\tvarCtx}{\MTVarMV}
   }{
     \tvarCtxWFM{\tvarCtx}{\MTUnbound{\MTVarMV}}
+  }
+\end{mathpar}
+
+\judgbox{\ensuremath{\matchedForall{\MTMV}{\MTVarMV}{\MTMV'}}} $\MTMV$ has matched forall type $\MTForall{\MTVarMV}{\MTMV'}$
+%
+\begin{mathpar}
+  \inferrule[MTMFUnknown]{ }{
+    \matchedForall{\MTUnknown}{\MTVarMV}{\MTUnknown}
+  }
+
+  \inferrule[MTMFForall]{ }{
+    \matchedForall{\MTForall{\MTVarMV}{\MTMV}}{\MTVarMV}{\MTMV}
+  }
+
+  \inferrule[MTMFUnbound]{ }{
+    \matchedForall{\MTUnbound{\MTVarMV}}{\MTVarMV}{\MTUnknown}
   }
 \end{mathpar}
 
