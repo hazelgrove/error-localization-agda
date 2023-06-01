@@ -15,15 +15,14 @@
 \newcommand{\MTMName}{{\normalfont\textsf{MType}}}
 \newcommand{\MTMV}{\ensuremath{\check{\TMV}}}
 
-\newcommand{\MTUnknown}{\ensuremath{\?}}
-\newcommand{\MTNum}{\ensuremath{{\normalfont\textsf{num}}}}
-\newcommand{\MTVar}{\ensuremath{{\normalfont\textsf{var}}}}
-\newcommand{\MTBool}{\ensuremath{{\normalfont\textsf{bool}}}}
-\newcommand{\MTArrow}[2]{\ensuremath{#1 \to #2}}
-\newcommand{\MTProd}[2]{\ensuremath{#1 \times #2}}
-\newcommand{\MTVarMV}{\ensuremath{\alpha}}
+\newcommand{\MTUnknown}{\ensuremath{\TUnknown}}
+\newcommand{\MTNum}{\ensuremath{\TNum}}
+\newcommand{\MTBool}{\ensuremath{\TBool}}
+\newcommand{\MTArrow}[2]{\ensuremath{\TArrow{#1}{#2}}}
+\newcommand{\MTProd}[2]{\ensuremath{\TProd{#1}{#2}}}
+\newcommand{\MTVarMV}{\ensuremath{\TVarMV}}
 \newcommand{\MTUnbound}[1]{\ensuremath{\MTMarkedUnbound{#1}}}
-\newcommand{\MTForall}[2]{\ensuremath{\forall #1. ~#2}}
+\newcommand{\MTForall}[2]{\ensuremath{\TForall{#1}{#2}}}
 
 \newcommand{\MTMarked}[3]{\ensuremath{\textcolor{red}{\bm{\llparenthesis}#1\bm{\rrparenthesis}_{#2}^{#3}}}}
 \newcommand{\MTMarkedUnbound}[1]{\ensuremath{\MTMarked{#1}{\MRUnbound}{}}}
