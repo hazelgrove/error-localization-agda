@@ -13,49 +13,49 @@
 \end{array}\]
 
 \subsubsection{Unmarked types}
-\judgbox{\ensuremath{\tvarCtxWF{\tvarCtx}{\TMV}}} $\TMV$ is well-formed
+\judgbox{\ensuremath{\tvarCtxWFU{\tvarCtx}{\TMV}}} $\TMV$ is well-formed
 %
 \begin{mathpar}
   \inferrule[TWFUnknown]{ }{
-    \tvarCtxWF{\tvarCtx}{\TUnknown}
+    \tvarCtxWFU{\tvarCtx}{\TUnknown}
   }
 
   \inferrule[TWFNum]{ }{
-    \tvarCtxWF{\tvarCtx}{\TNum}
+    \tvarCtxWFU{\tvarCtx}{\TNum}
   }
 
   \inferrule[TWFBool]{ }{
-    \tvarCtxWF{\tvarCtx}{\TBool}
+    \tvarCtxWFU{\tvarCtx}{\TBool}
   }
 
   \inferrule[TWFArr]{
-    \tvarCtxWF{\tvarCtx}{\TMV_1} \\
-    \tvarCtxWF{\tvarCtx}{\TMV_2}
+    \tvarCtxWFU{\tvarCtx}{\TMV_1} \\
+    \tvarCtxWFU{\tvarCtx}{\TMV_2}
   }{
-    \tvarCtxWF{\tvarCtx}{\TArrow{\TMV_1}{\TMV_2}}
+    \tvarCtxWFU{\tvarCtx}{\TArrow{\TMV_1}{\TMV_2}}
   }
 
   \inferrule[TWFProd]{
-    \tvarCtxWF{\tvarCtx}{\TMV_1} \\
-    \tvarCtxWF{\tvarCtx}{\TMV_2}
+    \tvarCtxWFU{\tvarCtx}{\TMV_1} \\
+    \tvarCtxWFU{\tvarCtx}{\TMV_2}
   }{
-    \tvarCtxWF{\tvarCtx}{\TProd{\TMV_1}{\TMV_2}}
+    \tvarCtxWFU{\tvarCtx}{\TProd{\TMV_1}{\TMV_2}}
   }
 
   \inferrule[TWFVar]{
     \inTvarCtx{\tvarCtx}{\TVarMV}
   }{
-    \tvarCtxWF{\tvarCtx}{\TVarMV}
+    \tvarCtxWFU{\tvarCtx}{\TVarMV}
   }
 
   \inferrule[TWFForall]{
-    \tvarCtxWF{\extendTvarCtx{\tvarCtx}{\TVarMV}}{\TMV}
+    \tvarCtxWFU{\extendTvarCtx{\tvarCtx}{\TVarMV}}{\TMV}
   }{
-    \tvarCtxWF{\tvarCtx}{\TForall{\TVarMV}{\TMV}}
+    \tvarCtxWFU{\tvarCtx}{\TForall{\TVarMV}{\TMV}}
   }
 \end{mathpar}
 
-\judgbox{\ensuremath{\tvarCtxConsistent{\tvarCtx}{\TMV_1}{\TMV_2}}} $\TMV_1$ and $\TMV_2$ are consistent
+\judgbox{\ensuremath{\tvarCtxConsistentU{\tvarCtx}{\TMV_1}{\TMV_2}}} $\TMV_1$ and $\TMV_2$ are consistent
 %
 \begin{mathpar}
   \cdots
@@ -63,13 +63,13 @@
   \inferrule[TCVar]{
     \inTvarCtx{\tvarCtx}{\TVarMV}
   }{
-    \tvarCtxConsistent{\tvarCtx}{\TVarMV}{\TVarMV}
+    \tvarCtxConsistentU{\tvarCtx}{\TVarMV}{\TVarMV}
   }
 
   \inferrule[TCForall]{
-    \tvarCtxConsistent{\extendTvarCtx{\tvarCtx}{\TVarMV}}{\TMV}{\TMV'}
+    \tvarCtxConsistentU{\extendTvarCtx{\tvarCtx}{\TVarMV}}{\TMV}{\TMV'}
   }{
-    \tvarCtxConsistent{\tvarCtx}{\TForall{\TVarMV}{\TMV}}{\TForall{\TVarMV}{\TMV'}}
+    \tvarCtxConsistentU{\tvarCtx}{\TForall{\TVarMV}{\TMV}}{\TForall{\TVarMV}{\TMV'}}
   }
 \end{mathpar}
 
@@ -87,7 +87,7 @@
 
   \inferrule[USTypeAp]{
     \bothCtxSynTypeU{\tvarCtx}{\ctx}{\EMV}{\TMV} \\
-    \tvarCtxWF{\tvarCtx}{\TMV_2} \\
+    \tvarCtxWFU{\tvarCtx}{\TMV_2} \\
     \matchedForall{\TMV}{\TVarMV}{\TMV_1}
   }{
     \bothCtxSynTypeU{\tvarCtx}{\ctx}{\ETypeAp{\EMV}{\TMV_2}}{\subst{\TMV_1}{\TMV_2}{\TVarMV}}
