@@ -273,3 +273,32 @@
     \subsumable{\ETypeAp{\EMV}{\TMV}}
   }
 \end{mathpar}
+
+\subsubsection{Marked expressions}
+\judgbox{\ensuremath{\bothCtxSynTypeM{\tvarCtx}{\ctx}{\EMV}{\TMV}}} $\EMV$ synthesizes type $\TMV$
+%
+\begin{mathpar}
+  \cdots
+
+  \inferrule[MSTypeLam]{
+    \bothCtxSynTypeM{\extendTvarCtx{\tvarCtx}{\MTVarMV}}{\ctx}{\ECMV}{\MTMV}
+  }{
+    \bothCtxSynTypeM{\tvarCtx}{\ctx}{\ECTypeLam{\MTVarMV}{\ECMV}}{\MTForall{\MTVarMV}{\MTMV}}
+  }
+
+  \inferrule[MSTypeAp1]{
+    \bothCtxSynTypeM{\tvarCtx}{\ctx}{\ECMV}{\MTMV} \\
+    \tvarCtxWFM{\tvarCtx}{\MTMV_2} \\
+    \matchedForall{\MTMV}{\MTVarMV}{\MTMV_1}
+  }{
+    \bothCtxSynTypeM{\tvarCtx}{\ctx}{\ECTypeAp{\ECMV}{\MTMV_2}}{\subst{\MTMV_1}{\MTMV_2}{\MTVarMV}}
+  }
+
+  \inferrule[MSTypeAp2]{
+    \bothCtxSynTypeM{\tvarCtx}{\ctx}{\ECMV}{\MTMV} \\
+    \tvarCtxWFM{\tvarCtx}{\MTMV'} \\
+    \notMatchedForall{\MTMV}
+  }{
+    \bothCtxSynTypeM{\tvarCtx}{\ctx}{\ECTypeAp{\ECMV}{\MTMV'}}{\MTUnknown}
+  }
+\end{mathpar}

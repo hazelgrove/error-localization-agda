@@ -47,8 +47,11 @@
 \newcommand{\inTvarCtx}[2]{\ensuremath{#2 \in #1}}
 \newcommand{\notInTvarCtx}[2]{\ensuremath{\goodcolor{\colorFailSideJudge}{#2 \not\in #1}}}
 \newcommand{\withTvarCtx}[2]{\ensuremath{#1 \vdash #2}}
+\newcommand{\withTvarCtxNot}[2]{\ensuremath{\goodcolor{\colorFailSideJudge}{#1 \centernot\vdash #2}}}
 \newcommand{\withTvarCtxU}[2]{\ensuremath{#1 \goodcolor{\colorUText}{\vdash_{\hspace{-4.25pt}\scaleto{U}{3.5pt}}} #2}}
+\newcommand{\withTvarCtxUNot}[2]{\ensuremath{\goodcolor{\colorFailSideJudge}{#1 \centernot\vdash_{\hspace{-4.25pt}\scaleto{U}{3.5pt}} #2}}}
 \newcommand{\withTvarCtxM}[2]{\ensuremath{#1 \goodcolor{\colorMText}{\vdash_{\hspace{-4.25pt}\scaleto{M}{3.5pt}}} #2}}
+\newcommand{\withTvarCtxMNot}[2]{\ensuremath{\goodcolor{\colorFailSideJudge}{#1 \centernot\vdash_{\hspace{-4.25pt}\scaleto{M}{3.5pt}} #2}}}
 \newcommand{\withTvarCtxMK}[2]{\ensuremath{#1 \goodcolor{\colorMKText}{\vdash} #2}}
 
 \newcommand{\withBothCtx}[3]{\ensuremath{#1; #2 \vdash #3}}
