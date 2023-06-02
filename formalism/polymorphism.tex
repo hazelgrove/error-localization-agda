@@ -10,7 +10,8 @@
                      % \mid \MTArrow{\MTMV}{\MTMV} \mid \MTProd{\MTMV}{\MTMV}
                      \mid \MTForall{\MTVarMV}{\MTMV} \mid \MTVarMV \mid \MTUnbound{\MTVarMV} \\
   \EMName  & \EMV  & \Coloneqq & \cdots \mid \ETypeLam{\TVarMV}{\EMV} \mid \ETypeAp{\EMV}{\TMV} \\
-  \ECMName & \ECMV & \Coloneqq & \cdots \mid \ECTypeLam{\MTVarMV}{\ECMV} \mid \ECTypeAp{\ECMV}{\MTMV}
+  \ECMName & \ECMV & \Coloneqq & \cdots \mid \ECTypeLam{\MTVarMV}{\ECMV} \mid \ECTypeAp{\ECMV}{\MTMV} \\
+           &       & \mid      & \ECSynNonMatchedForall{\ECMV} \mid \ECAnaNonMatchedForall{\ECMV}
 \end{array}\]
 
 \subsubsection{Unmarked types}
