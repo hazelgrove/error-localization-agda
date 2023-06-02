@@ -231,6 +231,20 @@
   }
 \end{mathpar}
 
+\subsubsection{Type mark erasure}
+\judgbox{\ensuremath{\erase{\MTMV}}} is a metafunction defined as follows:
+%
+\[\begin{array}{rcl}
+  \erasesToRow{\MTUnknown}{\TUnknown} \\
+  \erasesToRow{\MTNum}{\TNum} \\
+  \erasesToRow{\MTBool}{\TBool} \\
+  \erasesToRow{(\MTArrow{\MTMV_1}{\MTMV_2})}{\MTArrow{(\erase{\MTMV_1})}{(\erase{\MTMV_2})}} \\
+  \erasesToRow{(\MTProd{\MTMV_1}{\MTMV_2})}{\MTProd{(\erase{\MTMV_1})}{(\erase{\MTMV_2})}} \\
+  \erasesToRow{(\MTForall{\MTVarMV}{\MTMV})}{\TForall{\TVarMV}{(\erase{\MTMV})}} \\
+  \erasesToRow{\MTVarMV}{\TVarMV} \\
+  \erasesToRow{\MTUnbound{\MTVarMV}}{\TVarMV}
+\end{array}\]
+
 \subsubsection{Unmarked expressions}
 \judgbox{\ensuremath{\bothCtxSynTypeU{\tvarCtx}{\ctx}{\EMV}{\TMV}}} $\EMV$ synthesizes type $\TMV$
 %
