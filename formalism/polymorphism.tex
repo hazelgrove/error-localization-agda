@@ -86,6 +86,55 @@
   }
 \end{mathpar}
 
+\subsubsection{Type marking}
+\judgbox{\ensuremath{\tvarCtxTypeMarkedInto{\tvarCtx}{\TMV}{\MTMV}}} $\TMV$ is marked into $\MTMV$
+%
+\begin{mathpar}
+  \inferrule[MKTUnknown]{ }{
+    \tvarCtxTypeMarkedInto{\tvarCtx}{\TUnknown}{\MTUnknown}
+  }
+
+  \inferrule[MKTNum]{ }{
+    \tvarCtxTypeMarkedInto{\tvarCtx}{\TNum}{\MTNum}
+  }
+
+  \inferrule[MKTBool]{ }{
+    \tvarCtxTypeMarkedInto{\tvarCtx}{\TBool}{\MTBool}
+  }
+
+  \inferrule[MKTArr]{
+    \tvarCtxTypeMarkedInto{\tvarCtx}{\TMV_1}{\MTMV_1} \\
+    \tvarCtxTypeMarkedInto{\tvarCtx}{\TMV_2}{\MTMV_2}
+  }{
+    \tvarCtxTypeMarkedInto{\tvarCtx}{\TArrow{\TMV_1}{\TMV_2}}{\MTArrow{\MTMV_1}{\MTMV_2}}
+  }
+
+  \inferrule[MKTProd]{
+    \tvarCtxTypeMarkedInto{\tvarCtx}{\TMV_1}{\MTMV_1} \\
+    \tvarCtxTypeMarkedInto{\tvarCtx}{\TMV_2}{\MTMV_2}
+  }{
+    \tvarCtxTypeMarkedInto{\tvarCtx}{\TProd{\TMV_1}{\TMV_2}}{\MTProd{\MTMV_1}{\MTMV_2}}
+  }
+
+  \inferrule[MKTForall]{
+    \tvarCtxTypeMarkedInto{\extendTvarCtx{\tvarCtx}{\TVarMV}}{\TMV}{\MTMV}
+  }{
+    \tvarCtxTypeMarkedInto{\tvarCtx}{\TForall{\TVarMV}{\TMV}}{\MTForall{\MTVarMV}{\MTMV}}
+  }
+
+  \inferrule[MKTVar]{
+    \inTvarCtx{\tvarCtx}{\TVarMV}
+  }{
+    \tvarCtxTypeMarkedInto{\tvarCtx}{\TVarMV}{\MTVarMV}
+  }
+
+  \inferrule[MKTUnbound]{
+    \notInTvarCtx{\tvarCtx}{\TVarMV}
+  }{
+    \tvarCtxTypeMarkedInto{\tvarCtx}{\TVarMV}{\MTUnbound{\MTVarMV}}
+  }
+\end{mathpar}
+
 \subsubsection{Marked types}
 \judgbox{\ensuremath{\tvarCtxConsistentM{\tvarCtx}{\MTMV_1}{\MTMV_2}}} $\MTMV_1$ and $\MTMV_2$ are consistent
 %
@@ -178,55 +227,6 @@
 
   \inferrule[MTMFUnbound]{ }{
     \matchedForall{\MTUnbound{\MTVarMV}}{\MTVarMV}{\MTUnknown}
-  }
-\end{mathpar}
-
-\subsubsection{Type marking}
-\judgbox{\ensuremath{\tvarCtxTypeMarkedInto{\tvarCtx}{\TMV}{\MTMV}}} $\TMV$ is marked into $\MTMV$
-%
-\begin{mathpar}
-  \inferrule[MKTUnknown]{ }{
-    \tvarCtxTypeMarkedInto{\tvarCtx}{\TUnknown}{\MTUnknown}
-  }
-
-  \inferrule[MKTNum]{ }{
-    \tvarCtxTypeMarkedInto{\tvarCtx}{\TNum}{\MTNum}
-  }
-
-  \inferrule[MKTBool]{ }{
-    \tvarCtxTypeMarkedInto{\tvarCtx}{\TBool}{\MTBool}
-  }
-
-  \inferrule[MKTArr]{
-    \tvarCtxTypeMarkedInto{\tvarCtx}{\TMV_1}{\MTMV_1} \\
-    \tvarCtxTypeMarkedInto{\tvarCtx}{\TMV_2}{\MTMV_2}
-  }{
-    \tvarCtxTypeMarkedInto{\tvarCtx}{\TArrow{\TMV_1}{\TMV_2}}{\MTArrow{\MTMV_1}{\MTMV_2}}
-  }
-
-  \inferrule[MKTProd]{
-    \tvarCtxTypeMarkedInto{\tvarCtx}{\TMV_1}{\MTMV_1} \\
-    \tvarCtxTypeMarkedInto{\tvarCtx}{\TMV_2}{\MTMV_2}
-  }{
-    \tvarCtxTypeMarkedInto{\tvarCtx}{\TProd{\TMV_1}{\TMV_2}}{\MTProd{\MTMV_1}{\MTMV_2}}
-  }
-
-  \inferrule[MKTForall]{
-    \tvarCtxTypeMarkedInto{\extendTvarCtx{\tvarCtx}{\TVarMV}}{\TMV}{\MTMV}
-  }{
-    \tvarCtxTypeMarkedInto{\tvarCtx}{\TForall{\TVarMV}{\TMV}}{\MTForall{\MTVarMV}{\MTMV}}
-  }
-
-  \inferrule[MKTVar]{
-    \inTvarCtx{\tvarCtx}{\TVarMV}
-  }{
-    \tvarCtxTypeMarkedInto{\tvarCtx}{\TVarMV}{\MTVarMV}
-  }
-
-  \inferrule[MKTUnbound]{
-    \notInTvarCtx{\tvarCtx}{\TVarMV}
-  }{
-    \tvarCtxTypeMarkedInto{\tvarCtx}{\TVarMV}{\MTUnbound{\MTVarMV}}
   }
 \end{mathpar}
 
