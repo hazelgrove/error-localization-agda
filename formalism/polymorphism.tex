@@ -274,6 +274,55 @@
   }
 \end{mathpar}
 
+\subsubsection{Marking}
+\judgbox{\bothCtxSynFixedInto{\tvarCtx}{\ctx}{\EMV}{\ECMV}{\MTMV}} $\EMV$ is marked into $\ECMV$ and synthesizes type $\MTMV$
+%
+\begin{mathpar}
+  \cdots
+
+  \inferrule[MKSTypeLam]{
+    \bothCtxSynFixedInto{\extendTvarCtx{\tvarCtx}{\TVarMV}}{\ctx}{\EMV}{\ECMV}{\MTMV}
+  }{
+    \bothCtxSynFixedInto{\tvarCtx}{\ctx}{\ETypeLam{\TVarMV}{\EMV}}{\ECTypeLam{\MTVarMV}{\ECMV}}{\MTForall{\MTVarMV}{\MTMV}}
+  }
+
+  \inferrule[MKSTypeAp1]{
+    \bothCtxSynFixedInto{\tvarCtx}{\ctx}{\EMV}{\ECMV}{\MTMV} \\
+    \tvarCtxTypeMarkedInto{\tvarCtx}{\TMV_2}{\MTMV_2} \\
+    \matchedForall{\MTMV}{\MTVarMV}{\MTMV_1}
+  }{
+    \bothCtxSynFixedInto{\tvarCtx}{\ctx}{\ETypeAp{\EMV}{\TMV_2}}{\ECTypeAp{\ECMV}{\MTMV_2}}{\subst{\MTMV_1}{\MTMV_2}{\MTVarMV}}
+  }
+
+  \inferrule[MKSTypeAp2]{
+    \bothCtxSynFixedInto{\tvarCtx}{\ctx}{\EMV}{\ECMV}{\MTMV} \\
+    \tvarCtxTypeMarkedInto{\tvarCtx}{\TMV_2}{\MTMV_2} \\
+    \notMatchedForall{\MTMV}
+  }{
+    \bothCtxSynFixedInto{\tvarCtx}{\ctx}{\ETypeAp{\EMV}{\TMV_2}}{\ECTypeAp{\ECMV}{\MTMV_2}}{\MTUnknown}
+  }
+\end{mathpar}
+
+\judgbox{\bothCtxAnaFixedInto{\tvarCtx}{\ctx}{\EMV}{\ECMV}{\MTMV}} $\EMV$ is marked into $\ECMV$ and analyzes against type $\MTMV$
+%
+\begin{mathpar}
+  \cdots
+
+  \inferrule[MKATypeLam1]{
+    \matchedForall{\MTMV}{\MTVarMV}{\MTMV'} \\
+    \bothCtxAnaFixedInto{\extendTvarCtx{\tvarCtx}{\MTVarMV}}{\ctx}{\EMV}{\ECMV}{\MTMV'}
+  }{
+    \bothCtxAnaFixedInto{\tvarCtx}{\ctx}{\ETypeLam{\TVarMV}{\EMV}}{\ECTypeLam{\MTVarMV}{\ECMV}}{\MTMV}
+  }
+
+  \inferrule[MKATypeLam2]{
+    \notMatchedForall{\MTMV} \\
+    \bothCtxAnaFixedInto{\extendTvarCtx{\tvarCtx}{\MTVarMV}}{\ctx}{\EMV}{\ECMV}{\MTUnknown}
+  }{
+    \bothCtxAnaFixedInto{\tvarCtx}{\ctx}{\ETypeLam{\TVarMV}{\EMV}}{\ECTypeLamAnaNonMatchedForall{\MTVarMV}{\ECMV}}{\MTMV}
+  }
+\end{mathpar}
+
 \subsubsection{Marked expressions}
 \judgbox{\ensuremath{\bothCtxSynTypeM{\tvarCtx}{\ctx}{\EMV}{\TMV}}} $\EMV$ synthesizes type $\TMV$
 %
@@ -296,10 +345,10 @@
 
   \inferrule[MSTypeAp2]{
     \bothCtxSynTypeM{\tvarCtx}{\ctx}{\ECMV}{\MTMV} \\
-    \tvarCtxWFM{\tvarCtx}{\MTMV'} \\
+    \tvarCtxWFM{\tvarCtx}{\MTMV_2} \\
     \notMatchedForall{\MTMV}
   }{
-    \bothCtxSynTypeM{\tvarCtx}{\ctx}{\ECTypeApSynNonMatchedForall{\ECMV}{\MTMV'}}{\MTUnknown}
+    \bothCtxSynTypeM{\tvarCtx}{\ctx}{\ECTypeApSynNonMatchedForall{\ECMV}{\MTMV_2}}{\MTUnknown}
   }
 \end{mathpar}
 
@@ -328,7 +377,11 @@
 \begin{mathpar}
   \cdots
 
-  \inferrule[MSuTypeAp]{ }{
+  \inferrule[MSuTypeAp1]{ }{
     \subsumable{\ECTypeAp{\ECMV}{\MTMV}}
+  }
+
+  \inferrule[MSuTypeAp2]{ }{
+    \subsumable{\ECTypeApSynNonMatchedForall{\ECMV}{\MTMV}}
   }
 \end{mathpar}
