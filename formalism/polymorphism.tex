@@ -427,7 +427,7 @@
 \end{mathpar}
 
 \subsubsection{Marked expressions}
-\judgbox{\ensuremath{\bothCtxSynTypeM{\tvarCtx}{\ctx}{\EMV}{\TMV}}} $\EMV$ synthesizes type $\TMV$
+\judgbox{\ensuremath{\bothCtxSynTypeM{\tvarCtx}{\ctx}{\ECMV}{\MTMV}}} $\ECMV$ synthesizes type $\MTMV$
 %
 \begin{mathpar}
   \cdots
@@ -518,3 +518,99 @@
   \erasesToRow{(\ECTypeApSynNonMatchedForall{\ECMV}{\MTMV})}{\ETypeAp{\erase{\ECMV}}{\erase{\MTMV}}} \\
   \erasesToRow{\ECTypeLamAnaNonMatchedForall{\MTVarMV}{\ECMV}}{\ETypeLam{\MTVarMV}{(\erase{\ECMV})}} \\
 \end{array}\]
+
+\subsubsection{Metatheorems}
+With polymorphism, we have the following modified metatheorems which additionally account for type
+well-formedness and marking.
+
+\begin{lemma*}[name=Unmarked Synthesis]
+  If $\bothCtxSynTypeU{\tvarCtx}{\ctx}{\EMV}{\TMV}$, then $\tvarCtxWFU{\tvarCtx}{\TMV}$.
+\end{lemma*}
+
+\begin{lemma*}[name=Marked Synthesis]
+  If $\bothCtxSynTypeM{\tvarCtx}{\ctx}{\ECMV}{\MTMV}$, then $\tvarCtxWFM{\tvarCtx}{\MTMV}$.
+\end{lemma*}
+
+\begin{theorem}[name=Marking Totality] \
+  \begin{enumerate}
+    \item For all $\tvarCtx$ and $\TMV$,
+      there exists $\MTMV$ such that $\tvarCtxTypeMarkedInto{\tvarCtx}{\TMV}{\MTMV}$.
+
+    \item For all $\tvarCtx$, $\ctx$, and $\EMV$,
+      there exist $\ECMV$ and $\MTMV$ such that $\bothCtxSynFixedInto{\tvarCtx}{\ctx}{\EMV}{\ECMV}{\MTMV}$.
+
+    \item For all $\tvarCtx$, $\ctx$, $\EMV$, and $\MTMV$
+        such that $\tvarCtxWFM{\tvarCtx}{\MTMV}$,
+      there exists $\ECMV$
+        such that $\bothCtxAnaFixedInto{\tvarCtx}{\ctx}{\EMV}{\ECMV}{\MTMV}$.
+  \end{enumerate}
+\end{theorem}
+
+\begin{theorem}[name=Marking Well-Formedness] \
+  \begin{enumerate}
+    \item If $\tvarCtxTypeMarkedInto{\tvarCtx}{\TMV}{\MTMV}$,
+      then $\tvarCtxWFM{\tvarCtx}{\MTMV}$
+        and $\erasesTo{\MTMV}{\TMV}$.
+
+    \item If $\bothCtxSynFixedInto{\tvarCtx}{\ctx}{\EMV}{\ECMV}{\MTMV}$,
+      then $\tvarCtxWFM{\tvarCtx}{\MTMV}$
+        and $\bothCtxSynTypeM{\tvarCtx}{\ctx}{\ECMV}{\MTMV}$
+        and $\erasesTo{\ECMV}{\EMV}$. 
+
+    \item If $\bothCtxAnaFixedInto{\tvarCtx}{\ctx}{\EMV}{\ECMV}{\MTMV}$
+        and $\tvarCtxWFM{\tvarCtx}{\MTMV}$,
+      then $\bothCtxAnaTypeM{\tvarCtx}{\ctx}{\ECMV}{\MTMV}$
+        and $\erasesTo{\ECMV}{\EMV}$. 
+  \end{enumerate}
+\end{theorem}
+
+\begin{theorem}[name=Marking of Well-Typed/Ill-Typed Expressions] \
+  \begin{enumerate}
+    \item \begin{enumerate}
+        \item If $\tvarCtxWFU{\tvarCtx}{\TMV}$
+            and $\tvarCtxTypeMarkedInto{\tvarCtx}{\TMV}{\MTMV}$,
+          then $\markless{\MTMV}$.
+
+        \item If $\bothCtxSynTypeU{\tvarCtx}{\ctx}{\EMV}{\TMV}$
+            and $\bothCtxSynFixedInto{\tvarCtx}{\ctx}{\EMV}{\ECMV}{\MTMV}$,
+          then $\tvarCtxTypeMarkedInto{\tvarCtx}{\TMV}{\MTMV}$
+            and $\markless{\ECMV}$.
+
+        \item If $\bothCtxAnaTypeU{\tvarCtx}{\ctx}{\EMV}{\TMV}$
+            and $\tvarCtxTypeMarkedInto{\tvarCtx}{\TMV}{\MTMV}$
+            and $\bothCtxAnaFixedInto{\tvarCtx}{\ctx}{\EMV}{\ECMV}{\MTMV}$,
+          then $\markless{\ECMV}$.
+      \end{enumerate}
+
+    \item \begin{enumerate}
+        \item If it is not the case that $\tvarCtxWFU{\tvarCtx}{\TMV}$,
+          then for all $\MTMV$
+            such that $\tvarCtxTypeMarkedInto{\tvarCtx}{\TMV}{\MTMV}$,
+            it is not the case that $\markless{\MTMV}$.
+
+        \item If there does not exist $\TMV$
+            such that $\bothCtxSynTypeU{\tvarCtx}{\ctx}{\EMV}{\TMV}$,
+          then for all $\ECMV$ and $\MTMV$
+            such that $\bothCtxSynFixedInto{\tvarCtx}{\ctx}{\EMV}{\ECMV}{\MTMV}$,
+            it is not the case that $\markless{\ECMV}$.
+
+        \item If there does not exist $\TMV$
+            such that $\bothCtxAnaTypeU{\tvarCtx}{\ctx}{\EMV}{\TMV}$,
+          then for all $\ECMV$ and $\MTMV$
+            such that $\bothCtxAnaFixedInto{\tvarCtx}{\ctx}{\EMV}{\ECMV}{\MTMV}$,
+            it is not the case that $\markless{\ECMV}$.
+      \end{enumerate}
+  \end{enumerate}
+\end{theorem}
+
+\begin{theorem}[name=Marking Unicity] \
+  \begin{enumerate}
+    \item If $\bothCtxSynFixedInto{\tvarCtx}{\ctx}{\EMV}{\ECMV_1}{\MTMV_1}$
+        and $\bothCtxSynFixedInto{\tvarCtx}{\ctx}{\EMV}{\ECMV_2}{\MTMV_2}$,
+      then $\equal{\ECMV_1}{\ECMV_2}$ and $\equal{\MTMV_1}{\MTMV_2}$.
+
+    \item If $\bothCtxAnaFixedInto{\tvarCtx}{\ctx}{\EMV}{\ECMV_1}{\MTMV}$
+        and $\bothCtxAnaFixedInto{\tvarCtx}{\ctx}{\EMV}{\ECMV_2}{\MTMV}$,
+      then $\equal{\ECMV_1}{\ECMV_2}$.
+  \end{enumerate}
+\end{theorem}
