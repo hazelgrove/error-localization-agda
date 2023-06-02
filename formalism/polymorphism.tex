@@ -231,6 +231,46 @@
   }
 \end{mathpar}
 
+\judgbox{\ensuremath{\markless{\MTMV}}} $\MTMV$ has no marks
+%
+\begin{mathpar}
+  \inferrule[MLTUnknown]{ }{
+    \markless{\MTUnknown}
+  }
+
+  \inferrule[MLTNum]{ }{
+    \markless{\MTNum}
+  }
+
+  \inferrule[MLTBool]{ }{
+    \markless{\MTBool}
+  }
+
+  \inferrule[MLTArr]{
+    \markless{\MTMV_1} \\
+    \markless{\MTMV_2}
+  }{
+    \markless{\MTArrow{\MTMV_1}{\MTMV_2}}
+  }
+
+  \inferrule[MLTProd]{
+    \markless{\MTMV_1} \\
+    \markless{\MTMV_2}
+  }{
+    \markless{\MTProd{\MTMV_1}{\MTMV_2}}
+  }
+
+  \inferrule[MLTForall]{
+    \markless{\MTMV} \\
+  }{
+    \markless{\MTForall{\MTVarMV}{\MTMV}}
+  }
+
+  \inferrule[MLTVar]{ }{
+    \markless{\MTVarMV}
+  }
+\end{mathpar}
+
 \subsubsection{Type mark erasure}
 \judgbox{\ensuremath{\erase{\MTMV}}} is a metafunction defined as follows:
 %
@@ -398,6 +438,25 @@
 
   \inferrule[MSuTypeAp2]{ }{
     \subsumable{\ECTypeApSynNonMatchedForall{\ECMV}{\MTMV}}
+  }
+\end{mathpar}
+
+\judgbox{\ensuremath{\markless{\ECMV}}} $\ECMV$ has no marks
+%
+\begin{mathpar}
+  \cdots
+
+  \inferrule[MLTypeLam]{
+    \markless{\ECMV}
+  }{
+    \markless{\ECTypeLam{\MTVarMV}{\ECMV}}
+  }
+
+  \inferrule[MLTypeAp]{
+    \markless{\ECMV} \\
+    \markless{\MTMV} \\
+  }{
+    \markless{\ECTypeAp{\ECMV}{\MTMV}}
   }
 \end{mathpar}
 
