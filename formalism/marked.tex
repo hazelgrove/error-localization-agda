@@ -86,14 +86,14 @@ lambda calculus, with rules organized by judgment form.
 
 \judgbox{\ensuremath{\TJoin{\TMV_1}{\TMV_2}}} is a \emph{partial} metafunction defined as follows:
 %
-\newcommand{\joinsTo}[3]{\ensuremath{\TJoin{#1}{#2} & = & #3}}
+\newcommand{\joinsToRow}[3]{\ensuremath{\TJoin{#1}{#2} & = & #3}}
 \[\begin{array}{rcl}
-  \joinsTo{\TUnknown}{\TMV}{\TMV} \\
-  \joinsTo{\TMV}{\TUnknown}{\TMV} \\
-  \joinsTo{\TNum}{\TNum}{\TNum} \\
-  \joinsTo{\TBool}{\TBool}{\TBool} \\
-  \joinsTo{(\TArrow{\TMV_1}{\TMV_2})}{(\TArrow{\TMV_1'}{\TMV_2'})}{\TArrow{(\TJoin{\TMV_1}{\TMV_1'})}{(\TJoin{\TMV_2}{\TMV_2'})}} \\
-  \joinsTo{(\TProd{\TMV_1}{\TMV_2})}{(\TProd{\TMV_1'}{\TMV_2'})}{\TProd{(\TJoin{\TMV_1}{\TMV_1'})}{(\TJoin{\TMV_2}{\TMV_2'})}}
+  \joinsToRow{\TUnknown}{\TMV}{\TMV} \\
+  \joinsToRow{\TMV}{\TUnknown}{\TMV} \\
+  \joinsToRow{\TNum}{\TNum}{\TNum} \\
+  \joinsToRow{\TBool}{\TBool}{\TBool} \\
+  \joinsToRow{(\TArrow{\TMV_1}{\TMV_2})}{(\TArrow{\TMV_1'}{\TMV_2'})}{\TArrow{(\TJoin{\TMV_1}{\TMV_1'})}{(\TJoin{\TMV_2}{\TMV_2'})}} \\
+  \joinsToRow{(\TProd{\TMV_1}{\TMV_2})}{(\TProd{\TMV_1'}{\TMV_2'})}{\TProd{(\TJoin{\TMV_1}{\TMV_1'})}{(\TJoin{\TMV_2}{\TMV_2'})}}
 \end{array}\] \\
 
 \judgbox{\ensuremath{\base{\TMV}}} $\TMV$ is a base type
