@@ -91,8 +91,8 @@
 %
 \[\begin{array}{rcl}
   & \vdots & \\
-  \joinsTo{(\TForall{\TVarMV}{\TMV})}{(\TForall{\TVarMV}{\TMV'})}{\TForall{\TVarMV}{(\TJoin{\TMV}{\TMV'})}} \\
-  \joinsTo{\TVarMV}{\TVarMV}{\TVarMV} \\
+  \joinsToRow{(\TForall{\TVarMV}{\TMV})}{(\TForall{\TVarMV}{\TMV'})}{\TForall{\TVarMV}{(\TJoin{\TMV}{\TMV'})}} \\
+  \joinsToRow{\TVarMV}{\TVarMV}{\TVarMV} \\
 \end{array}\]
 
 \subsubsection{Type marking}
@@ -243,10 +243,10 @@
 %
 \[\begin{array}{rcl}
   & \vdots & \\
-  \joinsTo{(\MTForall{\MTVarMV}{\MTMV})}{(\MTForall{\MTVarMV}{\MTMV'})}{\MTForall{\MTVarMV}{(\MTJoin{\MTMV}{\MTMV'})}} \\
-  \joinsTo{\MTVarMV}{\MTVarMV}{\MTVarMV} \\
-  \joinsTo{\MTUnbound{\MTVarMV}}{\MTMV}{\MTUnbound{\MTVarMV}} \\
-  \joinsTo{\MTMV}{\MTUnbound{\MTVarMV}}{\MTUnbound{\MTVarMV}} \\
+  \joinsToRow{(\MTForall{\MTVarMV}{\MTMV})}{(\MTForall{\MTVarMV}{\MTMV'})}{\MTForall{\MTVarMV}{(\MTJoin{\MTMV}{\MTMV'})}} \\
+  \joinsToRow{\MTVarMV}{\MTVarMV}{\MTVarMV} \\
+  \joinsToRow{\MTUnbound{\MTVarMV}}{\MTMV}{\MTUnbound{\MTVarMV}} \\
+  \joinsToRow{\MTMV}{\MTUnbound{\MTVarMV}}{\MTUnbound{\MTVarMV}} \\
 \end{array}\]
 
 \judgbox{\ensuremath{\markless{\MTMV}}} $\MTMV$ has no marks
