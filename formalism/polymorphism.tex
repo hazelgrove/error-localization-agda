@@ -87,6 +87,14 @@
   }
 \end{mathpar}
 
+\judgbox{\ensuremath{\TJoin{\TMV_1}{\TMV_2}}} is a \emph{partial} metafunction defined as follows:
+%
+\[\begin{array}{rcl}
+  & \vdots & \\
+  \joinsTo{(\TForall{\TVarMV}{\TMV})}{(\TForall{\TVarMV}{\TMV'})}{\TForall{\TVarMV}{(\TJoin{\TMV}{\TMV'})}} \\
+  \joinsTo{\TVarMV}{\TVarMV}{\TVarMV} \\
+\end{array}\]
+
 \subsubsection{Type marking}
 \judgbox{\ensuremath{\tvarCtxTypeMarkedInto{\tvarCtx}{\TMV}{\MTMV}}} $\TMV$ is marked into $\MTMV$
 %
@@ -230,6 +238,16 @@
     \matchedForall{\MTUnbound{\MTVarMV}}{\MTVarMV}{\MTUnknown}
   }
 \end{mathpar}
+
+\judgbox{\ensuremath{\MTJoin{\MTMV_1}{\MTMV_2}}} is a \emph{partial} metafunction defined as follows:
+%
+\[\begin{array}{rcl}
+  & \vdots & \\
+  \joinsTo{(\MTForall{\MTVarMV}{\MTMV})}{(\MTForall{\MTVarMV}{\MTMV'})}{\MTForall{\MTVarMV}{(\MTJoin{\MTMV}{\MTMV'})}} \\
+  \joinsTo{\MTVarMV}{\MTVarMV}{\MTVarMV} \\
+  \joinsTo{\MTUnbound{\MTVarMV}}{\MTMV}{\MTUnbound{\MTVarMV}} \\
+  \joinsTo{\MTMV}{\MTUnbound{\MTVarMV}}{\MTUnbound{\MTVarMV}} \\
+\end{array}\]
 
 \judgbox{\ensuremath{\markless{\MTMV}}} $\MTMV$ has no marks
 %
