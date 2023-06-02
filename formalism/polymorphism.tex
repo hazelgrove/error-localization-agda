@@ -95,6 +95,21 @@
   \joinsToRow{\TVarMV}{\TVarMV}{\TVarMV} \\
 \end{array}\]
 
+\judgbox{\ensuremath{\subst{\TMV_1}{\TMV_2}{\TVarMV}}} is a metafunction defined as follows:
+%
+\newcommand{\substToRow}[4]{\ensuremath{\subst{#1}{#2}{#3} & = & #4}}
+\[\begin{array}{rcll}
+  \substToRow{\TUnknown}{\TMV}{\TVarMV}{\TUnknown} \\
+  \substToRow{\TNum}{\TMV}{\TVarMV}{\TNum} \\
+  \substToRow{\TBool}{\TMV}{\TVarMV}{\TBool} \\
+  \substToRow{(\TArrow{\TMV_1}{\TMV_2})}{\TMV}{\TVarMV}{\TArrow{(\subst{\TMV_1}{\TMV}{\TVarMV})}{(\subst{\TMV_2}{\TMV}{\TVarMV})}} \\
+  \substToRow{(\TProd{\TMV_1}{\TMV_2})}{\TMV}{\TVarMV}{\TProd{(\subst{\TMV_1}{\TMV}{\TVarMV})}{(\subst{\TMV_2}{\TMV}{\TVarMV})}} \\
+  \substToRow{(\TForall{\TVarMV'}{\TMV'})}{\TMV}{\TVarMV}{\TForall{\TVarMV'}{\TMV'}} & \equal{\TVarMV}{\TVarMV'} \\
+  \substToRow{(\TForall{\TVarMV'}{\TMV'})}{\TMV}{\TVarMV}{\TForall{\TVarMV'}{(\subst{\TMV'}{\TMV}{\TVarMV})}} & \notEqual{\TVarMV}{\TVarMV'} \\
+  \substToRow{\TVarMV'}{\TMV}{\TVarMV}{\TMV} & \equal{\TVarMV}{\TVarMV'} \\
+  \substToRow{\TVarMV'}{\TMV}{\TVarMV}{\TVarMV'} & \notEqual{\TVarMV}{\TVarMV'}
+\end{array}\]
+
 \subsubsection{Type marking}
 \judgbox{\ensuremath{\tvarCtxTypeMarkedInto{\tvarCtx}{\TMV}{\MTMV}}} $\TMV$ is marked into $\MTMV$
 %
@@ -247,6 +262,22 @@
   \joinsToRow{\MTVarMV}{\MTVarMV}{\MTVarMV} \\
   \joinsToRow{\MTUnbound{\MTVarMV}}{\MTMV}{\MTUnbound{\MTVarMV}} \\
   \joinsToRow{\MTMV}{\MTUnbound{\MTVarMV}}{\MTUnbound{\MTVarMV}} \\
+\end{array}\]
+
+\judgbox{\ensuremath{\subst{\MTMV_1}{\MTMV_2}{\MTVarMV}}} is a metafunction defined as follows:
+%
+\newcommand{\substToRow}[4]{\ensuremath{\subst{#1}{#2}{#3} & = & #4}}
+\[\begin{array}{rcll}
+  \substToRow{\MTUnknown}{\MTMV}{\MTVarMV}{\MTUnknown} \\
+  \substToRow{\MTNum}{\MTMV}{\MTVarMV}{\MTNum} \\
+  \substToRow{\MTBool}{\MTMV}{\MTVarMV}{\MTBool} \\
+  \substToRow{(\MTArrow{\MTMV_1}{\MTMV_2})}{\MTMV}{\MTVarMV}{\MTArrow{(\subst{\MTMV_1}{\MTMV}{\MTVarMV})}{(\subst{\MTMV_2}{\MTMV}{\MTVarMV})}} \\
+  \substToRow{(\MTProd{\MTMV_1}{\MTMV_2})}{\MTMV}{\MTVarMV}{\MTProd{(\subst{\MTMV_1}{\MTMV}{\MTVarMV})}{(\subst{\MTMV_2}{\MTMV}{\MTVarMV})}} \\
+  \substToRow{(\MTForall{\MTVarMV'}{\MTMV'})}{\MTMV}{\MTVarMV}{\MTForall{\MTVarMV'}{\MTMV'}} & \equal{\MTVarMV}{\MTVarMV'} \\
+  \substToRow{(\MTForall{\MTVarMV'}{\MTMV'})}{\MTMV}{\MTVarMV}{\MTForall{\MTVarMV'}{(\subst{\MTMV'}{\MTMV}{\MTVarMV})}} & \notEqual{\MTVarMV}{\MTVarMV'} \\
+  \substToRow{\MTVarMV'}{\MTMV}{\MTVarMV}{\MTMV} & \equal{\MTVarMV}{\MTVarMV'} \\
+  \substToRow{\MTVarMV'}{\MTMV}{\MTVarMV}{\MTVarMV'} & \notEqual{\MTVarMV}{\MTVarMV'} \\
+  \substToRow{\MTUnbound{\MTVarMV'}}{\MTMV}{\MTVarMV}{\MTUnbound{\MTVarMV'}}
 \end{array}\]
 
 \judgbox{\ensuremath{\markless{\MTMV}}} $\MTMV$ has no marks
