@@ -621,6 +621,10 @@ well-formedness and marking.
 
 \begin{theorem}[name=Marking Unicity] \
   \begin{enumerate}
+    \item If $\tvarCtxTypeMarkedInto{\tvarCtx}{\TMV}{\MTMV_1}$,
+        and $\tvarCtxTypeMarkedInto{\tvarCtx}{\TMV}{\MTMV_2}$,
+      then $\equal{\MTMV_1}{\MTMV_2}$.
+
     \item If $\bothCtxSynFixedInto{\tvarCtx}{\ctx}{\EMV}{\ECMV_1}{\MTMV_1}$
         and $\bothCtxSynFixedInto{\tvarCtx}{\ctx}{\EMV}{\ECMV_2}{\MTMV_2}$,
       then $\equal{\ECMV_1}{\ECMV_2}$ and $\equal{\MTMV_1}{\MTMV_2}$.
