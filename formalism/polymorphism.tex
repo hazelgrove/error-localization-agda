@@ -400,3 +400,14 @@
     \subsumable{\ECTypeApSynNonMatchedForall{\ECMV}{\MTMV}}
   }
 \end{mathpar}
+
+\subsubsection{Mark erasure}
+\judgbox{\ensuremath{\erase{\ECMV}}} is a metafunction defined as follows:
+%
+\[\begin{array}{rcl}
+  & \vdots & \\
+  \erasesToRow{(\ECTypeLam{\MTVarMV}{\ECMV})}{\ETypeLam{\MTVarMV}{(\erase{\ECMV})}} \\
+  \erasesToRow{(\ECTypeAp{\ECMV}{\MTMV})}{\ETypeAp{\erase{\ECMV}}{\erase{\MTMV}}} \\
+  \erasesToRow{(\ECTypeApSynNonMatchedForall{\ECMV}{\MTMV})}{\ETypeAp{\erase{\ECMV}}{\erase{\MTMV}}} \\
+  \erasesToRow{\ECTypeLamAnaNonMatchedForall{\MTVarMV}{\ECMV}}{\ETypeLam{\MTVarMV}{(\erase{\ECMV})}} \\
+\end{array}\]
