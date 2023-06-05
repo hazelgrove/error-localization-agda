@@ -411,3 +411,71 @@ $\judgbox{\erase{\PCMV}}$ is a metafunction defined as follows:
   \erasesToRow{(\PCAsc{\PCMV}{\TMV})}{\PAsc{\erase{\PCMV}}{\TMV}} \\
   \erasesToRow{\PCInconType{\PCAsc{\PCMV}{\TMV}}}{\PAsc{\erase{\PCMV}}{\TMV}}
 \end{array}\]
+
+\subsubsection{Metatheorems}
+In addition to the original metatheorems above, the following ones governing patterns additionally
+hold.
+
+\begin{theorem}[name=Pattern Marking Totality] \
+  \begin{enumerate}
+    \item For all $\ctx$ and $\PMV$,
+      there exist $\PCMV$ and $\TMV$
+        such that $\ctxSynFixedIntoPat{\ctx}{\PMV}{\PCMV}{\TMV}$.
+
+    \item For all $\ctx$, $\PMV$, and $\TMV$,
+      there exists $\PCMV$ and $\ctx'$
+        such that $\ctxAnaFixedIntoPat{\ctx}{\PMV}{\PCMV}{\TMV}{\ctx'}$.
+  \end{enumerate}
+\end{theorem}
+
+\begin{theorem}[name=Pattern Marking Well-Formedness] \
+  \begin{enumerate}
+    \item If $\ctxSynFixedIntoPat{\ctx}{\PMV}{\PCMV}{\TMV}$,
+      then $\ctxSynPatM{\ctx}{\PCMV}{\TMV}$
+        and $\erasesTo{\PCMV}{\PMV}$.
+
+    \item If $\ctxAnaFixedIntoPat{\ctx}{\PMV}{\PCMV}{\TMV}{\ctx'}$,
+      then $\ctxAnaPatM{\ctx}{\PCMV}{\TMV}{\ctx'}$
+        and $\erasesTo{\PCMV}{\PMV}$.
+  \end{enumerate}
+\end{theorem}
+
+\begin{theorem}[name=Pattern Marking of Well-Typed/Ill-Typed Patterns] \
+  \begin{enumerate}
+    \item \begin{enumerate}
+        \item If $\ctxSynPatU{\ctx}{\PMV}{\TMV}$
+            and $\ctxSynFixedIntoPat{\ctx}{\PMV}{\PCMV}{\TMV}$,
+          then $\markless{\PCMV}$.
+
+        \item If $\ctxAnaPatU{\ctx}{\PMV}{\TMV}{\ctx'}$
+            and $\ctxAnaFixedIntoPat{\ctx}{\PMV}{\PCMV}{\TMV}{\ctx'}$,
+          then $\markless{\PCMV}$.
+      \end{enumerate}
+
+    \item \begin{enumerate}
+        \item If there does not exist $\TMV$
+            such that $\ctxSynPatU{\ctx}{\PMV}{\TMV}$,
+          then for all $\PCMV$ and $\TMV'$
+            such that $\ctxSynFixedIntoPat{\ctx}{\PMV}{\PCMV}{\TMV'}$,
+            it is not the case that $\markless{\PCMV}$.
+
+        \item If there does not exist $\TMV$ and $\ctx'$ such that $\ctxAnaPatU{\ctx}{\PMV}{\TMV}{\ctx'}$,
+          then for all $\PCMV$, $\TMV'$, and $\ctx'$
+            such that $\ctxAnaFixedIntoPat{\ctx}{\PMV}{\PCMV}{\TMV'}{\ctx'}$,
+            it is not the case that $\markless{\PCMV}$.
+      \end{enumerate}
+  \end{enumerate}
+\end{theorem}
+
+\begin{theorem}[name=Pattern Marking Unicity] \
+  \begin{enumerate}
+    \item If $\ctxSynFixedIntoPat{\ctx}{\PMV}{\PCMV_1}{\TMV_1}$
+        and $\ctxSynFixedIntoPat{\ctx}{\PMV}{\PCMV_2}{\TMV_2}$,
+      then $\PCMV_1 = \PCMV_2$
+        and $\TMV_1 = \TMV_2$.
+
+    \item If $\ctxAnaFixedIntoPat{\ctx}{\PMV}{\PCMV_1}{\TMV}{\ctx_1}$
+        and $\ctxAnaFixedIntoPat{\ctx}{\PMV}{\PCMV_2}{\TMV}{\ctx_2}$,
+      then $\PCMV_1 = \PCMV_2$ and $\ctx_1 = \ctx_2$.
+  \end{enumerate}
+\end{theorem}
