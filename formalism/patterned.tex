@@ -11,6 +11,43 @@
                                \mid \PCInconType{\PCMV} \mid \PCAnaNonMatchedProd{\PCMV}
 \end{array}\]
 
+\subsubsection{Types}
+\judgbox{\ensuremath{\consistent{\TMV_1}{\TMV_2}}} $\TMV_1$ is consistent with $\TMV_2$
+%
+\begin{mathpar}
+  \inferrule[TCUnknownSwitch1]{ }{
+    \consistent{\TUnknownSwitch}{\TMV}
+  }
+
+  \inferrule[TCUnknownSwitch2]{ }{
+    \consistent{\TMV}{\TUnknownSwitch}
+  }
+\end{mathpar}
+
+\judgbox{\ensuremath{\matchedArrow{\TMV}{\TMV_1}{\TMV_2}}} $\TMV$ has matched arrow type $\TArrow{\TMV_1}{\TMV_2}$
+%
+\begin{mathpar}
+  \inferrule[TMAUnknownSwitch]{ }{
+    \matchedArrow{\TUnknownSwitch}{\TUnknownSwitch}{\TUnknownSwitch}
+  }
+\end{mathpar}
+
+\judgbox{\ensuremath{\matchedProd{\TMV}{\TMV_1}{\TMV_2}}} $\TMV$ has matched binary product type $\TProd{\TMV_1}{\TMV_2}$
+%
+\begin{mathpar}
+  \inferrule[TMPUnknownSwitch]{ }{
+    \matchedProd{\TUnknownSwitch}{\TUnknownSwitch}{\TUnknownSwitch}
+  }
+\end{mathpar}
+
+\judgbox{\ensuremath{\TJoin{\TMV_1}{\TMV_2}}} is a \emph{partial} metafunction defined as follows:
+%
+\[\begin{array}{rcl}
+  & \vdots & \\
+  \joinsToRow{\TUnknownSwitch}{\TMV}{\TUnknownSwitch} \\
+  \joinsToRow{\TMV}{\TUnknownSwitch}{\TUnknownSwitch}
+\end{array}\]
+
 \subsubsection{Unmarked expressions}
 \judgbox{\ctxSynTypeU{\ctx}{\EMV}{\TMV}} $\EMV$ synthesizes type $\TMV$
 %
@@ -43,6 +80,14 @@
     \ctxAnaTypeU{\ctx'}{\EMV_{2}}{\TMV_2}
   }{
     \ctxAnaTypeU{\ctx}{\ELet{\PMV}{\EMV_{1}}{\EMV_{2}}}{\TMV_2}
+  }
+\end{mathpar}
+
+\judgbox{\subsumable{\EMV}} $\EMV$ is subsumable
+%
+\begin{mathpar}
+  \inferrule[USuLetPat]{ }{
+    \subsumable{\ELet{\PMV}{\EMV_1}{\EMV_2}}
   }
 \end{mathpar}
 
@@ -103,6 +148,34 @@
     \ctxAnaTypeM{\ctx}{\ELet{\PCMV}{\ECMV_{1}}{\ECMV_{2}}}{\TMV_2}
   }
 \end{mathpar}
+
+\judgbox{\subsumable{\ECMV}} $\ECMV$ is subsumable
+%
+\begin{mathpar}
+  \inferrule[MSuLetPat]{ }{
+    \subsumable{\ECLet{\PMV}{\ECMV_1}{\ECMV_2}}
+  }
+\end{mathpar}
+
+\judgbox{\markless{\ECMV}} $\ECMV$ has no marks
+%
+\begin{mathpar}
+  \inferrule[MLLetPat]{
+    \markless{\PCMV} \\
+    \markless{\ECMV_1} \\
+    \markless{\ECMV_2}
+  }{
+    \markless{\ECLet{\PCMV}{\ECMV_1}{\ECMV_2}}
+  }
+\end{mathpar}
+
+\subsubsection{Mark erasure}
+$\judgbox{\erase{\ECMV}}$ is a metafunction defined as follows:
+%
+\[\begin{array}{rcl}
+  & \vdots & \\
+  \erasesToRow{(\ECLet{\PCMV}{\ECMV_1}{\ECMV_2})}{\ELet{\erase{\PCMV}}{\erase{\ECMV_1}}{\erase{\ECMV_2}}}
+\end{array}\]
 
 \subsubsection{Unmarked patterns}
 \judgbox{\ensuremath{\ctxSynPatU{\ctx}{\PMV}{\TMV}}} $\PMV$ synthesizes type $\TMV$
@@ -300,3 +373,41 @@
     \ctxAnaPatM{\ctx}{\PCInconType{\PCAsc{\PCMV}{\TMV'}}}{\TMV}{\ctx'}
   }
 \end{mathpar}
+
+\judgbox{\markless{\PCMV}} $\PCMV$ has no marks
+%
+\begin{mathpar}
+  \inferrule[MLPWild]{ }{
+    \markless{\PCWild}
+  }
+
+  \inferrule[MLPVar]{ }{
+    \markless{\PCVar{x}}
+  }
+
+  \inferrule[MLPPair]{
+    \markless{\PCMV_1} \\
+    \markless{\PCMV_2}
+  }{
+    \markless{\PCPair{\PCMV_1}{\PCMV_2}}
+  }
+
+  \inferrule[MLPAnn]{
+    \markless{\PCMV}
+  }{
+    \markless{\PCAsc{\PCMV}{\TMV}}
+  }
+\end{mathpar}
+
+\subsubsection{Pattern mark erasure}
+$\judgbox{\erase{\PCMV}}$ is a metafunction defined as follows:
+%
+\[\begin{array}{rcl}
+  & \vdots & \\
+  \erasesToRow{\PCWild}{\PWild} \\
+  \erasesToRow{\PCVar{x}}{\PVar{x}} \\
+  \erasesToRow{\PCPair{\PCMV_1}{\PCMV_2}}{\PPair{\erase{\PCMV_1}}{\erase{\PCMV_2}}} \\
+  \erasesToRow{\PCAnaNonMatchedProd{\PCPair{\PCMV_1}{\PCMV_2}}}{\PPair{\erase{\PCMV_1}}{\erase{\PCMV_2}}} \\
+  \erasesToRow{(\PCAsc{\PCMV}{\TMV})}{\PAsc{\erase{\PCMV}}{\TMV}} \\
+  \erasesToRow{\PCInconType{\PCAsc{\PCMV}{\TMV}}}{\PAsc{\erase{\PCMV}}{\TMV}}
+\end{array}\]
