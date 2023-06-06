@@ -1,6 +1,12 @@
+\documentclass[formalism.tex]{subfiles}
+
+\begin{document}
+\input{symbols/types}
+\input{symbols/expressions}
+\input{symbols/marked}
 \input{symbols/polymorphism}
 
-\subsection{Extension: polymorphism}
+\section{Extension: System F-style Polymorphism}
 In this section, we describe an extension of the marked lambda calculus for System F-style
 parametric polymorphism.
 
@@ -9,7 +15,7 @@ distinction between unmarked and marked types. These are each governed by well-f
 (alongside extensions of the original consistency, etc. judgments) and linked by a marking
 operation.
 
-\subsubsection{Syntax}
+\subsection{Syntax}
 The syntax of unmarked types is exactly that of the original types alongside additional forms for
 forall types and type variables. In marked types, we additionally have unbound type variables.
 Within unmarked expressions, there may be type abstractions and type applications. In marked
@@ -26,7 +32,7 @@ expressions, marks corresponding to those of ordinary lambda abstractions are pr
            &       & \mid      & \ECSynNonMatchedForall{\ECMV} \mid \ECAnaNonMatchedForall{\ECMV}
 \end{array}\]
 
-\subsubsection{Unmarked types}
+\subsection{Unmarked types}
 Type consistency is now parametrized by the type variable context $\tvarCtx$. Here (and similarly
 the extension of other judgments), we omit the rules for the old syntactic constructs, which may be
 straightforwardly derived from the original rules. \\
@@ -105,6 +111,7 @@ straightforwardly derived from the original rules. \\
 
 \judgbox{\ensuremath{\TJoin{\TMV_1}{\TMV_2}}} is a \emph{partial} metafunction defined as follows:
 %
+\newcommand{\joinsToRow}[3]{\ensuremath{\TJoin{#1}{#2} & = & #3}}
 \[\begin{array}{rcl}
   & \vdots & \\
   \joinsToRow{(\TForall{\TVarMV}{\TMV})}{(\TForall{\TVarMV}{\TMV'})}{\TForall{\TVarMV}{(\TJoin{\TMV}{\TMV'})}} \\
@@ -126,7 +133,7 @@ straightforwardly derived from the original rules. \\
   \substToRow{\TVarMV'}{\TMV}{\TVarMV}{\TVarMV'} & \notEqual{\TVarMV}{\TVarMV'}
 \end{array}\]
 
-\subsubsection{Type marking}
+\subsection{Type marking}
 \judgbox{\ensuremath{\tvarCtxTypeMarkedInto{\tvarCtx}{\TMV}{\MTMV}}} $\TMV$ is marked into $\MTMV$
 %
 \begin{mathpar}
@@ -175,7 +182,7 @@ straightforwardly derived from the original rules. \\
   }
 \end{mathpar}
 
-\subsubsection{Marked types}
+\subsection{Marked types}
 \judgbox{\ensuremath{\tvarCtxConsistentM{\tvarCtx}{\MTMV_1}{\MTMV_2}}} $\MTMV_1$ and $\MTMV_2$ are consistent
 %
 \begin{mathpar}
@@ -335,9 +342,10 @@ straightforwardly derived from the original rules. \\
   }
 \end{mathpar}
 
-\subsubsection{Type mark erasure}
+\subsection{Type mark erasure}
 \judgbox{\ensuremath{\erase{\MTMV}}} is a metafunction defined as follows:
 %
+\newcommand{\erasesToRow}[2]{\erase{#1} & = & #2}
 \[\begin{array}{rcl}
   \erasesToRow{\MTUnknown}{\TUnknown} \\
   \erasesToRow{\MTNum}{\TNum} \\
@@ -349,7 +357,7 @@ straightforwardly derived from the original rules. \\
   \erasesToRow{\MTUnbound{\MTVarMV}}{\TVarMV}
 \end{array}\]
 
-\subsubsection{Unmarked expressions}
+\subsection{Unmarked expressions}
 \judgbox{\ensuremath{\bothCtxSynTypeU{\tvarCtx}{\ctx}{\EMV}{\TMV}}} $\EMV$ synthesizes type $\TMV$
 %
 \begin{mathpar}
@@ -393,7 +401,7 @@ straightforwardly derived from the original rules. \\
   }
 \end{mathpar}
 
-\subsubsection{Marking}
+\subsection{Marking}
 \judgbox{\bothCtxSynFixedInto{\tvarCtx}{\ctx}{\EMV}{\ECMV}{\MTMV}} $\EMV$ is marked into $\ECMV$ and synthesizes type $\MTMV$
 %
 \begin{mathpar}
@@ -442,7 +450,7 @@ straightforwardly derived from the original rules. \\
   }
 \end{mathpar}
 
-\subsubsection{Marked expressions}
+\subsection{Marked expressions}
 \judgbox{\ensuremath{\bothCtxSynTypeM{\tvarCtx}{\ctx}{\ECMV}{\MTMV}}} $\ECMV$ synthesizes type $\MTMV$
 %
 \begin{mathpar}
@@ -524,7 +532,7 @@ straightforwardly derived from the original rules. \\
   }
 \end{mathpar}
 
-\subsubsection{Mark erasure}
+\subsection{Mark erasure}
 \judgbox{\ensuremath{\erase{\ECMV}}} is a metafunction defined as follows:
 %
 \[\begin{array}{rcl}
@@ -535,7 +543,7 @@ straightforwardly derived from the original rules. \\
   \erasesToRow{\ECTypeLamAnaNonMatchedForall{\MTVarMV}{\ECMV}}{\ETypeLam{\MTVarMV}{(\erase{\ECMV})}} \\
 \end{array}\]
 
-\subsubsection{Metatheorems}
+\subsection{Metatheorems}
 With polymorphism, we have the following modified metatheorems which additionally account for type
 well-formedness and marking.
 
@@ -634,3 +642,5 @@ well-formedness and marking.
       then $\equal{\ECMV_1}{\ECMV_2}$.
   \end{enumerate}
 \end{theorem}
+
+\end{document}
