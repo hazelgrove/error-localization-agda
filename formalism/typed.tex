@@ -8,8 +8,10 @@
 \input{symbols/typed}
 
 \section{Typed hazelnut}
+\label{sec:typed}
 
 \subsection{Syntax}
+\label{sec:typed-syntax}
 Zippered types are the same as in the untyped model.
 
 \[\begin{array}{rrcl}
@@ -21,6 +23,7 @@ Zippered types are the same as in the untyped model.
 \end{array}\]
 
 \subsubsection{Well-formedness}
+\label{sec:typed-well-formedness}
 \judgbox{\ensuremath{\zWellFormed{\ZMV}}} $\ZMV$ is well-formed
 %
 \begin{mathpar}
@@ -119,10 +122,14 @@ Zippered types are the same as in the untyped model.
 \end{mathpar}
 
 \subsection{Cursor erasure}
+\label{sec:typed-cursor-erasure}
+
 \subsubsection{Type cursor erasure}
+\label{sec:typed-type-cursor-erasure}
 Type cursor erasure is the same as in the untyped model.
 
 \subsubsection{Expression cursor erasure}
+\label{sec:typed-expression-cursor-erasure}
 \judgbox{\ensuremath{\cursorErase{\ZMV}}} is a metafunction defined as follows:
 %
 \newcommand{\cursorErasesToRow}[2]{\ensuremath{\cursorErase{#1} & = & #2}}
@@ -146,15 +153,19 @@ Type cursor erasure is the same as in the untyped model.
 \end{array}\]
 
 \subsection{Action model}
+\label{sec:typed-action-model}
 The action syntax is the same in the untyped model.
 
 \subsubsection{Shape sort}
+\label{sec:typed-shape-sort}
 The shape sort judgments are the same as in the untyped model.
 
 \subsubsection{Type actions}
+\label{sec:typed-type-actions}
 Type actions are the same as in the untyped model.
 
 \subsubsection{Expression movement}
+\label{sec:typed-expression-movement}
 \judgbox{\ensuremath{\AUEMove{\ZMV}{\ZMV'}{\MMV}}}
 %
 \begin{mathpar}
@@ -296,6 +307,7 @@ Type actions are the same as in the untyped model.
 \end{mathpar}
 
 \subsubsection{Synthetic expression actions}
+\label{sec:typed-synthetic-expression-actions}
 \judgbox{\ensuremath{\ASAction{\ctx}{\ZMV}{\TMV}{\ZMV'}{\TMV'}{\AMV}}}
 
 \paragraph{Movement}
@@ -629,6 +641,7 @@ Type actions are the same as in the untyped model.
 \end{mathpar}
 
 \subsubsection{Analytic expression actions}
+\label{sec:typed-analytic-expression-actions}
 \judgbox{\ensuremath{\AAAction{\ctx}{\ZMV}{\ZMV'}{\TMV'}{\AMV}}}
 
 \paragraph{Subsumption}
@@ -809,6 +822,7 @@ Type actions are the same as in the untyped model.
 \end{mathpar}
 
 \subsubsection{Iterated actions}
+\label{sec:typed-iterated-actions}
 The iterated type action and movements judgments are the same as in the untyped model. \\
 
 \judgbox{\ensuremath{\ASEActionIter{\ctx}{\ZMV}{\TMV}{\ZMV'}{\TMV'}{\AIMV}}}
@@ -842,6 +856,7 @@ The iterated type action and movements judgments are the same as in the untyped 
 \end{mathpar}
 
 \subsection{Metatheorems}
+\label{sec:typed-metatheorems}
 \begin{theorem}[name=Sensibility] \
   \begin{enumerate}
     \item If $\zWellFormed{\ZMV}$ and $\ctxSynTypeM{\ctx}{\cursorErase{\ZMV}}{\TMV}$ and
