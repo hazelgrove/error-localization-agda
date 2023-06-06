@@ -1,7 +1,13 @@
+\documentclass[formalism.tex]{subfiles}
+
+\begin{document}
+\input{symbols/types}
+\input{symbols/expressions}
+\input{symbols/marked}
 \input{symbols/patterned}
 
-\subsection{Extension: patterned let expressions}
-\subsubsection{Syntax}
+\section{Extension: Patterned Let Expressions}
+\subsection{Syntax}
 \[\begin{array}{rrcl}
   \TMName  & \TMV  & \Coloneqq & \cdots \mid \TUnknownSwitch \\
   \EMName  & \EMV  & \Coloneqq & \cdots \mid \ELet{\PMV}{\EMV}{\EMV} \\
@@ -11,7 +17,7 @@
                                \mid \PCInconType{\PCMV} \mid \PCAnaNonMatchedProd{\PCMV}
 \end{array}\]
 
-\subsubsection{Types}
+\subsection{Types}
 \judgbox{\ensuremath{\consistent{\TMV_1}{\TMV_2}}} $\TMV_1$ is consistent with $\TMV_2$
 %
 \begin{mathpar}
@@ -42,13 +48,14 @@
 
 \judgbox{\ensuremath{\TJoin{\TMV_1}{\TMV_2}}} is a \emph{partial} metafunction defined as follows:
 %
+\newcommand{\joinsToRow}[3]{\ensuremath{\TJoin{#1}{#2} & = & #3}}
 \[\begin{array}{rcl}
   & \vdots & \\
   \joinsToRow{\TUnknownSwitch}{\TMV}{\TUnknownSwitch} \\
   \joinsToRow{\TMV}{\TUnknownSwitch}{\TUnknownSwitch}
 \end{array}\]
 
-\subsubsection{Unmarked expressions}
+\subsection{Unmarked expressions}
 \judgbox{\ctxSynTypeU{\ctx}{\EMV}{\TMV}} $\EMV$ synthesizes type $\TMV$
 %
 \begin{mathpar}
@@ -91,7 +98,7 @@
   }
 \end{mathpar}
 
-\subsubsection{Marking}
+\subsection{Marking}
 \judgbox{\ctxSynFixedInto{\ctx}{\EMV}{\ECMV}{\TMV}} $\EMV$ is marked into $\ECMV$ and synthesizes type $\TMV$
 %
 \begin{mathpar}
@@ -120,7 +127,7 @@
   }
 \end{mathpar}
 
-\subsubsection{Marked expressions}
+\subsection{Marked expressions}
 \judgbox{\ctxSynTypeM{\ctx}{\ECMV}{\TMV}} $\ECMV$ synthesizes type $\TMV$
 %
 \begin{mathpar}
@@ -169,15 +176,16 @@
   }
 \end{mathpar}
 
-\subsubsection{Mark erasure}
+\subsection{Mark erasure}
 $\judgbox{\erase{\ECMV}}$ is a metafunction defined as follows:
 %
+\newcommand{\erasesToRow}[2]{\erase{#1} & = & #2}
 \[\begin{array}{rcl}
   & \vdots & \\
   \erasesToRow{(\ECLet{\PCMV}{\ECMV_1}{\ECMV_2})}{\ELet{\erase{\PCMV}}{\erase{\ECMV_1}}{\erase{\ECMV_2}}}
 \end{array}\]
 
-\subsubsection{Unmarked patterns}
+\subsection{Unmarked patterns}
 \judgbox{\ensuremath{\ctxSynPatU{\ctx}{\PMV}{\TMV}}} $\PMV$ synthesizes type $\TMV$
 %
 \begin{mathpar}
@@ -230,7 +238,7 @@ $\judgbox{\erase{\ECMV}}$ is a metafunction defined as follows:
   }
 \end{mathpar}
 
-\subsubsection{Pattern marking}
+\subsection{Pattern marking}
 \judgbox{\ensuremath{\ctxSynFixedIntoPat{\ctx}{\PMV}{\PCMV}{\TMV}}} $\PMV$ is marked into $\PCMV$ and synthesizes $\TMV$
  %
 \begin{mathpar}
@@ -306,7 +314,7 @@ $\judgbox{\erase{\ECMV}}$ is a metafunction defined as follows:
   }
 \end{mathpar}
 
-\subsubsection{Marked patterns}
+\subsection{Marked patterns}
 \judgbox{\ensuremath{\ctxSynPatM{\ctx}{\PCMV}{\TMV}}} $\PCMV$ synthesizes type $\TMV$
 %
 \begin{mathpar}
@@ -399,7 +407,7 @@ $\judgbox{\erase{\ECMV}}$ is a metafunction defined as follows:
   }
 \end{mathpar}
 
-\subsubsection{Pattern mark erasure}
+\subsection{Pattern mark erasure}
 $\judgbox{\erase{\PCMV}}$ is a metafunction defined as follows:
 %
 \[\begin{array}{rcl}
@@ -412,7 +420,7 @@ $\judgbox{\erase{\PCMV}}$ is a metafunction defined as follows:
   \erasesToRow{\PCInconType{\PCAsc{\PCMV}{\TMV}}}{\PAsc{\erase{\PCMV}}{\TMV}}
 \end{array}\]
 
-\subsubsection{Metatheorems}
+\subsection{Metatheorems}
 In addition to the original metatheorems above, the following ones governing patterns additionally
 hold.
 
@@ -479,3 +487,5 @@ hold.
       then $\PCMV_1 = \PCMV_2$ and $\ctx_1 = \ctx_2$.
   \end{enumerate}
 \end{theorem}
+
+\end{document}
