@@ -6,8 +6,10 @@
 \input{symbols/untyped}
 
 \section{Untyped hazelnut}
+\label{sec:untyped}
 
 \subsection{Syntax}
+\label{sec:untyped-syntax}
 \[\begin{array}{rrcl}
   \ZTMName & \ZTMV & \Coloneqq & \ZTCursor{\TMV} \mid \ZTArrowL{\ZTMV}{\TMV} \mid \ZTArrowR{\TMV}{\ZTMV} \mid \ZTProdL{\ZTMV}{\TMV} \mid \ZTProdR{\TMV}{\ZTMV} \\
   \ZMName  & \ZMV  & \Coloneqq & \ZCursor{\EMV} \mid \ZLamT{x}{\ZTMV}{\EMV} \mid \ZLamE{x}{\TMV}{\ZMV} \mid \ZApL{\ZMV}{\EMV} \mid \ZApR{\EMV}{\ZMV} \\
@@ -18,7 +20,10 @@
 \end{array}\]
 
 \subsection{Cursor erasure}
+\label{sec:untyped-cursor-erasure}
+
 \subsubsection{Type cursor erasure}
+\label{sec:untyped-type-cursor-erasure}
 \judgbox{\ensuremath{\cursorErase{\ZTMV}}} is a metafunction defined as follows:
 %
 \newcommand{\cursorErasesToRow}[2]{\ensuremath{\cursorErase{#1} & = & #2}}
@@ -31,6 +36,7 @@
 \end{array}\]
 
 \subsubsection{Expression cursor erasure}
+\label{sec:untyped-expression-cursor-erasure}
 \judgbox{\ensuremath{\cursorErase{\ZMV}}} is a metafunction defined as follows:
 %
 \[\begin{array}{rcl}
@@ -53,6 +59,7 @@
 \end{array}\]
 
 \subsection{Action model}
+\label{sec:untyped-action-model}
 \[\begin{array}{rrcl}
   \AMName  & \AMV  & \Coloneqq & \AMove{\MMV} \mid \ACon{\SMV} \mid \ADel \\
   \AIMName & \AIMV & \Coloneqq & \AINil \mid \AICons{\AMV}{\AIMV} \\
@@ -66,6 +73,7 @@
 \end{array}\]
 
 \subsubsection{Shape sort}
+\label{sec:untyped-shape-sort}
 \judgbox{\ensuremath{\tshape{\SMV}}} $\SMV$ is a shape on types
 %
 \begin{mathpar}
@@ -171,6 +179,7 @@
 \end{mathpar}
 
 \subsubsection{Type actions}
+\label{sec:untyped-type-actions}
 \judgbox{\ensuremath{\AUTAction{\ZTMV}{\ZTMV'}{\AMV}}}
 
 \paragraph{Movement}
@@ -270,6 +279,7 @@
 \end{mathpar}
 
 \subsubsection{Expression movement}
+\label{sec:untyped-expression-movement}
 \judgbox{\ensuremath{\AUEMove{\ZMV}{\ZMV'}{\MMV}}}
 %
 \begin{mathpar}
@@ -395,6 +405,7 @@
 \end{mathpar}
 
 \subsubsection{Expression actions}
+\label{sec:untyped-expression-actions}
 \judgbox{\ensuremath{\AUEAction{\ZMV}{\ZMV'}{\AMV}}}
 
 \paragraph{Movement}
@@ -582,6 +593,7 @@
 \end{mathpar}
 
 \subsubsection{Iterated actions}
+\label{sec:untyped-iterated-actions}
 \judgbox{\ensuremath{\AUTActionIter{\ZTMV}{\ZTMV'}{\AIMV}}}
 %
 \begin{mathpar}
@@ -627,6 +639,7 @@
 \end{mathpar}
 
 \subsection{Metatheorems}
+\label{sec:untyped-metatheorems}
 \begin{theorem}[name=Sensibility]
 \end{theorem}
 
