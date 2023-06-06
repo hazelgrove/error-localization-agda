@@ -6,11 +6,14 @@
 \input{symbols/marked}
 
 \section{Marked lambda calculus}
+\label{sec:marked}
+
 The \emph{marked lambda calculus} is a judgmental framework for bidirectional type error
 localization and recovery. Below is the complete formalization of the calculus on a gradually typed
 lambda calculus, with rules organized by judgment form.
 
 \subsection{Syntax}
+\label{sec:marked-syntax}
 \[\begin{array}{rrcl}
   \TMName  & \TMV  & \Coloneqq & \TUnknown \mid \TNum \mid \TBool \mid \TArrow{\TMV}{\TMV} \mid \TProd{\TMV}{\TMV} \\
   \EMName  & \EMV  & \Coloneqq & x \mid \ELam{x}{\TMV}{\EMV} \mid \EAp{\EMV}{\EMV} \mid \ELet{x}{\EMV}{\EMV}
@@ -30,6 +33,7 @@ lambda calculus, with rules organized by judgment form.
 \end{array}\]
 
 \subsection{Types}
+\label{sec:marked-types}
 \judgbox{\ensuremath{\consistent{\TMV_1}{\TMV_2}}} $\TMV_1$ is consistent with $\TMV_2$
 %
 \begin{mathpar}
@@ -109,6 +113,7 @@ lambda calculus, with rules organized by judgment form.
 \end{mathpar}
 
 \subsection{Unmarked expressions}
+\label{sec:marked-unmarked-expressions}
 \judgbox{\ctxSynTypeU{\ctx}{\EMV}{\TMV}} $\EMV$ synthesizes type $\TMV$
 %
 \begin{mathpar}
@@ -276,6 +281,7 @@ lambda calculus, with rules organized by judgment form.
 \end{mathpar}
 
 \subsection{Marking}
+\label{sec:marked-marking}
 \judgbox{\ctxSynFixedInto{\ctx}{\EMV}{\ECMV}{\TMV}} $\EMV$ is marked into $\ECMV$ and synthesizes type $\TMV$
 %
 \begin{mathpar}
@@ -487,6 +493,7 @@ lambda calculus, with rules organized by judgment form.
 \end{mathpar}
 
 \subsection{Marked expressions}
+\label{sec:marked-marked-expressions}
 \judgbox{\ctxSynTypeM{\ctx}{\ECMV}{\TMV}} $\ECMV$ synthesizes type $\TMV$
 %
 \begin{mathpar}
@@ -798,6 +805,7 @@ lambda calculus, with rules organized by judgment form.
 \end{mathpar}
 
 \subsection{Mark erasure}
+\label{sec:marked-mark-erasure}
 $\judgbox{\erase{\ECMV}}$ is a metafunction defined as follows:
 %
 \newcommand{\erasesToRow}[2]{\erase{#1} & = & #2}
@@ -823,6 +831,7 @@ $\judgbox{\erase{\ECMV}}$ is a metafunction defined as follows:
 \end{array}\]
 
 \subsection{Metatheorems}
+\label{sec:marked-metatheorems}
 \begin{theorem}[name=Marking Totality] \
   \begin{enumerate}
     \item For all $\ctx$ and $\EMV$, there exist $\ECMV$ and $\TMV$ such that
@@ -872,10 +881,12 @@ $\judgbox{\erase{\ECMV}}$ is a metafunction defined as follows:
 \end{theorem}
 
 \subsection{Alternative conditional rules}
+\label{sec:marked-alternative-conditionals}
 There are alternative ways to formulate error localization in conditionals. Below, we provide two
 alternatives to the rules above.
 
 \subsubsection{Localize to second}
+\label{sec:marked-alternative-conditionals-localize-second}
 In this formulation, we always select the first branch as ``correct'' and localize errors to the
 second. \\
 
@@ -916,6 +927,7 @@ second. \\
 \end{mathpar}
 
 \subsubsection{Localize to first}
+\label{sec:marked-alternative-conditionals-localize-first}
 In this formulation, we always select the second branch as ``correct'' and localize errors to the
 first. \\
 
