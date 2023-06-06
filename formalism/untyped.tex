@@ -7,6 +7,14 @@
 
 \section{Untyped hazelnut}
 \label{sec:untyped}
+In this section we describe an \emph{untyped} version of the Hazelnut action calculus that might be
+layered with the marked lambda calculus to yield a structure editing calculus that supports
+non-local hole fixes.
+
+In comparison with the original calculus, this untyped version is not concerned at all with typing
+but only the manipulation of syntax. As such, the action judgments are simplified considerably; in
+particular, they are no longer bidirectional. The same core metatheorems, except sensibility which
+is no longer meaningful in this untyped context, still hold (see \cref{sec:untyped-metatheorems}).
 
 \begin{mechanization}
   \item hazelnut.agda
@@ -644,8 +652,6 @@
 
 \subsection{Metatheorems}
 \label{sec:untyped-metatheorems}
-\begin{theorem}[name=Sensibility]
-\end{theorem}
 
 \begin{theorem}[name=Movement Erasure Invariance] \
   \begin{enumerate}
