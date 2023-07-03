@@ -171,15 +171,25 @@
   }
 \end{mathpar}
 
-\judgbox{\markless{\ECMV}} $\ECMV$ has no marks
+\judgbox{\marked{\ECMV}} $\ECMV$ has some mark
 %
 \begin{mathpar}
-  \inferrule[MLLetPat]{
-    \markless{\PCMV} \\
-    \markless{\ECMV_1} \\
-    \markless{\ECMV_2}
+  \inferrule[MDLetPat1]{
+    \marked{\PCMV}
   }{
-    \markless{\ECLet{\PCMV}{\ECMV_1}{\ECMV_2}}
+    \marked{\ECLet{\PCMV}{\ECMV_1}{\ECMV_2}}
+  }
+
+  \inferrule[MDLetPat2]{
+    \marked{\ECMV_1}
+  }{
+    \marked{\ECLet{\PCMV}{\ECMV_1}{\ECMV_2}}
+  }
+
+  \inferrule[MDLetPat3]{
+    \marked{\ECMV_2}
+  }{
+    \marked{\ECLet{\PCMV}{\ECMV_1}{\ECMV_2}}
   }
 \end{mathpar}
 
@@ -393,28 +403,35 @@ $\judgbox{\erase{\ECMV}}$ is a metafunction defined as follows:
   }
 \end{mathpar}
 
-\judgbox{\markless{\PCMV}} $\PCMV$ has no marks
+\judgbox{\marked{\PCMV}} $\PCMV$ has some mark
 %
 \begin{mathpar}
-  \inferrule[MLPWild]{ }{
-    \markless{\PCWild}
-  }
-
-  \inferrule[MLPVar]{ }{
-    \markless{\PCVar{x}}
-  }
-
-  \inferrule[MLPPair]{
-    \markless{\PCMV_1} \\
-    \markless{\PCMV_2}
+  \inferrule[MDPPair1]{
+    \marked{\PCMV_1}
   }{
-    \markless{\PCPair{\PCMV_1}{\PCMV_2}}
+    \marked{\PCPair{\PCMV_1}{\PCMV_2}}
   }
 
-  \inferrule[MLPAnn]{
-    \markless{\PCMV}
+  \inferrule[MDPPair2]{
+    \marked{\PCMV_2}
   }{
-    \markless{\PCAsc{\PCMV}{\TMV}}
+    \marked{\PCPair{\PCMV_1}{\PCMV_2}}
+  }
+
+  \inferrule[MDPPair3]{ }{
+    \marked{\PCAnaNonMatchedProd{\PCPair{\PCMV_1}{\PCMV_2}}}
+  }
+
+  \inferrule[MDPAnn1]{
+    \marked{\PCMV}
+  }{
+    \marked{\PCAsc{\PCMV}{\TMV}}
+  }
+
+  \inferrule[MDPAnn2]{
+    \marked{\PCMV}
+  }{
+    \marked{\PCInconType{\PCAsc{\PCMV}{\TMV}}}
   }
 \end{mathpar}
 
@@ -466,11 +483,11 @@ hold.
     \item \begin{enumerate}
         \item If $\ctxSynPatU{\ctx}{\PMV}{\TMV}$
             and $\ctxSynFixedIntoPat{\ctx}{\PMV}{\PCMV}{\TMV}$,
-          then $\markless{\PCMV}$.
+          then it is not the case that $\marked{\PCMV}$.
 
         \item If $\ctxAnaPatU{\ctx}{\PMV}{\TMV}{\ctx'}$
             and $\ctxAnaFixedIntoPat{\ctx}{\PMV}{\PCMV}{\TMV}{\ctx'}$,
-          then $\markless{\PCMV}$.
+          then it is not the case that $\marked{\PCMV}$.
       \end{enumerate}
 
     \item \begin{enumerate}
@@ -478,12 +495,12 @@ hold.
             such that $\ctxSynPatU{\ctx}{\PMV}{\TMV}$,
           then for all $\PCMV$ and $\TMV'$
             such that $\ctxSynFixedIntoPat{\ctx}{\PMV}{\PCMV}{\TMV'}$,
-            it is not the case that $\markless{\PCMV}$.
+            it is the case that $\marked{\PCMV}$.
 
         \item If there does not exist $\TMV$ and $\ctx'$ such that $\ctxAnaPatU{\ctx}{\PMV}{\TMV}{\ctx'}$,
           then for all $\PCMV$, $\TMV'$, and $\ctx'$
             such that $\ctxAnaFixedIntoPat{\ctx}{\PMV}{\PCMV}{\TMV'}{\ctx'}$,
-            it is not the case that $\markless{\PCMV}$.
+            it is the case that $\marked{\PCMV}$.
       \end{enumerate}
   \end{enumerate}
 \end{theorem}

@@ -752,55 +752,127 @@ lambda calculus, with rules organized by judgment form.
   }
 \end{mathpar} \\
 
-\judgbox{\markless{\ECMV}} $\ECMV$ has no marks
+\judgbox{\marked{\ECMV}} $\ECMV$ has some mark
 %
 \begin{mathpar}
-  \inferrule[MLHole]{ }{
-    \markless{\ECEHole}
+  \inferrule[MDUnbound]{ }{
+    \marked{\ECUnbound{x}}
   }
 
-  \inferrule[MLVar]{ }{
-    \markless{x}
-  }
-
-  \inferrule[MLLam]{
-    \markless{\ECMV}
+  \inferrule[MDLam1]{
+    \marked{\ECMV}
   }{
-    \markless{\ECLam{x}{\TMV}{\ECMV}}
+    \marked{\ECLam{x}{\TMV}{\ECMV}}
   }
 
-  \inferrule[MLAp]{
-    \markless{\ECMV_1} \\
-    \markless{\ECMV_2}
+  \inferrule[MDLam2]{ }{
+    \marked{\ECLamAnaNonMatchedArrow{x}{\TMV}{\ECMV}}
+  }
+
+  \inferrule[MDLam3]{ }{
+    \marked{\ECLamInconAsc{x}{\TMV}{\ECMV}}
+  }
+
+  \inferrule[MDAp1]{
+    \marked{\ECMV_1}
   }{
-    \markless{\ECAp{\ECMV_1}{\ECMV_2}}
+    \marked{\ECAp{\ECMV_1}{\ECMV_2}}
   }
 
-  \inferrule[MLNum]{ }{
-    \markless{\ECNumMV}
-  }
-
-  \inferrule[MLPlus]{
-    \markless{\ECMV_1} \\
-    \markless{\ECMV_2}
+  \inferrule[MDAp2]{
+    \marked{\ECMV_2}
   }{
-    \markless{\ECPlus{\ECMV_1}{\ECMV_2}}
+    \marked{\ECAp{\ECMV_1}{\ECMV_2}}
   }
 
-  \inferrule[MLTrue]{ }{
-    \markless{\ECTrue}
+  \inferrule[MDAp3]{ }{
+    \marked{\ECApSynNonMatchedArrow{\ECMV_1}{\ECMV_2}}
   }
 
-  \inferrule[MLFalse]{ }{
-    \markless{\ECFalse}
-  }
-
-  \inferrule[MLIf]{
-    \markless{\ECMV_1} \\
-    \markless{\ECMV_2} \\
-    \markless{\ECMV_3}
+  \inferrule[MDLet1]{
+    \marked{\ECMV_1}
   }{
-    \markless{\ECIf{\ECMV_1}{\ECMV_2}{\ECMV_3}}
+    \marked{\ECLet{x}{\ECMV_1}{\ECMV_2}}
+  }
+
+  \inferrule[MDLet2]{
+    \marked{\ECMV_2}
+  }{
+    \marked{\ECLet{x}{\ECMV_1}{\ECMV_2}}
+  }
+
+  \inferrule[MDPlus1]{
+    \marked{\ECMV_1}
+  }{
+    \marked{\ECPlus{\ECMV_1}{\ECMV_2}}
+  }
+
+  \inferrule[MDPlus2]{
+    \marked{\ECMV_2}
+  }{
+    \marked{\ECPlus{\ECMV_1}{\ECMV_2}}
+  }
+
+  \inferrule[MDIf1]{
+    \marked{\ECMV_1}
+  }{
+    \marked{\ECIf{\ECMV_1}{\ECMV_2}{\ECMV_3}}
+  }
+
+  \inferrule[MDIf2]{
+    \marked{\ECMV_2}
+  }{
+    \marked{\ECIf{\ECMV_1}{\ECMV_2}{\ECMV_3}}
+  }
+
+  \inferrule[MDIf3]{
+    \marked{\ECMV_3}
+  }{
+    \marked{\ECIf{\ECMV_1}{\ECMV_2}{\ECMV_3}}
+  }
+
+  \inferrule[MDInconsistentBranches]{ }{
+    \marked{\ECInconBr{\ECMV_1}{\ECMV_2}{\ECMV_3}}
+  }
+
+  \inferrule[MDPair1]{
+    \marked{\ECMV_1}
+  }{
+    \marked{\ECPair{\ECMV_1}{\ECMV_2}}
+  }
+
+  \inferrule[MDPair2]{
+    \marked{\ECMV_2}
+  }{
+    \marked{\ECPair{\ECMV_1}{\ECMV_2}}
+  }
+
+  \inferrule[MDPair3]{ }{
+    \marked{\ECPairAnaNonMatchedProd{\ECMV_1}{\ECMV_2}}
+  }
+
+  \inferrule[MDProjL1]{
+    \marked{\ECMV}
+  }{
+    \marked{\ECProjL{\ECMV}}
+  }
+
+  \inferrule[MDProjL2]{ }{
+    \marked{\ECProjLSynNonMatchedProd{\ECMV}}
+  }
+
+  \inferrule[MDProjR1]{
+    \marked{\ECMV}
+  }{
+    \marked{\ECProjR{\ECMV}}
+  }
+
+  \inferrule[MDProjR2]{ }{
+    \marked{\ECProjRSynNonMatchedProd{\ECMV}}
+  }
+
+  \inferrule[MDInconsistentTypes]{ }{
+    \marked{\ECInconType{\ECMV}}
   }
 \end{mathpar}
 
@@ -854,18 +926,18 @@ $\judgbox{\erase{\ECMV}}$ is a metafunction defined as follows:
   \begin{enumerate}
     \item \begin{enumerate}
         \item If $\ctxSynTypeU{\ctx}{\EMV}{\TMV}$ and $\ctxSynFixedInto{\ctx}{\EMV}{\ECMV}{\TMV}$,
-          then $\markless{\ECMV}$.
+          then it is not the case that $\marked{\ECMV}$.
         \item If $\ctxAnaTypeU{\ctx}{\EMV}{\TMV}$ and $\ctxAnaFixedInto{\ctx}{\EMV}{\ECMV}{\TMV}$,
-          then $\markless{\ECMV}$.
+          then it is not the case that $\marked{\ECMV}$.
       \end{enumerate}
 
     \item \begin{enumerate}
         \item If there does not exist $\TMV$ such that $\ctxSynTypeU{\ctx}{\EMV}{\TMV}$, then for
-          all $\ECMV$ and $\TMV'$ such that $\ctxSynFixedInto{\ctx}{\EMV}{\ECMV}{\TMV'}$, it is not
-          the case that $\markless{\ECMV}$.
+          all $\ECMV$ and $\TMV'$ such that $\ctxSynFixedInto{\ctx}{\EMV}{\ECMV}{\TMV'}$, it is the
+          case that $\marked{\ECMV}$.
         \item If there does not exist $\TMV$ such that $\ctxAnaTypeU{\ctx}{\EMV}{\TMV}$, then for
-          all $\ECMV$ and $\TMV'$ such that $\ctxAnaFixedInto{\ctx}{\EMV}{\ECMV}{\TMV'}$, it is not
-          the case that $\markless{\ECMV}$.
+          all $\ECMV$ and $\TMV'$ such that $\ctxAnaFixedInto{\ctx}{\EMV}{\ECMV}{\TMV'}$, it is the
+          case that $\marked{\ECMV}$.
       \end{enumerate}
   \end{enumerate}
 \end{theorem}
