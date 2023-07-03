@@ -802,6 +802,112 @@ lambda calculus, with rules organized by judgment form.
   }{
     \markless{\ECIf{\ECMV_1}{\ECMV_2}{\ECMV_3}}
   }
+\end{mathpar} \\
+
+\judgbox{\marked{\ECMV}} $\ECMV$ has some mark
+%
+\begin{mathpar}
+  \inferrule[MDUnbound]{ }{
+    \marked{\ECUnbound{x}}
+  }
+
+  \inferrule[MDLam1]{
+    \marked{\ECMV}
+  }{
+    \marked{\ECLam{x}{\TMV}{\ECMV}}
+  }
+
+  \inferrule[MDLam2]{ }{
+    \marked{\ECLamAnaNonMatchedArrow{x}{\TMV}{\ECMV}}
+  }
+
+  \inferrule[MDLam3]{ }{
+    \marked{\ECLamInconAsc{x}{\TMV}{\ECMV}}
+  }
+
+  \inferrule[MDAp1]{
+    \marked{\ECMV_1}
+  }{
+    \marked{\ECAp{\ECMV_1}{\ECMV_2}}
+  }
+
+  \inferrule[MDAp2]{
+    \marked{\ECMV_2}
+  }{
+    \marked{\ECAp{\ECMV_1}{\ECMV_2}}
+  }
+
+  \inferrule[MDAp3]{ }{
+    \marked{\ECApSynNonMatchedArrow{\ECMV_1}{\ECMV_2}}
+  }
+
+  \inferrule[MDLet1]{
+    \marked{\ECMV_1}
+  }{
+    \marked{\ECLet{x}{\ECMV_1}{\ECMV_2}}
+  }
+
+  \inferrule[MDLet2]{
+    \marked{\ECMV_2}
+  }{
+    \marked{\ECLet{x}{\ECMV_1}{\ECMV_2}}
+  }
+
+  \inferrule[MDPlus1]{
+    \marked{\ECMV_1}
+  }{
+    \marked{\ECPlus{\ECMV_1}{\ECMV_2}}
+  }
+
+  \inferrule[MDPlus2]{
+    \marked{\ECMV_2}
+  }{
+    \marked{\ECPlus{\ECMV_1}{\ECMV_2}}
+  }
+
+  \inferrule[MDInconsistentBranches]{ }{
+    \marked{\ECInconBr{\ECMV_1}{\ECMV_2}{\ECMV_3}}
+  }
+
+  \inferrule[MDPair1]{
+    \marked{\ECMV_1}
+  }{
+    \marked{\ECPair{\ECMV_1}{\ECMV_2}}
+  }
+
+  \inferrule[MDPair2]{
+    \marked{\ECMV_2}
+  }{
+    \marked{\ECPair{\ECMV_1}{\ECMV_2}}
+  }
+
+  \inferrule[MDPair3]{ }{
+    \marked{\ECPairAnaNonMatchedProd{\ECMV_1}{\ECMV_2}}
+  }
+
+  \inferrule[MDProjL1]{
+    \marked{\ECMV}
+  }{
+    \marked{\ECProjL{\ECMV}}
+  }
+
+  \inferrule[MDProjL2]{ }{
+    \marked{\ECProjLSynNonMatchedProd{\ECMV}}
+  }
+
+  \inferrule[MDProjR1]{
+    \marked{\ECMV}
+  }{
+    \marked{\ECProjR{\ECMV}}
+  }
+
+  \inferrule[MDProjR2]{ }{
+    \marked{\ECProjRSynNonMatchedProd{\ECMV}}
+  }
+
+  \inferrule[MDInconsistentTypes]{ }{
+    \marked{\ECInconType{\ECMV}}
+  }
 \end{mathpar}
 
 \subsection{Mark erasure}
