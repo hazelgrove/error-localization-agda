@@ -171,18 +171,6 @@
   }
 \end{mathpar}
 
-\judgbox{\markless{\ECMV}} $\ECMV$ has no marks
-%
-\begin{mathpar}
-  \inferrule[MLLetPat]{
-    \markless{\PCMV} \\
-    \markless{\ECMV_1} \\
-    \markless{\ECMV_2}
-  }{
-    \markless{\ECLet{\PCMV}{\ECMV_1}{\ECMV_2}}
-  }
-\end{mathpar}
-
 \judgbox{\marked{\ECMV}} $\ECMV$ has some mark
 %
 \begin{mathpar}
@@ -414,31 +402,6 @@ $\judgbox{\erase{\ECMV}}$ is a metafunction defined as follows:
     \ctxAnaPatM{\ctx}{\PCInconType{\PCAsc{\PCMV}{\TMV'}}}{\TMV}{\ctx'}
   }
 \end{mathpar}
-
-\judgbox{\markless{\PCMV}} $\PCMV$ has no marks
-%
-\begin{mathpar}
-  \inferrule[MLPWild]{ }{
-    \markless{\PCWild}
-  }
-
-  \inferrule[MLPVar]{ }{
-    \markless{\PCVar{x}}
-  }
-
-  \inferrule[MLPPair]{
-    \markless{\PCMV_1} \\
-    \markless{\PCMV_2}
-  }{
-    \markless{\PCPair{\PCMV_1}{\PCMV_2}}
-  }
-
-  \inferrule[MLPAnn]{
-    \markless{\PCMV}
-  }{
-    \markless{\PCAsc{\PCMV}{\TMV}}
-  }
-\end{mathpar} \\
 
 \judgbox{\marked{\PCMV}} $\PCMV$ has some mark
 %

@@ -752,58 +752,6 @@ lambda calculus, with rules organized by judgment form.
   }
 \end{mathpar} \\
 
-\judgbox{\markless{\ECMV}} $\ECMV$ has no marks
-%
-\begin{mathpar}
-  \inferrule[MLHole]{ }{
-    \markless{\ECEHole}
-  }
-
-  \inferrule[MLVar]{ }{
-    \markless{x}
-  }
-
-  \inferrule[MLLam]{
-    \markless{\ECMV}
-  }{
-    \markless{\ECLam{x}{\TMV}{\ECMV}}
-  }
-
-  \inferrule[MLAp]{
-    \markless{\ECMV_1} \\
-    \markless{\ECMV_2}
-  }{
-    \markless{\ECAp{\ECMV_1}{\ECMV_2}}
-  }
-
-  \inferrule[MLNum]{ }{
-    \markless{\ECNumMV}
-  }
-
-  \inferrule[MLPlus]{
-    \markless{\ECMV_1} \\
-    \markless{\ECMV_2}
-  }{
-    \markless{\ECPlus{\ECMV_1}{\ECMV_2}}
-  }
-
-  \inferrule[MLTrue]{ }{
-    \markless{\ECTrue}
-  }
-
-  \inferrule[MLFalse]{ }{
-    \markless{\ECFalse}
-  }
-
-  \inferrule[MLIf]{
-    \markless{\ECMV_1} \\
-    \markless{\ECMV_2} \\
-    \markless{\ECMV_3}
-  }{
-    \markless{\ECIf{\ECMV_1}{\ECMV_2}{\ECMV_3}}
-  }
-\end{mathpar} \\
-
 \judgbox{\marked{\ECMV}} $\ECMV$ has some mark
 %
 \begin{mathpar}
