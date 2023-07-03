@@ -813,6 +813,24 @@ lambda calculus, with rules organized by judgment form.
     \marked{\ECPlus{\ECMV_1}{\ECMV_2}}
   }
 
+  \inferrule[MDIf1]{
+    \marked{\ECMV_1}
+  }{
+    \marked{\ECIf{\ECMV_1}{\ECMV_2}{\ECMV_3}}
+  }
+
+  \inferrule[MDIf2]{
+    \marked{\ECMV_2}
+  }{
+    \marked{\ECIf{\ECMV_1}{\ECMV_2}{\ECMV_3}}
+  }
+
+  \inferrule[MDIf3]{
+    \marked{\ECMV_3}
+  }{
+    \marked{\ECIf{\ECMV_1}{\ECMV_2}{\ECMV_3}}
+  }
+
   \inferrule[MDInconsistentBranches]{ }{
     \marked{\ECInconBr{\ECMV_1}{\ECMV_2}{\ECMV_3}}
   }
