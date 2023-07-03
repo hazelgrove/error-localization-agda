@@ -520,11 +520,11 @@ hold.
     \item \begin{enumerate}
         \item If $\ctxSynPatU{\ctx}{\PMV}{\TMV}$
             and $\ctxSynFixedIntoPat{\ctx}{\PMV}{\PCMV}{\TMV}$,
-          then $\markless{\PCMV}$.
+          then it is not the case that $\marked{\PCMV}$.
 
         \item If $\ctxAnaPatU{\ctx}{\PMV}{\TMV}{\ctx'}$
             and $\ctxAnaFixedIntoPat{\ctx}{\PMV}{\PCMV}{\TMV}{\ctx'}$,
-          then $\markless{\PCMV}$.
+          then it is not the case that $\marked{\PCMV}$.
       \end{enumerate}
 
     \item \begin{enumerate}
@@ -532,12 +532,12 @@ hold.
             such that $\ctxSynPatU{\ctx}{\PMV}{\TMV}$,
           then for all $\PCMV$ and $\TMV'$
             such that $\ctxSynFixedIntoPat{\ctx}{\PMV}{\PCMV}{\TMV'}$,
-            it is not the case that $\markless{\PCMV}$.
+            it is the case that $\marked{\PCMV}$.
 
         \item If there does not exist $\TMV$ and $\ctx'$ such that $\ctxAnaPatU{\ctx}{\PMV}{\TMV}{\ctx'}$,
           then for all $\PCMV$, $\TMV'$, and $\ctx'$
             such that $\ctxAnaFixedIntoPat{\ctx}{\PMV}{\PCMV}{\TMV'}{\ctx'}$,
-            it is not the case that $\markless{\PCMV}$.
+            it is the case that $\marked{\PCMV}$.
       \end{enumerate}
   \end{enumerate}
 \end{theorem}
