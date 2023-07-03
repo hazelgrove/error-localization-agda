@@ -183,6 +183,28 @@
   }
 \end{mathpar}
 
+\judgbox{\marked{\ECMV}} $\ECMV$ has some mark
+%
+\begin{mathpar}
+  \inferrule[MDLetPat1]{
+    \marked{\PCMV}
+  }{
+    \marked{\ECLet{\PCMV}{\ECMV_1}{\ECMV_2}}
+  }
+
+  \inferrule[MDLetPat2]{
+    \marked{\ECMV_1}
+  }{
+    \marked{\ECLet{\PCMV}{\ECMV_1}{\ECMV_2}}
+  }
+
+  \inferrule[MDLetPat3]{
+    \marked{\ECMV_2}
+  }{
+    \marked{\ECLet{\PCMV}{\ECMV_1}{\ECMV_2}}
+  }
+\end{mathpar}
+
 \subsection{Mark erasure}
 \label{sec:patterned-mark-erasure}
 $\judgbox{\erase{\ECMV}}$ is a metafunction defined as follows:
@@ -415,6 +437,38 @@ $\judgbox{\erase{\ECMV}}$ is a metafunction defined as follows:
     \markless{\PCMV}
   }{
     \markless{\PCAsc{\PCMV}{\TMV}}
+  }
+\end{mathpar} \\
+
+\judgbox{\marked{\PCMV}} $\PCMV$ has some mark
+%
+\begin{mathpar}
+  \inferrule[MDPPair1]{
+    \marked{\PCMV_1}
+  }{
+    \marked{\PCPair{\PCMV_1}{\PCMV_2}}
+  }
+
+  \inferrule[MDPPair2]{
+    \marked{\PCMV_2}
+  }{
+    \marked{\PCPair{\PCMV_1}{\PCMV_2}}
+  }
+
+  \inferrule[MDPPair3]{ }{
+    \marked{\PCAnaNonMatchedProd{\PCPair{\PCMV_1}{\PCMV_2}}}
+  }
+
+  \inferrule[MDPAnn1]{
+    \marked{\PCMV}
+  }{
+    \marked{\PCAsc{\PCMV}{\TMV}}
+  }
+
+  \inferrule[MDPAnn2]{
+    \marked{\PCMV}
+  }{
+    \marked{\PCInconType{\PCAsc{\PCMV}{\TMV}}}
   }
 \end{mathpar}
 
