@@ -720,8 +720,12 @@ lambda calculus, with rules organized by judgment form.
     \subsumable{\ECUnbound{x}}
   }
 
-  \inferrule[MSuAp]{ }{
+  \inferrule[MSuAp1]{ }{
     \subsumable{\ECAp{\ECMV_1}{\ECMV_2}}
+  }
+
+  \inferrule[MSuAp2]{ }{
+    \subsumable{\ECApSynNonMatchedArrow{\ECMV_1}{\ECMV_2}}
   }
 
   \inferrule[MSuNum]{ }{
@@ -744,12 +748,20 @@ lambda calculus, with rules organized by judgment form.
     \subsumable{\ECInconBr{\ECMV_1}{\ECMV_2}{\ECMV_3}}
   }
 
-  \inferrule[MSuProjL]{ }{
+  \inferrule[MSuProjL1]{ }{
     \subsumable{\ECProjL{\ECMV}}
   }
 
-  \inferrule[MSuProjR]{ }{
+  \inferrule[MSuProjL2]{ }{
+    \subsumable{\ECProjLSynNonMatchedProd{\ECMV}}
+  }
+
+  \inferrule[MSuProjR1]{ }{
     \subsumable{\ECProjR{\ECMV}}
+  }
+
+  \inferrule[MSuProjR2]{ }{
+    \subsumable{\ECProjRSynNonMatchedProd{\ECMV}}
   }
 \end{mathpar} \\
 
