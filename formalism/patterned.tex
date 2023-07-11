@@ -16,8 +16,8 @@
   \EMName  & \EMV  & \Coloneqq & \cdots \mid \ELet{\PMV}{\EMV}{\EMV} \\
   \ECMName & \ECMV & \Coloneqq & \cdots \mid \ECLet{\PMV}{\ECMV}{\ECMV} \\
   \PMName  & \PMV  & \Coloneqq & \PWild \mid \PVar{x} \mid \PPair{\PMV}{\PMV} \mid \PAsc{\PMV}{\TMV} \\
-  \PCMName & \PCMV & \Coloneqq & \PCWild \mid \PCVar{x} \mid \PCPair{\PCMV}{\PCMV} \mid \PCAsc{\PCMV}{\TMV}
-                               \mid \PCInconType{\PCMV} \mid \PCAnaNonMatchedProd{\PCMV}
+  \PCMName & \PCMV & \Coloneqq & \PCWild \mid \PCVar{x} \mid \PCPair{\PCMV}{\PCMV} \mid \PCAsc{\PCMV}{\TMV} \\
+           &       & \mid         & \PCInconType{\PCMV} \mid \PCPairAnaNonMatchedProd{\PCMV}{\PCMV}
 \end{array}\]
 
 \subsection{Types}
@@ -306,7 +306,7 @@ $\judgbox{\erase{\ECMV}}$ is a metafunction defined as follows:
     \ctxAnaFixedIntoPat{\ctx}{\PMV_1}{\PCMV_1}{\TUnknown}{\ctx_1} \\\\
     \ctxAnaFixedIntoPat{\ctx_1}{\PMV_2}{\PCMV_2}{\TUnknown}{\ctx_2}
   }{
-    \ctxAnaFixedIntoPat{\ctx}{\PPair{\PMV_1}{\PMV_2}}{\PCAnaNonMatchedProd{\PCPair{\PCMV_1}{\PCMV_2}}}{\TMV}{\ctx_2}
+    \ctxAnaFixedIntoPat{\ctx}{\PPair{\PMV_1}{\PMV_2}}{\PCPairAnaNonMatchedProd{\PCMV_1}{\PCMV_2}}{\TMV}{\ctx_2}
   }
 
   \inferrule[IAPAnn1]{
@@ -375,7 +375,7 @@ $\judgbox{\erase{\ECMV}}$ is a metafunction defined as follows:
     \ctxAnaPatM{\ctx}{\PCMV_1}{\TUnknown}{\ctx_1} \\\\
     \ctxAnaPatM{\ctx_1}{\PCMV_2}{\TUnknown}{\ctx_2}
   }{
-    \ctxAnaPatM{\ctx}{\PCAnaNonMatchedProd{\PCPair{\PCMV_1}{\PCMV_2}}}{\TMV}{\ctx_2}
+    \ctxAnaPatM{\ctx}{\PCPairAnaNonMatchedProd{\PCMV_1}{\PCMV_2}}{\TMV}{\ctx_2}
   }
 
   \inferrule[MAPAnn1]{
@@ -427,9 +427,9 @@ $\judgbox{\erase{\PCMV}}$ is a metafunction defined as follows:
   \erasesToRow{\PCWild}{\PWild} \\
   \erasesToRow{\PCVar{x}}{\PVar{x}} \\
   \erasesToRow{\PCPair{\PCMV_1}{\PCMV_2}}{\PPair{\erase{\PCMV_1}}{\erase{\PCMV_2}}} \\
-  \erasesToRow{\PCAnaNonMatchedProd{\PCPair{\PCMV_1}{\PCMV_2}}}{\PPair{\erase{\PCMV_1}}{\erase{\PCMV_2}}} \\
-  \erasesToRow{(\PCAsc{\PCMV}{\TMV})}{\PAsc{\erase{\PCMV}}{\TMV}} \\
-  \erasesToRow{\PCInconType{\PCAsc{\PCMV}{\TMV}}}{\PAsc{\erase{\PCMV}}{\TMV}}
+  \erasesToRow{\PCPairAnaNonMatchedProd{\PCMV_1}{\PCMV_2}}{\PPair{\erase{\PCMV_1}}{\erase{\PCMV_2}}} \\
+  \erasesToRow{(\PCAsc{\PCMV}{\TMV})}{\PAsc{(\erase{\PCMV})}{\TMV}} \\
+  \erasesToRow{\PCInconType{\PCAsc{\PCMV}{\TMV}}}{\PAsc{(\erase{\PCMV})}{\TMV}}
 \end{array}\]
 
 \subsection{Metatheorems}
