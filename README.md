@@ -65,7 +65,7 @@ Every theorem is proven in the mechanization. Here is where to find each theorem
 -   Theorem 2.1, *Marking Totality*, is in [marking/totality.agda](./marking/totality.agda), given
     by `↬⇒-totality` and `↬⇐-totality`.
 
--   Theorem 2.2, *Marking Well-Footedness*, is in
+-   Theorem 2.2, *Marking Well-Formedness*, is in
     [marking/wellformed.agda](./marking/wellformed.agda), given by `↬⇒□` and `↬⇐□`.
 
 -   Theorem 2.3, *Marking of Well-Typed/Ill-Typed Expressions*, is in
