@@ -90,16 +90,16 @@ incomplete editor states \`a la Hazelnut but are not essential.
   }
 \end{mathpar} \\
 
-\judgbox{\ensuremath{\TJoin{\TMV_1}{\TMV_2}}} is a \emph{partial} metafunction defined as follows:
+\judgbox{\ensuremath{\TMeet{\TMV_1}{\TMV_2}}} is a \emph{partial} metafunction defined as follows:
 %
-\newcommand{\joinsToRow}[3]{\ensuremath{\TJoin{#1}{#2} & = & #3}}
+\newcommand{\meetsToRow}[3]{\ensuremath{\TMeet{#1}{#2} & = & #3}}
 \[\begin{array}{rcl}
-  \joinsToRow{\TUnknown}{\TMV}{\TMV} \\
-  \joinsToRow{\TMV}{\TUnknown}{\TMV} \\
-  \joinsToRow{\TNum}{\TNum}{\TNum} \\
-  \joinsToRow{\TBool}{\TBool}{\TBool} \\
-  \joinsToRow{(\TArrow{\TMV_1}{\TMV_2})}{(\TArrow{\TMV_1'}{\TMV_2'})}{\TArrow{(\TJoin{\TMV_1}{\TMV_1'})}{(\TJoin{\TMV_2}{\TMV_2'})}} \\
-  \joinsToRow{(\TProd{\TMV_1}{\TMV_2})}{(\TProd{\TMV_1'}{\TMV_2'})}{\TProd{(\TJoin{\TMV_1}{\TMV_1'})}{(\TJoin{\TMV_2}{\TMV_2'})}}
+  \meetsToRow{\TUnknown}{\TMV}{\TMV} \\
+  \meetsToRow{\TMV}{\TUnknown}{\TMV} \\
+  \meetsToRow{\TNum}{\TNum}{\TNum} \\
+  \meetsToRow{\TBool}{\TBool}{\TBool} \\
+  \meetsToRow{(\TArrow{\TMV_1}{\TMV_2})}{(\TArrow{\TMV_1'}{\TMV_2'})}{\TArrow{(\TMeet{\TMV_1}{\TMV_1'})}{(\TMeet{\TMV_2}{\TMV_2'})}} \\
+  \meetsToRow{(\TProd{\TMV_1}{\TMV_2})}{(\TProd{\TMV_1'}{\TMV_2'})}{\TProd{(\TMeet{\TMV_1}{\TMV_1'})}{(\TMeet{\TMV_2}{\TMV_2'})}}
 \end{array}\] \\
 
 \judgbox{\ensuremath{\base{\TMV}}} $\TMV$ is a base type
@@ -174,7 +174,7 @@ incomplete editor states \`a la Hazelnut but are not essential.
     \ctxSynTypeU{\ctx}{\EMV_2}{\TMV_1} \\
     \ctxSynTypeU{\ctx}{\EMV_3}{\TMV_2}
   }{
-    \ctxSynTypeU{\ctx}{\EIf{\EMV_1}{\EMV_2}{\EMV_3}}{\TJoin{\TMV_1}{\TMV_2}}
+    \ctxSynTypeU{\ctx}{\EIf{\EMV_1}{\EMV_2}{\EMV_3}}{\TMeet{\TMV_1}{\TMV_2}}
   }
 
   \inferrule[USPair]{
@@ -372,7 +372,7 @@ incomplete editor states \`a la Hazelnut but are not essential.
     \ctxSynFixedInto{\ctx}{\EMV_2}{\ECMV_2}{\TMV_1} \\
     \ctxSynFixedInto{\ctx}{\EMV_3}{\ECMV_3}{\TMV_2}
   }{
-    \ctxSynFixedInto{\ctx}{\EIf{\EMV_1}{\EMV_2}{\EMV_3}}{\ECIf{\ECMV_1}{\ECMV_2}{\ECMV_3}}{\TJoin{\TMV_1}{\TMV_2}}
+    \ctxSynFixedInto{\ctx}{\EIf{\EMV_1}{\EMV_2}{\EMV_3}}{\ECIf{\ECMV_1}{\ECMV_2}{\ECMV_3}}{\TMeet{\TMV_1}{\TMV_2}}
   }
 
   \inferrule[MKSInconsistentBranches]{
@@ -584,7 +584,7 @@ incomplete editor states \`a la Hazelnut but are not essential.
     \ctxSynTypeM{\ctx}{\ECMV_2}{\TMV_1} \\
     \ctxSynTypeM{\ctx}{\ECMV_3}{\TMV_2}
   }{
-    \ctxSynTypeM{\ctx}{\ECIf{\ECMV_1}{\ECMV_2}{\ECMV_3}}{\TJoin{\TMV_1}{\TMV_2}}
+    \ctxSynTypeM{\ctx}{\ECIf{\ECMV_1}{\ECMV_2}{\ECMV_3}}{\TMeet{\TMV_1}{\TMV_2}}
   }
 
   \inferrule[MSInconsistentBranches]{

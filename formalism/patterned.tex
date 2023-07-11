@@ -50,13 +50,13 @@
   }
 \end{mathpar}
 
-\judgbox{\ensuremath{\TJoin{\TMV_1}{\TMV_2}}} is a \emph{partial} metafunction defined as follows:
+\judgbox{\ensuremath{\TMeet{\TMV_1}{\TMV_2}}} is a \emph{partial} metafunction defined as follows:
 %
-\newcommand{\joinsToRow}[3]{\ensuremath{\TJoin{#1}{#2} & = & #3}}
+\newcommand{\meetsToRow}[3]{\ensuremath{\TMeet{#1}{#2} & = & #3}}
 \[\begin{array}{rcl}
   & \vdots & \\
-  \joinsToRow{\TUnknownSwitch}{\TMV}{\TUnknownSwitch} \\
-  \joinsToRow{\TMV}{\TUnknownSwitch}{\TUnknownSwitch}
+  \meetsToRow{\TUnknownSwitch}{\TMV}{\TUnknownSwitch} \\
+  \meetsToRow{\TMV}{\TUnknownSwitch}{\TUnknownSwitch}
 \end{array}\]
 
 \subsection{Unmarked patterns}
