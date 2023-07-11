@@ -257,23 +257,23 @@ module core.typ where
       ~→~′ TCProdUnknown           = TCUnknown2
 
       ~′→~ : ∀ {τ₁ τ₂ : Typ} → τ₁ ~′ τ₂ → τ₁ ~ τ₂
-      ~′→~ {τ₂ = num} TCUnknown1 = TCUnknownBase TBNum
-      ~′→~ {τ₂ = bool} TCUnknown1 = TCUnknownBase TBBool
+      ~′→~ {τ₂ = num}     TCUnknown1 = TCUnknownBase TBNum
+      ~′→~ {τ₂ = bool}    TCUnknown1 = TCUnknownBase TBBool
       ~′→~ {τ₂ = unknown} TCUnknown1 = TCUnknown
-      ~′→~ {τ₂ = _ -→ _} TCUnknown1 = TCUnknownArr
-      ~′→~ {τ₂ = _ -× _} TCUnknown1 = TCUnknownProd
-      ~′→~ {τ₁ = num} TCUnknown2 = TCBaseUnknown TBNum
-      ~′→~ {τ₁ = bool} TCUnknown2 = TCBaseUnknown TBBool
+      ~′→~ {τ₂ = _ -→ _}  TCUnknown1 = TCUnknownArr
+      ~′→~ {τ₂ = _ -× _}  TCUnknown1 = TCUnknownProd
+      ~′→~ {τ₁ = num}     TCUnknown2 = TCBaseUnknown TBNum
+      ~′→~ {τ₁ = bool}    TCUnknown2 = TCBaseUnknown TBBool
       ~′→~ {τ₁ = unknown} TCUnknown2 = TCUnknown
-      ~′→~ {τ₁ = _ -→ _} TCUnknown2 = TCArrUnknown
-      ~′→~ {τ₁ = _ -× _} TCUnknown2 = TCProdUnknown
-      ~′→~ {τ₁ = num} TCRefl = TCBase TBNum
-      ~′→~ {τ₁ = bool} TCRefl = TCBase TBBool
-      ~′→~ {τ₁ = unknown} TCRefl = TCUnknown
-      ~′→~ {τ₁ = _ -→ _} TCRefl = TCArr (~′→~ TCRefl) (~′→~ TCRefl)
-      ~′→~ {τ₁ = _ -× _} TCRefl = TCProd (~′→~ TCRefl) (~′→~ TCRefl)
-      ~′→~ (TCArr τ₁~τ₁′ τ₂~τ₂′) = TCArr (~′→~ τ₁~τ₁′) (~′→~ τ₂~τ₂′)
-      ~′→~ (TCProd τ₁~τ₁′ τ₂~τ₂′) = TCProd (~′→~ τ₁~τ₁′) (~′→~ τ₂~τ₂′)
+      ~′→~ {τ₁ = _ -→ _}  TCUnknown2 = TCArrUnknown
+      ~′→~ {τ₁ = _ -× _}  TCUnknown2 = TCProdUnknown
+      ~′→~ {τ₁ = num}     TCRefl     = TCBase TBNum
+      ~′→~ {τ₁ = bool}    TCRefl     = TCBase TBBool
+      ~′→~ {τ₁ = unknown} TCRefl     = TCUnknown
+      ~′→~ {τ₁ = _ -→ _}  TCRefl     = TCArr (~′→~ TCRefl) (~′→~ TCRefl)
+      ~′→~ {τ₁ = _ -× _}  TCRefl     = TCProd (~′→~ TCRefl) (~′→~ TCRefl)
+      ~′→~ (TCArr τ₁~τ₁′ τ₂~τ₂′)     = TCArr (~′→~ τ₁~τ₁′) (~′→~ τ₂~τ₂′)
+      ~′→~ (TCProd τ₁~τ₁′ τ₂~τ₂′)    = TCProd (~′→~ τ₁~τ₁′) (~′→~ τ₂~τ₂′)
 
       ~⇔~′ : ∀ {τ₁ τ₂ : Typ} → (τ₁ ~ τ₂) ⇔ (τ₁ ~′ τ₂)
       ~⇔~′ =
@@ -289,7 +289,7 @@ module core.typ where
     -- matched arrow
     data _▸_-→_ : (τ τ₁ τ₂ : Typ) → Set where
       TMAUnknown : unknown ▸ unknown -→ unknown
-      TMAArr  : {τ₁ τ₂ : Typ} → τ₁ -→ τ₂ ▸ τ₁ -→ τ₂
+      TMAArr     : {τ₁ τ₂ : Typ} → τ₁ -→ τ₂ ▸ τ₁ -→ τ₂
 
     -- no matched
     _!▸-→ : Typ → Set
@@ -342,7 +342,7 @@ module core.typ where
     -- matched product
     data _▸_-×_ : (τ τ₁ τ₂ : Typ) → Set where
       TMPUnknown : unknown ▸ unknown -× unknown
-      TMPProd  : {τ₁ τ₂ : Typ} → τ₁ -× τ₂ ▸ τ₁ -× τ₂
+      TMPProd    : {τ₁ τ₂ : Typ} → τ₁ -× τ₂ ▸ τ₁ -× τ₂
 
     -- no matched
     _!▸-× : Typ → Set
