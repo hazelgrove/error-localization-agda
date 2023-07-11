@@ -833,14 +833,18 @@ $\judgbox{\erase{\ECMV}}$ is a metafunction defined as follows:
   \erasesToRow{\ECTrue}{\ETrue} \\
   \erasesToRow{\ECFalse}{\EFalse} \\
   \erasesToRow{(\ECIf{\ECMV_1}{\ECMV_2}{\ECMV_3})}{\EIf{(\erase{\ECMV_1})}{(\erase{\ECMV_2})}{(\erase{\ECMV_3})}} \\
+  \erasesToRow{\ECPair{\ECMV_1}{\ECMV_2}}{\ECPair{\erase{\ECMV_1}}{\erase{\ECMV_2}}} \\
+  \erasesToRow{(\ECProjL{\ECMV})}{\ECProjL{(\erase{\ECMV})}} \\
+  \erasesToRow{(\ECProjR{\ECMV})}{\ECProjR{(\erase{\ECMV})}} \\
   \erasesToRow{\ECUnbound{x}}{x} \\
   \erasesToRow{\ECInconType{\ECMV}}{\erase{\ECMV}} \\
   \erasesToRow{\ECInconBr{\ECMV_1}{\ECMV_2}{\ECMV_3}}{\EIf{(\erase{\ECMV_1})}{(\erase{\ECMV_2})}{(\erase{\ECMV_3})}} \\
   \erasesToRow{\ECLamInconAsc{x}{\TMV}{\ECMV}}{\ELam{x}{\TMV}{(\erase{\ECMV})}} \\
-  \erasesToRow{\ECSynNonMatchedArrow{\ECMV}}{\erase{\ECMV}} \\
-  \erasesToRow{\ECSynNonMatchedProd{\ECMV}}{\erase{\ECMV}} \\
-  \erasesToRow{\ECAnaNonMatchedArrow{\ECMV}}{\erase{\ECMV}} \\
-  \erasesToRow{\ECAnaNonMatchedProd{\ECMV}}{\erase{\ECMV}} \\
+  \erasesToRow{(\ECApSynNonMatchedArrow{\ECMV_1}{\ECMV_2})}{\ECAp{(\erase{\ECMV_1})}{(\erase{\ECMV_2})}} \\
+  \erasesToRow{(\ECProjLSynNonMatchedProd{\ECMV})}{\ECProjL{(\erase{\ECMV})}} \\
+  \erasesToRow{(\ECProjRSynNonMatchedProd{\ECMV})}{\ECProjR{(\erase{\ECMV})}} \\
+  \erasesToRow{\ECLamAnaNonMatchedArrow{x}{\TMV}{\ECMV}}{\ECLam{x}{\TMV}{(\erase{\ECMV})}} \\
+  \erasesToRow{\ECPairAnaNonMatchedProd{\ECMV_1}{\ECMV_2}}{\ECPair{\erase{\ECMV_1}}{\erase{\ECMV_2}}} \\
 \end{array}\]
 
 \subsection{Metatheorems}
