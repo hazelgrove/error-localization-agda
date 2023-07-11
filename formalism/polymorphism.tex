@@ -548,9 +548,9 @@ straightforwardly derived from the original rules. \\
 \[\begin{array}{rcl}
   & \vdots & \\
   \erasesToRow{(\ECTypeLam{\MTVarMV}{\ECMV})}{\ETypeLam{\MTVarMV}{(\erase{\ECMV})}} \\
+  \erasesToRow{\ECTypeLamAnaNonMatchedForall{\MTVarMV}{\ECMV}}{\ETypeLam{\MTVarMV}{(\erase{\ECMV})}} \\
   \erasesToRow{(\ECTypeAp{\ECMV}{\MTMV})}{\ETypeAp{\erase{\ECMV}}{\erase{\MTMV}}} \\
   \erasesToRow{(\ECTypeApSynNonMatchedForall{\ECMV}{\MTMV})}{\ETypeAp{\erase{\ECMV}}{\erase{\MTMV}}} \\
-  \erasesToRow{\ECTypeLamAnaNonMatchedForall{\MTVarMV}{\ECMV}}{\ETypeLam{\MTVarMV}{(\erase{\ECMV})}} \\
 \end{array}\]
 
 \subsection{Metatheorems}
