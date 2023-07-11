@@ -1,0 +1,39 @@
+\documentclass[formalism.tex]{subfiles}
+
+\begin{document}
+\section{Preface}
+\label{sec:preface}
+This is a formalism demonstrating the \emph{marked lambda calculus}, a judgmental framework for
+precise bidirectional error localization and recovery that employs gradual typing.
+
+\subsection{Organization}
+Though more is said in each individual section, the overall structure of the document is as follows:
+%
+\begin{itemize}
+  \item \cref{sec:marked} employs the framework on a gradually typed lambda calculus.
+
+  \item \cref{sec:patterned} extends the demonstration with patterned let expressions.
+
+  \item \cref{sec:polymorphism} extends the demonstration with System F-style parametric
+    polymorphism.
+
+  \item \cref{sec:untyped} gives a version of the Hazelnut structure editor calculus that uses the
+    marked lambda calculus to solve Hazelnut's deficiency with regards to non-local hole fixing.
+
+  \item \cref{sec:typed} is similar, except that it employs the marking procedure in a roughly
+    incremental fashion.
+\end{itemize}
+%
+Note that each of the following sections after \cref{sec:marked} build upon the same core language.
+
+\subsection{Mechanization}
+Not all parts of the formalism are mechanized in Agda. In particular, the core of the marked lambda
+calculus (\cref{sec:marked}) and the untyped Hazelnut calculus that employs marking
+(\cref{sec:untyped}) \emph{are} mechanized, while all others \emph{are not}. Crucially, the
+metatheorems of the aforementioned sections are verified, whereas those of all other sections are
+not.
+
+As possible, the names of judgments and rules that appear in the mechanization have been made to
+follow those in this formalism. Refer also to the mechanization's README for more details.
+
+\end{document}
