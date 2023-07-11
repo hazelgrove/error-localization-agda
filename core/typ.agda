@@ -392,12 +392,12 @@ module core.typ where
     ~-▸-×→~ (TCProd τ₁~ τ₂~) TMPProd    = TCProd (~-sym τ₁~) (~-sym τ₂~)
     ~-▸-×→~ TCUnknownProd    TMPUnknown = TCProd ~-unknown₂ ~-unknown₂
 
-  module join where
+  module meet where
     open base
     open equality
     open consistency
 
-    -- lub join
+    -- greatest lower bound (where the unknown type is the top of the imprecision partial order)
     data _⊔_⇒_ : (τ₁ τ₂ τ : Typ) → Set where
       TJBase        : {τ : Typ} → (b : τ base) → τ ⊔ τ ⇒ τ
       TJUnknown     : unknown ⊔ unknown ⇒ unknown
@@ -420,7 +420,7 @@ module core.typ where
       TJProdUnknown : {τ₁ τ₂ : Typ}
                      → τ₁ -× τ₂ ⊔ unknown ⇒ τ₁ -× τ₂
 
-    -- decidable join
+    -- decidable meet
     _⊔?_ : (τ₁ : Typ) → (τ₂ : Typ) → Dec (∃[ τ ] τ₁ ⊔ τ₂ ⇒ τ)
     num        ⊔? num          = yes ⟨ num , TJBase TBNum ⟩
     num        ⊔? bool         = no λ()
@@ -456,7 +456,7 @@ module core.typ where
     ...  | _                  | no ¬τ₂⊔τ₂′           = no λ { ⟨ .(_ -× _) , TJProd {τ₂″ = τ₂″} τ₁⊔τ₁′″ τ₂⊔τ₂′″ ⟩ → ¬τ₂⊔τ₂′ ⟨ τ₂″ , τ₂⊔τ₂′″ ⟩ }
     ...  | no ¬τ₁⊔τ₁′         | _                    = no λ { ⟨ .(_ -× _) , TJProd {τ₁″ = τ₁″} τ₁⊔τ₁′″ τ₂⊔τ₂′″ ⟩ → ¬τ₁⊔τ₁′ ⟨ τ₁″ , τ₁⊔τ₁′″ ⟩ }
 
-    -- join of same type
+    -- meet of same type
     ⊔-refl : ∀ {τ} → τ ⊔ τ ⇒ τ
     ⊔-refl {num}     = TJBase TBNum
     ⊔-refl {bool}    = TJBase TBBool
@@ -470,7 +470,7 @@ module core.typ where
          | τ₂⊔τ₂ ← ⊔-refl {τ₂}
          = TJProd τ₁⊔τ₁ τ₂⊔τ₂
 
-    -- join is symmetric
+    -- meet is symmetric
     ⊔-sym : ∀ {τ₁ τ₂ τ} → τ₁ ⊔ τ₂ ⇒ τ → τ₂ ⊔ τ₁ ⇒ τ
     ⊔-sym (TJBase b)           = TJBase b
     ⊔-sym TJUnknown            = TJUnknown
@@ -483,7 +483,7 @@ module core.typ where
     ⊔-sym TJProdUnknown        = TJUnknownProd
     ⊔-sym (TJProd ⊔⇒τ₁″ ⊔⇒τ₂″) = TJProd (⊔-sym ⊔⇒τ₁″) (⊔-sym ⊔⇒τ₂″)
 
-    -- join with unknown
+    -- meet with unknown
     ⊔-unknown₁ : ∀ {τ} → unknown ⊔ τ ⇒ τ
     ⊔-unknown₁ {num}     = TJUnknownBase TBNum
     ⊔-unknown₁ {bool}    = TJUnknownBase TBBool
@@ -498,7 +498,7 @@ module core.typ where
     ⊔-unknown₂ {_ -→ _}  = TJArrUnknown
     ⊔-unknown₂ {_ -× _}  = TJProdUnknown
 
-    -- join unicity
+    -- meet unicity
     ⊔-unicity : ∀ {τ₁ τ₂ τ τ′} → τ₁ ⊔ τ₂ ⇒ τ → τ₁ ⊔ τ₂ ⇒ τ′ → τ ≡ τ′ 
     ⊔-unicity (TJBase _)            (TJBase _)                = refl
     ⊔-unicity TJUnknown             TJUnknown                 = refl
@@ -513,7 +513,7 @@ module core.typ where
     ⊔-unicity (TJProd _ _)          (TJBase ())
     ⊔-unicity (TJProd τ₁⊔τ₁′ τ₂⊔τ₂′) (TJProd τ₁⊔τ₁′′ τ₂⊔τ₂′′) = -×-≡ (⊔-unicity τ₁⊔τ₁′ τ₁⊔τ₁′′) (⊔-unicity τ₂⊔τ₂′ τ₂⊔τ₂′′)
 
-    -- join derivation equality
+    -- meet derivation equality
     ⊔-≡ : ∀ {τ₁ τ₂ τ} → (τ₁⊔τ₂ : τ₁ ⊔ τ₂ ⇒ τ) → (τ₁⊔τ₂′ : τ₁ ⊔ τ₂ ⇒ τ) → τ₁⊔τ₂ ≡ τ₁⊔τ₂′
     ⊔-≡ (TJBase b) (TJBase b′) 
       rewrite base-≡ b b′           = refl
@@ -533,7 +533,7 @@ module core.typ where
     ⊔-≡ TJUnknownProd TJUnknownProd = refl
     ⊔-≡ TJProdUnknown TJProdUnknown = refl
 
-    -- join existence means that types are consistent
+    -- meet existence means that types are consistent
     ⊔→~ : ∀ {τ τ₁ τ₂} → τ₁ ⊔ τ₂ ⇒ τ → τ₁ ~ τ₂
     ⊔→~ (TJBase b)             = TCBase b
     ⊔→~ TJUnknown              = TCUnknown
@@ -546,7 +546,7 @@ module core.typ where
     ⊔→~ TJProdUnknown          = TCProdUnknown
     ⊔→~ (TJProd τ₁⊔τ₁′ τ₂⊔τ₂′) = TCProd (⊔→~ τ₁⊔τ₁′) (⊔→~ τ₂⊔τ₂′)
 
-    -- consistent types have a join
+    -- consistent types have a meet
     ~→⊔ : ∀ {τ₁ τ₂} → τ₁ ~ τ₂ → ∃[ τ ] τ₁ ⊔ τ₂ ⇒ τ
     ~→⊔           TCUnknown         = ⟨ unknown , TJUnknown       ⟩
     ~→⊔ {τ₁ = τ } (TCBase b)        = ⟨ τ       , TJBase b        ⟩
@@ -565,15 +565,15 @@ module core.typ where
          | ⟨ τ₂″ , ⊔⇒τ₂″ ⟩ ← ~→⊔ τ₂~τ₂′
          = ⟨ τ₁″ -× τ₂″ , TJProd ⊔⇒τ₁″ ⊔⇒τ₂″ ⟩
 
-    -- join nonexistence means types are inconsistent
+    -- meet nonexistence means types are inconsistent
     ¬⊔→~̸ : ∀ {τ₁ τ₂} → ¬ (∃[ τ ] τ₁ ⊔ τ₂ ⇒ τ) → τ₁ ~̸ τ₂
     ¬⊔→~̸ ¬τ₁⊔τ₂ = λ { τ₁~τ₂ → ¬τ₁⊔τ₂ (~→⊔ τ₁~τ₂) }
 
-    -- inconsistent types have no join
+    -- inconsistent types have no meet
     ~̸→¬⊔ : ∀ {τ₁ τ₂} → τ₁ ~̸ τ₂ → ¬ (∃[ τ ] τ₁ ⊔ τ₂ ⇒ τ)
     ~̸→¬⊔ τ₁~̸τ₂ = λ { ⟨ τ , τ₁⊔τ₂ ⟩ → τ₁~̸τ₂ (⊔→~ τ₁⊔τ₂) }
 
-    -- types are consistent with their join
+    -- types are consistent with their meet
     ⊔⇒→~ : ∀ {τ₁ τ₂ τ} → τ₁ ⊔ τ₂ ⇒ τ → τ₁ ~ τ × τ₂ ~ τ
     ⊔⇒→~ (TJBase b) = ⟨ TCBase b , TCBase b ⟩
     ⊔⇒→~ TJUnknown = ⟨ TCUnknown , TCUnknown ⟩
@@ -592,7 +592,7 @@ module core.typ where
     ⊔⇒→~ TJUnknownProd = ⟨ TCUnknownProd , TCProd ~-refl ~-refl ⟩
     ⊔⇒→~ TJProdUnknown = ⟨ TCProd ~-refl ~-refl , TCUnknownProd ⟩
 
-    -- types are consistent with types consistent to their join
+    -- types are consistent with types consistent to their meet
     ⊔⇒-~→~ : ∀ {τ₁ τ₂ τ τ′} → τ₁ ⊔ τ₂ ⇒ τ → τ ~ τ′ → τ₁ ~ τ′ × τ₂ ~ τ′
     ⊔⇒-~→~ (TJBase b)        τ~τ′ = ⟨ τ~τ′ , τ~τ′ ⟩
     ⊔⇒-~→~ TJUnknown         τ~τ′ = ⟨ τ~τ′ , τ~τ′ ⟩
@@ -623,4 +623,4 @@ module core.typ where
   open base public
   open consistency public
   open matched public
-  open join public
+  open meet public

@@ -23,7 +23,7 @@ Here is where to find each definition:
     lambda calculus.
 -   [core/](./core) contains definitions related to the core language:
     -   [typ.agda](./core/typ.agda) contains the syntax definition for types, the base,
-        consistency, matched arrow and product types, and join judgments, alongside useful lemmas
+        consistency, matched arrow and product types, and meet judgments, alongside useful lemmas
         about types.
     -   [uexp.agda](./core/uexp.agda) contains the syntax definition and bidirectional typing
         judgments for unmarked expressions.
