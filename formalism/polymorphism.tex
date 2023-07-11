@@ -31,7 +31,7 @@ expressions, marks corresponding to those of ordinary lambda abstractions are pr
                      \mid \MTForall{\MTVarMV}{\MTMV} \mid \MTVarMV \mid \MTUnbound{\MTVarMV} \\
   \EMName  & \EMV  & \Coloneqq & \cdots \mid \ETypeLam{\TVarMV}{\EMV} \mid \ETypeAp{\EMV}{\TMV} \\
   \ECMName & \ECMV & \Coloneqq & \cdots \mid \ECTypeLam{\MTVarMV}{\ECMV} \mid \ECTypeAp{\ECMV}{\MTMV} \\
-           &       & \mid      & \ECSynNonMatchedForall{\ECMV} \mid \ECAnaNonMatchedForall{\ECMV}
+           &       & \mid         & \ECTypeLamAnaNonMatchedForall{\MTVarMV}{\ECMV} \mid \ECTypeApSynNonMatchedForall{\ECMV}{\MTMV}
 \end{array}\]
 
 \subsection{Unmarked types}
