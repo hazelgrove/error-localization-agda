@@ -10,9 +10,9 @@ module marking.unicity where
                → τ₁ ≡ τ₂
   ↬⇒-τ-unicity           MKSHole         MKSHole          = refl
   ↬⇒-τ-unicity           (MKSVar ∋x)     (MKSVar ∋x′)     = ∋→τ-≡ ∋x ∋x′
-  ↬⇒-τ-unicity {τ₁ = τ₁} (MKSVar ∋x)     (MKSUnbound ∌x)  = ⊥-elim (∌x ⟨ τ₁ , ∋x ⟩)
-  ↬⇒-τ-unicity {τ₂ = τ₂} (MKSUnbound ∌x) (MKSVar ∋x)      = ⊥-elim (∌x ⟨ τ₂ , ∋x ⟩)
-  ↬⇒-τ-unicity           (MKSUnbound ∌x) (MKSUnbound ∌x′) = refl
+  ↬⇒-τ-unicity {τ₁ = τ₁} (MKSVar ∋x)     (MKSFree ∌x)  = ⊥-elim (∌x ⟨ τ₁ , ∋x ⟩)
+  ↬⇒-τ-unicity {τ₂ = τ₂} (MKSFree ∌x) (MKSVar ∋x)      = ⊥-elim (∌x ⟨ τ₂ , ∋x ⟩)
+  ↬⇒-τ-unicity           (MKSFree ∌x) (MKSFree ∌x′) = refl
   ↬⇒-τ-unicity (MKSLam e↬⇒ě) (MKSLam e↬⇒ě′)
     rewrite ↬⇒-τ-unicity e↬⇒ě e↬⇒ě′ = refl
   ↬⇒-τ-unicity (MKSAp1 e₁↬⇒ě₁ τ▸ e₂↬⇐ě₂) (MKSAp1 e₁↬⇒ě₁′ τ′▸ e₂↬⇐ě₂′)
@@ -65,9 +65,9 @@ module marking.unicity where
     ↬⇒-ě-unicity MKSHole MKSHole = refl
     ↬⇒-ě-unicity (MKSVar ∋x) (MKSVar ∋x′)
       rewrite ∋-≡ ∋x ∋x′ = refl
-    ↬⇒-ě-unicity (MKSVar ∋x) (MKSUnbound ∌x) = ⊥-elim (∌x ⟨ unknown , ∋x ⟩)
-    ↬⇒-ě-unicity (MKSUnbound ∌x) (MKSVar ∋x) = ⊥-elim (∌x ⟨ unknown , ∋x ⟩)
-    ↬⇒-ě-unicity (MKSUnbound ∌x) (MKSUnbound ∌x′)
+    ↬⇒-ě-unicity (MKSVar ∋x) (MKSFree ∌x) = ⊥-elim (∌x ⟨ unknown , ∋x ⟩)
+    ↬⇒-ě-unicity (MKSFree ∌x) (MKSVar ∋x) = ⊥-elim (∌x ⟨ unknown , ∋x ⟩)
+    ↬⇒-ě-unicity (MKSFree ∌x) (MKSFree ∌x′)
       rewrite assimilation ∌x ∌x′ = refl
     ↬⇒-ě-unicity (MKSLam e↬⇒ě) (MKSLam e↬⇒ě′)
       rewrite ↬⇒-ě-unicity e↬⇒ě e↬⇒ě′ = refl
@@ -155,7 +155,7 @@ module marking.unicity where
                       → USu→MSu s e↬⇒ě ≡ USu→MSu s e↬⇒ě′
     USu→MSu-unicity USuHole  MKSHole         _ = refl
     USu→MSu-unicity USuVar   (MKSVar _)      _ = refl
-    USu→MSu-unicity USuVar   (MKSUnbound _)  _ = refl
+    USu→MSu-unicity USuVar   (MKSFree _)  _ = refl
     USu→MSu-unicity USuAp    (MKSAp1 _ _ _)  _ = refl
     USu→MSu-unicity USuAp    (MKSAp2 _ _ _)  _ = refl
     USu→MSu-unicity USuNum   MKSNum          _ = refl

@@ -11,7 +11,7 @@ module marking.wellformed where
         → ě ⇒□ ≡ e
     ↬⇒□ MKSHole           = refl
     ↬⇒□ (MKSVar ∋x)       = refl
-    ↬⇒□ (MKSUnbound ∌x)   = refl
+    ↬⇒□ (MKSFree ∌x)   = refl
     ↬⇒□ (MKSLam e↬⇒ě)
       rewrite ↬⇒□ e↬⇒ě   = refl
     ↬⇒□ (MKSAp1 e₁↬⇒ě₁ τ▸ e₂↬⇐ě₂)
@@ -134,7 +134,7 @@ module marking.wellformed where
          → τ ≡ τ′
   ⇒-↬-≡ USHole MKSHole = refl
   ⇒-↬-≡ (USVar ∋x) (MKSVar ∋x′) = ∋→τ-≡ ∋x ∋x′
-  ⇒-↬-≡ (USVar {τ = τ} ∋x) (MKSUnbound ∌y) = ⊥-elim (∌y ⟨ τ , ∋x ⟩)
+  ⇒-↬-≡ (USVar {τ = τ} ∋x) (MKSFree ∌y) = ⊥-elim (∌y ⟨ τ , ∋x ⟩)
   ⇒-↬-≡ (USLam e⇒τ) (MKSLam e↬⇒ě)
     rewrite ⇒-↬-≡ e⇒τ e↬⇒ě = refl
   ⇒-↬-≡ (USAp e⇒τ τ▸ e₁⇐τ₁) (MKSAp1 e↬⇒ě τ▸′ e₂↬⇐ě₂)
@@ -190,7 +190,7 @@ module marking.wellformed where
          = MLSHole
     ⇒τ→markless (USVar ∋x) (MKSVar ∋x′)
          = MLSVar
-    ⇒τ→markless (USVar ∋x) (MKSUnbound ∌y)
+    ⇒τ→markless (USVar ∋x) (MKSFree ∌y)
          = ⊥-elim (∌y ⟨ unknown , ∋x ⟩)
     ⇒τ→markless (USLam e⇒τ) (MKSLam e↬⇒ě)
          = MLSLam (⇒τ→markless e⇒τ e↬⇒ě)

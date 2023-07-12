@@ -13,7 +13,7 @@ module marking.totality where
       with Γ ∋?? x
     ...  | yes (Z {τ = τ})         = ⟨ τ       , ⟨ ⊢ Z           , MKSVar Z           ⟩ ⟩
     ...  | yes (S {τ = τ} x≢x′ ∋x) = ⟨ τ       , ⟨ ⊢ (S x≢x′ ∋x) , MKSVar (S x≢x′ ∋x) ⟩ ⟩
-    ...  | no  ∌x                  = ⟨ unknown , ⟨ ⊢⟦ ∌x ⟧       , MKSUnbound ∌x      ⟩ ⟩
+    ...  | no  ∌x                  = ⟨ unknown , ⟨ ⊢⟦ ∌x ⟧       , MKSFree ∌x      ⟩ ⟩
     ↬⇒-totality Γ (‵λ x ∶ τ ∙ e)
       with ⟨ τ′ , ⟨ ě , e↬⇒ě ⟩ ⟩ ← ↬⇒-totality (Γ , x ∶ τ) e
          = ⟨ τ -→ τ′ , ⟨ ⊢λ x ∶ τ ∙ ě , MKSLam e↬⇒ě ⟩ ⟩

@@ -16,7 +16,7 @@ module marking.marking where
         → (∋x : Γ ∋ x ∶ τ)
         → Γ ⊢ ‵ x ↬⇒ ⊢ ∋x
 
-      MKSUnbound : ∀ {Γ y}
+      MKSFree : ∀ {Γ y}
         → (∌y : Γ ∌ y)
         → Γ ⊢ ‵ y ↬⇒ ⊢⟦ ∌y ⟧
 
@@ -118,7 +118,7 @@ module marking.marking where
     USu→MSu : ∀ {e : UExp} {Γ : Ctx} {τ : Typ} {ě : Γ ⊢⇒ τ} → USubsumable e → Γ ⊢ e ↬⇒ ě → MSubsumable ě
     USu→MSu {ě = ⊢⦇-⦈^ u}             USuHole  _ = MSuHole
     USu→MSu {ě = ⊢_ {x = x} ∋x}       USuVar   _ = MSuVar
-    USu→MSu {ě = ⊢⟦ x ⟧}              USuVar   _ = MSuUnbound
+    USu→MSu {ě = ⊢⟦ x ⟧}              USuVar   _ = MSuFree
     USu→MSu {ě = ⊢ ě₁ ∙ ě₂ [ τ▸ ]}    USuAp    _ = MSuAp1
     USu→MSu {ě = ⊢⸨ ě₁ ⸩∙ ě₂ [ τ!▸ ]} USuAp    _ = MSuAp2
     USu→MSu {ě = ⊢ℕ n}                USuNum   _ = MSuNum

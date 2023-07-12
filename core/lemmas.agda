@@ -179,5 +179,5 @@ module core.lemmas where
   ⊢⇒-⊢⇐ ě@(⊢π₁⸨ _ ⸩[ τ!▸ ]) = ⊢⇒-⊢⇐-subsume ě MSuProjL2
   ⊢⇒-⊢⇐ ě@(⊢π₂ _ [ τ▸ ]) = ⊢⇒-⊢⇐-subsume ě MSuProjR1
   ⊢⇒-⊢⇐ ě@(⊢π₂⸨ _ ⸩[ τ!▸ ]) = ⊢⇒-⊢⇐-subsume ě MSuProjR2
-  ⊢⇒-⊢⇐ ě@(⊢⟦ ∌y ⟧)                           = ⊢⇒-⊢⇐-subsume ě MSuUnbound
+  ⊢⇒-⊢⇐ ě@(⊢⟦ ∌y ⟧)                           = ⊢⇒-⊢⇐-subsume ě MSuFree
   ⊢⇒-⊢⇐ ě@(⊢⦉ ě₁ ∙ ě₂ ∙ ě₃ ⦊[ τ₁~̸τ₂ ])        = ⊢⇒-⊢⇐-subsume ě MSuInconsistentBranches

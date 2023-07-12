@@ -78,7 +78,7 @@ module core.mexp where
         → (τ₁⊔τ₂ : τ₁ ⊔ τ₂ ⇒ τ)
         → Γ ⊢⇒ τ
 
-      -- MSUnbound
+      -- MSFree
       ⊢⟦_⟧ : ∀ {Γ y}
         → (∌y : Γ ∌ y)
         → Γ ⊢⇒ unknown
@@ -157,7 +157,7 @@ module core.mexp where
       MSuFalse : ∀ {Γ}
         → MSubsumable {Γ} (⊢ff)
 
-      MSuUnbound : ∀ {Γ y}
+      MSuFree : ∀ {Γ y}
         → {∌y : Γ ∌ y}
         → MSubsumable {Γ} (⊢⟦ ∌y ⟧)
 
