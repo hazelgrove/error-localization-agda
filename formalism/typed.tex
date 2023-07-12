@@ -168,14 +168,14 @@ Type actions are the same as in the untyped model.
 \label{sec:typed-expression-movement}
 \judgbox{\ensuremath{\AUEMove{\ZMV}{\ZMV'}{\MMV}}}
 %
-\begin{mathpar}
+\begin{mathparpagebreakable}
   \inferrule[AEMLamChild1]{ }{
     \ASEMChild{\ECLam{x}{\TMV}{\ECMV}}{\ZLamT{x}{\ZTCursor{\TMV}}{\ECMV}}{1}
   }
 
   \inferrule[AEMLamChild2]{ }{
     \ASEMChild{\ECLam{x}{\TMV}{\ECMV}}{\ZLamE{x}{\TMV}{\ZCursor{\ECMV}}}{2}
-  } \\
+  }
 
   \inferrule[AEMLamParent1]{ }{
     \ASEMParent{\ZLamT{x}{\ZTCursor{\TMV}}{\ECMV}}{\ECLam{x}{\TMV}{\ECMV}}
@@ -184,16 +184,14 @@ Type actions are the same as in the untyped model.
   \inferrule[AEMLamParent2]{ }{
     \ASEMParent{\ZLamE{x}{\TMV}{\ZCursor{\ECMV}}}{\ECLam{x}{\TMV}{\ECMV}}
   }
-\end{mathpar}
 
-\begin{mathpar}
   \inferrule[AEMApChild1]{ }{
     \ASEMChild{\ECAp{\ECMV_1}{\ECMV_2}}{\ZApL{\ZCursor{\ECMV_1}}{\ECMV_2}}{1}
   }
 
   \inferrule[AEMApChild2]{ }{
     \ASEMChild{\ECAp{\ECMV_1}{\ECMV_2}}{\ZApR{\ECMV_1}{\ZCursor{\ECMV_2}}}{2}
-  } \\
+  }
 
   \inferrule[AEMApParent1]{ }{
     \ASEMParent{\ZApL{\ZCursor{\ECMV_1}}{\ECMV_2}}{\ECAp{\ECMV_1}{\ECMV_2}}
@@ -202,16 +200,14 @@ Type actions are the same as in the untyped model.
   \inferrule[AEMApParent2]{ }{
     \ASEMParent{\ZApR{\ECMV_1}{\ZCursor{\ECMV_2}}}{\ECAp{\ECMV_1}{\ECMV_2}}
   }
-\end{mathpar}
 
-\begin{mathpar}
   \inferrule[AEMLetChild1]{ }{
     \ASEMChild{\ECLet{x}{\ECMV_1}{\ECMV_2}}{\ZLetL{x}{\ZCursor{\ECMV_1}}{\ECMV_2}}{1}
   }
 
   \inferrule[AEMLetChild2]{ }{
     \ASEMChild{\ECLet{x}{\ECMV_1}{\ECMV_2}}{\ZLetR{x}{\ECMV_1}{\ZCursor{\ECMV_2}}}{2}
-  } \\
+  }
 
   \inferrule[AEMLetParent1]{ }{
     \ASEMParent{\ZLetL{x}{\ZCursor{\ECMV_1}}{\ECMV_2}}{\ECLet{x}{\ECMV_1}{\ECMV_2}}
@@ -220,16 +216,14 @@ Type actions are the same as in the untyped model.
   \inferrule[AEMLetParent2]{ }{
     \ASEMParent{\ZLetR{x}{\ECMV_1}{\ZCursor{\ECMV_2}}}{\ECLet{x}{\ECMV_1}{\ECMV_2}}
   }
-\end{mathpar}
 
-\begin{mathpar}
   \inferrule[AEMPlusChild1]{ }{
     \ASEMChild{\ECPlus{\ECMV_1}{\ECMV_2}}{\ZPlusL{\ZCursor{\ECMV_1}}{\ECMV_2}}{1}
   }
 
   \inferrule[AEMPlusChild2]{ }{
     \ASEMChild{\ECPlus{\ECMV_1}{\ECMV_2}}{\ZPlusR{\ECMV_1}{\ZCursor{\ECMV_2}}}{2}
-  } \\
+  }
 
   \inferrule[AEMPlusParent1]{ }{
     \ASEMParent{\ZPlusL{\ZCursor{\ECMV_1}}{\ECMV_2}}{\ECPlus{\ECMV_1}{\ECMV_2}}
@@ -238,9 +232,7 @@ Type actions are the same as in the untyped model.
   \inferrule[AEMPlusParent2]{ }{
     \ASEMParent{\ZPlusR{\ECMV_1}{\ZCursor{\ECMV_2}}}{\ECPlus{\ECMV_1}{\ECMV_2}}
   }
-\end{mathpar}
 
-\begin{mathpar}
   \inferrule[AEMIfChild1]{ }{
     \ASEMChild{\ECIf{\ECMV_1}{\ECMV_2}{\ECMV_3}}{\ZIfC{\ZCursor{\ECMV_1}}{\ECMV_2}{\ECMV_3}}{1}
   }
@@ -251,7 +243,7 @@ Type actions are the same as in the untyped model.
 
   \inferrule[AEMIfChild3]{ }{
     \ASEMChild{\ECIf{\ECMV_1}{\ECMV_2}{\ECMV_3}}{\ZIfR{\ECMV_1}{\ECMV_2}{\ZCursor{\ECMV_3}}}{3}
-  } \\
+  }
 
   \inferrule[AEMIfParent1]{ }{
     \ASEMParent{\ZIfC{\ZCursor{\ECMV_1}}{\ECMV_2}{\ECMV_3}}{\ECIf{\ECMV_1}{\ECMV_2}{\ECMV_3}}
@@ -264,9 +256,7 @@ Type actions are the same as in the untyped model.
   \inferrule[AEMIfParent3]{ }{
     \ASEMParent{\ZIfR{\ECMV_1}{\ECMV_2}{\ZCursor{\ECMV_3}}}{\ECIf{\ECMV_1}{\ECMV_2}{\ECMV_3}}
   }
-\end{mathpar}
 
-\begin{mathpar}
   \inferrule[AEMInconsistentTypesChild]{
     \ASEMChild{\ZMV}{\ZMV'}{\MChildNMV}
   }{
@@ -278,9 +268,7 @@ Type actions are the same as in the untyped model.
   }{
     \ASEMParent{\ZInconType{\ZMV}}{\ZInconType{\ZMV'}}
   }
-\end{mathpar}
 
-\begin{mathpar}
   \inferrule[AEMInconsistentBranchesChild1]{ }{
     \ASEMChild{\ECInconBr{\ECMV_1}{\ECMV_2}{\ECMV_3}}{\ZInconBrC{\ZCursor{\ECMV_1}}{\ECMV_2}{\ECMV_3}}{1}
   }
@@ -291,7 +279,7 @@ Type actions are the same as in the untyped model.
 
   \inferrule[AEMInconsistentBranchesChild3]{ }{
     \ASEMChild{\ECInconBr{\ECMV_1}{\ECMV_2}{\ECMV_3}}{\ZInconBrR{\ECMV_1}{\ECMV_2}{\ZCursor{\ECMV_3}}}{3}
-  } \\
+  }
 
   \inferrule[AEMInconsistentBranchesParent1]{ }{
     \ASEMParent{\ZInconBrC{\ZCursor{\ECMV_1}}{\ECMV_2}{\ECMV_3}}{\ECInconBr{\ECMV_1}{\ECMV_2}{\ECMV_3}}
@@ -304,7 +292,7 @@ Type actions are the same as in the untyped model.
   \inferrule[AEMInconsistentBranchesParent3]{ }{
     \ASEMParent{\ZInconBrC{\ECMV_1}{\ECMV_2}{\ZCursor{\ECMV_3}}}{\ECInconBr{\ECMV_1}{\ECMV_2}{\ECMV_3}}
   }
-\end{mathpar}
+\end{mathparpagebreakable}
 
 \subsubsection{Synthetic expression actions}
 \label{sec:typed-synthetic-expression-actions}
@@ -326,8 +314,8 @@ Type actions are the same as in the untyped model.
   }
 \end{mathpar}
 
-\paragraph{Construction}
-\begin{mathpar}
+\paragraph{Construction} \ \\
+\begin{mathparpagebreakable}
   \inferrule[ASEConVar]{
     \inCtx{\ctx}{x}{\TMV}
   }{
@@ -339,9 +327,7 @@ Type actions are the same as in the untyped model.
   }{
     \ASCon{\ctx}{\ZCursor{\ECEHole}}{\TUnknown}{\ZCursor{\ZFree{x}}}{\TUnknown}{\SVar{x}}
   }
-\end{mathpar}
 
-\begin{mathpar}
   \inferrule[ASEConLam]{
     \ctxSynFixedInto{\extendCtx{\ctx}{x}{\TUnknown}}{\erase{\ECMV}}{\ECMV'}{\TMV'}
   }{
@@ -363,9 +349,7 @@ Type actions are the same as in the untyped model.
   \inferrule[ASEConApR]{ }{
     \ASCon{\ctx}{\ZCursor{\ECMV}}{\TMV}{\ZApR{\ZCursor{\ECEHole}}{\ECMV}}{\TUnknown}{\SApR}
   }
-\end{mathpar}
 
-\begin{mathpar}
   \inferrule[ASEConLet1]{ }{
     \ASCon{\ctx}{\ZCursor{\ECMV}}{\TMV}{\ZLetL{x}{\ECMV}{\ZCursor{\ECEHole}}}{\TUnknown}{\SLetL{x}}
   }
@@ -375,9 +359,7 @@ Type actions are the same as in the untyped model.
   }{
     \ASCon{\ctx}{\ZCursor{\ECMV}}{\TMV}{\ZLetR{x}{\ZCursor{\ECEHole}}{\ECMV'}}{\TMV'}{\SLetL{x}}
   }
-\end{mathpar}
 
-\begin{mathpar}
   \inferrule[ASEConNum]{ }{
     \ASCon{\ctx}{\ZCursor{\ECEHole}}{\TUnknown}{\ZCursor{\ENumMV}}{\TNum}{\SLit{\ENumMV}}
   }
@@ -405,9 +387,7 @@ Type actions are the same as in the untyped model.
   }{
     \ASCon{\ctx}{\ZCursor{\ECMV}}{\TMV}{\ZPlusL{\ZCursor{\ECEHole}}{\ECInconType{\ECMV}}}{\TNum}{\SPlusR}
   }
-\end{mathpar}
 
-\begin{mathpar}
   \inferrule[ASEConIfC1]{
     \consistent{\TMV}{\TBool}
   }{
@@ -427,10 +407,10 @@ Type actions are the same as in the untyped model.
   \inferrule[ASEConIfR]{ }{
     \ASCon{\ctx}{\ZCursor{\ECMV}}{\TMV}{\ZIfC{\ZCursor{\ECEHole}}{\ECEHole}{\ECMV}}{\TMV}{\SIfR}
   }
-\end{mathpar}
+\end{mathparpagebreakable}
 
-\paragraph{Zipper Cases}
-\begin{mathpar}
+\paragraph{Zipper Cases} \ \\
+\begin{mathparpagebreakable}
   \inferrule[ASEZipLamT1]{
     \AUTAction{\ZTMV_1}{\ZTMV_1'}{\AMV} \\
     \equal{\cursorErase{\ZTMV_1}}{\cursorErase{\ZTMV_1'}}
@@ -451,9 +431,7 @@ Type actions are the same as in the untyped model.
   }{
     \ASEAction{\ctx}{\ZLamE{x}{\TMV_1}{\ZMV}}{\TArrow{\TMV_1}{\TMV_2}}{\ZLamE{x}{\TMV_1}{\ZMV'}}{\TArrow{\ZTMV_1}{\TMV_2'}}{\AMV}
   }
-\end{mathpar}
 
-\begin{mathpar}
   \inferrule[ASEZipApL1]{
     \ctxSynTypeM{\ctx}{\cursorErase{\ZMV_1}}{\TMV_1} \\
     \ASEAction{\ctx}{\ZMV_1}{\TMV_1}{\ZMV_1'}{\TMV_1'}{\AMV} \\\\
@@ -513,9 +491,7 @@ Type actions are the same as in the untyped model.
   }{
     \ASEAction{\ctx}{\ZApR{\ECMV_1}{\ZMV_2}}{\TMV}{\ZApR{\ECMV_1}{\ZMV_2'}}{\TMV_3}{\AMV}
   }
-\end{mathpar}
 
-\begin{mathpar}
   \inferrule[ASEZipLetL1]{
     \ctxSynTypeM{\ctx}{\cursorErase{\ZMV_1}}{\TMV_1} \\
     \ASEAction{\ctx}{\ZMV_1}{\TMV_1}{\ZMV_1'}{\TMV_1'}{\AMV} \\
@@ -540,9 +516,7 @@ Type actions are the same as in the untyped model.
   }{
     \ASEAction{\ctx}{\ZLetR{x}{\ECMV_1}{\ZMV_2}}{\TMV_2}{\ZLetR{x}{\ECMV_1}{\ZMV_2'}}{\TMV_2'}{\AMV}
   }
-\end{mathpar}
 
-\begin{mathpar}
   \inferrule[ASEZipPlusL]{
     \AAEAction{\ctx}{\ZMV}{\ZMV'}{\TNum}{\AMV}
   }{
@@ -554,9 +528,7 @@ Type actions are the same as in the untyped model.
   }{
     \ASEAction{\ctx}{\ZPlusR{\ECMV}{\ZMV}}{\TNum}{\ZPlusR{\ECMV}{\ZMV'}}{\TNum}{\AMV}
   }
-\end{mathpar}
 
-\begin{mathpar}
   \inferrule[ASEZipIfC]{
     \AAEAction{\ctx}{\ZMV}{\ZMV'}{\TBool}{\AMV}
   }{
@@ -598,9 +570,7 @@ Type actions are the same as in the untyped model.
   }{
     \ASEAction{\ctx}{\ZIfR{\ECMV_1}{\ECMV_2}{\ZMV}}{\TMV}{\ZInconBrR{\ECMV_1}{\ECMV_2}{\ZMV'}}{\TUnknown}{\AMV}
   }
-\end{mathpar}
 
-\begin{mathpar}
   \inferrule[ASEZipInconsistentBranchesC]{
     \AAEAction{\ctx}{\ZMV}{\ZMV'}{\TBool}{\AMV}
   }{
@@ -638,7 +608,7 @@ Type actions are the same as in the untyped model.
   }{
     \ASEAction{\ctx}{\ZInconBrR{\ECMV_1}{\ECMV_2}{\ZMV}}{\TMV}{\ZInconBrR{\ECMV_1}{\ECMV_2}{\ZMV'}}{\TUnknown}{\AMV}
   }
-\end{mathpar}
+\end{mathparpagebreakable}
 
 \subsubsection{Analytic expression actions}
 \label{sec:typed-analytic-expression-actions}
@@ -699,8 +669,8 @@ Type actions are the same as in the untyped model.
   }
 \end{mathpar}
 
-\paragraph{Construction}
-\begin{mathpar}
+\paragraph{Construction} \ \\
+\begin{mathparpagebreakable}
   \inferrule[AAEConLam1]{
     \matchedArrow{\TMV}{\TMV_1}{\TMV_2} \\
     \ctxAnaFixedInto{\extendCtx{\ctx}{x}{\TMV_1}}{\ECMV}{\ECMV'}{\TMV_2}
@@ -714,9 +684,7 @@ Type actions are the same as in the untyped model.
   }{
     \AACon{\ctx}{\ZCursor{\ECMV}}{\ZInconType{\ZLamT{x}{\ZTCursor{\TUnknown}}{\ECMV'}}}{\TMV}{\SLam{x}}
   }
-\end{mathpar}
 
-\begin{mathpar}
   \inferrule[AAEConLetL]{ }{
     \AACon{\ctx}{\ZCursor{\ECMV}}{\ZLetL{x}{\ECMV}{\ZCursor{\ECEHole}}}{\TMV}{\SLetL{x}}
   }
@@ -726,9 +694,7 @@ Type actions are the same as in the untyped model.
   }{
     \AACon{\ctx}{\ZCursor{\ECMV}}{\ZLetR{x}{\ZCursor{\ECEHole}}{\ECMV'}}{\TMV}{\SLetR{x}}
   }
-\end{mathpar}
  
-\begin{mathpar}
   \inferrule[AAEConIfL]{ }{
     \AACon{\ctx}{\ZCursor{\ECMV}}{\ZIfC{\ZCursor{\ECEHole}}{\ECMV}{\ECEHole}}{\TMV}{\SIfL}
   }
@@ -737,10 +703,10 @@ Type actions are the same as in the untyped model.
   }{
     \AACon{\ctx}{\ZCursor{\ECMV}}{\ZIfC{\ZCursor{\ECEHole}}{\ECEHole}{\ECMV}}{\TMV}{\SIfR}
   }
-\end{mathpar}
+\end{mathparpagebreakable}
 
-\paragraph{Zipper Cases}
-\begin{mathpar}
+\paragraph{Zipper Cases} \ \\
+\begin{mathparpagebreakable}
   \inferrule[AAEZipLamT1]{
     \AUTAction{\ZTMV}{\ZTMV'}{\AMV} \\
     \consistent{\cursorErase{\ZTMV}}{\cursorErase{\ZTMV'}}
@@ -774,9 +740,7 @@ Type actions are the same as in the untyped model.
   }{
     \AAAction{\ctx}{\ZLamE{x}{\TMV_3}{\ZMV}}{\ZLamE{x}{\TMV_3}{\ZMV'}}{\TMV}{\AMV}
   }
-\end{mathpar}
 
-\begin{mathpar}
   \inferrule[AAEZipLetL1]{
     \ctxSynTypeM{\ctx}{\cursorErase{\ZMV}}{\TMV_1} \\
     \ASEAction{\ctx}{\ZMV}{\TMV_1}{\ZMV'}{\TMV_1'}{\AMV} \\
@@ -799,9 +763,7 @@ Type actions are the same as in the untyped model.
   }{
     \AAAction{\ctx}{\ZLetR{x}{\ECMV}{\ZMV}}{\ZLetL{x}{\ECMV}{\ZMV'}}{\TMV}{\AMV}
   }
-\end{mathpar}
 
-\begin{mathpar}
   \inferrule[AAEZipIfC]{
     \AAAction{\ctx}{\ZMV}{\ZMV'}{\TBool}{\AMV}
   }{
@@ -819,7 +781,7 @@ Type actions are the same as in the untyped model.
   }{
     \AAAction{\ctx}{\ZIfR{\ECMV_1}{\ECMV_2}{\ZMV}}{\ZIfR{\ECMV_1}{\ECMV_2}{\ZMV'}}{\TMV}{\AMV}
   }
-\end{mathpar}
+\end{mathparpagebreakable}
 
 \subsubsection{Iterated actions}
 \label{sec:typed-iterated-actions}

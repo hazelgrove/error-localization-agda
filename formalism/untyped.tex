@@ -282,14 +282,14 @@
 \label{sec:untyped-expression-movement}
 \judgbox{\ensuremath{\AUEMove{\ZMV}{\ZMV'}{\MMV}}}
 %
-\begin{mathpar}
+\begin{mathparpagebreakable}
   \inferrule[AEMLamChild1]{ }{
     \AUEMLamChildT{x}{\TMV}{\EMV}
   }
 
   \inferrule[AEMLamChild2]{ }{
     \AUEMLamChildE{x}{\TMV}{\EMV}
-  } \\
+  }
 
   \inferrule[AEMLamParent1]{ }{
     \AUEMLamParentT{x}{\TMV}{\EMV}
@@ -297,7 +297,7 @@
 
   \inferrule[AEMLamParent2]{ }{
     \AUEMLamParentE{x}{\TMV}{\EMV}
-  } \\
+  }
 
   \inferrule[AEMApChild1]{ }{
     \AUEMApChildL{\EMV_1}{\EMV_2}
@@ -305,7 +305,7 @@
 
   \inferrule[AEMApChild2]{ }{
     \AUEMApChildR{\EMV_1}{\EMV_2}
-  } \\
+  }
 
   \inferrule[AEMApParent1]{ }{
     \AUEMApParentL{\EMV_1}{\EMV_2}
@@ -313,7 +313,7 @@
 
   \inferrule[AEMApParent2]{ }{
     \AUEMApParentR{\EMV_1}{\EMV_2}
-  } \\
+  }
 
   \inferrule[AEMLetChild1]{ }{
     \AUEMLetChildL{x}{\EMV_1}{\EMV_2}
@@ -321,7 +321,7 @@
 
   \inferrule[AEMLetChild2]{ }{
     \AUEMLetChildR{x}{\EMV_1}{\EMV_2}
-  } \\
+  }
 
   \inferrule[AEMLetParent1]{ }{
     \AUEMLetParentL{x}{\EMV_1}{\EMV_2}
@@ -329,7 +329,7 @@
 
   \inferrule[AEMLetParent2]{ }{
     \AUEMLetParentR{x}{\EMV_1}{\EMV_2}
-  } \\
+  }
 
   \inferrule[AEMPlusChild1]{ }{
     \AUEMPlusChildL{\EMV_1}{\EMV_2}
@@ -337,7 +337,7 @@
 
   \inferrule[AEMPlusChild2]{ }{
     \AUEMPlusChildR{\EMV_1}{\EMV_2}
-  } \\
+  }
 
   \inferrule[AEMPlusParent1]{ }{
     \AUEMPlusParentL{\EMV_1}{\EMV_2}
@@ -345,7 +345,7 @@
 
   \inferrule[AEMPlusParent2]{ }{
     \AUEMPlusParentR{\EMV_1}{\EMV_2}
-  } \\
+  }
 
   \inferrule[AEMIfChild1]{ }{
     \AUEMIfChildC{\EMV_1}{\EMV_2}{\EMV_3}
@@ -369,7 +369,7 @@
 
   \inferrule[AEMIfParent3]{ }{
     \AUEMIfParentR{\EMV_1}{\EMV_2}{\EMV_3}
-  } \\
+  }
 
   \inferrule[AEMPairChild1]{ }{
     \AUEMPairChildL{\EMV_1}{\EMV_2}
@@ -377,7 +377,7 @@
 
   \inferrule[AEMPairChild2]{ }{
     \AUEMPairChildR{\EMV_1}{\EMV_2}
-  } \\
+  }
 
   \inferrule[AEMPairParent1]{ }{
     \AUEMPairParentL{\EMV_1}{\EMV_2}
@@ -402,7 +402,7 @@
   \inferrule[AEMProjRParent]{ }{
     \AUEMProjRParent{\EMV_1}
   }
-\end{mathpar}
+\end{mathparpagebreakable}
 
 \subsubsection{Expression actions}
 \label{sec:untyped-expression-actions}
@@ -424,15 +424,15 @@
   }
 \end{mathpar}
 
-\paragraph{Construction}
-\begin{mathpar}
+\paragraph{Construction} \ \\
+\begin{mathparpagebreakable}
   \inferrule[AEConVar]{ }{
     \AUEConVar{x}
-  } \\
+  }
 
   \inferrule[AEConLam]{ }{
     \AUEConLam{x}{\EMV}
-  } \\
+  }
 
   \inferrule[AEConAp1]{ }{
     \AUEConApL{\EMV}
@@ -440,7 +440,7 @@
 
   \inferrule[AEConAp2]{ }{
     \AUEConApR{\EMV}
-  } \\
+  }
 
   \inferrule[AEConLet1]{ }{
     \AUEConLetL{x}{\EMV}
@@ -448,7 +448,7 @@
 
   \inferrule[AEConLet2]{ }{
     \AUEConLetR{x}{\EMV}
-  } \\
+  }
 
   \inferrule[AEConNum]{ }{
     \AUEConNum{\ENumMV}
@@ -460,7 +460,7 @@
 
   \inferrule[AEConPlus2]{ }{
     \AUEConPlusR{\EMV}
-  } \\
+  }
 
   \inferrule[AEConTrue]{ }{
     \AUEConTrue
@@ -468,7 +468,7 @@
 
   \inferrule[AEConFalse]{ }{
     \AUEConFalse
-  } \\
+  }
   
   \inferrule[AEConIf1]{ }{
     \AUEConIfC{\EMV}
@@ -480,7 +480,7 @@
   
   \inferrule[AEConIf3]{ }{
     \AUEConIfR{\EMV}
-  } \\
+  }
 
   \inferrule[AEConPair1]{ }{
     \AUEConPairL{\EMV}
@@ -488,7 +488,7 @@
 
   \inferrule[AEConPair2]{ }{
     \AUEConPairR{\EMV}
-  } \\
+  }
 
   \inferrule[AEConProjL]{ }{
     \AUEConProjL{\EMV}
@@ -497,10 +497,10 @@
   \inferrule[AEConProjR]{ }{
     \AUEConProjR{\EMV}
   }
-\end{mathpar}
+\end{mathparpagebreakable}
 
-\paragraph{Zipper Cases}
-\begin{mathpar}
+\paragraph{Zipper Cases} \ \\
+\begin{mathparpagebreakable}
   \inferrule[AEZipLam1]{
     \AUTAction{\ZTMV}{\ZTMV'}{\AMV}
   }{
@@ -511,7 +511,7 @@
     \AUEAction{\ZMV}{\ZMV'}{\AMV}
   }{
     \AUEAction{\ZLamE{x}{\TMV}{\ZMV}}{\ZLamE{x}{\TMV}{\ZMV'}}{\AMV}
-  } \\
+  }
 
   \inferrule[AEZipAp1]{
     \AUEAction{\ZMV}{\ZMV'}{\AMV}
@@ -523,7 +523,7 @@
     \AUEAction{\ZMV}{\ZMV'}{\AMV}
   }{
     \AUEAction{\ZApR{\EMV}{\ZMV}}{\ZApR{\EMV}{\ZMV'}}{\AMV}
-  } \\
+  }
 
   \inferrule[AEZipLet1]{
     \AUTAction{\ZMV}{\ZMV'}{\AMV}
@@ -535,7 +535,7 @@
     \AUEAction{\ZMV}{\ZMV'}{\AMV}
   }{
     \AUEAction{\ZLetR{x}{\EMV}{\ZMV}}{\ZLetR{x}{\EMV}{\ZMV'}}{\AMV}
-  } \\
+  }
 
   \inferrule[AEZipPlus1]{
     \AUEAction{\ZMV}{\ZMV'}{\AMV}
@@ -547,7 +547,7 @@
     \AUEAction{\ZMV}{\ZMV'}{\AMV}
   }{
     \AUEAction{\ZPlusR{\EMV}{\ZMV}}{\ZPlusR{\EMV}{\ZMV'}}{\AMV}
-  } \\
+  }
 
   \inferrule[AEZipIf1]{
     \AUEAction{\ZMV}{\ZMV'}{\AMV}
@@ -565,7 +565,7 @@
     \AUEAction{\ZMV}{\ZMV'}{\AMV}
   }{
     \AUEAction{\ZIfR{\EMV_1}{\EMV_2}{\ZMV}}{\ZIfR{\EMV_1}{\EMV_2}{\ZMV'}}{\AMV}
-  } \\
+  }
 
   \inferrule[AEZipPair1]{
     \AUEAction{\ZMV}{\ZMV'}{\AMV}
@@ -577,7 +577,7 @@
     \AUEAction{\ZMV}{\ZMV'}{\AMV}
   }{
     \AUEAction{\ZPairR{\EMV}{\ZMV}}{\ZPairR{\EMV}{\ZMV'}}{\AMV}
-  } \\
+  }
 
   \inferrule[AEZipProjL]{
     \AUEAction{\ZMV}{\ZMV'}{\AMV}
@@ -590,7 +590,7 @@
   }{
     \AUEAction{\ZProjR{\EMV}{\ZMV}}{\ZProjR{\EMV}{\ZMV'}}{\AMV}
   }
-\end{mathpar}
+\end{mathparpagebreakable}
 
 \subsubsection{Iterated actions}
 \label{sec:untyped-iterated-actions}
