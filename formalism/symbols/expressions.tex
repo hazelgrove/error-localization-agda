@@ -70,7 +70,7 @@
 \newcommand{\ECLet}[3]{\ensuremath{\textsf{let}~ #1 = #2 ~\textsf{in}~ #3}}
 
 % errors
-\newcommand{\MRUnbound}{\ensuremath{\mathsmaller{\mathsmaller{\mathsmaller{\square}}}}}
+\newcommand{\MRFree}{\ensuremath{\mathsmaller{\mathsmaller{\mathsmaller{\square}}}}}
 \newcommand{\MRInconType}{\ensuremath{\mathsmaller{\inconsistentRel}}}
 \newcommand{\MRInconBr}{\ensuremath{\mathlarger{\noMeetRel}}}
 \newcommand{\MRInconAsc}{\ensuremath{\bm{:}}}
@@ -78,13 +78,13 @@
 \newcommand{\MRSynNonMatchedProd}{\ensuremath{\mathsmaller{\notMatchedProdRel}}}
 \newcommand{\MRAnaNonMatchedArrow}{\ensuremath{\mathsmaller{\notMatchedArrowRel}}}
 \newcommand{\MRAnaNonMatchedProd}{\ensuremath{\mathsmaller{\notMatchedProdRel}}}
-\newcommand{\MRUnboundTypeVar}{\ensuremath{\MRUnbound}}
+\newcommand{\MRFreeTypeVar}{\ensuremath{\MRFree}}
 
 \newcommand{\MRSyn}{\ensuremath{\mathsmaller{\Rightarrow}}}
 \newcommand{\MRAna}{\ensuremath{\mathsmaller{\Leftarrow}}}
 
 \newcommand{\ECMarked}[3]{\ensuremath{\textcolor{red}{\bm{\llparenthesis}#1\bm{\rrparenthesis}_{#2}^{#3}}}}
-\newcommand{\ECMarkedUnbound}[1]{\ensuremath{\ECMarked{#1}{\MRUnbound}{}}}
+\newcommand{\ECMarkedFree}[1]{\ensuremath{\ECMarked{#1}{\MRFree}{}}}
 \newcommand{\ECMarkedInconType}[1]{\ensuremath{\ECMarked{#1}{\MRInconType}{}}}
 \newcommand{\ECMarkedInconBr}[1]{\ensuremath{\ECMarked{#1}{\MRInconBr}{}}}
 \newcommand{\ECMarkedInconAsc}[1]{\ensuremath{\ECMarked{#1}{\MRInconAsc}{}}}
@@ -93,7 +93,7 @@
 \newcommand{\ECMarkedAnaNonMatchedArrow}[1]{\ensuremath{\ECMarked{#1}{\MRAnaNonMatchedArrow}{\MRAna}}}
 \newcommand{\ECMarkedAnaNonMatchedProd}[1]{\ensuremath{\ECMarked{#1}{\MRAnaNonMatchedProd}{\MRAna}}}
 
-\newcommand{\ECUnbound}[1]{\ensuremath{\ECMarkedUnbound{#1}}}
+\newcommand{\ECFree}[1]{\ensuremath{\ECMarkedFree{#1}}}
 \newcommand{\ECInconType}[1]{\ensuremath{\ECMarkedInconType{#1}}}
 \newcommand{\ECInconBr}[3]{\ensuremath{\ECMarkedInconBr{\ECIf{#1}{#2}{#3}}}}
 \newcommand{\ECInconAsc}[1]{\ensuremath{\ECMarkedInconAsc{#1}}}

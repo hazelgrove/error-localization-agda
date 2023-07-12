@@ -334,10 +334,10 @@ Type actions are the same as in the untyped model.
     \ASCon{\ctx}{\ZCursor{\ECEHole}}{\TUnknown}{\ZCursor{x}}{\TMV}{\SVar{x}}
   }
 
-  \inferrule[ASEConUnbound]{
+  \inferrule[ASEConFree]{
     \notInCtx{\ctx}{x}
   }{
-    \ASCon{\ctx}{\ZCursor{\ECEHole}}{\TUnknown}{\ZCursor{\ZUnbound{x}}}{\TUnknown}{\SVar{x}}
+    \ASCon{\ctx}{\ZCursor{\ECEHole}}{\TUnknown}{\ZCursor{\ZFree{x}}}{\TUnknown}{\SVar{x}}
   }
 \end{mathpar}
 

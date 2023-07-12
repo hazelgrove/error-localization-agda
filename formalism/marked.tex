@@ -28,7 +28,7 @@ incomplete editor states \`a la Hazelnut but are not essential.
            &       & \mid         & \ECTrue \mid \ECFalse \mid \ECIf{\ECMV}{\ECMV}{\ECMV}
                      \mid           \ECPair{\ECMV}{\ECMV} \mid \ECProjL{\ECMV} \mid \ECProjR{\ECMV}
                      \mid           \ECEHole \\
-           &       & \mid         & \ECUnbound{x} \mid \ECInconType{\ECMV} \\
+           &       & \mid         & \ECFree{x} \mid \ECInconType{\ECMV} \\
            &       & \mid         & \ECLamInconAsc{x}{\TMV}{\ECMV} \mid \ECLamAnaNonMatchedArrow{x}{\TMV}{\ECMV} \mid \ECApSynNonMatchedArrow{\ECMV}{\ECMV} \\
            &       & \mid         & \ECInconBr{\ECMV}{\ECMV}{\ECMV} \\
            &       & \mid         & \ECPairAnaNonMatchedProd{\ECMV}{\ECMV} \mid \ECProjLSynNonMatchedProd{\ECMV} \mid \ECProjRSynNonMatchedProd{\ECMV}
@@ -297,10 +297,10 @@ incomplete editor states \`a la Hazelnut but are not essential.
     \ctxSynFixedInto{\ctx}{x}{x}{\TMV}
   }
 
-  \inferrule[MKSUnbound]{
+  \inferrule[MKSFree]{
     \notInCtx{\ctx}{x}
   }{
-    \ctxSynFixedInto{\ctx}{x}{\ECUnbound{x}}{\TUnknown}
+    \ctxSynFixedInto{\ctx}{x}{\ECFree{x}}{\TUnknown}
   }
 
   \inferrule[MKSLam]{
@@ -509,10 +509,10 @@ incomplete editor states \`a la Hazelnut but are not essential.
     \ctxSynTypeM{\ctx}{x}{\TMV}
   }
 
-  \inferrule[MSUnbound]{
+  \inferrule[MSFree]{
     \notInCtx{\ctx}{x}
   }{
-    \ctxSynTypeM{\ctx}{\ECUnbound{x}}{\TUnknown}
+    \ctxSynTypeM{\ctx}{\ECFree{x}}{\TUnknown}
   }
 
   \inferrule[MSLam]{
@@ -717,8 +717,8 @@ incomplete editor states \`a la Hazelnut but are not essential.
     \subsumable{x}
   }
 
-  \inferrule[MSuUnbound]{ }{
-    \subsumable{\ECUnbound{x}}
+  \inferrule[MSuFree]{ }{
+    \subsumable{\ECFree{x}}
   }
 
   \inferrule[MSuAp1]{ }{
@@ -826,7 +826,7 @@ $\judgbox{\erase{\ECMV}}$ is a metafunction defined as follows:
 \[\begin{array}{rcl}
   \erasesToRow{\ECEHole}{\EEHole} \\
   \erasesToRow{x}{x} \\
-  \erasesToRow{\ECUnbound{x}}{x} \\
+  \erasesToRow{\ECFree{x}}{x} \\
   \erasesToRow{(\ECLam{x}{\TMV}{\ECMV})}{\ELam{x}{\TMV}{(\erase{\ECMV})}} \\
   \erasesToRow{\ECLamInconAsc{x}{\TMV}{\ECMV}}{\ELam{x}{\TMV}{(\erase{\ECMV})}} \\
   \erasesToRow{\ECLamAnaNonMatchedArrow{x}{\TMV}{\ECMV}}{\ECLam{x}{\TMV}{(\erase{\ECMV})}} \\

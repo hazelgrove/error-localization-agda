@@ -11,7 +11,7 @@
 In this section, we describe an extension of the marked lambda calculus for System F-style
 parametric polymorphism.
 
-Chiefly, the introduction of type variables and the possibility of unbound ones requires the
+Chiefly, the introduction of type variables and the possibility of free ones requires the
 distinction between unmarked and marked types. These are each governed by well-formedness judgments
 (alongside extensions of the original consistency, etc. judgments) and linked by a marking
 operation.
@@ -19,7 +19,7 @@ operation.
 \subsection{Syntax}
 \label{sec:polymorphism-syntax}
 The syntax of unmarked types is exactly that of the original types alongside additional forms for
-forall types and type variables. In marked types, we additionally have unbound type variables.
+forall types and type variables. In marked types, we additionally have free type variables.
 Within unmarked expressions, there may be type abstractions and type applications. In marked
 expressions, marks corresponding to those of ordinary lambda abstractions are present.
 
@@ -28,7 +28,7 @@ expressions, marks corresponding to those of ordinary lambda abstractions are pr
   \MTMName & \MTMV & \Coloneqq & \cdots
                      % \MTUnknown \mid \MTNum \mid \MTBool
                      % \mid \MTArrow{\MTMV}{\MTMV} \mid \MTProd{\MTMV}{\MTMV}
-                     \mid \MTForall{\MTVarMV}{\MTMV} \mid \MTVarMV \mid \MTUnbound{\MTVarMV} \\
+                     \mid \MTForall{\MTVarMV}{\MTMV} \mid \MTVarMV \mid \MTFree{\MTVarMV} \\
   \EMName  & \EMV  & \Coloneqq & \cdots \mid \ETypeLam{\TVarMV}{\EMV} \mid \ETypeAp{\EMV}{\TMV} \\
   \ECMName & \ECMV & \Coloneqq & \cdots \mid \ECTypeLam{\MTVarMV}{\ECMV} \mid \ECTypeAp{\ECMV}{\MTMV} \\
            &       & \mid         & \ECTypeLamAnaNonMatchedForall{\MTVarMV}{\ECMV} \mid \ECTypeApSynNonMatchedForall{\ECMV}{\MTMV}
@@ -179,10 +179,10 @@ straightforwardly derived from the original rules. \\
     \tvarCtxTypeMarkedInto{\tvarCtx}{\TVarMV}{\MTVarMV}
   }
 
-  \inferrule[MKTUnbound]{
+  \inferrule[MKTFree]{
     \notInTvarCtx{\tvarCtx}{\TVarMV}
   }{
-    \tvarCtxTypeMarkedInto{\tvarCtx}{\TVarMV}{\MTUnbound{\MTVarMV}}
+    \tvarCtxTypeMarkedInto{\tvarCtx}{\TVarMV}{\MTFree{\MTVarMV}}
   }
 \end{mathpar}
 
@@ -205,16 +205,16 @@ straightforwardly derived from the original rules. \\
     \tvarCtxConsistentM{\tvarCtx}{\MTVarMV}{\MTVarMV}
   }
 
-  \inferrule[MTCUnbound1]{
+  \inferrule[MTCFree1]{
     \notInTvarCtx{\tvarCtx}{\MTVarMV}
   }{
-    \tvarCtxConsistentM{\tvarCtx}{\MTUnbound{\MTVarMV}}{\MTMV}
+    \tvarCtxConsistentM{\tvarCtx}{\MTFree{\MTVarMV}}{\MTMV}
   }
 
-  \inferrule[MTCUnbound2]{
+  \inferrule[MTCFree2]{
     \notInTvarCtx{\tvarCtx}{\MTVarMV}
   }{
-    \tvarCtxConsistentM{\tvarCtx}{\MTMV}{\MTUnbound{\MTVarMV}}
+    \tvarCtxConsistentM{\tvarCtx}{\MTMV}{\MTFree{\MTVarMV}}
   }
 \end{mathpar}
 
@@ -259,10 +259,10 @@ straightforwardly derived from the original rules. \\
     \tvarCtxWFM{\tvarCtx}{\MTVarMV}
   }
 
-  \inferrule[MTWFUnbound]{
+  \inferrule[MTWFFree]{
     \notInTvarCtx{\tvarCtx}{\MTVarMV}
   }{
-    \tvarCtxWFM{\tvarCtx}{\MTUnbound{\MTVarMV}}
+    \tvarCtxWFM{\tvarCtx}{\MTFree{\MTVarMV}}
   }
 \end{mathpar}
 
@@ -277,8 +277,8 @@ straightforwardly derived from the original rules. \\
     \matchedForall{\MTForall{\MTVarMV}{\MTMV}}{\MTVarMV}{\MTMV}
   }
 
-  \inferrule[MTMFUnbound]{ }{
-    \matchedForall{\MTUnbound{\MTVarMV}}{\MTVarMV}{\MTUnknown}
+  \inferrule[MTMFFree]{ }{
+    \matchedForall{\MTFree{\MTVarMV}}{\MTVarMV}{\MTUnknown}
   }
 \end{mathpar}
 
@@ -288,8 +288,8 @@ straightforwardly derived from the original rules. \\
   & \vdots & \\
   \meetsToRow{(\MTForall{\MTVarMV}{\MTMV})}{(\MTForall{\MTVarMV}{\MTMV'})}{\MTForall{\MTVarMV}{(\MTMeet{\MTMV}{\MTMV'})}} \\
   \meetsToRow{\MTVarMV}{\MTVarMV}{\MTVarMV} \\
-  \meetsToRow{\MTUnbound{\MTVarMV}}{\MTMV}{\MTUnbound{\MTVarMV}} \\
-  \meetsToRow{\MTMV}{\MTUnbound{\MTVarMV}}{\MTUnbound{\MTVarMV}} \\
+  \meetsToRow{\MTFree{\MTVarMV}}{\MTMV}{\MTFree{\MTVarMV}} \\
+  \meetsToRow{\MTMV}{\MTFree{\MTVarMV}}{\MTFree{\MTVarMV}} \\
 \end{array}\]
 
 \judgbox{\ensuremath{\subst{\MTMV_1}{\MTMV_2}{\MTVarMV}}} is a metafunction defined as follows:
@@ -304,7 +304,7 @@ straightforwardly derived from the original rules. \\
   \substToRow{(\MTForall{\MTVarMV'}{\MTMV'})}{\MTMV}{\MTVarMV}{\MTForall{\MTVarMV'}{(\subst{\MTMV'}{\MTMV}{\MTVarMV})}} & \notEqual{\MTVarMV}{\MTVarMV'} \\
   \substToRow{\MTVarMV'}{\MTMV}{\MTVarMV}{\MTMV} & \equal{\MTVarMV}{\MTVarMV'} \\
   \substToRow{\MTVarMV'}{\MTMV}{\MTVarMV}{\MTVarMV'} & \notEqual{\MTVarMV}{\MTVarMV'} \\
-  \substToRow{\MTUnbound{\MTVarMV'}}{\MTMV}{\MTVarMV}{\MTUnbound{\MTVarMV'}}
+  \substToRow{\MTFree{\MTVarMV'}}{\MTMV}{\MTVarMV}{\MTFree{\MTVarMV'}}
 \end{array}\]
 
 \judgbox{\ensuremath{\markless{\MTMV}}} $\MTMV$ has no marks
@@ -360,7 +360,7 @@ straightforwardly derived from the original rules. \\
   \erasesToRow{(\MTProd{\MTMV_1}{\MTMV_2})}{\MTProd{(\erase{\MTMV_1})}{(\erase{\MTMV_2})}} \\
   \erasesToRow{(\MTForall{\MTVarMV}{\MTMV})}{\TForall{\TVarMV}{(\erase{\MTMV})}} \\
   \erasesToRow{\MTVarMV}{\TVarMV} \\
-  \erasesToRow{\MTUnbound{\MTVarMV}}{\TVarMV}
+  \erasesToRow{\MTFree{\MTVarMV}}{\TVarMV}
 \end{array}\]
 
 \subsection{Unmarked expressions}
