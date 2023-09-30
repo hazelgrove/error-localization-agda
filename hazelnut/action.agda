@@ -68,40 +68,40 @@ module hazelnut.action where
 
     data _eshape : Shape → Set where
       ASortVar   : (x : Var)
-              → (var x) eshape
+                 → (var x) eshape
       ASortLam   : (x : Var)
-              → (lam x) eshape
+                 → (lam x) eshape
       ASortAp₁   : (u : Hole)
-              → (ap₁ u) eshape
+                 → (ap₁ u) eshape
       ASortAp₂   : (u : Hole)
-              → (ap₂ u) eshape
+                 → (ap₂ u) eshape
       ASortLet₁  : (x : Var)
-              → (u : Hole)
-              → (let₁ x u) eshape
+                 → (u : Hole)
+                 → (let₁ x u) eshape
       ASortLet₂  : (x : Var)
-              → (u : Hole)
-              → (let₂ x u) eshape
+                 → (u : Hole)
+                 → (let₂ x u) eshape
       ASortNum   : (n : ℕ)
-              → (num n) eshape
+                 → (num n) eshape
       ASortPlus₁ : (u : Hole)
-              → (plus₁ u) eshape
+                 → (plus₁ u) eshape
       ASortPlus₂ : (u : Hole)
-              → (plus₂ u) eshape
+                 → (plus₂ u) eshape
       ASortTrue  : tt eshape
       ASortFalse : ff eshape
       ASortIf₁   : (u₁ : Hole)
-              → (u₂ : Hole)
-              → (if₁ u₁ u₂) eshape
+                 → (u₂ : Hole)
+                 → (if₁ u₁ u₂) eshape
       ASortIf₂   : (u₁ : Hole)
-              → (u₂ : Hole)
-              → (if₂ u₁ u₂) eshape
+                 → (u₂ : Hole)
+                 → (if₂ u₁ u₂) eshape
       ASortIf₃   : (u₁ : Hole)
-              → (u₂ : Hole)
-              → (if₃ u₁ u₂) eshape
+                 → (u₂ : Hole)
+                 → (if₃ u₁ u₂) eshape
       ASortPair₁ : (u : Hole)
-              → (pair₁ u) eshape
+                 → (pair₁ u) eshape
       ASortPair₂ : (u : Hole)
-              → (pair₂ u) eshape
+                 → (pair₂ u) eshape
       ASortProjL : projl eshape
       ASortProjR : projr eshape
 

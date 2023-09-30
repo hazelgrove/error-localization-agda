@@ -29,19 +29,19 @@ module hazelnut.untyped.determinism where
   determinism-τ ATConBool           ATConBool      = refl
   determinism-τ (ATZipArr1 ())      ATMArrParent1
   determinism-τ (ATZipArr1 τ^+>τ^′) (ATZipArr1 τ^+>τ^″)
-    rewrite determinism-τ τ^+>τ^′ τ^+>τ^″        = refl
+    rewrite determinism-τ τ^+>τ^′ τ^+>τ^″          = refl
   determinism-τ (ATZipArr2 τ^+>τ^′) (ATZipArr2 τ^+>τ^″)
-    rewrite determinism-τ τ^+>τ^′ τ^+>τ^″        = refl
+    rewrite determinism-τ τ^+>τ^′ τ^+>τ^″          = refl
   determinism-τ (ATZipProd1 τ^+>τ^′) (ATZipProd1 τ^+>τ^″)
-    rewrite determinism-τ τ^+>τ^′ τ^+>τ^″        = refl
+    rewrite determinism-τ τ^+>τ^′ τ^+>τ^″          = refl
   determinism-τ (ATZipProd2 τ^+>τ^′) (ATZipProd2 τ^+>τ^″)
-    rewrite determinism-τ τ^+>τ^′ τ^+>τ^″        = refl
+    rewrite determinism-τ τ^+>τ^′ τ^+>τ^″          = refl
 
   determinism*-τ : ∀ {τ^ τ^′ τ^″ ᾱ} → τ^ + ᾱ +τ>* τ^′ → τ^ + ᾱ +τ>* τ^″ → τ^′ ≡ τ^″
   determinism*-τ ATIRefl                     ATIRefl = refl
   determinism*-τ (ATITyp τ₁^+>τ₂^ τ₂^+>*τ₃^) (ATITyp τ₁^+>τ₂^′ τ₂^+>*τ₃^′)
     rewrite determinism-τ τ₁^+>τ₂^ τ₁^+>τ₂^′
-    rewrite determinism*-τ τ₂^+>*τ₃^ τ₂^+>*τ₃^′    = refl
+    rewrite determinism*-τ τ₂^+>*τ₃^ τ₂^+>*τ₃^′      = refl
 
   determinism-e : ∀ {ê ê′ ê″ α} → ê + α +e> ê′ → ê + α +e> ê″ → ê′ ≡ ê″
   determinism-e AEMLamChild1        AEMLamChild1   = refl
@@ -94,38 +94,38 @@ module hazelnut.untyped.determinism where
   determinism-e AEConProjL          AEConProjL     = refl
   determinism-e AEConProjR          AEConProjR     = refl
   determinism-e (AEZipLam1 τ^+>τ^′) (AEZipLam1 τ^+>τ^″)
-    rewrite determinism-τ τ^+>τ^′ τ^+>τ^″        = refl
+    rewrite determinism-τ τ^+>τ^′ τ^+>τ^″          = refl
   determinism-e (AEZipLam2 ê+>ê′)   (AEZipLam2 ê+>ê″)
-    rewrite determinism-e ê+>ê′ ê+>ê″            = refl
+    rewrite determinism-e ê+>ê′ ê+>ê″              = refl
   determinism-e (AEZipAp1 ê+>ê′)    (AEZipAp1 ê+>ê″)
-    rewrite determinism-e ê+>ê′ ê+>ê″            = refl
+    rewrite determinism-e ê+>ê′ ê+>ê″              = refl
   determinism-e (AEZipAp2 ê+>ê′)    (AEZipAp2 ê+>ê″)
-    rewrite determinism-e ê+>ê′ ê+>ê″            = refl
+    rewrite determinism-e ê+>ê′ ê+>ê″              = refl
   determinism-e (AEZipLet1 ê+>ê′)   (AEZipLet1 ê+>ê″)
-    rewrite determinism-e ê+>ê′ ê+>ê″            = refl
+    rewrite determinism-e ê+>ê′ ê+>ê″              = refl
   determinism-e (AEZipLet2 ê+>ê′)   (AEZipLet2 ê+>ê″)
-    rewrite determinism-e ê+>ê′ ê+>ê″            = refl
+    rewrite determinism-e ê+>ê′ ê+>ê″              = refl
   determinism-e (AEZipPlus1 ê+>ê′)  (AEZipPlus1 ê+>ê″)
-    rewrite determinism-e ê+>ê′ ê+>ê″            = refl
+    rewrite determinism-e ê+>ê′ ê+>ê″              = refl
   determinism-e (AEZipPlus2 ê+>ê′)  (AEZipPlus2 ê+>ê″)
-    rewrite determinism-e ê+>ê′ ê+>ê″            = refl
+    rewrite determinism-e ê+>ê′ ê+>ê″              = refl
   determinism-e (AEZipIf1 ê+>ê′)    (AEZipIf1 ê+>ê″)
-    rewrite determinism-e ê+>ê′ ê+>ê″            = refl
+    rewrite determinism-e ê+>ê′ ê+>ê″              = refl
   determinism-e (AEZipIf2 ê+>ê′)    (AEZipIf2 ê+>ê″)
-    rewrite determinism-e ê+>ê′ ê+>ê″            = refl
+    rewrite determinism-e ê+>ê′ ê+>ê″              = refl
   determinism-e (AEZipIf3 ê+>ê′)    (AEZipIf3 ê+>ê″)
-    rewrite determinism-e ê+>ê′ ê+>ê″            = refl
+    rewrite determinism-e ê+>ê′ ê+>ê″              = refl
   determinism-e (AEZipPair1 ê+>ê′)  (AEZipPair1 ê+>ê″)
-    rewrite determinism-e ê+>ê′ ê+>ê″            = refl
+    rewrite determinism-e ê+>ê′ ê+>ê″              = refl
   determinism-e (AEZipPair2 ê+>ê′)  (AEZipPair2 ê+>ê″)
-    rewrite determinism-e ê+>ê′ ê+>ê″            = refl
+    rewrite determinism-e ê+>ê′ ê+>ê″              = refl
   determinism-e (AEZipProjL ê+>ê′)  (AEZipProjL ê+>ê″)
-    rewrite determinism-e ê+>ê′ ê+>ê″            = refl
+    rewrite determinism-e ê+>ê′ ê+>ê″              = refl
   determinism-e (AEZipProjR ê+>ê′)  (AEZipProjR ê+>ê″)
-    rewrite determinism-e ê+>ê′ ê+>ê″            = refl
+    rewrite determinism-e ê+>ê′ ê+>ê″              = refl
 
   determinism*-e : ∀ {ê ê′ ê″ ᾱ} → ê + ᾱ +e>* ê′ → ê + ᾱ +e>* ê″ → ê′ ≡ ê″
   determinism*-e AEIRefl                 AEIRefl = refl
   determinism*-e (AEIExp ê₁+>ê₂ ê₂+>*ê₃) (AEIExp ê₁+>ê₂′ ê₂+>*ê₃′)
     rewrite determinism-e ê₁+>ê₂ ê₁+>ê₂′
-    rewrite determinism*-e ê₂+>*ê₃ ê₂+>*ê₃′    = refl
+    rewrite determinism*-e ê₂+>*ê₃ ê₂+>*ê₃′      = refl

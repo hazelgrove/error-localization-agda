@@ -58,32 +58,32 @@ module hazelnut.untyped.action where
   -- expression actions
   data _+_+e>_ : (ê : ZExp) → (α : Action) → (ê′ : ZExp) → Set where
     -- movement
-    AEMLamChild1  : ∀ {x τ e}
-                  → ‵▹ ‵λ x ∶ τ ∙ e ◃ + move (child 1) +e> (‵λ₁ x ∶ ▹ τ ◃ ∙ e)
-    AEMLamChild2  : ∀ {x τ e}
-                  → ‵▹ ‵λ x ∶ τ ∙ e ◃ + move (child 2) +e> (‵λ₂ x ∶ τ ∙ ‵▹ e ◃)
-    AEMLamParent1 : ∀ {x τ e}
-                  → (‵λ₁ x ∶ ▹ τ ◃ ∙ e) + move parent +e> ‵▹ ‵λ x ∶ τ ∙ e ◃
-    AEMLamParent2 : ∀ {x τ e}
-                  → (‵λ₂ x ∶ τ ∙ ‵▹ e ◃) + move parent +e> ‵▹ ‵λ x ∶ τ ∙ e ◃
+    AEMLamChild1   : ∀ {x τ e}
+                   → ‵▹ ‵λ x ∶ τ ∙ e ◃ + move (child 1) +e> (‵λ₁ x ∶ ▹ τ ◃ ∙ e)
+    AEMLamChild2   : ∀ {x τ e}
+                   → ‵▹ ‵λ x ∶ τ ∙ e ◃ + move (child 2) +e> (‵λ₂ x ∶ τ ∙ ‵▹ e ◃)
+    AEMLamParent1  : ∀ {x τ e}
+                   → (‵λ₁ x ∶ ▹ τ ◃ ∙ e) + move parent +e> ‵▹ ‵λ x ∶ τ ∙ e ◃
+    AEMLamParent2  : ∀ {x τ e}
+                   → (‵λ₂ x ∶ τ ∙ ‵▹ e ◃) + move parent +e> ‵▹ ‵λ x ∶ τ ∙ e ◃
 
-    AEMApChild1  : ∀ {e₁ e₂}
-                 → ‵▹ ‵ e₁ ∙ e₂ ◃ + move (child 1) +e> (‵ ‵▹ e₁ ◃ ∙₁ e₂)
-    AEMApChild2  : ∀ {e₁ e₂}
-                 → ‵▹ ‵ e₁ ∙ e₂ ◃ + move (child 2) +e> (‵ e₁ ∙₂ ‵▹ e₂ ◃)
-    AEMApParent1 : ∀ {e₁ e₂}
-                 → (‵ ‵▹ e₁ ◃ ∙₁ e₂) + move parent +e> ‵▹ ‵ e₁ ∙ e₂ ◃
-    AEMApParent2 : ∀ {e₁ e₂}
-                 → (‵ e₁ ∙₂ ‵▹ e₂ ◃) + move parent +e> ‵▹ ‵ e₁ ∙ e₂ ◃
+    AEMApChild1    : ∀ {e₁ e₂}
+                   → ‵▹ ‵ e₁ ∙ e₂ ◃ + move (child 1) +e> (‵ ‵▹ e₁ ◃ ∙₁ e₂)
+    AEMApChild2    : ∀ {e₁ e₂}
+                   → ‵▹ ‵ e₁ ∙ e₂ ◃ + move (child 2) +e> (‵ e₁ ∙₂ ‵▹ e₂ ◃)
+    AEMApParent1   : ∀ {e₁ e₂}
+                   → (‵ ‵▹ e₁ ◃ ∙₁ e₂) + move parent +e> ‵▹ ‵ e₁ ∙ e₂ ◃
+    AEMApParent2   : ∀ {e₁ e₂}
+                   → (‵ e₁ ∙₂ ‵▹ e₂ ◃) + move parent +e> ‵▹ ‵ e₁ ∙ e₂ ◃
 
-    AEMLetChild1  : ∀ {x e₁ e₂}
-                  → ‵▹ ‵ x ← e₁ ∙ e₂ ◃ + move (child 1) +e> (‵ x ←₁ ‵▹ e₁ ◃ ∙ e₂)
-    AEMLetChild2  : ∀ {x e₁ e₂}
-                  → ‵▹ ‵ x ← e₁ ∙ e₂ ◃ + move (child 2) +e> (‵ x ←₂ e₁ ∙ ‵▹ e₂ ◃)
-    AEMLetParent1 : ∀ {x e₁ e₂}
-                  → (‵ x ←₁ ‵▹ e₁ ◃ ∙ e₂) + move parent +e> ‵▹ ‵ x ← e₁ ∙ e₂ ◃
-    AEMLetParent2 : ∀ {x e₁ e₂}
-                  → (‵ x ←₂ e₁ ∙ ‵▹ e₂ ◃) + move parent +e> ‵▹ ‵ x ← e₁ ∙ e₂ ◃
+    AEMLetChild1   : ∀ {x e₁ e₂}
+                   → ‵▹ ‵ x ← e₁ ∙ e₂ ◃ + move (child 1) +e> (‵ x ←₁ ‵▹ e₁ ◃ ∙ e₂)
+    AEMLetChild2   : ∀ {x e₁ e₂}
+                   → ‵▹ ‵ x ← e₁ ∙ e₂ ◃ + move (child 2) +e> (‵ x ←₂ e₁ ∙ ‵▹ e₂ ◃)
+    AEMLetParent1  : ∀ {x e₁ e₂}
+                   → (‵ x ←₁ ‵▹ e₁ ◃ ∙ e₂) + move parent +e> ‵▹ ‵ x ← e₁ ∙ e₂ ◃
+    AEMLetParent2  : ∀ {x e₁ e₂}
+                   → (‵ x ←₂ e₁ ∙ ‵▹ e₂ ◃) + move parent +e> ‵▹ ‵ x ← e₁ ∙ e₂ ◃
 
     AEMPlusChild1  : ∀ {e₁ e₂}
                    → ‵▹ ‵ e₁ + e₂ ◃ + move (child 1) +e> (‵ ‵▹ e₁ ◃ +₁ e₂)
@@ -94,36 +94,36 @@ module hazelnut.untyped.action where
     AEMPlusParent2 : ∀ {e₁ e₂}
                    → (‵ e₁ +₂ ‵▹ e₂ ◃) + move parent +e> ‵▹ ‵ e₁ + e₂ ◃
 
-    AEMIfChild1  : ∀ {e₁ e₂ e₃}
-                 → ‵▹ ‵ e₁ ∙ e₂ ∙ e₃ ◃ + move (child 1) +e> (‵ ‵▹ e₁ ◃ ∙₁ e₂ ∙ e₃)
-    AEMIfChild2  : ∀ {e₁ e₂ e₃}
-                 → ‵▹ ‵ e₁ ∙ e₂ ∙ e₃ ◃ + move (child 2) +e> (‵ e₁ ∙₂ ‵▹ e₂ ◃ ∙ e₃)
-    AEMIfChild3  : ∀ {e₁ e₂ e₃}
-                 → ‵▹ ‵ e₁ ∙ e₂ ∙ e₃ ◃ + move (child 3) +e> (‵ e₁ ∙₃ e₂ ∙ ‵▹ e₃ ◃)
-    AEMIfParent1 : ∀ {e₁ e₂ e₃}
-                 → (‵ ‵▹ e₁ ◃ ∙₁ e₂ ∙ e₃) + move parent +e> ‵▹ ‵ e₁ ∙ e₂ ∙ e₃ ◃
-    AEMIfParent2 : ∀ {e₁ e₂ e₃}
-                 → (‵ e₁ ∙₂ ‵▹ e₂ ◃ ∙ e₃) + move parent +e> ‵▹ ‵ e₁ ∙ e₂ ∙ e₃ ◃
-    AEMIfParent3 : ∀ {e₁ e₂ e₃}
-                 → (‵ e₁ ∙₃ e₂ ∙ ‵▹ e₃ ◃) + move parent +e> ‵▹ ‵ e₁ ∙ e₂ ∙ e₃ ◃
+    AEMIfChild1    : ∀ {e₁ e₂ e₃}
+                   → ‵▹ ‵ e₁ ∙ e₂ ∙ e₃ ◃ + move (child 1) +e> (‵ ‵▹ e₁ ◃ ∙₁ e₂ ∙ e₃)
+    AEMIfChild2    : ∀ {e₁ e₂ e₃}
+                   → ‵▹ ‵ e₁ ∙ e₂ ∙ e₃ ◃ + move (child 2) +e> (‵ e₁ ∙₂ ‵▹ e₂ ◃ ∙ e₃)
+    AEMIfChild3    : ∀ {e₁ e₂ e₃}
+                   → ‵▹ ‵ e₁ ∙ e₂ ∙ e₃ ◃ + move (child 3) +e> (‵ e₁ ∙₃ e₂ ∙ ‵▹ e₃ ◃)
+    AEMIfParent1   : ∀ {e₁ e₂ e₃}
+                   → (‵ ‵▹ e₁ ◃ ∙₁ e₂ ∙ e₃) + move parent +e> ‵▹ ‵ e₁ ∙ e₂ ∙ e₃ ◃
+    AEMIfParent2   : ∀ {e₁ e₂ e₃}
+                   → (‵ e₁ ∙₂ ‵▹ e₂ ◃ ∙ e₃) + move parent +e> ‵▹ ‵ e₁ ∙ e₂ ∙ e₃ ◃
+    AEMIfParent3   : ∀ {e₁ e₂ e₃}
+                   → (‵ e₁ ∙₃ e₂ ∙ ‵▹ e₃ ◃) + move parent +e> ‵▹ ‵ e₁ ∙ e₂ ∙ e₃ ◃
 
-    AEMPairChild1 : ∀ {e₁ e₂}
-                  → ‵▹ ‵⟨ e₁ , e₂ ⟩ ◃ + move (child 1) +e> ‵⟨ ‵▹ e₁ ◃ ,₁ e₂ ⟩
-    AEMPairChild2 : ∀ {e₁ e₂}
-                  → ‵▹ ‵⟨ e₁ , e₂ ⟩ ◃ + move (child 2) +e> ‵⟨ e₁ ,₂ ‵▹ e₂ ◃ ⟩
+    AEMPairChild1  : ∀ {e₁ e₂}
+                   → ‵▹ ‵⟨ e₁ , e₂ ⟩ ◃ + move (child 1) +e> ‵⟨ ‵▹ e₁ ◃ ,₁ e₂ ⟩
+    AEMPairChild2  : ∀ {e₁ e₂}
+                   → ‵▹ ‵⟨ e₁ , e₂ ⟩ ◃ + move (child 2) +e> ‵⟨ e₁ ,₂ ‵▹ e₂ ◃ ⟩
     AEMPairParent1 : ∀ {e₁ e₂}
-                  → ‵⟨ ‵▹ e₁ ◃ ,₁ e₂ ⟩ + move parent +e> ‵▹ ‵⟨ e₁ , e₂ ⟩ ◃
+                   → ‵⟨ ‵▹ e₁ ◃ ,₁ e₂ ⟩ + move parent +e> ‵▹ ‵⟨ e₁ , e₂ ⟩ ◃
     AEMPairParent2 : ∀ {e₁ e₂}
-                  → ‵⟨ e₁ ,₂ ‵▹ e₂ ◃ ⟩ + move parent +e> ‵▹ ‵⟨ e₁ , e₂ ⟩ ◃
+                   → ‵⟨ e₁ ,₂ ‵▹ e₂ ◃ ⟩ + move parent +e> ‵▹ ‵⟨ e₁ , e₂ ⟩ ◃
 
-    AEMProjLChild : ∀ {e}
-                  → ‵▹ ‵π₁ e ◃ + move (child 1) +e> (‵π₁ ‵▹ e ◃)
+    AEMProjLChild  : ∀ {e}
+                   → ‵▹ ‵π₁ e ◃ + move (child 1) +e> (‵π₁ ‵▹ e ◃)
     AEMProjLParent : ∀ {e}
-                  → (‵π₁ ‵▹ e ◃) + move parent +e> ‵▹ ‵π₁ e ◃
-    AEMProjRChild : ∀ {e}
-                  → ‵▹ ‵π₂ e ◃ + move (child 1) +e> (‵π₂ ‵▹ e ◃)
+                   → (‵π₁ ‵▹ e ◃) + move parent +e> ‵▹ ‵π₁ e ◃
+    AEMProjRChild  : ∀ {e}
+                   → ‵▹ ‵π₂ e ◃ + move (child 1) +e> (‵π₂ ‵▹ e ◃)
     AEMProjRParent : ∀ {e}
-                  → (‵π₂ ‵▹ e ◃) + move parent +e> ‵▹ ‵π₂ e ◃
+                   → (‵π₂ ‵▹ e ◃) + move parent +e> ‵▹ ‵π₂ e ◃
 
     -- deletion
     AEDel : ∀ {e u}

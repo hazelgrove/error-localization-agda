@@ -9,9 +9,9 @@ open import hazelnut.untyped.erasure
 module hazelnut.untyped.constructability where
   -- constructability of types
   constructability-τ : (τ : Typ) → ∃[ ᾱ ] ▹ unknown ◃ + ᾱ +τ>* ▹ τ ◃
-  constructability-τ num = ⟨ ∣[ construct tnum ] , ATITyp ATConNum ATIRefl ⟩
-  constructability-τ bool = ⟨ ∣[ construct tbool ] , ATITyp ATConBool ATIRefl ⟩
-  constructability-τ unknown = ⟨ [] , ATIRefl ⟩
+  constructability-τ num     = ⟨ ∣[ construct tnum ]  , ATITyp ATConNum ATIRefl  ⟩
+  constructability-τ bool    = ⟨ ∣[ construct tbool ] , ATITyp ATConBool ATIRefl ⟩
+  constructability-τ unknown = ⟨ []                   , ATIRefl                  ⟩
   constructability-τ (τ₁ -→ τ₂)
     with ⟨ ᾱ₁ , +>*τ₁ ⟩ ← constructability-τ τ₁
        | ⟨ ᾱ₂ , +>*τ₂ ⟩ ← constructability-τ τ₂
@@ -28,8 +28,8 @@ module hazelnut.untyped.constructability where
 
   -- constructability of expressions
   constructability-e : ∀ {u} → (e : UExp) → ∃[ ᾱ ] ‵▹ ‵⦇-⦈^ u ◃ + ᾱ +e>* ‵▹ e ◃
-  constructability-e (‵⦇-⦈^ u) = ⟨ ∣[ del _ ] , AEIExp AEDel AEIRefl ⟩
-  constructability-e (‵ x) = ⟨ ∣[ construct (var x) ] , AEIExp AEConVar AEIRefl ⟩
+  constructability-e (‵⦇-⦈^ u) = ⟨ ∣[ del _ ]             , AEIExp AEDel AEIRefl    ⟩
+  constructability-e (‵ x)     = ⟨ ∣[ construct (var x) ] , AEIExp AEConVar AEIRefl ⟩
   constructability-e (‵λ x ∶ τ ∙ e)
     with ⟨ ᾱ₁ , +>*e ⟩ ← constructability-e e
        | ⟨ ᾱ₂ , +>*τ ⟩ ← constructability-τ τ

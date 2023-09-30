@@ -9,9 +9,9 @@ module marking.wellformed where
     ↬⇒□ : ∀ {Γ : Ctx} {e : UExp} {τ : Typ} {ě : Γ ⊢⇒ τ}
         → Γ ⊢ e ↬⇒ ě
         → ě ⇒□ ≡ e
-    ↬⇒□ MKSHole           = refl
-    ↬⇒□ (MKSVar ∋x)       = refl
-    ↬⇒□ (MKSFree ∌x)   = refl
+    ↬⇒□ MKSHole          = refl
+    ↬⇒□ (MKSVar ∋x)      = refl
+    ↬⇒□ (MKSFree ∌x)     = refl
     ↬⇒□ (MKSLam e↬⇒ě)
       rewrite ↬⇒□ e↬⇒ě   = refl
     ↬⇒□ (MKSAp1 e₁↬⇒ě₁ τ▸ e₂↬⇐ě₂)
@@ -23,12 +23,12 @@ module marking.wellformed where
     ↬⇒□ (MKSLet e₁↬⇒ě₁ e₂↬⇒ě₂)
       rewrite ↬⇒□ e₁↬⇒ě₁
             | ↬⇒□ e₂↬⇒ě₂ = refl
-    ↬⇒□ MKSNum            = refl
+    ↬⇒□ MKSNum           = refl
     ↬⇒□ (MKSPlus e₁↬⇐ě₁ e₂↬⇐ě₂)
       rewrite ↬⇐□ e₁↬⇐ě₁
             | ↬⇐□ e₂↬⇐ě₂ = refl
-    ↬⇒□ MKSTrue           = refl
-    ↬⇒□ MKSFalse          = refl
+    ↬⇒□ MKSTrue          = refl
+    ↬⇒□ MKSFalse         = refl
     ↬⇒□ (MKSIf e₁↬⇐ě₁ e₂↬⇒ě₂ e₃↬⇒ě₃ τ₁⊔τ₂)
       rewrite ↬⇐□ e₁↬⇐ě₁
             | ↬⇒□ e₂↬⇒ě₂
@@ -41,13 +41,13 @@ module marking.wellformed where
       rewrite ↬⇒□ e₁↬⇒ě₁
             | ↬⇒□ e₂↬⇒ě₂ = refl
     ↬⇒□ (MKSProjL1 e↬⇒ě τ▸)
-      rewrite ↬⇒□ e↬⇒ě = refl
+      rewrite ↬⇒□ e↬⇒ě   = refl
     ↬⇒□ (MKSProjL2 e↬⇒ě τ!▸)
-      rewrite ↬⇒□ e↬⇒ě = refl
+      rewrite ↬⇒□ e↬⇒ě   = refl
     ↬⇒□ (MKSProjR1 e↬⇒ě τ▸)
-      rewrite ↬⇒□ e↬⇒ě = refl
+      rewrite ↬⇒□ e↬⇒ě   = refl
     ↬⇒□ (MKSProjR2 e↬⇒ě τ!▸)
-      rewrite ↬⇒□ e↬⇒ě = refl
+      rewrite ↬⇒□ e↬⇒ě   = refl
 
     ↬⇐□ : ∀ {Γ : Ctx} {e : UExp} {τ : Typ} {ě : Γ ⊢⇐ τ}
         → Γ ⊢ e ↬⇐ ě
@@ -81,50 +81,50 @@ module marking.wellformed where
     ⇒τ→↬⇒τ : ∀ {Γ : Ctx} {e : UExp} {τ : Typ}
            → Γ ⊢ e ⇒ τ
            → Σ[ ě ∈ Γ ⊢⇒ τ ] Γ ⊢ e ↬⇒ ě
-    ⇒τ→↬⇒τ {e = ‵⦇-⦈^ u} USHole            = ⟨ ⊢⦇-⦈^ u , MKSHole ⟩
-    ⇒τ→↬⇒τ {e = ‵ x} (USVar ∋x)            = ⟨ ⊢ ∋x , MKSVar ∋x ⟩
-    ⇒τ→↬⇒τ {e = ‵λ x ∶ τ ∙ e} (USLam e⇒τ)
+    ⇒τ→↬⇒τ {e = ‵⦇-⦈^ u}        USHole     = ⟨ ⊢⦇-⦈^ u , MKSHole ⟩
+    ⇒τ→↬⇒τ {e = ‵ x}            (USVar ∋x) = ⟨ ⊢ ∋x , MKSVar ∋x ⟩
+    ⇒τ→↬⇒τ {e = ‵λ x ∶ τ ∙ e}   (USLam e⇒τ)
       with ⟨ ě  , e↬⇒ě   ⟩ ← ⇒τ→↬⇒τ e⇒τ    = ⟨ ⊢λ x ∶ τ ∙ ě , MKSLam e↬⇒ě ⟩
     ⇒τ→↬⇒τ {e = ‵ e₁ ∙ e₂} (USAp e₁⇒τ τ▸ e₂⇐τ₂)
       with ⟨ ě₁ , e₁↬⇒ě₁ ⟩ ← ⇒τ→↬⇒τ e₁⇒τ
          | ⟨ ě₂ , e₂↬⇐ě₂ ⟩ ← ⇐τ→↬⇐τ e₂⇐τ₂  = ⟨ ⊢ ě₁ ∙ ě₂ [ τ▸ ] , MKSAp1 e₁↬⇒ě₁ τ▸ e₂↬⇐ě₂ ⟩
-    ⇒τ→↬⇒τ {e = ‵ x ← e₁ ∙ e₂} (USLet e₁⇒τ e₂⇒τ₂)
+    ⇒τ→↬⇒τ {e = ‵ x ← e₁ ∙ e₂}  (USLet e₁⇒τ e₂⇒τ₂)
       with ⟨ ě₁ , e₁↬⇒ě₁ ⟩ ← ⇒τ→↬⇒τ e₁⇒τ
          | ⟨ ě₂ , e₂↬⇒ě₂ ⟩ ← ⇒τ→↬⇒τ e₂⇒τ₂  = ⟨ ⊢ x ← ě₁ ∙ ě₂ , MKSLet e₁↬⇒ě₁ e₂↬⇒ě₂ ⟩
-    ⇒τ→↬⇒τ {e = ‵ℕ n} USNum                = ⟨ ⊢ℕ n , MKSNum ⟩
-    ⇒τ→↬⇒τ {e = ‵ e₁ + e₂} (USPlus e₁⇐num e₂⇐num)
+    ⇒τ→↬⇒τ {e = ‵ℕ n}           USNum      = ⟨ ⊢ℕ n , MKSNum ⟩
+    ⇒τ→↬⇒τ {e = ‵ e₁ + e₂}      (USPlus e₁⇐num e₂⇐num)
       with ⟨ ě₁ , e₁↬⇐ě₁ ⟩ ← ⇐τ→↬⇐τ e₁⇐num
          | ⟨ ě₂ , e₂↬⇐ě₂ ⟩ ← ⇐τ→↬⇐τ e₂⇐num = ⟨ ⊢ ě₁ + ě₂ , MKSPlus e₁↬⇐ě₁ e₂↬⇐ě₂ ⟩
-    ⇒τ→↬⇒τ {e = ‵tt} USTrue                = ⟨ ⊢tt , MKSTrue ⟩
-    ⇒τ→↬⇒τ {e = ‵ff} USFalse               = ⟨ ⊢ff , MKSFalse ⟩
+    ⇒τ→↬⇒τ {e = ‵tt}            USTrue     = ⟨ ⊢tt , MKSTrue ⟩
+    ⇒τ→↬⇒τ {e = ‵ff}            USFalse    = ⟨ ⊢ff , MKSFalse ⟩
     ⇒τ→↬⇒τ {e = ‵ e₁ ∙ e₂ ∙ e₃} (USIf e₁⇐bool e₂⇒τ₁ e₃⇒τ₂ τ₁⊔τ₂)
       with ⟨ ě₁ , e₁↬⇐ě₁ ⟩ ← ⇐τ→↬⇐τ e₁⇐bool
          | ⟨ ě₂ , e₂↬⇒ě₂ ⟩ ← ⇒τ→↬⇒τ e₂⇒τ₁
          | ⟨ ě₃ , e₃↬⇒ě₃ ⟩ ← ⇒τ→↬⇒τ e₃⇒τ₂  = ⟨ ⊢ ě₁ ∙ ě₂ ∙ ě₃ [ τ₁⊔τ₂ ] , MKSIf e₁↬⇐ě₁ e₂↬⇒ě₂ e₃↬⇒ě₃ τ₁⊔τ₂ ⟩
-    ⇒τ→↬⇒τ {e = ‵⟨ e₁ , e₂ ⟩} (USPair e₁⇒τ₁ e₂⇒τ₂)
+    ⇒τ→↬⇒τ {e = ‵⟨ e₁ , e₂ ⟩}   (USPair e₁⇒τ₁ e₂⇒τ₂)
       with ⟨ ě₁ , e₁↬⇒ě₁ ⟩ ← ⇒τ→↬⇒τ e₁⇒τ₁
          | ⟨ ě₂ , e₂↬⇒ě₂ ⟩ ← ⇒τ→↬⇒τ e₂⇒τ₂  = ⟨ ⊢⟨ ě₁ , ě₂ ⟩ , MKSPair e₁↬⇒ě₁ e₂↬⇒ě₂ ⟩
-    ⇒τ→↬⇒τ {e = ‵π₁ e} (USProjL e⇒τ τ▸)
+    ⇒τ→↬⇒τ {e = ‵π₁ e}          (USProjL e⇒τ τ▸)
       with ⟨ ě , e↬⇒ě ⟩ ← ⇒τ→↬⇒τ e⇒τ       = ⟨ ⊢π₁ ě [ τ▸ ] , MKSProjL1 e↬⇒ě τ▸ ⟩
-    ⇒τ→↬⇒τ {e = ‵π₂ e} (USProjR e⇒τ τ▸)
+    ⇒τ→↬⇒τ {e = ‵π₂ e}          (USProjR e⇒τ τ▸)
       with ⟨ ě , e↬⇒ě ⟩ ← ⇒τ→↬⇒τ e⇒τ       = ⟨ ⊢π₂ ě [ τ▸ ] , MKSProjR1 e↬⇒ě τ▸ ⟩
 
     ⇐τ→↬⇐τ : ∀ {Γ : Ctx} {e : UExp} {τ : Typ}
            → Γ ⊢ e ⇐ τ
            → Σ[ ě ∈ Γ ⊢⇐ τ ] Γ ⊢ e ↬⇐ ě
-    ⇐τ→↬⇐τ {e = ‵λ x ∶ τ ∙ e} (UALam τ₃▸ τ~τ₁ e⇐τ₂)
+    ⇐τ→↬⇐τ {e = ‵λ x ∶ τ ∙ e}   (UALam τ₃▸ τ~τ₁ e⇐τ₂)
       with ⟨ ě , e↬⇐ě ⟩ ← ⇐τ→↬⇐τ e⇐τ₂     = ⟨ ⊢λ x ∶ τ ∙ ě [ τ₃▸ ∙ τ~τ₁ ] , MKALam1 τ₃▸ τ~τ₁ e↬⇐ě ⟩
-    ⇐τ→↬⇐τ {e = ‵ x ← e₁ ∙ e₂} (UALet e₁⇒τ e₂⇐τ₂)
+    ⇐τ→↬⇐τ {e = ‵ x ← e₁ ∙ e₂}  (UALet e₁⇒τ e₂⇐τ₂)
       with ⟨ ě₁ , e₁↬⇒ě₁ ⟩ ← ⇒τ→↬⇒τ e₁⇒τ
          | ⟨ ě₂ , e₂↬⇐ě₂ ⟩ ← ⇐τ→↬⇐τ e₂⇐τ₂ = ⟨ ⊢ x ← ě₁ ∙ ě₂ , MKALet e₁↬⇒ě₁ e₂↬⇐ě₂ ⟩
     ⇐τ→↬⇐τ {e = ‵ e₁ ∙ e₂ ∙ e₃} (UAIf e₁⇐τ e₂⇐τ₁ e₃⇐τ₂)
       with ⟨ ě₁ , e₁↬⇐ě₁ ⟩ ← ⇐τ→↬⇐τ e₁⇐τ
          | ⟨ ě₂ , e₂↬⇐ě₂ ⟩ ← ⇐τ→↬⇐τ e₂⇐τ₁
          | ⟨ ě₃ , e₃↬⇐ě₃ ⟩ ← ⇐τ→↬⇐τ e₃⇐τ₂ = ⟨ ⊢ ě₁ ∙ ě₂ ∙ ě₃ , MKAIf e₁↬⇐ě₁ e₂↬⇐ě₂ e₃↬⇐ě₃ ⟩
-    ⇐τ→↬⇐τ {e = ‵⟨ e₁ , e₂ ⟩} (UAPair τ▸ e₁⇐τ₁ e₂⇐τ₂)
+    ⇐τ→↬⇐τ {e = ‵⟨ e₁ , e₂ ⟩}   (UAPair τ▸ e₁⇐τ₁ e₂⇐τ₂)
       with ⟨ ě₁ , e₁↬⇐ě₁ ⟩ ← ⇐τ→↬⇐τ e₁⇐τ₁
          | ⟨ ě₂ , e₂↬⇐ě₂ ⟩ ← ⇐τ→↬⇐τ e₂⇐τ₂ = ⟨ ⊢⟨ ě₁ , ě₂ ⟩[ τ▸ ] , MKAPair1 e₁↬⇐ě₁ e₂↬⇐ě₂ τ▸ ⟩
-    ⇐τ→↬⇐τ {e = e} (UASubsume e⇒τ′ τ~τ′ su)
+    ⇐τ→↬⇐τ {e = e}              (UASubsume e⇒τ′ τ~τ′ su)
       with ⟨ ě , e↬⇒ě ⟩ ← ⇒τ→↬⇒τ e⇒τ′     = ⟨ ⊢∙ ě [ τ~τ′ ∙ USu→MSu su e↬⇒ě ] , MKASubsume e↬⇒ě τ~τ′ su ⟩
 
   -- marking synthesizes the same type as synthesis
@@ -132,11 +132,15 @@ module marking.wellformed where
          → Γ ⊢ e ⇒ τ
          → Γ ⊢ e ↬⇒ ě
          → τ ≡ τ′
-  ⇒-↬-≡ USHole MKSHole = refl
-  ⇒-↬-≡ (USVar ∋x) (MKSVar ∋x′) = ∋→τ-≡ ∋x ∋x′
-  ⇒-↬-≡ (USVar {τ = τ} ∋x) (MKSFree ∌y) = ⊥-elim (∌y ⟨ τ , ∋x ⟩)
+  ⇒-↬-≡ USHole MKSHole
+       = refl
+  ⇒-↬-≡ (USVar ∋x) (MKSVar ∋x′)
+       = ∋→τ-≡ ∋x ∋x′
+  ⇒-↬-≡ (USVar {τ = τ} ∋x) (MKSFree ∌y)
+       = ⊥-elim (∌y ⟨ τ , ∋x ⟩)
   ⇒-↬-≡ (USLam e⇒τ) (MKSLam e↬⇒ě)
-    rewrite ⇒-↬-≡ e⇒τ e↬⇒ě = refl
+    rewrite ⇒-↬-≡ e⇒τ e↬⇒ě
+       = refl
   ⇒-↬-≡ (USAp e⇒τ τ▸ e₁⇐τ₁) (MKSAp1 e↬⇒ě τ▸′ e₂↬⇐ě₂)
     with refl ← ⇒-↬-≡ e⇒τ e↬⇒ě
     with refl ← ▸-→-unicity τ▸ τ▸′
@@ -148,10 +152,14 @@ module marking.wellformed where
     with refl ← ⇒-↬-≡ e₁⇒τ₁ e₁↬⇒ě₁
     with refl ← ⇒-↬-≡ e₂⇒τ₂ e₂↬⇒ě₂
        = refl
-  ⇒-↬-≡ USNum MKSNum = refl
-  ⇒-↬-≡ (USPlus e₁⇐num e₂⇐num) (MKSPlus e₁↬⇐ě₁ e₂↬⇐ě₂) = refl
-  ⇒-↬-≡ USTrue MKSTrue = refl
-  ⇒-↬-≡ USFalse MKSFalse = refl
+  ⇒-↬-≡ USNum MKSNum
+       = refl
+  ⇒-↬-≡ (USPlus e₁⇐num e₂⇐num) (MKSPlus e₁↬⇐ě₁ e₂↬⇐ě₂)
+       = refl
+  ⇒-↬-≡ USTrue MKSTrue
+       = refl
+  ⇒-↬-≡ USFalse MKSFalse
+       = refl
   ⇒-↬-≡ (USIf e₁⇐bool e₂⇒τ₁ e₃⇒τ₂ τ₁⊔τ₂) (MKSIf e₁↬⇐ě₁ e₂↬⇒ě₂ e₃↬⇒ě₃ τ₁⊔τ₂′)
     with refl ← ⇒-↬-≡ e₂⇒τ₁ e₂↬⇒ě₂
     with refl ← ⇒-↬-≡ e₃⇒τ₂ e₃↬⇒ě₃

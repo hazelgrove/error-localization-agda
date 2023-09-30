@@ -8,12 +8,12 @@ module marking.totality where
     ↬⇒-totality : (Γ : Ctx)
                 → (e : UExp)
                 → Σ[ τ ∈ Typ ] Σ[ ě ∈ Γ ⊢⇒ τ ] (Γ ⊢ e ↬⇒ ě)
-    ↬⇒-totality Γ (‵⦇-⦈^ x) = ⟨ unknown , ⟨ ⊢⦇-⦈^ x , MKSHole ⟩ ⟩
+    ↬⇒-totality Γ (‵⦇-⦈^ x)        = ⟨ unknown , ⟨ ⊢⦇-⦈^ x , MKSHole ⟩ ⟩
     ↬⇒-totality Γ (‵ x)
       with Γ ∋?? x
     ...  | yes (Z {τ = τ})         = ⟨ τ       , ⟨ ⊢ Z           , MKSVar Z           ⟩ ⟩
     ...  | yes (S {τ = τ} x≢x′ ∋x) = ⟨ τ       , ⟨ ⊢ (S x≢x′ ∋x) , MKSVar (S x≢x′ ∋x) ⟩ ⟩
-    ...  | no  ∌x                  = ⟨ unknown , ⟨ ⊢⟦ ∌x ⟧       , MKSFree ∌x      ⟩ ⟩
+    ...  | no  ∌x                  = ⟨ unknown , ⟨ ⊢⟦ ∌x ⟧       , MKSFree ∌x         ⟩ ⟩
     ↬⇒-totality Γ (‵λ x ∶ τ ∙ e)
       with ⟨ τ′ , ⟨ ě , e↬⇒ě ⟩ ⟩ ← ↬⇒-totality (Γ , x ∶ τ) e
          = ⟨ τ -→ τ′ , ⟨ ⊢λ x ∶ τ ∙ ě , MKSLam e↬⇒ě ⟩ ⟩

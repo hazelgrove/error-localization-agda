@@ -6,9 +6,9 @@ open import hazelnut.untyped.zexp
 module hazelnut.untyped.erasure where
   -- judgmental cursor erasure
   data erase-τ : (τ^ : ZTyp) → (τ : Typ) → Set where
-    ETTop  : ∀ {τ} → erase-τ (▹ τ ◃) τ
-    ETArr1 : ∀ {τ₁^ τ₂ τ₁} → (τ₁^◇ : erase-τ τ₁^ τ₁) → erase-τ (τ₁^ -→₁ τ₂) (τ₁ -→ τ₂)
-    ETArr2 : ∀ {τ₁ τ₂^ τ₂} → (τ₂^◇ : erase-τ τ₂^ τ₂) → erase-τ (τ₁ -→₂ τ₂^) (τ₁ -→ τ₂)
+    ETTop   : ∀ {τ} → erase-τ (▹ τ ◃) τ
+    ETArr1  : ∀ {τ₁^ τ₂ τ₁} → (τ₁^◇ : erase-τ τ₁^ τ₁) → erase-τ (τ₁^ -→₁ τ₂) (τ₁ -→ τ₂)
+    ETArr2  : ∀ {τ₁ τ₂^ τ₂} → (τ₂^◇ : erase-τ τ₂^ τ₂) → erase-τ (τ₁ -→₂ τ₂^) (τ₁ -→ τ₂)
     ETProd1 : ∀ {τ₁^ τ₂ τ₁} → (τ₁^◇ : erase-τ τ₁^ τ₁) → erase-τ (τ₁^ -×₁ τ₂) (τ₁ -× τ₂)
     ETProd2 : ∀ {τ₁ τ₂^ τ₂} → (τ₂^◇ : erase-τ τ₂^ τ₂) → erase-τ (τ₁ -×₂ τ₂^) (τ₁ -× τ₂)
 
@@ -104,33 +104,33 @@ module hazelnut.untyped.erasure where
   erase-e→◇ (EELam1 τ^◇)
     rewrite erase-τ→◇ τ^◇ = refl
   erase-e→◇ (EELam2 ê◇)
-    rewrite erase-e→◇ ê◇ = refl
+    rewrite erase-e→◇ ê◇  = refl
   erase-e→◇ (EEAp1 ê◇)
-    rewrite erase-e→◇ ê◇ = refl
+    rewrite erase-e→◇ ê◇  = refl
   erase-e→◇ (EEAp2 ê◇)
-    rewrite erase-e→◇ ê◇ = refl
+    rewrite erase-e→◇ ê◇  = refl
   erase-e→◇ (EELet1 ê◇)
-    rewrite erase-e→◇ ê◇ = refl
+    rewrite erase-e→◇ ê◇  = refl
   erase-e→◇ (EELet2 ê◇)
-    rewrite erase-e→◇ ê◇ = refl
+    rewrite erase-e→◇ ê◇  = refl
   erase-e→◇ (EEPlus1 ê◇)
-    rewrite erase-e→◇ ê◇ = refl
+    rewrite erase-e→◇ ê◇  = refl
   erase-e→◇ (EEPlus2 ê◇)
-    rewrite erase-e→◇ ê◇ = refl
+    rewrite erase-e→◇ ê◇  = refl
   erase-e→◇ (EEIf1 ê◇)
-    rewrite erase-e→◇ ê◇ = refl
+    rewrite erase-e→◇ ê◇  = refl
   erase-e→◇ (EEIf2 ê◇)
-    rewrite erase-e→◇ ê◇ = refl
+    rewrite erase-e→◇ ê◇  = refl
   erase-e→◇ (EEIf3 ê◇)
-    rewrite erase-e→◇ ê◇ = refl
+    rewrite erase-e→◇ ê◇  = refl
   erase-e→◇ (EEPair1 ê◇)
-    rewrite erase-e→◇ ê◇ = refl
+    rewrite erase-e→◇ ê◇  = refl
   erase-e→◇ (EEPair2 ê◇)
-    rewrite erase-e→◇ ê◇ = refl
+    rewrite erase-e→◇ ê◇  = refl
   erase-e→◇ (EEProjL ê◇)
-    rewrite erase-e→◇ ê◇ = refl
+    rewrite erase-e→◇ ê◇  = refl
   erase-e→◇ (EEProjR ê◇)
-    rewrite erase-e→◇ ê◇ = refl
+    rewrite erase-e→◇ ê◇  = refl
 
   -- convert functional cursor erasure to judgmental cursor erasure
   ◇τ→erase : ∀ {τ^ τ} → τ^ ◇τ ≡ τ → erase-τ τ^ τ

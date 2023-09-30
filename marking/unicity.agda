@@ -8,10 +8,10 @@ module marking.unicity where
                → Γ ⊢ e ↬⇒ ě₁
                → Γ ⊢ e ↬⇒ ě₂
                → τ₁ ≡ τ₂
-  ↬⇒-τ-unicity           MKSHole         MKSHole          = refl
-  ↬⇒-τ-unicity           (MKSVar ∋x)     (MKSVar ∋x′)     = ∋→τ-≡ ∋x ∋x′
-  ↬⇒-τ-unicity {τ₁ = τ₁} (MKSVar ∋x)     (MKSFree ∌x)  = ⊥-elim (∌x ⟨ τ₁ , ∋x ⟩)
-  ↬⇒-τ-unicity {τ₂ = τ₂} (MKSFree ∌x) (MKSVar ∋x)      = ⊥-elim (∌x ⟨ τ₂ , ∋x ⟩)
+  ↬⇒-τ-unicity           MKSHole      MKSHole       = refl
+  ↬⇒-τ-unicity           (MKSVar ∋x)  (MKSVar ∋x′)  = ∋→τ-≡ ∋x ∋x′
+  ↬⇒-τ-unicity {τ₁ = τ₁} (MKSVar ∋x)  (MKSFree ∌x)  = ⊥-elim (∌x ⟨ τ₁ , ∋x ⟩)
+  ↬⇒-τ-unicity {τ₂ = τ₂} (MKSFree ∌x) (MKSVar ∋x)   = ⊥-elim (∌x ⟨ τ₂ , ∋x ⟩)
   ↬⇒-τ-unicity           (MKSFree ∌x) (MKSFree ∌x′) = refl
   ↬⇒-τ-unicity (MKSLam e↬⇒ě) (MKSLam e↬⇒ě′)
     rewrite ↬⇒-τ-unicity e↬⇒ě e↬⇒ě′ = refl
@@ -155,7 +155,7 @@ module marking.unicity where
                       → USu→MSu s e↬⇒ě ≡ USu→MSu s e↬⇒ě′
     USu→MSu-unicity USuHole  MKSHole         _ = refl
     USu→MSu-unicity USuVar   (MKSVar _)      _ = refl
-    USu→MSu-unicity USuVar   (MKSFree _)  _ = refl
+    USu→MSu-unicity USuVar   (MKSFree _)     _ = refl
     USu→MSu-unicity USuAp    (MKSAp1 _ _ _)  _ = refl
     USu→MSu-unicity USuAp    (MKSAp2 _ _ _)  _ = refl
     USu→MSu-unicity USuNum   MKSNum          _ = refl
