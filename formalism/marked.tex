@@ -317,22 +317,6 @@ incomplete editor states \`a la Hazelnut but are not essential.
     \ctxSynFixedInto{\ctx}{\EAp{\EMV_1}{\EMV_2}}{\ECAp{\ECMV_1}{\ECMV_2}}{\TMV_2}
   }
 
-  % \inferrule[MKSAp2]{
-    % \ctxSynFixedInto{\ctx}{\EMV_1}{\ECMV_1}{\TMV} \\
-    % \notMatchedArrow{\TMV} \\
-    % \ctxAnaFixedInto{\ctx}{\EMV_2}{\ECMV_2}{\TUnknown}
-  % }{
-    % \ctxSynFixedInto{\ctx}{\EAp{\EMV_1}{\EMV_2}}{\ECApNonMatched{\ECMV_1}{\ECMV_2}}{\TUnknown}
-  % }
-
-  % \inferrule[MKSAp2]{
-    % \ctxSynFixedInto{\ctx}{\EMV_1}{\ECMV_1}{\TMV} \\
-    % \notMatchedArrow{\TMV} \\
-    % \ctxAnaFixedInto{\ctx}{\EMV_2}{\ECMV_2}{\TUnknown}
-  % }{
-    % \ctxSynFixedInto{\ctx}{\EAp{\EMV_1}{\EMV_2}}{\ECApNonMatchedAlt{\ECMV_1}{\ECMV_2}}{\TUnknown}
-  % }
-
   \inferrule[MKSAp2]{
     \ctxSynFixedInto{\ctx}{\EMV_1}{\ECMV_1}{\TMV} \\
     \notMatchedArrow{\TMV} \\
@@ -528,22 +512,6 @@ incomplete editor states \`a la Hazelnut but are not essential.
   }{
     \ctxSynTypeM{\ctx}{\ECAp{\ECMV_1}{\ECMV_2}}{\TMV_2}
   }
-
-  % \inferrule[MSAp2]{
-    % \ctxSynTypeM{\ctx}{\ECMV_1}{\TMV} \\
-    % \notMatchedArrow{\TMV} \\
-    % \ctxAnaTypeM{\ctx}{\ECMV_2}{\TUnknown}
-  % }{
-    % \ctxSynTypeM{\ctx}{\ECApNonMatched{\ECMV_1}{\ECMV_2}}{\TUnknown}
-  % }
-
-  % \inferrule[MSAp2]{
-    % \ctxSynTypeM{\ctx}{\ECMV_1}{\TMV} \\
-    % \notMatchedArrow{\TMV} \\
-    % \ctxAnaTypeM{\ctx}{\ECMV_2}{\TUnknown}
-  % }{
-    % \ctxSynTypeM{\ctx}{\ECApNonMatchedAlt{\ECMV}{\ECMV}}{\TUnknown}
-  % }
 
   \inferrule[MSAp2]{
     \ctxSynTypeM{\ctx}{\ECMV_1}{\TMV} \\
