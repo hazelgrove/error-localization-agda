@@ -21,7 +21,14 @@ Zippered types are the same as in the untyped model.
            &       & \mid         & \ZLetL{x}{\ZMV}{\ECMV} \mid \ZLetR{x}{\ECMV}{\ZMV} \\
            &       & \mid         & \ZPlusL{\ZMV}{\ECMV} \mid \ZPlusR{\ECMV}{\ZMV} \\
            &       & \mid         & \ZIfC{\ZMV}{\ECMV}{\ECMV} \mid \ZIfL{\ECMV}{\ZMV}{\ECMV} \mid \ZIfR{\ECMV}{\ECMV}{\ZMV} \\
-           &       & \mid         & \ZInconType{\ZMV} \mid \ZInconBrC{\ZMV}{\ECMV}{\ECMV} \mid \ZInconBrL{\ECMV}{\ZMV}{\ECMV} \mid \ZInconBrR{\ECMV}{\ECMV}{\ZMV} \\
+           &       & \mid         & \ZPairL{\ZMV}{\EMV} \mid \ZPairR{\EMV}{\ZMV} \mid \ZProjL{\ZMV} \mid \ZProjR{\ZMV} \\
+           &       & \mid         & \ZFree{x} \mid \ZInconType{\ZMV} \\
+           &       & \mid         & \ZLamInconAscT{x}{\ZTMV}{\ECMV} \mid \ZLamInconAscE{x}{\TMV}{\ZMV}
+                     \mid           \ZLamAnaNonMatchedArrowT{x}{\ZTMV}{\ECMV} \mid \ZLamAnaNonMatchedArrowE{x}{\TMV}{\ZMV}
+                     \mid           \ZApSynNonMatchedArrowL{\ZMV}{\ECMV} \mid \ZApSynNonMatchedArrowR{\ECMV}{\ZMV} \\
+           &       & \mid         & \ZInconBrC{\ZMV}{\ECMV}{\ECMV} \mid \ZInconBrL{\ECMV}{\ZMV}{\ECMV} \mid \ZInconBrR{\ECMV}{\ECMV}{\ZMV} \\
+           &       & \mid         & \ZPairAnaNonMatchedProdL{\ZMV}{\ECMV} \mid \ZPairAnaNonMatchedProdR{\ECMV}{\ZMV}
+                     \mid           \ZProjLSynNonMatchedProd{\ZMV} \mid \ZProjRSynNonMatchedProd{\ZMV}
 \end{array}\]
 
 \subsubsection{Well-formedness}
