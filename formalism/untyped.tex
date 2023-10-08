@@ -594,13 +594,13 @@ is no longer meaningful in this untyped context, still hold (see \cref{sec:untyp
   \inferrule[AEZipProjL]{
     \AUEAction{\ZMV}{\ZMV'}{\AMV}
   }{
-    \AUEAction{\ZProjL{\ZMV}{\EMV}}{\ZProjL{\ZMV'}{\EMV}}{\AMV}
+    \AUEAction{\ZProjL{\ZMV}}{\ZProjL{\ZMV'}}{\AMV}
   }
 
   \inferrule[AEZipProjR]{
     \AUEAction{\ZMV}{\ZMV'}{\AMV}
   }{
-    \AUEAction{\ZProjR{\EMV}{\ZMV}}{\ZProjR{\EMV}{\ZMV'}}{\AMV}
+    \AUEAction{\ZProjR{\ZMV}}{\ZProjR{\ZMV'}}{\AMV}
   }
 \end{mathparpagebreakable}
 
