@@ -233,21 +233,36 @@ Type cursor erasure is the same as in the untyped model.
 \newcommand{\cursorErasesToRow}[2]{\ensuremath{\cursorErase{#1} & = & #2}}
 \[\begin{array}{rcl}
   \cursorErasesToRow{\ZCursor{\ECMV}}{\ECMV} \\
-  \cursorErasesToRow{(\ZLamT{x}{\ZTMV}{\ECMV})}{\ECLam{x}{\cursorErase{\ZTMV}}{\ECMV}} \\
-  \cursorErasesToRow{(\ZLamE{x}{\TMV}{\ZMV})}{\ECLam{x}{\TMV}{\cursorErase{\ZMV}}} \\
-  \cursorErasesToRow{(\ZApL{\ZMV}{\ECMV})}{\ECAp{\cursorErase{\ZMV}}{\ECMV}} \\
-  \cursorErasesToRow{(\ZApR{\ECMV}{\ZMV})}{\ECAp{\ECMV}{\cursorErase{\ZMV}}} \\
-  \cursorErasesToRow{(\ZLetL{x}{\ZMV}{\ECMV})}{\ECLet{x}{\cursorErase{\ZMV}}{\ECMV}} \\
-  \cursorErasesToRow{(\ZLetR{x}{\ECMV}{\ZMV})}{\ECLet{x}{\ECMV}{\cursorErase{\ZMV}}} \\
-  \cursorErasesToRow{(\ZPlusL{\ZMV}{\ECMV})}{\ECPlus{\cursorErase{\ZMV}}{\ECMV}} \\
-  \cursorErasesToRow{(\ZPlusR{\ECMV}{\ZMV})}{\ECPlus{\ECMV}{\cursorErase{\ZMV}}} \\
-  \cursorErasesToRow{(\ZIfC{\ZMV}{\ECMV_1}{\ECMV_2})}{\ECIf{\cursorErase{\ZMV}}{\ECMV_1}{\ECMV_2}} \\
-  \cursorErasesToRow{(\ZIfL{\ECMV_1}{\ZMV}{\ECMV_2})}{\ECIf{\ECMV_1}{\cursorErase{\ZMV}}{\ECMV_2}} \\
-  \cursorErasesToRow{(\ZIfL{\ECMV_1}{\ECMV_2}{\ZMV})}{\ECIf{\ECMV_1}{\ECMV_2}{\cursorErase{\ZMV}}} \\
-  \cursorErasesToRow{\ZInconType{\ZMV}}{\cursorErase{\ZMV}} \\
-  \cursorErasesToRow{\ZInconBrC{\ZMV}{\ECMV_1}{\ECMV_2}}{\ECIf{\cursorErase{\ZMV}}{\ECMV_1}{\ECMV_2}} \\
-  \cursorErasesToRow{\ZInconBrL{\ECMV_1}{\ZMV}{\ECMV_2}}{\ECIf{\ECMV_1}{\cursorErase{\ZMV}}{\ECMV_2}} \\
-  \cursorErasesToRow{\ZInconBrR{\ECMV_1}{\ECMV_2}{\ZMV}}{\ECIf{\ECMV_1}{\ECMV_2}{\cursorErase{\ZMV}}} \\
+  \cursorErasesToRow{(\ZLamT{x}{\ZTMV}{\ECMV})}{\ECLam{x}{(\cursorErase{\ZTMV})}{\ECMV}} \\
+  \cursorErasesToRow{(\ZLamE{x}{\TMV}{\ZMV})}{\ECLam{x}{\TMV}{(\cursorErase{\ZMV})}} \\
+  \cursorErasesToRow{(\ZApL{\ZMV}{\ECMV})}{\ECAp{(\cursorErase{\ZMV})}{\ECMV}} \\
+  \cursorErasesToRow{(\ZApR{\ECMV}{\ZMV})}{\ECAp{\ECMV}{(\cursorErase{\ZMV})}} \\
+  \cursorErasesToRow{(\ZLetL{x}{\ZMV}{\ECMV})}{\ECLet{x}{(\cursorErase{\ZMV})}{\ECMV}} \\
+  \cursorErasesToRow{(\ZLetR{x}{\ECMV}{\ZMV})}{\ECLet{x}{\ECMV}{(\cursorErase{\ZMV})}} \\
+  \cursorErasesToRow{(\ZPlusL{\ZMV}{\ECMV})}{\ECPlus{(\cursorErase{\ZMV})}{\ECMV}} \\
+  \cursorErasesToRow{(\ZPlusR{\ECMV}{\ZMV})}{\ECPlus{\ECMV}{(\cursorErase{\ZMV})}} \\
+  \cursorErasesToRow{(\ZIfC{\ZMV}{\ECMV_1}{\ECMV_2})}{\ECIf{(\cursorErase{\ZMV})}{\ECMV_1}{\ECMV_2}} \\
+  \cursorErasesToRow{(\ZIfL{\ECMV_1}{\ZMV}{\ECMV_2})}{\ECIf{\ECMV_1}{(\cursorErase{\ZMV})}{\ECMV_2}} \\
+  \cursorErasesToRow{(\ZIfL{\ECMV_1}{\ECMV_2}{\ZMV})}{\ECIf{\ECMV_1}{\ECMV_2}{(\cursorErase{\ZMV})}} \\
+  \cursorErasesToRow{\ZPairL{\ZMV}{\ECMV}}{\ECPair{\cursorErase{\ZMV}}{\ECMV}} \\
+  \cursorErasesToRow{\ZPairR{\ECMV}{\ZMV}}{\ECPair{\ECMV}{\cursorErase{\ZMV}}} \\
+  \cursorErasesToRow{(\ZProjL{\ZMV})}{\ECProjL{(\cursorErase{\ZMV})}} \\
+  \cursorErasesToRow{(\ZProjR{\ZMV})}{\ECProjR{(\cursorErase{\ZMV})}} \\
+  \cursorErasesToRow{\ZFree{x}}{\cursorErase{\ECFree{x}}} \\
+  \cursorErasesToRow{\ZInconType{\ZMV}}{\ECInconType{\cursorErase{\ZMV}}} \\
+  \cursorErasesToRow{\ZLamInconAscT{x}{\ZTMV}{\ECMV}}{\ECLamInconAsc{x}{\cursorErase{\ZTMV}}{\ECMV}} \\
+  \cursorErasesToRow{\ZLamInconAscE{x}{\TMV}{\ZMV}}{\ECLamInconAsc{x}{\TMV}{\cursorErase{\ZMV}}} \\
+  \cursorErasesToRow{\ZLamAnaNonMatchedArrowT{x}{\ZTMV}{\ECMV}}{\ECLamAnaNonMatchedArrow{x}{\cursorErase{\ZTMV}}{\ECMV}} \\
+  \cursorErasesToRow{\ZLamAnaNonMatchedArrowE{x}{\TMV}{\ZMV}}{\ECLamAnaNonMatchedArrow{x}{\TMV}{\cursorErase{\ZMV}}} \\
+  \cursorErasesToRow{(\ZApSynNonMatchedArrowL{\ZMV}{\ECMV})}{\ECApSynNonMatchedArrow{\cursorErase{\ZMV}}{\ECMV}} \\
+  \cursorErasesToRow{(\ZApSynNonMatchedArrowR{\ECMV}{\ZMV})}{\ECApSynNonMatchedArrow{\ECMV}{(\cursorErase{\ZMV})}} \\
+  \cursorErasesToRow{\ZInconBrC{\ZMV}{\ECMV_1}{\ECMV_2}}{\ECInconBr{\cursorErase{\ZMV}}{\ECMV_1}{\ECMV_2}} \\
+  \cursorErasesToRow{\ZInconBrL{\ECMV_1}{\ZMV}{\ECMV_2}}{\ECInconBr{\ECMV_1}{\cursorErase{\ZMV}}{\ECMV_2}} \\
+  \cursorErasesToRow{\ZInconBrR{\ECMV_1}{\ECMV_2}{\ZMV}}{\ECInconBr{\ECMV_1}{\ECMV_2}{\cursorErase{\ZMV}}} \\
+  \cursorErasesToRow{\ZPairAnaNonMatchedProdL{\ZMV}{\ECMV}}{\ECPairAnaNonMatchedProd{\cursorErase{\ZMV}}{\ECMV}} \\
+  \cursorErasesToRow{\ZPairAnaNonMatchedProdR{\ECMV}{\ZMV}}{\ECPairAnaNonMatchedProd{\ECMV}{\cursorErase{\ZMV}}} \\
+  \cursorErasesToRow{(\ZProjLSynNonMatchedProd{\ZMV})}{\ECProjLSynNonMatchedProd{\cursorErase{\ZMV}}} \\
+  \cursorErasesToRow{(\ZProjRSynNonMatchedProd{\ZMV})}{\ECProjRSynNonMatchedProd{\cursorErase{\ZMV}}} \\
 \end{array}\]
 
 \subsection{Action model}
