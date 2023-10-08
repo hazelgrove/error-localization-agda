@@ -40,86 +40,96 @@ Zippered types are the same as in the untyped model.
     \zWellFormed{\ZCursor{\ECMV}}
   }
 
-  \inferrule[WFLamT]{ }{
+  \inferrule[WFLam1]{ }{
     \zWellFormed{\ZLamT{x}{\ZTMV}{\ECMV}}
   }
 
-  \inferrule[WFLamE]{
+  \inferrule[WFLam2]{
     \zWellFormed{\ZMV}
   }{
     \zWellFormed{\ZLamE{x}{\TMV}{\ZMV}}
   }
 
-  \inferrule[WFApL]{
+  \inferrule[WFAp1]{
     \zWellFormed{\ZMV}
   }{
     \zWellFormed{\ZApL{\ZMV}{\ECMV}}
   }
 
-  \inferrule[WFApR]{
+  \inferrule[WFAp2]{
     \zWellFormed{\ZMV}
   }{
     \zWellFormed{\ZApR{\ECMV}{\ZMV}}
   }
 
-  \inferrule[WFLetL]{
+  \inferrule[WFLet1]{
     \zWellFormed{\ZMV}
   }{
     \zWellFormed{\ZLetL{x}{\ZMV}{\ECMV}}
   }
 
-  \inferrule[WFLetR]{
+  \inferrule[WFLet2]{
     \zWellFormed{\ZMV}
   }{
     \zWellFormed{\ZLetR{x}{\ECMV}{\ZMV}}
   }
 
-  \inferrule[WFPlusL]{
+  \inferrule[WFPlus1]{
     \zWellFormed{\ZMV}
   }{
     \zWellFormed{\ZPlusL{\ZMV}{\ECMV}}
   }
 
-  \inferrule[WFPlusR]{
+  \inferrule[WFPlus2]{
     \zWellFormed{\ZMV}
   }{
     \zWellFormed{\ZPlusR{\ECMV}{\ZMV}}
   }
 
-  \inferrule[WFIfC]{
+  \inferrule[WFIf1]{
     \zWellFormed{\ZMV}
   }{
     \zWellFormed{\ZIfC{\ZMV}{\ECMV_1}{\ECMV_2}}
   }
 
-  \inferrule[WFIfL]{
+  \inferrule[WFIf2]{
     \zWellFormed{\ZMV}
   }{
     \zWellFormed{\ZIfL{\ECMV_1}{\ZMV}{\ECMV_2}}
   }
 
-  \inferrule[WFIfC]{
+  \inferrule[WFIf3]{
     \zWellFormed{\ZMV}
   }{
-    \zWellFormed{\ZIfL{\ZMV}{\ECMV_1}{\ECMV_2}}
+    \zWellFormed{\ZIfR{\ECMV_1}{\ECMV_2}{\ZMV}}
   }
 
-  \inferrule[WFInconsistentBranchesC]{
+  \inferrule[WFPair1]{
     \zWellFormed{\ZMV}
   }{
-    \zWellFormed{\ZInconBrC{\ZMV}{\ECMV_1}{\ECMV_2}}
+    \zWellFormed{\ZPairL{\ZMV}{\ECMV}}
   }
 
-  \inferrule[WFInconsistentBranchesL]{
+  \inferrule[WFPair2]{
     \zWellFormed{\ZMV}
   }{
-    \zWellFormed{\ZInconBrL{\ECMV_1}{\ZMV}{\ECMV_2}}
+    \zWellFormed{\ZPairR{\ECMV}{\ZMV}}
   }
 
-  \inferrule[WFInconsistentBranchesR]{
+  \inferrule[WFProjL1]{
     \zWellFormed{\ZMV}
   }{
-    \zWellFormed{\ZInconBrL{\ZMV}{\ECMV_1}{\ECMV_2}}
+    \zWellFormed{\ZProjL{\ZMV}}
+  }
+
+  \inferrule[WFProjR1]{
+    \zWellFormed{\ZMV}
+  }{
+    \zWellFormed{\ZProjR{\ZMV}}
+  }
+
+  \inferrule[WFFree]{ }{
+    \zWellFormed{\ZFree{x}}
   }
 
   \inferrule[WFInconsistentTypes]{
@@ -127,6 +137,81 @@ Zippered types are the same as in the untyped model.
     \zWellFormed{\ZMV}
   }{
     \zWellFormed{\ZInconType{\ZMV}}
+  }
+
+  \inferrule[WFLam3]{ }{
+    \zWellFormed{\ZLamInconAscT{x}{\ZTMV}{\ECMV}}
+  }
+
+  \inferrule[WFLam4]{
+    \zWellFormed{\ZMV}
+  }{
+    \zWellFormed{\ZLamInconAscE{x}{\TMV}{\ZMV}}
+  }
+
+  \inferrule[WFLam5]{
+  }{
+    \zWellFormed{\ZLamAnaNonMatchedArrowT{x}{\ZTMV}{\ECMV}}
+  }
+
+  \inferrule[WFLam6]{
+    \zWellFormed{\ZMV}
+  }{
+    \zWellFormed{\ZLamAnaNonMatchedArrowE{x}{\TMV}{\ZMV}}
+  }
+
+  \inferrule[WFAp3]{
+    \zWellFormed{\ZMV}
+  }{
+    \zWellFormed{\ZApSynNonMatchedArrowL{\ZMV}{\ECMV}}
+  }
+
+  \inferrule[WFAp4]{
+    \zWellFormed{\ZMV}
+  }{
+    \zWellFormed{\ZApSynNonMatchedArrowR{\ECMV}{\ZMV}}
+  }
+
+  \inferrule[WFInconsistentBranches1]{
+    \zWellFormed{\ZMV}
+  }{
+    \zWellFormed{\ZInconBrC{\ZMV}{\ECMV_1}{\ECMV_2}}
+  }
+
+  \inferrule[WFInconsistentBranches2]{
+    \zWellFormed{\ZMV}
+  }{
+    \zWellFormed{\ZInconBrL{\ECMV_1}{\ZMV}{\ECMV_2}}
+  }
+
+  \inferrule[WFInconsistentBranches3]{
+    \zWellFormed{\ZMV}
+  }{
+    \zWellFormed{\ZInconBrR{\ECMV_1}{\ECMV_2}{\ZMV}}
+  }
+
+  \inferrule[WFPair3]{
+    \zWellFormed{\ZMV}
+  }{
+    \zWellFormed{\ZPairAnaNonMatchedProdL{\ZMV}{\ECMV}}
+  }
+
+  \inferrule[WFPair4]{
+    \zWellFormed{\ZMV}
+  }{
+    \zWellFormed{\ZPairAnaNonMatchedProdR{\ECMV}{\ZMV}}
+  }
+
+  \inferrule[WFProjL2]{
+    \zWellFormed{\ZMV}
+  }{
+    \zWellFormed{\ZProjLSynNonMatchedProd{\ZMV}}
+  }
+
+  \inferrule[WFProjR2]{
+    \zWellFormed{\ZMV}
+  }{
+    \zWellFormed{\ZProjRSynNonMatchedProd{\ZMV}}
   }
 \end{mathpar}
 
