@@ -41,10 +41,10 @@ is no longer meaningful in this untyped context, still hold (see \cref{sec:untyp
 \newcommand{\cursorErasesToRow}[2]{\ensuremath{\cursorErase{#1} & = & #2}}
 \[\begin{array}{rcl}
   \cursorErasesToRow{\ZTCursor{\TMV}}{\TMV} \\
-  \cursorErasesToRow{(\ZTArrowL{\ZTMV}{\TMV})}{\TArrow{\cursorErase{\ZTMV}}{\TMV}} \\
-  \cursorErasesToRow{(\ZTArrowR{\TMV}{\ZTMV})}{\TArrow{\TMV}{\cursorErase{\ZTMV}}} \\
-  \cursorErasesToRow{(\ZTProdL{\ZTMV}{\TMV})}{\TProd{\cursorErase{\ZTMV}}{\TMV}} \\
-  \cursorErasesToRow{(\ZTProdR{\TMV}{\ZTMV})}{\TProd{\TMV}{\cursorErase{\ZTMV}}} \\
+  \cursorErasesToRow{(\ZTArrowL{\ZTMV}{\TMV})}{\TArrow{(\cursorErase{\ZTMV})}{\TMV}} \\
+  \cursorErasesToRow{(\ZTArrowR{\TMV}{\ZTMV})}{\TArrow{\TMV}{(\cursorErase{\ZTMV})}} \\
+  \cursorErasesToRow{(\ZTProdL{\ZTMV}{\TMV})}{\TProd{(\cursorErase{\ZTMV})}{\TMV}} \\
+  \cursorErasesToRow{(\ZTProdR{\TMV}{\ZTMV})}{\TProd{\TMV}{(\cursorErase{\ZTMV})}} \\
 \end{array}\]
 
 \subsubsection{Expression cursor erasure}
@@ -53,21 +53,21 @@ is no longer meaningful in this untyped context, still hold (see \cref{sec:untyp
 %
 \[\begin{array}{rcl}
   \cursorErasesToRow{\ZCursor{\EMV}}{\EMV} \\
-  \cursorErasesToRow{(\ZLamT{x}{\ZTMV}{\EMV})}{\ELam{x}{\cursorErase{\ZTMV}}{\EMV}} \\
-  \cursorErasesToRow{(\ZLamE{x}{\TMV}{\ZMV})}{\ELam{x}{\TMV}{\cursorErase{\ZMV}}} \\
-  \cursorErasesToRow{(\ZApL{\ZMV}{\EMV})}{\EAp{\cursorErase{\ZMV}}{\EMV}} \\
-  \cursorErasesToRow{(\ZApR{\EMV}{\ZMV})}{\EAp{\EMV}{\cursorErase{\ZMV}}} \\
-  \cursorErasesToRow{(\ZLetL{x}{\ZMV}{\EMV})}{\ELet{x}{\cursorErase{\ZMV}}{\EMV}} \\
-  \cursorErasesToRow{(\ZLetR{x}{\EMV}{\ZMV})}{\ELet{x}{\EMV}{\cursorErase{\ZMV}}} \\
-  \cursorErasesToRow{(\ZPlusL{\ZMV}{\EMV})}{\EPlus{\cursorErase{\ZMV}}{\EMV}} \\
-  \cursorErasesToRow{(\ZPlusR{\EMV}{\ZMV})}{\EPlus{\EMV}{\cursorErase{\ZMV}}} \\
-  \cursorErasesToRow{(\ZIfC{\ZMV}{\EMV_1}{\EMV_2})}{\EIf{\cursorErase{\ZMV}}{\EMV_1}{\EMV_2}} \\
-  \cursorErasesToRow{(\ZIfL{\EMV_1}{\ZMV}{\EMV_2})}{\EIf{\EMV_1}{\cursorErase{\ZMV}}{\EMV_2}} \\
-  \cursorErasesToRow{(\ZIfL{\EMV_1}{\EMV_2}{\ZMV})}{\EIf{\EMV_1}{\EMV_2}{\cursorErase{\ZMV}}} \\
-  \cursorErasesToRow{(\ZPairL{\ZMV}{\EMV})}{\EPair{\cursorErase{\ZMV}}{\EMV}} \\
-  \cursorErasesToRow{(\ZPairR{\EMV}{\ZMV})}{\EPair{\EMV}{\cursorErase{\ZMV}}} \\
-  \cursorErasesToRow{(\ZProjL{\ZMV})}{\EProjL{\cursorErase{\ZMV}}} \\
-  \cursorErasesToRow{(\ZProjR{\ZMV})}{\EProjR{\cursorErase{\ZMV}}} \\
+  \cursorErasesToRow{(\ZLamT{x}{\ZTMV}{\EMV})}{\ELam{x}{(\cursorErase{\ZTMV})}{\EMV}} \\
+  \cursorErasesToRow{(\ZLamE{x}{\TMV}{\ZMV})}{\ELam{x}{\TMV}{(\cursorErase{\ZMV})}} \\
+  \cursorErasesToRow{(\ZApL{\ZMV}{\EMV})}{\EAp{(\cursorErase{\ZMV})}{\EMV}} \\
+  \cursorErasesToRow{(\ZApR{\EMV}{\ZMV})}{\EAp{\EMV}{(\cursorErase{\ZMV})}} \\
+  \cursorErasesToRow{(\ZLetL{x}{\ZMV}{\EMV})}{\ELet{x}{(\cursorErase{\ZMV})}{\EMV}} \\
+  \cursorErasesToRow{(\ZLetR{x}{\EMV}{\ZMV})}{\ELet{x}{\EMV}{(\cursorErase{\ZMV})}} \\
+  \cursorErasesToRow{(\ZPlusL{\ZMV}{\EMV})}{\EPlus{(\cursorErase{\ZMV})}{\EMV}} \\
+  \cursorErasesToRow{(\ZPlusR{\EMV}{\ZMV})}{\EPlus{\EMV}{(\cursorErase{\ZMV})}} \\
+  \cursorErasesToRow{(\ZIfC{\ZMV}{\EMV_1}{\EMV_2})}{\EIf{(\cursorErase{\ZMV})}{\EMV_1}{\EMV_2}} \\
+  \cursorErasesToRow{(\ZIfL{\EMV_1}{\ZMV}{\EMV_2})}{\EIf{\EMV_1}{(\cursorErase{\ZMV})}{\EMV_2}} \\
+  \cursorErasesToRow{(\ZIfL{\EMV_1}{\EMV_2}{\ZMV})}{\EIf{\EMV_1}{\EMV_2}{(\cursorErase{\ZMV})}} \\
+  \cursorErasesToRow{\ZPairL{\ZMV}{\EMV}}{\EPair{\cursorErase{\ZMV}}{\EMV}} \\
+  \cursorErasesToRow{\ZPairR{\EMV}{\ZMV}}{\EPair{\EMV}{\cursorErase{\ZMV}}} \\
+  \cursorErasesToRow{(\ZProjL{\ZMV})}{\EProjL{(\cursorErase{\ZMV})}} \\
+  \cursorErasesToRow{(\ZProjR{\ZMV})}{\EProjR{(\cursorErase{\ZMV})}} \\
 \end{array}\]
 
 \subsection{Action model}
