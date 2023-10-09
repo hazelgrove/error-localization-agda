@@ -305,9 +305,7 @@ $\judgbox{\erase{\PCMV}}$ is a metafunction defined as follows:
 %
 \begin{mathpar}
   \inferrule[USLetPat]{
-    \ctxSynPatU{\ctx}{\PMV}{\TMV_p} \\
-    \ctxAnaTypeU{\ctx}{\EMV_{1}}{\TMV_p} \\
-    \ctxSynTypeU{\ctx}{\EMV_{1}}{\TMV_{1}} \\\\
+    \ctxSynTypeU{\ctx}{\EMV_{1}}{\TMV_{1}} \\
     \ctxAnaPatU{\ctx}{\PMV}{\TMV_{1}}{\ctx'} \\
     \ctxSynTypeU{\ctx'}{\EMV_{2}}{\TMV_2}
   }{
@@ -325,9 +323,7 @@ $\judgbox{\erase{\PCMV}}$ is a metafunction defined as follows:
   }
 
   \inferrule[UALetPat]{
-    \ctxSynPatU{\ctx}{\PMV}{\TMV_p} \\
-    \ctxAnaTypeU{\ctx}{\EMV_{1}}{\TMV_p} \\
-    \ctxSynTypeU{\ctx}{\EMV_{1}}{\TMV_{1}} \\\\
+    \ctxSynTypeU{\ctx}{\EMV_{1}}{\TMV_{1}} \\
     \ctxAnaPatU{\ctx}{\PMV}{\TMV_{1}}{\ctx'} \\
     \ctxAnaTypeU{\ctx'}{\EMV_{2}}{\TMV_2}
   }{
