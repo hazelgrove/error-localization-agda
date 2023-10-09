@@ -758,6 +758,13 @@ incomplete editor states \`a la Hazelnut but are not essential.
     \markless{\ECAp{\ECMV_1}{\ECMV_2}}
   }
 
+  \inferrule[MLLet]{
+    \markless{\ECMV_1} \\
+    \markless{\ECMV_2}
+  }{
+    \markless{\ECLet{x}{\ECMV_1}{\ECMV_2}}
+  }
+
   \inferrule[MLNum]{ }{
     \markless{\ECNumMV}
   }
@@ -783,6 +790,25 @@ incomplete editor states \`a la Hazelnut but are not essential.
     \markless{\ECMV_3}
   }{
     \markless{\ECIf{\ECMV_1}{\ECMV_2}{\ECMV_3}}
+  }
+
+  \inferrule[MLPair]{
+    \markless{\ECMV_1} \\
+    \markless{\ECMV_2}
+  }{
+    \markless{\ECPair{\ECMV_1}{\ECMV_2}}
+  }
+
+  \inferrule[MLProjL]{
+    \markless{\ECMV} \\
+  }{
+    \markless{\ECProjL{\ECMV}}
+  }
+
+  \inferrule[MLProjR]{
+    \markless{\ECMV} \\
+  }{
+    \markless{\ECProjR{\ECMV}}
   }
 \end{mathpar}
 
