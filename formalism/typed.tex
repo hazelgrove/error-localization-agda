@@ -632,6 +632,38 @@ Type actions are the same as in the untyped model.
   \inferrule[ASEConIfR]{ }{
     \ASCon{\ctx}{\ZCCursor{\ECMV}}{\TMV}{\ZCIfC{\ZCCursor{\ECEHole}}{\ECEHole}{\ECMV}}{\TMV}{\SIfR}
   }
+
+  \inferrule[ASEConPairL]{ }{
+    \ASCon{\ctx}{\ZCCursor{\ECMV}}{\TMV}{\ZCPairL{\ZCCursor{\ECMV}}{\ECEHole}}{\TProd{\TMV}{\TUnknown}}{\SPairL}
+  }
+
+  \inferrule[ASEConPairR]{ }{
+    \ASCon{\ctx}{\ZCCursor{\ECMV}}{\TMV}{\ZCPairR{\ECEHole}{\ZCCursor{\ECMV}}}{\TProd{\TUnknown}{\TMV}}{\SPairR}
+  }
+
+  \inferrule[ASEConProjL1]{
+    \matchedProd{\TMV}{\TMV_1}{\TMV_2}
+  }{
+    \ASCon{\ctx}{\ZCCursor{\ECMV}}{\TMV}{\ZCProjL{\ZCCursor{\ECMV}}}{\TMV_1}{\SProjL}
+  }
+
+  \inferrule[ASEConProjL2]{
+    \notMatchedProd{\TMV}
+  }{
+    \ASCon{\ctx}{\ZCCursor{\ECMV}}{\TMV}{\ZCProjLSynNonMatchedProd{\ZCCursor{\ECMV}}}{\TUnknown}{\SProjL}
+  }
+
+  \inferrule[ASEConProjR1]{
+    \matchedProd{\TMV}{\TMV_1}{\TMV_2}
+  }{
+    \ASCon{\ctx}{\ZCCursor{\ECMV}}{\TMV}{\ZCProjR{\ZCCursor{\ECMV}}}{\TMV_2}{\SProjR}
+  }
+
+  \inferrule[ASEConProjR2]{
+    \notMatchedProd{\TMV}
+  }{
+    \ASCon{\ctx}{\ZCCursor{\ECMV}}{\TMV}{\ZCProjRSynNonMatchedProd{\ZCCursor{\ECMV}}}{\TUnknown}{\SProjR}
+  }
 \end{mathparpagebreakable}
 
 \paragraph{Zipper Cases} \ \\
