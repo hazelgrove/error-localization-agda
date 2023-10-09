@@ -172,9 +172,10 @@ incomplete editor states \`a la Hazelnut but are not essential.
   \inferrule[USIf]{
     \ctxAnaTypeU{\ctx}{\EMV_1}{\TBool} \\
     \ctxSynTypeU{\ctx}{\EMV_2}{\TMV_1} \\
-    \ctxSynTypeU{\ctx}{\EMV_3}{\TMV_2}
+    \ctxSynTypeU{\ctx}{\EMV_3}{\TMV_2} \\
+    \TMV_3 = \TMeet{\TMV_1}{\TMV_2}
   }{
-    \ctxSynTypeU{\ctx}{\EIf{\EMV_1}{\EMV_2}{\EMV_3}}{\TMeet{\TMV_1}{\TMV_2}}
+    \ctxSynTypeU{\ctx}{\EIf{\EMV_1}{\EMV_2}{\EMV_3}}{\TMV_3}
   }
 
   \inferrule[USPair]{
@@ -354,9 +355,10 @@ incomplete editor states \`a la Hazelnut but are not essential.
   \inferrule[MKSIf]{
     \ctxAnaFixedInto{\ctx}{\EMV_1}{\ECMV_1}{\TBool} \\
     \ctxSynFixedInto{\ctx}{\EMV_2}{\ECMV_2}{\TMV_1} \\
-    \ctxSynFixedInto{\ctx}{\EMV_3}{\ECMV_3}{\TMV_2}
+    \ctxSynFixedInto{\ctx}{\EMV_3}{\ECMV_3}{\TMV_2} \\
+    \TMV_3 = \TMeet{\TMV_1}{\TMV_2}
   }{
-    \ctxSynFixedInto{\ctx}{\EIf{\EMV_1}{\EMV_2}{\EMV_3}}{\ECIf{\ECMV_1}{\ECMV_2}{\ECMV_3}}{\TMeet{\TMV_1}{\TMV_2}}
+    \ctxSynFixedInto{\ctx}{\EIf{\EMV_1}{\EMV_2}{\EMV_3}}{\ECIf{\ECMV_1}{\ECMV_2}{\ECMV_3}}{\TMV_3}
   }
 
   \inferrule[MKSInconsistentBranches]{
@@ -551,8 +553,9 @@ incomplete editor states \`a la Hazelnut but are not essential.
     \ctxAnaTypeM{\ctx}{\ECMV_1}{\TBool} \\
     \ctxSynTypeM{\ctx}{\ECMV_2}{\TMV_1} \\
     \ctxSynTypeM{\ctx}{\ECMV_3}{\TMV_2}
+    \TMV_3 = \TMeet{\TMV_1}{\TMV_2}
   }{
-    \ctxSynTypeM{\ctx}{\ECIf{\ECMV_1}{\ECMV_2}{\ECMV_3}}{\TMeet{\TMV_1}{\TMV_2}}
+    \ctxSynTypeM{\ctx}{\ECIf{\ECMV_1}{\ECMV_2}{\ECMV_3}}{\TMV_3}
   }
 
   \inferrule[MSInconsistentBranches]{
