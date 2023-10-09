@@ -709,10 +709,10 @@ Type actions are the same as in the untyped model.
 
   \inferrule[ASEZipApL3]{
     \ctxSynTypeM{\ctx}{\cursorErase{\ZCMV_1}}{\TMV_1} \\
-    \ASEAction{\ctx}{\ZCMV}{\TMV_1}{\ZCMV'}{\TMV_1'}{\AMV} \\\\
+    \ASEAction{\ctx}{\ZCMV_1}{\TMV_1}{\ZCMV_1'}{\TMV_1'}{\AMV} \\\\
     \notMatchedArrow{\TMV_1'}
   }{
-    \ASEAction{\ctx}{\ZCApL{\ZCMV_1}{\ECMV_2}}{\TMV}{\ZCApL{\ECInconType{\ZCMV_1'}}{\ECMV_2}}{\TUnknown}{\AMV}
+    \ASEAction{\ctx}{\ZCApL{\ZCMV_1}{\ECMV_2}}{\TMV}{\ZCApSynNonMatchedArrowL{\ZCMV_1'}{\ECMV_2}}{\TUnknown}{\AMV}
   }
 
   \inferrule[ASEZipApL4]{
@@ -741,7 +741,7 @@ Type actions are the same as in the untyped model.
     \ASEAction{\ctx}{\ZCApL{\ECInconType{\ZCMV_1}}{\ECMV_2}}{\TUnknown}{\ZCApL{\ECInconType{\ZCMV_1'}}{\ECMV_2}}{\TUnknown}{\AMV}
   }
 
-  \inferrule[ASEZipApR]{
+  \inferrule[ASEZipApR1]{
     \ctxSynTypeM{\ctx}{\ECMV_1}{\TMV_1} \\
     \matchedArrow{\TMV_1}{\TMV_2}{\TMV_3} \\
     \AAEAction{\ctx}{\ZCMV_2}{\ZCMV_2'}{\TMV_2}{\AMV}
@@ -749,10 +749,16 @@ Type actions are the same as in the untyped model.
     \ASEAction{\ctx}{\ZCApR{\ECMV_1}{\ZCMV_2}}{\TMV}{\ZCApR{\ECMV_1}{\ZCMV_2'}}{\TMV_3}{\AMV}
   }
 
+  \inferrule[ASEZipApR2]{
+    \AAEAction{\ctx}{\ZCMV_2}{\ZCMV_2'}{\TUnknown}{\AMV}
+  }{
+    \ASEAction{\ctx}{\ZCApSynNonMatchedArrowR{\ECMV_1}{\ZCMV_2}}{\TUnknown}{\ZCApSynNonMatchedArrowR{\ECMV_1}{\ZCMV_2'}}{\TUnknown}{\AMV}
+  }
+
   \inferrule[ASEZipLetL1]{
     \ctxSynTypeM{\ctx}{\cursorErase{\ZCMV_1}}{\TMV_1} \\
     \ASEAction{\ctx}{\ZCMV_1}{\TMV_1}{\ZCMV_1'}{\TMV_1'}{\AMV} \\
-    \consistent{\TMV_1}{\TMV_1'}
+    \equal{\TMV_1}{\TMV_1'}
   }{
     \ASEAction{\ctx}{\ZCLetL{x}{\ZCMV_1}{\ECMV_2}}{\TMV_2}{\ZCLetL{x}{\ZCMV_1'}{\ECMV_2}}{\TMV_2}{\AMV}
   }
@@ -760,7 +766,7 @@ Type actions are the same as in the untyped model.
   \inferrule[ASEZipLetL2]{
     \ctxSynTypeM{\ctx}{\cursorErase{\ZCMV_1}}{\TMV_1} \\
     \ASEAction{\ctx}{\ZCMV_1}{\TMV_1}{\ZCMV_1'}{\TMV_1'}{\AMV} \\\\
-    \inconsistent{\TMV_1}{\TMV_1'} \\
+    \notEqual{\TMV_1}{\TMV_1'} \\
     \ctxSynFixedInto{\extendCtx{\ctx}{x}{\TMV_1'}}{\erase{\ECMV_2}}{\ECMV_2'}{\TMV_2'}
   }{
     \ASEAction{\ctx}{\ZCLetL{x}{\ZCMV_1}{\ECMV_2}}{\TMV_2}{\ZCLetL{x}{\ZCMV_1'}{\ECMV_2'}}{\TMV_2'}{\AMV}
@@ -864,6 +870,74 @@ Type actions are the same as in the untyped model.
     \inconsistent{\TMV_1}{\TMV_2'}
   }{
     \ASEAction{\ctx}{\ZCInconBrR{\ECMV_1}{\ECMV_2}{\ZCMV}}{\TMV}{\ZCInconBrR{\ECMV_1}{\ECMV_2}{\ZCMV'}}{\TUnknown}{\AMV}
+  }
+
+  \inferrule[ASEZipPairL]{
+    \ASEAction{\ctx}{\ZCMV}{\TMV_1}{\ZCMV'}{\TMV_1'}{\AMV}
+  }{
+    \ASEAction{\ctx}{\ZCPairL{\ZCMV}{\ECMV}}{\TProd{\TMV_1}{\TMV_2}}{\ZCPairL{\ZCMV'}{\ECMV}}{\TProd{\TMV_1'}{\TMV_2}}{\AMV}
+  }
+
+  \inferrule[ASEZipPairR]{
+    \ASEAction{\ctx}{\ZCMV}{\TMV_2}{\ZCMV'}{\TMV_2'}{\AMV}
+  }{
+    \ASEAction{\ctx}{\ZCPairR{\ECMV}{\ZCMV}}{\TProd{\TMV_1}{\TMV_2}}{\ZCPairR{\ECMV}{\ZCMV'}}{\TProd{\TMV_1'}{\TMV_2}}{\AMV}
+  }
+
+  \inferrule[ASEZipProjL1]{
+    \ASEAction{\ctx}{\ZCMV}{\TMV}{\ZCMV'}{\TMV'}{\AMV} \\
+    \matchedProd{\TMV'}{\TMV_1'}{\TMV_2'}
+  }{
+    \ASEAction{\ctx}{\ZCProjL{\ZCMV}}{\TMV_1}{\ZCProjL{\ZCMV'}}{\TMV_1'}{\AMV}
+  }
+
+  \inferrule[ASEZipProjL2]{
+    \ASEAction{\ctx}{\ZCMV}{\TMV}{\ZCMV'}{\TMV'}{\AMV} \\
+    \notMatchedProd{\TMV'}
+  }{
+    \ASEAction{\ctx}{\ZCProjL{\ZCMV}}{\TMV_1}{\ZCProjLSynNonMatchedProd{\ZCMV'}}{\TUnknown}{\AMV}
+  }
+
+  \inferrule[ASEZipProjL3]{
+    \ASEAction{\ctx}{\ZCMV}{\TMV}{\ZCMV'}{\TMV'}{\AMV} \\
+    \matchedProd{\TMV'}{\TMV_1'}{\TMV_2'}
+  }{
+    \ASEAction{\ctx}{\ZCProjLSynNonMatchedProd{\ZCMV}}{\TUnknown}{\ZCProjL{\ZCMV'}}{\TMV_1'}{\AMV}
+  }
+
+  \inferrule[ASEZipProjL4]{
+    \ASEAction{\ctx}{\ZCMV}{\TMV}{\ZCMV'}{\TMV'}{\AMV} \\
+    \notMatchedProd{\TMV'}
+  }{
+    \ASEAction{\ctx}{\ZCProjLSynNonMatchedProd{\ZCMV}}{\TUnknown}{\ZCProjLSynNonMatchedProd{\ZCMV'}}{\TUnknown}{\AMV}
+  }
+
+  \inferrule[ASEZipProjR1]{
+    \ASEAction{\ctx}{\ZCMV}{\TMV}{\ZCMV'}{\TMV'}{\AMV} \\
+    \matchedProd{\TMV'}{\TMV_1'}{\TMV_2'}
+  }{
+    \ASEAction{\ctx}{\ZCProjR{\ZCMV}}{\TMV_2}{\ZCProjR{\ZCMV'}}{\TMV_2'}{\AMV}
+  }
+
+  \inferrule[ASEZipProjR2]{
+    \ASEAction{\ctx}{\ZCMV}{\TMV}{\ZCMV'}{\TMV'}{\AMV} \\
+    \notMatchedProd{\TMV'}
+  }{
+    \ASEAction{\ctx}{\ZCProjR{\ZCMV}}{\TMV_2}{\ZCProjRSynNonMatchedProd{\ZCMV'}}{\TUnknown}{\AMV}
+  }
+
+  \inferrule[ASEZipProjL3]{
+    \ASEAction{\ctx}{\ZCMV}{\TMV}{\ZCMV'}{\TMV'}{\AMV} \\
+    \matchedProd{\TMV'}{\TMV_1'}{\TMV_2'}
+  }{
+    \ASEAction{\ctx}{\ZCProjRSynNonMatchedProd{\ZCMV}}{\TUnknown}{\ZCProjR{\ZCMV'}}{\TMV_2'}{\AMV}
+  }
+
+  \inferrule[ASEZipProjR4]{
+    \ASEAction{\ctx}{\ZCMV}{\TMV}{\ZCMV'}{\TMV'}{\AMV} \\
+    \notMatchedProd{\TMV'}
+  }{
+    \ASEAction{\ctx}{\ZCProjRSynNonMatchedProd{\ZCMV}}{\TUnknown}{\ZCProjRSynNonMatchedProd{\ZCMV'}}{\TUnknown}{\AMV}
   }
 \end{mathparpagebreakable}
 
