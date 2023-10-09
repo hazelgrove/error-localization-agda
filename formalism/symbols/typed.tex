@@ -1,5 +1,65 @@
 % !requires untyped
 
+%
+% marked zippered expressions
+%
+\newcommand{\ZCMName}{{\normalfont\textsf{MZExp}}}
+\newcommand{\ZCMSet}{\ensuremath{\hat{E}}}
+\newcommand{\ZCMV}{\ensuremath{\underline{\check{e}}}}
+
+% cursor
+\definecolor{cursorhighlight}{RGB}{230,255,230}
+\definecolor{cursor}{RGB}{76,170,76}
+\newcommand{\ZCCursor}[1]{\ensuremath{\mathcolorbox{cursorhighlight}{\textcolor{cursor}{\bm{\triangleright}}#1\textcolor{cursor}{\bm{\triangleleft}}}}}
+
+% integers
+\newcommand{\ZCPlusL}[2]{\ensuremath{\ECPlus{#1}{#2}}}
+\newcommand{\ZCPlusR}[2]{\ensuremath{\ECPlus{#1}{#2}}}
+
+% lambdas
+\newcommand{\ZCLamT}[3]{\ensuremath{\ECLam{#1}{#2}{#3}}}
+\newcommand{\ZCLamE}[3]{\ensuremath{\ECLam{#1}{#2}{#3}}}
+\newcommand{\ZCApL}[2]{\ensuremath{\ECAp{#1}{#2}}}
+\newcommand{\ZCApR}[2]{\ensuremath{\ECAp{#1}{#2}}}
+
+% booleans
+\newcommand{\ZCIfC}[3]{\ensuremath{\ECIf{#1}{#2}{#3}}}
+\newcommand{\ZCIfL}[3]{\ensuremath{\ECIf{#1}{#2}{#3}}}
+\newcommand{\ZCIfR}[3]{\ensuremath{\ECIf{#1}{#2}{#3}}}
+
+% let
+\newcommand{\ZCLetL}[3]{\ensuremath{\ECLet{#1}{#2}{#3}}}
+\newcommand{\ZCLetR}[3]{\ensuremath{\ECLet{#1}{#2}{#3}}}
+
+% pairs
+\newcommand{\ZCPairL}[2]{\ensuremath{\ECPair{#1}{#2}}}
+\newcommand{\ZCPairR}[2]{\ensuremath{\ECPair{#1}{#2}}}
+\newcommand{\ZCProjL}[1]{\ensuremath{\ECProjL{#1}}}
+\newcommand{\ZCProjR}[1]{\ensuremath{\ECProjR{#1}}}
+
+% errors
+\newcommand{\ZCFree}[1]{\ensuremath{\ECFree{#1}}}
+\newcommand{\ZCInconType}[1]{\ensuremath{\ECInconType{#1}}}
+\newcommand{\ZCInconBrC}[3]{\ensuremath{\ECInconBr{#1}{#2}{#3}}}
+\newcommand{\ZCInconBrL}[3]{\ensuremath{\ECInconBr{#1}{#2}{#3}}}
+\newcommand{\ZCInconBrR}[3]{\ensuremath{\ECInconBr{#1}{#2}{#3}}}
+\newcommand{\ZCInconAsc}[1]{\ensuremath{\ECInconAsc{#1}}}
+\newcommand{\ZCSynNonMatchedArrow}[1]{\ensuremath{\ECSynNonMatchedArrow{#1}}}
+\newcommand{\ZCSynNonMatchedProd}[1]{\ensuremath{\ECSynNonMatchedProd{#1}}}
+\newcommand{\ZCAnaNonMatchedArrow}[1]{\ensuremath{\ECAnaNonMatchedArrow{#1}}}
+\newcommand{\ZCAnaNonMatchedProd}[1]{\ensuremath{\ECAnaNonMatchedProd{#1}}}
+
+\newcommand{\ZCLamInconAscT}[3]{\ensuremath{\ECInconAsc{\ECLam{#1}{#2}{#3}}}}
+\newcommand{\ZCLamInconAscE}[3]{\ensuremath{\ECInconAsc{\ECLam{#1}{#2}{#3}}}}
+\newcommand{\ZCApSynNonMatchedArrowL}[2]{\ensuremath{\ECAp{\ECSynNonMatchedArrow{#1}}{#2}}}
+\newcommand{\ZCApSynNonMatchedArrowR}[2]{\ensuremath{\ECAp{\ECSynNonMatchedArrow{#1}}{#2}}}
+\newcommand{\ZCProjLSynNonMatchedProd}[1]{\ensuremath{\ECProjL{\ECSynNonMatchedProd{#1}}}}
+\newcommand{\ZCProjRSynNonMatchedProd}[1]{\ensuremath{\ECProjR{\ECSynNonMatchedProd{#1}}}}
+\newcommand{\ZCLamAnaNonMatchedArrowT}[3]{\ensuremath{\ECAnaNonMatchedArrow{\ECLam{#1}{#2}{#3}}}}
+\newcommand{\ZCLamAnaNonMatchedArrowE}[3]{\ensuremath{\ECAnaNonMatchedArrow{\ECLam{#1}{#2}{#3}}}}
+\newcommand{\ZCPairAnaNonMatchedProdL}[2]{\ensuremath{\ECAnaNonMatchedProd{\ECPair{#1}{#2}}}}
+\newcommand{\ZCPairAnaNonMatchedProdR}[2]{\ensuremath{\ECAnaNonMatchedProd{\ECPair{#1}{#2}}}}
+
 % zippered expression well-formedness
 \newcommand{\zWellFormed}[1]{\ensuremath{#1 ~{\normalfont\textsf{WF}}}}
 

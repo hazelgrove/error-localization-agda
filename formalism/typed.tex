@@ -21,201 +21,201 @@ in the integration of the untyped version and the marked lambda calculus given i
 Zippered types are the same as in the untyped model.
 
 \[\begin{array}{rrcl}
-  \ZMName  & \ZMV  & \Coloneqq & \ZCursor{\ECMV} \mid \ZLamT{x}{\ZTMV}{\ECMV} \mid \ZLamE{x}{\TMV}{\ZMV} \mid \ZApL{\ZMV}{\ECMV} \mid \ZApR{\ECMV}{\ZMV} \\
-           &       & \mid         & \ZLetL{x}{\ZMV}{\ECMV} \mid \ZLetR{x}{\ECMV}{\ZMV} \\
-           &       & \mid         & \ZPlusL{\ZMV}{\ECMV} \mid \ZPlusR{\ECMV}{\ZMV} \\
-           &       & \mid         & \ZIfC{\ZMV}{\ECMV}{\ECMV} \mid \ZIfL{\ECMV}{\ZMV}{\ECMV} \mid \ZIfR{\ECMV}{\ECMV}{\ZMV} \\
-           &       & \mid         & \ZPairL{\ZMV}{\EMV} \mid \ZPairR{\EMV}{\ZMV} \mid \ZProjL{\ZMV} \mid \ZProjR{\ZMV} \\
-           &       & \mid         & \ZFree{x} \mid \ZInconType{\ZMV} \\
-           &       & \mid         & \ZLamInconAscT{x}{\ZTMV}{\ECMV} \mid \ZLamInconAscE{x}{\TMV}{\ZMV}
-                     \mid           \ZLamAnaNonMatchedArrowT{x}{\ZTMV}{\ECMV} \mid \ZLamAnaNonMatchedArrowE{x}{\TMV}{\ZMV}
-                     \mid           \ZApSynNonMatchedArrowL{\ZMV}{\ECMV} \mid \ZApSynNonMatchedArrowR{\ECMV}{\ZMV} \\
-           &       & \mid         & \ZInconBrC{\ZMV}{\ECMV}{\ECMV} \mid \ZInconBrL{\ECMV}{\ZMV}{\ECMV} \mid \ZInconBrR{\ECMV}{\ECMV}{\ZMV} \\
-           &       & \mid         & \ZPairAnaNonMatchedProdL{\ZMV}{\ECMV} \mid \ZPairAnaNonMatchedProdR{\ECMV}{\ZMV}
-                     \mid           \ZProjLSynNonMatchedProd{\ZMV} \mid \ZProjRSynNonMatchedProd{\ZMV}
+  \ZCMName & \ZCMV & \Coloneqq & \ZCCursor{\ECMV} \mid \ZCLamT{x}{\ZTMV}{\ECMV} \mid \ZCLamE{x}{\TMV}{\ZCMV} \mid \ZCApL{\ZCMV}{\ECMV} \mid \ZCApR{\ECMV}{\ZCMV} \\
+           &       & \mid         & \ZCLetL{x}{\ZCMV}{\ECMV} \mid \ZCLetR{x}{\ECMV}{\ZCMV} \\
+           &       & \mid         & \ZCPlusL{\ZCMV}{\ECMV} \mid \ZCPlusR{\ECMV}{\ZCMV} \\
+           &       & \mid         & \ZCIfC{\ZCMV}{\ECMV}{\ECMV} \mid \ZCIfL{\ECMV}{\ZCMV}{\ECMV} \mid \ZCIfR{\ECMV}{\ECMV}{\ZCMV} \\
+           &       & \mid         & \ZCPairL{\ZCMV}{\EMV} \mid \ZCPairR{\EMV}{\ZCMV} \mid \ZCProjL{\ZCMV} \mid \ZCProjR{\ZCMV} \\
+           &       & \mid         & \ZCFree{x} \mid \ZCInconType{\ZCMV} \\
+           &       & \mid         & \ZCLamInconAscT{x}{\ZTMV}{\ECMV} \mid \ZCLamInconAscE{x}{\TMV}{\ZCMV}
+                     \mid           \ZCLamAnaNonMatchedArrowT{x}{\ZTMV}{\ECMV} \mid \ZCLamAnaNonMatchedArrowE{x}{\TMV}{\ZCMV}
+                     \mid           \ZCApSynNonMatchedArrowL{\ZCMV}{\ECMV} \mid \ZCApSynNonMatchedArrowR{\ECMV}{\ZCMV} \\
+           &       & \mid         & \ZCInconBrC{\ZCMV}{\ECMV}{\ECMV} \mid \ZCInconBrL{\ECMV}{\ZCMV}{\ECMV} \mid \ZCInconBrR{\ECMV}{\ECMV}{\ZCMV} \\
+           &       & \mid         & \ZCPairAnaNonMatchedProdL{\ZCMV}{\ECMV} \mid \ZCPairAnaNonMatchedProdR{\ECMV}{\ZCMV}
+                     \mid           \ZCProjLSynNonMatchedProd{\ZCMV} \mid \ZCProjRSynNonMatchedProd{\ZCMV}
 \end{array}\]
 
 \subsubsection{Well-formedness}
 \label{sec:typed-well-formedness}
-\judgbox{\ensuremath{\zWellFormed{\ZMV}}} $\ZMV$ is well-formed
+\judgbox{\ensuremath{\zWellFormed{\ZCMV}}} $\ZCMV$ is well-formed
 %
 \begin{mathpar}
   \inferrule[WFCursor]{ }{
-    \zWellFormed{\ZCursor{\ECMV}}
+    \zWellFormed{\ZCCursor{\ECMV}}
   }
 
   \inferrule[WFLam1]{ }{
-    \zWellFormed{\ZLamT{x}{\ZTMV}{\ECMV}}
+    \zWellFormed{\ZCLamT{x}{\ZTMV}{\ECMV}}
   }
 
   \inferrule[WFLam2]{
-    \zWellFormed{\ZMV}
+    \zWellFormed{\ZCMV}
   }{
-    \zWellFormed{\ZLamE{x}{\TMV}{\ZMV}}
+    \zWellFormed{\ZCLamE{x}{\TMV}{\ZCMV}}
   }
 
   \inferrule[WFAp1]{
-    \zWellFormed{\ZMV}
+    \zWellFormed{\ZCMV}
   }{
-    \zWellFormed{\ZApL{\ZMV}{\ECMV}}
+    \zWellFormed{\ZCApL{\ZCMV}{\ECMV}}
   }
 
   \inferrule[WFAp2]{
-    \zWellFormed{\ZMV}
+    \zWellFormed{\ZCMV}
   }{
-    \zWellFormed{\ZApR{\ECMV}{\ZMV}}
+    \zWellFormed{\ZCApR{\ECMV}{\ZCMV}}
   }
 
   \inferrule[WFLet1]{
-    \zWellFormed{\ZMV}
+    \zWellFormed{\ZCMV}
   }{
-    \zWellFormed{\ZLetL{x}{\ZMV}{\ECMV}}
+    \zWellFormed{\ZCLetL{x}{\ZCMV}{\ECMV}}
   }
 
   \inferrule[WFLet2]{
-    \zWellFormed{\ZMV}
+    \zWellFormed{\ZCMV}
   }{
-    \zWellFormed{\ZLetR{x}{\ECMV}{\ZMV}}
+    \zWellFormed{\ZCLetR{x}{\ECMV}{\ZCMV}}
   }
 
   \inferrule[WFPlus1]{
-    \zWellFormed{\ZMV}
+    \zWellFormed{\ZCMV}
   }{
-    \zWellFormed{\ZPlusL{\ZMV}{\ECMV}}
+    \zWellFormed{\ZCPlusL{\ZCMV}{\ECMV}}
   }
 
   \inferrule[WFPlus2]{
-    \zWellFormed{\ZMV}
+    \zWellFormed{\ZCMV}
   }{
-    \zWellFormed{\ZPlusR{\ECMV}{\ZMV}}
+    \zWellFormed{\ZCPlusR{\ECMV}{\ZCMV}}
   }
 
   \inferrule[WFIf1]{
-    \zWellFormed{\ZMV}
+    \zWellFormed{\ZCMV}
   }{
-    \zWellFormed{\ZIfC{\ZMV}{\ECMV_1}{\ECMV_2}}
+    \zWellFormed{\ZCIfC{\ZCMV}{\ECMV_1}{\ECMV_2}}
   }
 
   \inferrule[WFIf2]{
-    \zWellFormed{\ZMV}
+    \zWellFormed{\ZCMV}
   }{
-    \zWellFormed{\ZIfL{\ECMV_1}{\ZMV}{\ECMV_2}}
+    \zWellFormed{\ZCIfL{\ECMV_1}{\ZCMV}{\ECMV_2}}
   }
 
   \inferrule[WFIf3]{
-    \zWellFormed{\ZMV}
+    \zWellFormed{\ZCMV}
   }{
-    \zWellFormed{\ZIfR{\ECMV_1}{\ECMV_2}{\ZMV}}
+    \zWellFormed{\ZCIfR{\ECMV_1}{\ECMV_2}{\ZCMV}}
   }
 
   \inferrule[WFPair1]{
-    \zWellFormed{\ZMV}
+    \zWellFormed{\ZCMV}
   }{
-    \zWellFormed{\ZPairL{\ZMV}{\ECMV}}
+    \zWellFormed{\ZCPairL{\ZCMV}{\ECMV}}
   }
 
   \inferrule[WFPair2]{
-    \zWellFormed{\ZMV}
+    \zWellFormed{\ZCMV}
   }{
-    \zWellFormed{\ZPairR{\ECMV}{\ZMV}}
+    \zWellFormed{\ZCPairR{\ECMV}{\ZCMV}}
   }
 
   \inferrule[WFProjL1]{
-    \zWellFormed{\ZMV}
+    \zWellFormed{\ZCMV}
   }{
-    \zWellFormed{\ZProjL{\ZMV}}
+    \zWellFormed{\ZCProjL{\ZCMV}}
   }
 
   \inferrule[WFProjR1]{
-    \zWellFormed{\ZMV}
+    \zWellFormed{\ZCMV}
   }{
-    \zWellFormed{\ZProjR{\ZMV}}
+    \zWellFormed{\ZCProjR{\ZCMV}}
   }
 
   \inferrule[WFFree]{ }{
-    \zWellFormed{\ZFree{x}}
+    \zWellFormed{\ZCFree{x}}
   }
 
   \inferrule[WFInconsistentTypes]{
-    \notEqual{\ZMV}{\ZCursor{\ECMV}} \\
-    \zWellFormed{\ZMV}
+    \notEqual{\ZCMV}{\ZCCursor{\ECMV}} \\
+    \zWellFormed{\ZCMV}
   }{
-    \zWellFormed{\ZInconType{\ZMV}}
+    \zWellFormed{\ZCInconType{\ZCMV}}
   }
 
   \inferrule[WFLam3]{ }{
-    \zWellFormed{\ZLamInconAscT{x}{\ZTMV}{\ECMV}}
+    \zWellFormed{\ZCLamInconAscT{x}{\ZTMV}{\ECMV}}
   }
 
   \inferrule[WFLam4]{
-    \zWellFormed{\ZMV}
+    \zWellFormed{\ZCMV}
   }{
-    \zWellFormed{\ZLamInconAscE{x}{\TMV}{\ZMV}}
+    \zWellFormed{\ZCLamInconAscE{x}{\TMV}{\ZCMV}}
   }
 
   \inferrule[WFLam5]{
   }{
-    \zWellFormed{\ZLamAnaNonMatchedArrowT{x}{\ZTMV}{\ECMV}}
+    \zWellFormed{\ZCLamAnaNonMatchedArrowT{x}{\ZTMV}{\ECMV}}
   }
 
   \inferrule[WFLam6]{
-    \zWellFormed{\ZMV}
+    \zWellFormed{\ZCMV}
   }{
-    \zWellFormed{\ZLamAnaNonMatchedArrowE{x}{\TMV}{\ZMV}}
+    \zWellFormed{\ZCLamAnaNonMatchedArrowE{x}{\TMV}{\ZCMV}}
   }
 
   \inferrule[WFAp3]{
-    \zWellFormed{\ZMV}
+    \zWellFormed{\ZCMV}
   }{
-    \zWellFormed{\ZApSynNonMatchedArrowL{\ZMV}{\ECMV}}
+    \zWellFormed{\ZCApSynNonMatchedArrowL{\ZCMV}{\ECMV}}
   }
 
   \inferrule[WFAp4]{
-    \zWellFormed{\ZMV}
+    \zWellFormed{\ZCMV}
   }{
-    \zWellFormed{\ZApSynNonMatchedArrowR{\ECMV}{\ZMV}}
+    \zWellFormed{\ZCApSynNonMatchedArrowR{\ECMV}{\ZCMV}}
   }
 
   \inferrule[WFInconsistentBranches1]{
-    \zWellFormed{\ZMV}
+    \zWellFormed{\ZCMV}
   }{
-    \zWellFormed{\ZInconBrC{\ZMV}{\ECMV_1}{\ECMV_2}}
+    \zWellFormed{\ZCInconBrC{\ZCMV}{\ECMV_1}{\ECMV_2}}
   }
 
   \inferrule[WFInconsistentBranches2]{
-    \zWellFormed{\ZMV}
+    \zWellFormed{\ZCMV}
   }{
-    \zWellFormed{\ZInconBrL{\ECMV_1}{\ZMV}{\ECMV_2}}
+    \zWellFormed{\ZCInconBrL{\ECMV_1}{\ZCMV}{\ECMV_2}}
   }
 
   \inferrule[WFInconsistentBranches3]{
-    \zWellFormed{\ZMV}
+    \zWellFormed{\ZCMV}
   }{
-    \zWellFormed{\ZInconBrR{\ECMV_1}{\ECMV_2}{\ZMV}}
+    \zWellFormed{\ZCInconBrR{\ECMV_1}{\ECMV_2}{\ZCMV}}
   }
 
   \inferrule[WFPair3]{
-    \zWellFormed{\ZMV}
+    \zWellFormed{\ZCMV}
   }{
-    \zWellFormed{\ZPairAnaNonMatchedProdL{\ZMV}{\ECMV}}
+    \zWellFormed{\ZCPairAnaNonMatchedProdL{\ZCMV}{\ECMV}}
   }
 
   \inferrule[WFPair4]{
-    \zWellFormed{\ZMV}
+    \zWellFormed{\ZCMV}
   }{
-    \zWellFormed{\ZPairAnaNonMatchedProdR{\ECMV}{\ZMV}}
+    \zWellFormed{\ZCPairAnaNonMatchedProdR{\ECMV}{\ZCMV}}
   }
 
   \inferrule[WFProjL2]{
-    \zWellFormed{\ZMV}
+    \zWellFormed{\ZCMV}
   }{
-    \zWellFormed{\ZProjLSynNonMatchedProd{\ZMV}}
+    \zWellFormed{\ZCProjLSynNonMatchedProd{\ZCMV}}
   }
 
   \inferrule[WFProjR2]{
-    \zWellFormed{\ZMV}
+    \zWellFormed{\ZCMV}
   }{
-    \zWellFormed{\ZProjRSynNonMatchedProd{\ZMV}}
+    \zWellFormed{\ZCProjRSynNonMatchedProd{\ZCMV}}
   }
 \end{mathpar}
 
@@ -228,41 +228,41 @@ Type cursor erasure is the same as in the untyped model.
 
 \subsubsection{Expression cursor erasure}
 \label{sec:typed-expression-cursor-erasure}
-\judgbox{\ensuremath{\cursorErase{\ZMV}}} is a metafunction defined as follows:
+\judgbox{\ensuremath{\cursorErase{\ZCMV}}} is a metafunction defined as follows:
 %
 \newcommand{\cursorErasesToRow}[2]{\ensuremath{\cursorErase{#1} & = & #2}}
 \[\begin{array}{rcl}
-  \cursorErasesToRow{\ZCursor{\ECMV}}{\ECMV} \\
-  \cursorErasesToRow{(\ZLamT{x}{\ZTMV}{\ECMV})}{\ECLam{x}{(\cursorErase{\ZTMV})}{\ECMV}} \\
-  \cursorErasesToRow{(\ZLamE{x}{\TMV}{\ZMV})}{\ECLam{x}{\TMV}{(\cursorErase{\ZMV})}} \\
-  \cursorErasesToRow{(\ZApL{\ZMV}{\ECMV})}{\ECAp{(\cursorErase{\ZMV})}{\ECMV}} \\
-  \cursorErasesToRow{(\ZApR{\ECMV}{\ZMV})}{\ECAp{\ECMV}{(\cursorErase{\ZMV})}} \\
-  \cursorErasesToRow{(\ZLetL{x}{\ZMV}{\ECMV})}{\ECLet{x}{(\cursorErase{\ZMV})}{\ECMV}} \\
-  \cursorErasesToRow{(\ZLetR{x}{\ECMV}{\ZMV})}{\ECLet{x}{\ECMV}{(\cursorErase{\ZMV})}} \\
-  \cursorErasesToRow{(\ZPlusL{\ZMV}{\ECMV})}{\ECPlus{(\cursorErase{\ZMV})}{\ECMV}} \\
-  \cursorErasesToRow{(\ZPlusR{\ECMV}{\ZMV})}{\ECPlus{\ECMV}{(\cursorErase{\ZMV})}} \\
-  \cursorErasesToRow{(\ZIfC{\ZMV}{\ECMV_1}{\ECMV_2})}{\ECIf{(\cursorErase{\ZMV})}{\ECMV_1}{\ECMV_2}} \\
-  \cursorErasesToRow{(\ZIfL{\ECMV_1}{\ZMV}{\ECMV_2})}{\ECIf{\ECMV_1}{(\cursorErase{\ZMV})}{\ECMV_2}} \\
-  \cursorErasesToRow{(\ZIfL{\ECMV_1}{\ECMV_2}{\ZMV})}{\ECIf{\ECMV_1}{\ECMV_2}{(\cursorErase{\ZMV})}} \\
-  \cursorErasesToRow{\ZPairL{\ZMV}{\ECMV}}{\ECPair{\cursorErase{\ZMV}}{\ECMV}} \\
-  \cursorErasesToRow{\ZPairR{\ECMV}{\ZMV}}{\ECPair{\ECMV}{\cursorErase{\ZMV}}} \\
-  \cursorErasesToRow{(\ZProjL{\ZMV})}{\ECProjL{(\cursorErase{\ZMV})}} \\
-  \cursorErasesToRow{(\ZProjR{\ZMV})}{\ECProjR{(\cursorErase{\ZMV})}} \\
-  \cursorErasesToRow{\ZFree{x}}{\cursorErase{\ECFree{x}}} \\
-  \cursorErasesToRow{\ZInconType{\ZMV}}{\ECInconType{\cursorErase{\ZMV}}} \\
-  \cursorErasesToRow{\ZLamInconAscT{x}{\ZTMV}{\ECMV}}{\ECLamInconAsc{x}{\cursorErase{\ZTMV}}{\ECMV}} \\
-  \cursorErasesToRow{\ZLamInconAscE{x}{\TMV}{\ZMV}}{\ECLamInconAsc{x}{\TMV}{\cursorErase{\ZMV}}} \\
-  \cursorErasesToRow{\ZLamAnaNonMatchedArrowT{x}{\ZTMV}{\ECMV}}{\ECLamAnaNonMatchedArrow{x}{\cursorErase{\ZTMV}}{\ECMV}} \\
-  \cursorErasesToRow{\ZLamAnaNonMatchedArrowE{x}{\TMV}{\ZMV}}{\ECLamAnaNonMatchedArrow{x}{\TMV}{\cursorErase{\ZMV}}} \\
-  \cursorErasesToRow{(\ZApSynNonMatchedArrowL{\ZMV}{\ECMV})}{\ECApSynNonMatchedArrow{\cursorErase{\ZMV}}{\ECMV}} \\
-  \cursorErasesToRow{(\ZApSynNonMatchedArrowR{\ECMV}{\ZMV})}{\ECApSynNonMatchedArrow{\ECMV}{(\cursorErase{\ZMV})}} \\
-  \cursorErasesToRow{\ZInconBrC{\ZMV}{\ECMV_1}{\ECMV_2}}{\ECInconBr{\cursorErase{\ZMV}}{\ECMV_1}{\ECMV_2}} \\
-  \cursorErasesToRow{\ZInconBrL{\ECMV_1}{\ZMV}{\ECMV_2}}{\ECInconBr{\ECMV_1}{\cursorErase{\ZMV}}{\ECMV_2}} \\
-  \cursorErasesToRow{\ZInconBrR{\ECMV_1}{\ECMV_2}{\ZMV}}{\ECInconBr{\ECMV_1}{\ECMV_2}{\cursorErase{\ZMV}}} \\
-  \cursorErasesToRow{\ZPairAnaNonMatchedProdL{\ZMV}{\ECMV}}{\ECPairAnaNonMatchedProd{\cursorErase{\ZMV}}{\ECMV}} \\
-  \cursorErasesToRow{\ZPairAnaNonMatchedProdR{\ECMV}{\ZMV}}{\ECPairAnaNonMatchedProd{\ECMV}{\cursorErase{\ZMV}}} \\
-  \cursorErasesToRow{(\ZProjLSynNonMatchedProd{\ZMV})}{\ECProjLSynNonMatchedProd{\cursorErase{\ZMV}}} \\
-  \cursorErasesToRow{(\ZProjRSynNonMatchedProd{\ZMV})}{\ECProjRSynNonMatchedProd{\cursorErase{\ZMV}}} \\
+  \cursorErasesToRow{\ZCCursor{\ECMV}}{\ECMV} \\
+  \cursorErasesToRow{(\ZCLamT{x}{\ZTMV}{\ECMV})}{\ECLam{x}{(\cursorErase{\ZTMV})}{\ECMV}} \\
+  \cursorErasesToRow{(\ZCLamE{x}{\TMV}{\ZCMV})}{\ECLam{x}{\TMV}{(\cursorErase{\ZCMV})}} \\
+  \cursorErasesToRow{(\ZCApL{\ZCMV}{\ECMV})}{\ECAp{(\cursorErase{\ZCMV})}{\ECMV}} \\
+  \cursorErasesToRow{(\ZCApR{\ECMV}{\ZCMV})}{\ECAp{\ECMV}{(\cursorErase{\ZCMV})}} \\
+  \cursorErasesToRow{(\ZCLetL{x}{\ZCMV}{\ECMV})}{\ECLet{x}{(\cursorErase{\ZCMV})}{\ECMV}} \\
+  \cursorErasesToRow{(\ZCLetR{x}{\ECMV}{\ZCMV})}{\ECLet{x}{\ECMV}{(\cursorErase{\ZCMV})}} \\
+  \cursorErasesToRow{(\ZCPlusL{\ZCMV}{\ECMV})}{\ECPlus{(\cursorErase{\ZCMV})}{\ECMV}} \\
+  \cursorErasesToRow{(\ZCPlusR{\ECMV}{\ZCMV})}{\ECPlus{\ECMV}{(\cursorErase{\ZCMV})}} \\
+  \cursorErasesToRow{(\ZCIfC{\ZCMV}{\ECMV_1}{\ECMV_2})}{\ECIf{(\cursorErase{\ZCMV})}{\ECMV_1}{\ECMV_2}} \\
+  \cursorErasesToRow{(\ZCIfL{\ECMV_1}{\ZCMV}{\ECMV_2})}{\ECIf{\ECMV_1}{(\cursorErase{\ZCMV})}{\ECMV_2}} \\
+  \cursorErasesToRow{(\ZCIfL{\ECMV_1}{\ECMV_2}{\ZCMV})}{\ECIf{\ECMV_1}{\ECMV_2}{(\cursorErase{\ZCMV})}} \\
+  \cursorErasesToRow{\ZCPairL{\ZCMV}{\ECMV}}{\ECPair{\cursorErase{\ZCMV}}{\ECMV}} \\
+  \cursorErasesToRow{\ZCPairR{\ECMV}{\ZCMV}}{\ECPair{\ECMV}{\cursorErase{\ZCMV}}} \\
+  \cursorErasesToRow{(\ZCProjL{\ZCMV})}{\ECProjL{(\cursorErase{\ZCMV})}} \\
+  \cursorErasesToRow{(\ZCProjR{\ZCMV})}{\ECProjR{(\cursorErase{\ZCMV})}} \\
+  \cursorErasesToRow{\ZCFree{x}}{\cursorErase{\ECFree{x}}} \\
+  \cursorErasesToRow{\ZCInconType{\ZCMV}}{\ECInconType{\cursorErase{\ZCMV}}} \\
+  \cursorErasesToRow{\ZCLamInconAscT{x}{\ZTMV}{\ECMV}}{\ECLamInconAsc{x}{\cursorErase{\ZTMV}}{\ECMV}} \\
+  \cursorErasesToRow{\ZCLamInconAscE{x}{\TMV}{\ZCMV}}{\ECLamInconAsc{x}{\TMV}{\cursorErase{\ZCMV}}} \\
+  \cursorErasesToRow{\ZCLamAnaNonMatchedArrowT{x}{\ZTMV}{\ECMV}}{\ECLamAnaNonMatchedArrow{x}{\cursorErase{\ZTMV}}{\ECMV}} \\
+  \cursorErasesToRow{\ZCLamAnaNonMatchedArrowE{x}{\TMV}{\ZCMV}}{\ECLamAnaNonMatchedArrow{x}{\TMV}{\cursorErase{\ZCMV}}} \\
+  \cursorErasesToRow{(\ZCApSynNonMatchedArrowL{\ZCMV}{\ECMV})}{\ECApSynNonMatchedArrow{\cursorErase{\ZCMV}}{\ECMV}} \\
+  \cursorErasesToRow{(\ZCApSynNonMatchedArrowR{\ECMV}{\ZCMV})}{\ECApSynNonMatchedArrow{\ECMV}{(\cursorErase{\ZCMV})}} \\
+  \cursorErasesToRow{\ZCInconBrC{\ZCMV}{\ECMV_1}{\ECMV_2}}{\ECInconBr{\cursorErase{\ZCMV}}{\ECMV_1}{\ECMV_2}} \\
+  \cursorErasesToRow{\ZCInconBrL{\ECMV_1}{\ZCMV}{\ECMV_2}}{\ECInconBr{\ECMV_1}{\cursorErase{\ZCMV}}{\ECMV_2}} \\
+  \cursorErasesToRow{\ZCInconBrR{\ECMV_1}{\ECMV_2}{\ZCMV}}{\ECInconBr{\ECMV_1}{\ECMV_2}{\cursorErase{\ZCMV}}} \\
+  \cursorErasesToRow{\ZCPairAnaNonMatchedProdL{\ZCMV}{\ECMV}}{\ECPairAnaNonMatchedProd{\cursorErase{\ZCMV}}{\ECMV}} \\
+  \cursorErasesToRow{\ZCPairAnaNonMatchedProdR{\ECMV}{\ZCMV}}{\ECPairAnaNonMatchedProd{\ECMV}{\cursorErase{\ZCMV}}} \\
+  \cursorErasesToRow{(\ZCProjLSynNonMatchedProd{\ZCMV})}{\ECProjLSynNonMatchedProd{\cursorErase{\ZCMV}}} \\
+  \cursorErasesToRow{(\ZCProjRSynNonMatchedProd{\ZCMV})}{\ECProjRSynNonMatchedProd{\cursorErase{\ZCMV}}} \\
 \end{array}\]
 
 \subsection{Action model}
@@ -279,144 +279,144 @@ Type actions are the same as in the untyped model.
 
 \subsubsection{Expression movement}
 \label{sec:typed-expression-movement}
-\judgbox{\ensuremath{\AUEMove{\ZMV}{\ZMV'}{\MMV}}}
+\judgbox{\ensuremath{\AUEMove{\ZCMV}{\ZCMV'}{\MMV}}}
 %
 \begin{mathparpagebreakable}
   \inferrule[AEMLamChild1]{ }{
-    \ASEMChild{\ECLam{x}{\TMV}{\ECMV}}{\ZLamT{x}{\ZTCursor{\TMV}}{\ECMV}}{1}
+    \ASEMChild{\ECLam{x}{\TMV}{\ECMV}}{\ZCLamT{x}{\ZTCursor{\TMV}}{\ECMV}}{1}
   }
 
   \inferrule[AEMLamChild2]{ }{
-    \ASEMChild{\ECLam{x}{\TMV}{\ECMV}}{\ZLamE{x}{\TMV}{\ZCursor{\ECMV}}}{2}
+    \ASEMChild{\ECLam{x}{\TMV}{\ECMV}}{\ZCLamE{x}{\TMV}{\ZCCursor{\ECMV}}}{2}
   }
 
   \inferrule[AEMLamParent1]{ }{
-    \ASEMParent{\ZLamT{x}{\ZTCursor{\TMV}}{\ECMV}}{\ECLam{x}{\TMV}{\ECMV}}
+    \ASEMParent{\ZCLamT{x}{\ZTCursor{\TMV}}{\ECMV}}{\ECLam{x}{\TMV}{\ECMV}}
   }
 
   \inferrule[AEMLamParent2]{ }{
-    \ASEMParent{\ZLamE{x}{\TMV}{\ZCursor{\ECMV}}}{\ECLam{x}{\TMV}{\ECMV}}
+    \ASEMParent{\ZCLamE{x}{\TMV}{\ZCCursor{\ECMV}}}{\ECLam{x}{\TMV}{\ECMV}}
   }
 
   \inferrule[AEMApChild1]{ }{
-    \ASEMChild{\ECAp{\ECMV_1}{\ECMV_2}}{\ZApL{\ZCursor{\ECMV_1}}{\ECMV_2}}{1}
+    \ASEMChild{\ECAp{\ECMV_1}{\ECMV_2}}{\ZCApL{\ZCCursor{\ECMV_1}}{\ECMV_2}}{1}
   }
 
   \inferrule[AEMApChild2]{ }{
-    \ASEMChild{\ECAp{\ECMV_1}{\ECMV_2}}{\ZApR{\ECMV_1}{\ZCursor{\ECMV_2}}}{2}
+    \ASEMChild{\ECAp{\ECMV_1}{\ECMV_2}}{\ZCApR{\ECMV_1}{\ZCCursor{\ECMV_2}}}{2}
   }
 
   \inferrule[AEMApParent1]{ }{
-    \ASEMParent{\ZApL{\ZCursor{\ECMV_1}}{\ECMV_2}}{\ECAp{\ECMV_1}{\ECMV_2}}
+    \ASEMParent{\ZCApL{\ZCCursor{\ECMV_1}}{\ECMV_2}}{\ECAp{\ECMV_1}{\ECMV_2}}
   }
 
   \inferrule[AEMApParent2]{ }{
-    \ASEMParent{\ZApR{\ECMV_1}{\ZCursor{\ECMV_2}}}{\ECAp{\ECMV_1}{\ECMV_2}}
+    \ASEMParent{\ZCApR{\ECMV_1}{\ZCCursor{\ECMV_2}}}{\ECAp{\ECMV_1}{\ECMV_2}}
   }
 
   \inferrule[AEMLetChild1]{ }{
-    \ASEMChild{\ECLet{x}{\ECMV_1}{\ECMV_2}}{\ZLetL{x}{\ZCursor{\ECMV_1}}{\ECMV_2}}{1}
+    \ASEMChild{\ECLet{x}{\ECMV_1}{\ECMV_2}}{\ZCLetL{x}{\ZCCursor{\ECMV_1}}{\ECMV_2}}{1}
   }
 
   \inferrule[AEMLetChild2]{ }{
-    \ASEMChild{\ECLet{x}{\ECMV_1}{\ECMV_2}}{\ZLetR{x}{\ECMV_1}{\ZCursor{\ECMV_2}}}{2}
+    \ASEMChild{\ECLet{x}{\ECMV_1}{\ECMV_2}}{\ZCLetR{x}{\ECMV_1}{\ZCCursor{\ECMV_2}}}{2}
   }
 
   \inferrule[AEMLetParent1]{ }{
-    \ASEMParent{\ZLetL{x}{\ZCursor{\ECMV_1}}{\ECMV_2}}{\ECLet{x}{\ECMV_1}{\ECMV_2}}
+    \ASEMParent{\ZCLetL{x}{\ZCCursor{\ECMV_1}}{\ECMV_2}}{\ECLet{x}{\ECMV_1}{\ECMV_2}}
   }
 
   \inferrule[AEMLetParent2]{ }{
-    \ASEMParent{\ZLetR{x}{\ECMV_1}{\ZCursor{\ECMV_2}}}{\ECLet{x}{\ECMV_1}{\ECMV_2}}
+    \ASEMParent{\ZCLetR{x}{\ECMV_1}{\ZCCursor{\ECMV_2}}}{\ECLet{x}{\ECMV_1}{\ECMV_2}}
   }
 
   \inferrule[AEMPlusChild1]{ }{
-    \ASEMChild{\ECPlus{\ECMV_1}{\ECMV_2}}{\ZPlusL{\ZCursor{\ECMV_1}}{\ECMV_2}}{1}
+    \ASEMChild{\ECPlus{\ECMV_1}{\ECMV_2}}{\ZCPlusL{\ZCCursor{\ECMV_1}}{\ECMV_2}}{1}
   }
 
   \inferrule[AEMPlusChild2]{ }{
-    \ASEMChild{\ECPlus{\ECMV_1}{\ECMV_2}}{\ZPlusR{\ECMV_1}{\ZCursor{\ECMV_2}}}{2}
+    \ASEMChild{\ECPlus{\ECMV_1}{\ECMV_2}}{\ZCPlusR{\ECMV_1}{\ZCCursor{\ECMV_2}}}{2}
   }
 
   \inferrule[AEMPlusParent1]{ }{
-    \ASEMParent{\ZPlusL{\ZCursor{\ECMV_1}}{\ECMV_2}}{\ECPlus{\ECMV_1}{\ECMV_2}}
+    \ASEMParent{\ZCPlusL{\ZCCursor{\ECMV_1}}{\ECMV_2}}{\ECPlus{\ECMV_1}{\ECMV_2}}
   }
 
   \inferrule[AEMPlusParent2]{ }{
-    \ASEMParent{\ZPlusR{\ECMV_1}{\ZCursor{\ECMV_2}}}{\ECPlus{\ECMV_1}{\ECMV_2}}
+    \ASEMParent{\ZCPlusR{\ECMV_1}{\ZCCursor{\ECMV_2}}}{\ECPlus{\ECMV_1}{\ECMV_2}}
   }
 
   \inferrule[AEMIfChild1]{ }{
-    \ASEMChild{\ECIf{\ECMV_1}{\ECMV_2}{\ECMV_3}}{\ZIfC{\ZCursor{\ECMV_1}}{\ECMV_2}{\ECMV_3}}{1}
+    \ASEMChild{\ECIf{\ECMV_1}{\ECMV_2}{\ECMV_3}}{\ZCIfC{\ZCCursor{\ECMV_1}}{\ECMV_2}{\ECMV_3}}{1}
   }
 
   \inferrule[AEMIfChild2]{ }{
-    \ASEMChild{\ECIf{\ECMV_1}{\ECMV_2}{\ECMV_3}}{\ZIfL{\ECMV_1}{\ZCursor{\ECMV_2}}{\ECMV_3}}{2}
+    \ASEMChild{\ECIf{\ECMV_1}{\ECMV_2}{\ECMV_3}}{\ZCIfL{\ECMV_1}{\ZCCursor{\ECMV_2}}{\ECMV_3}}{2}
   }
 
   \inferrule[AEMIfChild3]{ }{
-    \ASEMChild{\ECIf{\ECMV_1}{\ECMV_2}{\ECMV_3}}{\ZIfR{\ECMV_1}{\ECMV_2}{\ZCursor{\ECMV_3}}}{3}
+    \ASEMChild{\ECIf{\ECMV_1}{\ECMV_2}{\ECMV_3}}{\ZCIfR{\ECMV_1}{\ECMV_2}{\ZCCursor{\ECMV_3}}}{3}
   }
 
   \inferrule[AEMIfParent1]{ }{
-    \ASEMParent{\ZIfC{\ZCursor{\ECMV_1}}{\ECMV_2}{\ECMV_3}}{\ECIf{\ECMV_1}{\ECMV_2}{\ECMV_3}}
+    \ASEMParent{\ZCIfC{\ZCCursor{\ECMV_1}}{\ECMV_2}{\ECMV_3}}{\ECIf{\ECMV_1}{\ECMV_2}{\ECMV_3}}
   }
 
   \inferrule[AEMIfParent2]{ }{
-    \ASEMParent{\ZIfL{\ECMV_1}{\ZCursor{\ECMV_2}}{\ECMV_3}}{\ECIf{\ECMV_1}{\ECMV_2}{\ECMV_3}}
+    \ASEMParent{\ZCIfL{\ECMV_1}{\ZCCursor{\ECMV_2}}{\ECMV_3}}{\ECIf{\ECMV_1}{\ECMV_2}{\ECMV_3}}
   }
 
   \inferrule[AEMIfParent3]{ }{
-    \ASEMParent{\ZIfR{\ECMV_1}{\ECMV_2}{\ZCursor{\ECMV_3}}}{\ECIf{\ECMV_1}{\ECMV_2}{\ECMV_3}}
+    \ASEMParent{\ZCIfR{\ECMV_1}{\ECMV_2}{\ZCCursor{\ECMV_3}}}{\ECIf{\ECMV_1}{\ECMV_2}{\ECMV_3}}
   }
 
   \inferrule[AEMInconsistentTypesChild]{
-    \ASEMChild{\ZMV}{\ZMV'}{\MChildNMV}
+    \ASEMChild{\ZCMV}{\ZCMV'}{\MChildNMV}
   }{
-    \ASEMChild{\ZInconType{\ZMV}}{\ZInconType{\ZMV'}}{\MChildNMV}
+    \ASEMChild{\ZCInconType{\ZCMV}}{\ZCInconType{\ZCMV'}}{\MChildNMV}
   }
 
   \inferrule[AEMInconsistentTypesParent]{
-    \ASEMParent{\ZMV}{\ZMV'}
+    \ASEMParent{\ZCMV}{\ZCMV'}
   }{
-    \ASEMParent{\ZInconType{\ZMV}}{\ZInconType{\ZMV'}}
+    \ASEMParent{\ZCInconType{\ZCMV}}{\ZCInconType{\ZCMV'}}
   }
 
   \inferrule[AEMInconsistentBranchesChild1]{ }{
-    \ASEMChild{\ECInconBr{\ECMV_1}{\ECMV_2}{\ECMV_3}}{\ZInconBrC{\ZCursor{\ECMV_1}}{\ECMV_2}{\ECMV_3}}{1}
+    \ASEMChild{\ECInconBr{\ECMV_1}{\ECMV_2}{\ECMV_3}}{\ZCInconBrC{\ZCCursor{\ECMV_1}}{\ECMV_2}{\ECMV_3}}{1}
   }
 
   \inferrule[AEMInconsistentBranchesChild2]{ }{
-    \ASEMChild{\ECInconBr{\ECMV_1}{\ECMV_2}{\ECMV_3}}{\ZInconBrL{\ECMV_1}{\ZCursor{\ECMV_2}}{\ECMV_3}}{2}
+    \ASEMChild{\ECInconBr{\ECMV_1}{\ECMV_2}{\ECMV_3}}{\ZCInconBrL{\ECMV_1}{\ZCCursor{\ECMV_2}}{\ECMV_3}}{2}
   }
 
   \inferrule[AEMInconsistentBranchesChild3]{ }{
-    \ASEMChild{\ECInconBr{\ECMV_1}{\ECMV_2}{\ECMV_3}}{\ZInconBrR{\ECMV_1}{\ECMV_2}{\ZCursor{\ECMV_3}}}{3}
+    \ASEMChild{\ECInconBr{\ECMV_1}{\ECMV_2}{\ECMV_3}}{\ZCInconBrR{\ECMV_1}{\ECMV_2}{\ZCCursor{\ECMV_3}}}{3}
   }
 
   \inferrule[AEMInconsistentBranchesParent1]{ }{
-    \ASEMParent{\ZInconBrC{\ZCursor{\ECMV_1}}{\ECMV_2}{\ECMV_3}}{\ECInconBr{\ECMV_1}{\ECMV_2}{\ECMV_3}}
+    \ASEMParent{\ZCInconBrC{\ZCCursor{\ECMV_1}}{\ECMV_2}{\ECMV_3}}{\ECInconBr{\ECMV_1}{\ECMV_2}{\ECMV_3}}
   }
 
   \inferrule[AEMInconsistentBranchesParent2]{ }{
-    \ASEMParent{\ZInconBrC{\ECMV_1}{\ZCursor{\ECMV_2}}{\ECMV_3}}{\ECInconBr{\ECMV_1}{\ECMV_2}{\ECMV_3}}
+    \ASEMParent{\ZCInconBrC{\ECMV_1}{\ZCCursor{\ECMV_2}}{\ECMV_3}}{\ECInconBr{\ECMV_1}{\ECMV_2}{\ECMV_3}}
   }
 
   \inferrule[AEMInconsistentBranchesParent3]{ }{
-    \ASEMParent{\ZInconBrC{\ECMV_1}{\ECMV_2}{\ZCursor{\ECMV_3}}}{\ECInconBr{\ECMV_1}{\ECMV_2}{\ECMV_3}}
+    \ASEMParent{\ZCInconBrC{\ECMV_1}{\ECMV_2}{\ZCCursor{\ECMV_3}}}{\ECInconBr{\ECMV_1}{\ECMV_2}{\ECMV_3}}
   }
 \end{mathparpagebreakable}
 
 \subsubsection{Synthetic expression actions}
 \label{sec:typed-synthetic-expression-actions}
-\judgbox{\ensuremath{\ASAction{\ctx}{\ZMV}{\TMV}{\ZMV'}{\TMV'}{\AMV}}}
+\judgbox{\ensuremath{\ASAction{\ctx}{\ZCMV}{\TMV}{\ZCMV'}{\TMV'}{\AMV}}}
 
 \paragraph{Movement}
 \begin{mathpar}
   \inferrule[ASEMove]{
-    \ASEMove{\ZMV}{\ZMV'}{\MMV}
+    \ASEMove{\ZCMV}{\ZCMV'}{\MMV}
   }{
-    \ASMove{\ctx}{\ZMV}{\TMV}{\ZMV'}{\TMV}{\MMV}
+    \ASMove{\ctx}{\ZCMV}{\TMV}{\ZCMV'}{\TMV}{\MMV}
   }
 \end{mathpar}
 
@@ -432,93 +432,93 @@ Type actions are the same as in the untyped model.
   \inferrule[ASEConVar]{
     \inCtx{\ctx}{x}{\TMV}
   }{
-    \ASCon{\ctx}{\ZCursor{\ECEHole}}{\TUnknown}{\ZCursor{x}}{\TMV}{\SVar{x}}
+    \ASCon{\ctx}{\ZCCursor{\ECEHole}}{\TUnknown}{\ZCCursor{x}}{\TMV}{\SVar{x}}
   }
 
   \inferrule[ASEConFree]{
     \notInCtx{\ctx}{x}
   }{
-    \ASCon{\ctx}{\ZCursor{\ECEHole}}{\TUnknown}{\ZCursor{\ZFree{x}}}{\TUnknown}{\SVar{x}}
+    \ASCon{\ctx}{\ZCCursor{\ECEHole}}{\TUnknown}{\ZCCursor{\ZCFree{x}}}{\TUnknown}{\SVar{x}}
   }
 
   \inferrule[ASEConLam]{
     \ctxSynFixedInto{\extendCtx{\ctx}{x}{\TUnknown}}{\erase{\ECMV}}{\ECMV'}{\TMV'}
   }{
-    \ASCon{\ctx}{\ZCursor{\ECMV}}{\TMV}{\ZLamT{x}{\ZTCursor{\TUnknown}}{\ECMV'}}{\TArrow{\TUnknown}{\TMV'}}{\SLam{x}}
+    \ASCon{\ctx}{\ZCCursor{\ECMV}}{\TMV}{\ZCLamT{x}{\ZTCursor{\TUnknown}}{\ECMV'}}{\TArrow{\TUnknown}{\TMV'}}{\SLam{x}}
   }
 
   \inferrule[ASEConApL1]{
     \matchedArrow{\TMV}{\TMV_1}{\TMV_2}
   }{
-    \ASCon{\ctx}{\ZCursor{\ECMV}}{\TMV}{\ZApL{\ECInconType{\ECMV}}{\ZCursor{\ECEHole}}}{\TMV_2}{\SApL}
+    \ASCon{\ctx}{\ZCCursor{\ECMV}}{\TMV}{\ZCApL{\ECInconType{\ECMV}}{\ZCCursor{\ECEHole}}}{\TMV_2}{\SApL}
   }
 
   \inferrule[ASEConApL2]{
     \notMatchedArrow{\TMV}
   }{
-    \ASCon{\ctx}{\ZCursor{\ECMV}}{\TMV}{\ZApL{\ECInconType{\ECMV}}{\ZCursor{\ECEHole}}}{\TUnknown}{\SApL}
+    \ASCon{\ctx}{\ZCCursor{\ECMV}}{\TMV}{\ZCApL{\ECInconType{\ECMV}}{\ZCCursor{\ECEHole}}}{\TUnknown}{\SApL}
   }
 
   \inferrule[ASEConApR]{ }{
-    \ASCon{\ctx}{\ZCursor{\ECMV}}{\TMV}{\ZApR{\ZCursor{\ECEHole}}{\ECMV}}{\TUnknown}{\SApR}
+    \ASCon{\ctx}{\ZCCursor{\ECMV}}{\TMV}{\ZCApR{\ZCCursor{\ECEHole}}{\ECMV}}{\TUnknown}{\SApR}
   }
 
   \inferrule[ASEConLet1]{ }{
-    \ASCon{\ctx}{\ZCursor{\ECMV}}{\TMV}{\ZLetL{x}{\ECMV}{\ZCursor{\ECEHole}}}{\TUnknown}{\SLetL{x}}
+    \ASCon{\ctx}{\ZCCursor{\ECMV}}{\TMV}{\ZCLetL{x}{\ECMV}{\ZCCursor{\ECEHole}}}{\TUnknown}{\SLetL{x}}
   }
 
   \inferrule[ASEConLet2]{
     \ctxSynFixedInto{\extendCtx{\ctx}{x}{\TUnknown}}{\erase{\ECMV}}{\ECMV'}{\TMV'}
   }{
-    \ASCon{\ctx}{\ZCursor{\ECMV}}{\TMV}{\ZLetR{x}{\ZCursor{\ECEHole}}{\ECMV'}}{\TMV'}{\SLetL{x}}
+    \ASCon{\ctx}{\ZCCursor{\ECMV}}{\TMV}{\ZCLetR{x}{\ZCCursor{\ECEHole}}{\ECMV'}}{\TMV'}{\SLetL{x}}
   }
 
   \inferrule[ASEConNum]{ }{
-    \ASCon{\ctx}{\ZCursor{\ECEHole}}{\TUnknown}{\ZCursor{\ENumMV}}{\TNum}{\SLit{\ENumMV}}
+    \ASCon{\ctx}{\ZCCursor{\ECEHole}}{\TUnknown}{\ZCCursor{\ENumMV}}{\TNum}{\SLit{\ENumMV}}
   }
 
   \inferrule[ASEConPlusL1]{
     \consistent{\TMV}{\TNum}
   }{
-    \ASCon{\ctx}{\ZCursor{\ECMV}}{\TMV}{\ZPlusR{\ECMV}{\ZCursor{\ECEHole}}}{\TNum}{\SPlusL}
+    \ASCon{\ctx}{\ZCCursor{\ECMV}}{\TMV}{\ZCPlusR{\ECMV}{\ZCCursor{\ECEHole}}}{\TNum}{\SPlusL}
   }
 
   \inferrule[ASEConPlusL2]{
     \inconsistent{\TMV}{\TNum}
   }{
-    \ASCon{\ctx}{\ZCursor{\ECMV}}{\TMV}{\ZPlusR{\ECInconType{\ECMV}}{\ZCursor{\ECEHole}}}{\TNum}{\SPlusL}
+    \ASCon{\ctx}{\ZCCursor{\ECMV}}{\TMV}{\ZCPlusR{\ECInconType{\ECMV}}{\ZCCursor{\ECEHole}}}{\TNum}{\SPlusL}
   } \\
 
   \inferrule[ASEConPlusR1]{
     \consistent{\TMV}{\TNum}
   }{
-    \ASCon{\ctx}{\ZCursor{\ECMV}}{\TMV}{\ZPlusL{\ZCursor{\ECEHole}}{\ECMV}}{\TNum}{\SPlusR}
+    \ASCon{\ctx}{\ZCCursor{\ECMV}}{\TMV}{\ZCPlusL{\ZCCursor{\ECEHole}}{\ECMV}}{\TNum}{\SPlusR}
   }
 
   \inferrule[ASEConPlusR2]{
     \inconsistent{\TMV}{\TNum}
   }{
-    \ASCon{\ctx}{\ZCursor{\ECMV}}{\TMV}{\ZPlusL{\ZCursor{\ECEHole}}{\ECInconType{\ECMV}}}{\TNum}{\SPlusR}
+    \ASCon{\ctx}{\ZCCursor{\ECMV}}{\TMV}{\ZCPlusL{\ZCCursor{\ECEHole}}{\ECInconType{\ECMV}}}{\TNum}{\SPlusR}
   }
 
   \inferrule[ASEConIfC1]{
     \consistent{\TMV}{\TBool}
   }{
-    \ASCon{\ctx}{\ZCursor{\ECMV}}{\TMV}{\ZIfL{\ECMV}{\ZCursor{\ECEHole}}{\ECEHole}}{\TUnknown}{\SIfC}
+    \ASCon{\ctx}{\ZCCursor{\ECMV}}{\TMV}{\ZCIfL{\ECMV}{\ZCCursor{\ECEHole}}{\ECEHole}}{\TUnknown}{\SIfC}
   }
 
   \inferrule[ASEConIfC2]{
     \inconsistent{\TMV}{\TBool}
   }{
-    \ASCon{\ctx}{\ZCursor{\ECMV}}{\TMV}{\ZIfL{\ECInconType{\ECMV}}{\ZCursor{\ECEHole}}{\ECEHole}}{\TUnknown}{\SIfC}
+    \ASCon{\ctx}{\ZCCursor{\ECMV}}{\TMV}{\ZCIfL{\ECInconType{\ECMV}}{\ZCCursor{\ECEHole}}{\ECEHole}}{\TUnknown}{\SIfC}
   }
 
   \inferrule[ASEConIfL]{ }{
-    \ASCon{\ctx}{\ZCursor{\ECMV}}{\TMV}{\ZIfC{\ZCursor{\ECEHole}}{\ECMV}{\ECEHole}}{\TMV}{\SIfL}
+    \ASCon{\ctx}{\ZCCursor{\ECMV}}{\TMV}{\ZCIfC{\ZCCursor{\ECEHole}}{\ECMV}{\ECEHole}}{\TMV}{\SIfL}
   }
 
   \inferrule[ASEConIfR]{ }{
-    \ASCon{\ctx}{\ZCursor{\ECMV}}{\TMV}{\ZIfC{\ZCursor{\ECEHole}}{\ECEHole}{\ECMV}}{\TMV}{\SIfR}
+    \ASCon{\ctx}{\ZCCursor{\ECMV}}{\TMV}{\ZCIfC{\ZCCursor{\ECEHole}}{\ECEHole}{\ECMV}}{\TMV}{\SIfR}
   }
 \end{mathparpagebreakable}
 
@@ -528,7 +528,7 @@ Type actions are the same as in the untyped model.
     \AUTAction{\ZTMV_1}{\ZTMV_1'}{\AMV} \\
     \equal{\cursorErase{\ZTMV_1}}{\cursorErase{\ZTMV_1'}}
   }{
-    \ASEAction{\ctx}{\ZLamT{x}{\ZTMV_1}{\ECMV}}{\TArrow{\cursorErase{\ZTMV_1}}{\TMV_2}}{\ZLamT{x}{\ZTMV_1'}{\ECMV}}{\TArrow{\cursorErase{\ZTMV_1}}{\TMV_2}}{\AMV}
+    \ASEAction{\ctx}{\ZCLamT{x}{\ZTMV_1}{\ECMV}}{\TArrow{\cursorErase{\ZTMV_1}}{\TMV_2}}{\ZCLamT{x}{\ZTMV_1'}{\ECMV}}{\TArrow{\cursorErase{\ZTMV_1}}{\TMV_2}}{\AMV}
   }
 
   \inferrule[ASEZipLamT2]{
@@ -536,242 +536,242 @@ Type actions are the same as in the untyped model.
     \notEqual{\cursorErase{\ZTMV_1}}{\cursorErase{\ZTMV_1'}} \\
     \ctxSynFixedInto{\extendCtx{\ctx}{x}{\cursorErase{\ZTMV_1'}}}{\erase{\ECMV}}{\ECMV'}{\TMV_2'}
   }{
-    \ASEAction{\ctx}{\ZLamT{x}{\ZTMV_1}{\ECMV}}{\TArrow{\cursorErase{\ZTMV_1}}{\TMV_2}}{\ZLamT{x}{\ZTMV_1'}{\ECMV'}}{\TArrow{\cursorErase{\ZTMV_1'}}{\TMV_2'}}{\AMV}
+    \ASEAction{\ctx}{\ZCLamT{x}{\ZTMV_1}{\ECMV}}{\TArrow{\cursorErase{\ZTMV_1}}{\TMV_2}}{\ZCLamT{x}{\ZTMV_1'}{\ECMV'}}{\TArrow{\cursorErase{\ZTMV_1'}}{\TMV_2'}}{\AMV}
   }
 
   \inferrule[ASEZipLamE]{
-    \ASEAction{\extendCtx{\ctx}{x}{\TMV_1}}{\ZMV}{\TMV_2}{\ZMV'}{\TMV_2'}{\AMV}
+    \ASEAction{\extendCtx{\ctx}{x}{\TMV_1}}{\ZCMV}{\TMV_2}{\ZCMV'}{\TMV_2'}{\AMV}
   }{
-    \ASEAction{\ctx}{\ZLamE{x}{\TMV_1}{\ZMV}}{\TArrow{\TMV_1}{\TMV_2}}{\ZLamE{x}{\TMV_1}{\ZMV'}}{\TArrow{\ZTMV_1}{\TMV_2'}}{\AMV}
+    \ASEAction{\ctx}{\ZCLamE{x}{\TMV_1}{\ZCMV}}{\TArrow{\TMV_1}{\TMV_2}}{\ZCLamE{x}{\TMV_1}{\ZCMV'}}{\TArrow{\ZTMV_1}{\TMV_2'}}{\AMV}
   }
 
   \inferrule[ASEZipApL1]{
-    \ctxSynTypeM{\ctx}{\cursorErase{\ZMV_1}}{\TMV_1} \\
-    \ASEAction{\ctx}{\ZMV_1}{\TMV_1}{\ZMV_1'}{\TMV_1'}{\AMV} \\\\
+    \ctxSynTypeM{\ctx}{\cursorErase{\ZCMV_1}}{\TMV_1} \\
+    \ASEAction{\ctx}{\ZCMV_1}{\TMV_1}{\ZCMV_1'}{\TMV_1'}{\AMV} \\\\
     \matchedArrow{\TMV_1'}{\TMV_2}{\TMV_3} \\
     \ctxAnaType{\ctx}{\ECMV_2}{\TMV_2}
   }{
-    \ASEAction{\ctx}{\ZApL{\ZMV_1}{\ECMV_2}}{\TMV}{\ZApL{\ZMV_1'}{\ECMV_2}}{\TMV_3}{\AMV}
+    \ASEAction{\ctx}{\ZCApL{\ZCMV_1}{\ECMV_2}}{\TMV}{\ZCApL{\ZCMV_1'}{\ECMV_2}}{\TMV_3}{\AMV}
   }
 
   \inferrule[ASEZipApL2]{
-    \ctxSynTypeM{\ctx}{\cursorErase{\ZMV_1}}{\TMV_1} \\
-    \ASEAction{\ctx}{\ZMV_1}{\TMV_1}{\ZMV_1'}{\TMV_1'}{\AMV} \\\\
+    \ctxSynTypeM{\ctx}{\cursorErase{\ZCMV_1}}{\TMV_1} \\
+    \ASEAction{\ctx}{\ZCMV_1}{\TMV_1}{\ZCMV_1'}{\TMV_1'}{\AMV} \\\\
     \matchedArrow{\TMV_1'}{\TMV_2}{\TMV_3} \\
     \ctxNotAnaType{\ctx}{\ECMV_2}{\TMV_2}
   }{
-    \ASEAction{\ctx}{\ZApL{\ZMV_1}{\ECMV_2}}{\TMV}{\ZApL{\ZMV_1'}{\ECInconType{\ECMV_2}}}{\TMV_3}{\AMV}
+    \ASEAction{\ctx}{\ZCApL{\ZCMV_1}{\ECMV_2}}{\TMV}{\ZCApL{\ZCMV_1'}{\ECInconType{\ECMV_2}}}{\TMV_3}{\AMV}
   }
 
   \inferrule[ASEZipApL3]{
-    \ctxSynTypeM{\ctx}{\cursorErase{\ZMV_1}}{\TMV_1} \\
-    \ASEAction{\ctx}{\ZMV}{\TMV_1}{\ZMV'}{\TMV_1'}{\AMV} \\\\
+    \ctxSynTypeM{\ctx}{\cursorErase{\ZCMV_1}}{\TMV_1} \\
+    \ASEAction{\ctx}{\ZCMV}{\TMV_1}{\ZCMV'}{\TMV_1'}{\AMV} \\\\
     \notMatchedArrow{\TMV_1'}
   }{
-    \ASEAction{\ctx}{\ZApL{\ZMV_1}{\ECMV_2}}{\TMV}{\ZApL{\ECInconType{\ZMV_1'}}{\ECMV_2}}{\TUnknown}{\AMV}
+    \ASEAction{\ctx}{\ZCApL{\ZCMV_1}{\ECMV_2}}{\TMV}{\ZCApL{\ECInconType{\ZCMV_1'}}{\ECMV_2}}{\TUnknown}{\AMV}
   }
 
   \inferrule[ASEZipApL4]{
-    \ctxSynTypeM{\ctx}{\cursorErase{\ZMV_1}}{\TMV_1} \\
-    \ASEAction{\ctx}{\ZMV_1}{\TMV_1}{\ZMV_1'}{\TMV_1'}{\AMV} \\\\
+    \ctxSynTypeM{\ctx}{\cursorErase{\ZCMV_1}}{\TMV_1} \\
+    \ASEAction{\ctx}{\ZCMV_1}{\TMV_1}{\ZCMV_1'}{\TMV_1'}{\AMV} \\\\
     \matchedArrow{\TMV_1'}{\TMV_2}{\TMV_3} \\
     \ctxAnaType{\ctx}{\ECMV_2}{\TMV_2}
   }{
-    \ASEAction{\ctx}{\ZApL{\ECInconType{\ZMV_1}}{\ECMV_2}}{\TUnknown}{\ZApL{\ZMV_1'}{\ECMV_2}}{\TMV_3}{\AMV}
+    \ASEAction{\ctx}{\ZCApL{\ECInconType{\ZCMV_1}}{\ECMV_2}}{\TUnknown}{\ZCApL{\ZCMV_1'}{\ECMV_2}}{\TMV_3}{\AMV}
   }
 
   \inferrule[ASEZipApL5]{
-    \ctxSynTypeM{\ctx}{\cursorErase{\ZMV_1}}{\TMV_1} \\
-    \ASEAction{\ctx}{\ZMV_1}{\TMV_1}{\ZMV_1'}{\TMV_1'}{\AMV} \\\\
+    \ctxSynTypeM{\ctx}{\cursorErase{\ZCMV_1}}{\TMV_1} \\
+    \ASEAction{\ctx}{\ZCMV_1}{\TMV_1}{\ZCMV_1'}{\TMV_1'}{\AMV} \\\\
     \matchedArrow{\TMV_1'}{\TMV_2}{\TMV_3} \\
     \ctxNotAnaType{\ctx}{\ECMV_2}{\TMV_2}
   }{
-    \ASEAction{\ctx}{\ZApL{\ECInconType{\ZMV_1}}{\ECMV_2}}{\TUnknown}{\ZApL{\ZMV_1'}{\ECInconType{\ECMV_2}}}{\TMV_3}{\AMV}
+    \ASEAction{\ctx}{\ZCApL{\ECInconType{\ZCMV_1}}{\ECMV_2}}{\TUnknown}{\ZCApL{\ZCMV_1'}{\ECInconType{\ECMV_2}}}{\TMV_3}{\AMV}
   }
 
   \inferrule[ASEZipApL6]{
-    \ctxSynTypeM{\ctx}{\cursorErase{\ZMV_1}}{\TMV_1} \\
-    \ASEAction{\ctx}{\ZMV_1}{\TMV_1}{\ZMV_1'}{\TMV_1'}{\AMV} \\\\
+    \ctxSynTypeM{\ctx}{\cursorErase{\ZCMV_1}}{\TMV_1} \\
+    \ASEAction{\ctx}{\ZCMV_1}{\TMV_1}{\ZCMV_1'}{\TMV_1'}{\AMV} \\\\
     \notMatchedArrow{\TMV_1'}
   }{
-    \ASEAction{\ctx}{\ZApL{\ECInconType{\ZMV_1}}{\ECMV_2}}{\TUnknown}{\ZApL{\ECInconType{\ZMV_1'}}{\ECMV_2}}{\TUnknown}{\AMV}
+    \ASEAction{\ctx}{\ZCApL{\ECInconType{\ZCMV_1}}{\ECMV_2}}{\TUnknown}{\ZCApL{\ECInconType{\ZCMV_1'}}{\ECMV_2}}{\TUnknown}{\AMV}
   }
 
   \inferrule[ASEZipApR]{
     \ctxSynTypeM{\ctx}{\ECMV_1}{\TMV_1} \\
     \matchedArrow{\TMV_1}{\TMV_2}{\TMV_3} \\
-    \AAEAction{\ctx}{\ZMV_2}{\ZMV_2'}{\TMV_2}{\AMV}
+    \AAEAction{\ctx}{\ZCMV_2}{\ZCMV_2'}{\TMV_2}{\AMV}
   }{
-    \ASEAction{\ctx}{\ZApR{\ECMV_1}{\ZMV_2}}{\TMV}{\ZApR{\ECMV_1}{\ZMV_2'}}{\TMV_3}{\AMV}
+    \ASEAction{\ctx}{\ZCApR{\ECMV_1}{\ZCMV_2}}{\TMV}{\ZCApR{\ECMV_1}{\ZCMV_2'}}{\TMV_3}{\AMV}
   }
 
   \inferrule[ASEZipLetL1]{
-    \ctxSynTypeM{\ctx}{\cursorErase{\ZMV_1}}{\TMV_1} \\
-    \ASEAction{\ctx}{\ZMV_1}{\TMV_1}{\ZMV_1'}{\TMV_1'}{\AMV} \\
+    \ctxSynTypeM{\ctx}{\cursorErase{\ZCMV_1}}{\TMV_1} \\
+    \ASEAction{\ctx}{\ZCMV_1}{\TMV_1}{\ZCMV_1'}{\TMV_1'}{\AMV} \\
     \consistent{\TMV_1}{\TMV_1'}
   }{
-    \ASEAction{\ctx}{\ZLetL{x}{\ZMV_1}{\ECMV_2}}{\TMV_2}{\ZLetL{x}{\ZMV_1'}{\ECMV_2}}{\TMV_2}{\AMV}
+    \ASEAction{\ctx}{\ZCLetL{x}{\ZCMV_1}{\ECMV_2}}{\TMV_2}{\ZCLetL{x}{\ZCMV_1'}{\ECMV_2}}{\TMV_2}{\AMV}
   }
 
   \inferrule[ASEZipLetL2]{
-    \ctxSynTypeM{\ctx}{\cursorErase{\ZMV_1}}{\TMV_1} \\
-    \ASEAction{\ctx}{\ZMV_1}{\TMV_1}{\ZMV_1'}{\TMV_1'}{\AMV} \\\\
+    \ctxSynTypeM{\ctx}{\cursorErase{\ZCMV_1}}{\TMV_1} \\
+    \ASEAction{\ctx}{\ZCMV_1}{\TMV_1}{\ZCMV_1'}{\TMV_1'}{\AMV} \\\\
     \inconsistent{\TMV_1}{\TMV_1'} \\
     \ctxSynFixedInto{\extendCtx{\ctx}{x}{\TMV_1'}}{\erase{\ECMV_2}}{\ECMV_2'}{\TMV_2'}
   }{
-    \ASEAction{\ctx}{\ZLetL{x}{\ZMV_1}{\ECMV_2}}{\TMV_2}{\ZLetL{x}{\ZMV_1'}{\ECMV_2'}}{\TMV_2'}{\AMV}
+    \ASEAction{\ctx}{\ZCLetL{x}{\ZCMV_1}{\ECMV_2}}{\TMV_2}{\ZCLetL{x}{\ZCMV_1'}{\ECMV_2'}}{\TMV_2'}{\AMV}
   }
 
   \inferrule[ASEZipLetR]{
     \ctxSynTypeM{\ctx}{\ECMV_1}{\TMV_1} \\
-    \ctxSynTypeM{\extendCtx{\ctx}{x}{\TMV_1}}{\cursorErase{\ZMV_2}}{\TMV_2} \\\\
-    \ASEAction{\extendCtx{\ctx}{x}{\TMV_1}}{\ZMV_2}{\TMV_2}{\ZMV_2'}{\TMV_2'}{\AMV}
+    \ctxSynTypeM{\extendCtx{\ctx}{x}{\TMV_1}}{\cursorErase{\ZCMV_2}}{\TMV_2} \\\\
+    \ASEAction{\extendCtx{\ctx}{x}{\TMV_1}}{\ZCMV_2}{\TMV_2}{\ZCMV_2'}{\TMV_2'}{\AMV}
   }{
-    \ASEAction{\ctx}{\ZLetR{x}{\ECMV_1}{\ZMV_2}}{\TMV_2}{\ZLetR{x}{\ECMV_1}{\ZMV_2'}}{\TMV_2'}{\AMV}
+    \ASEAction{\ctx}{\ZCLetR{x}{\ECMV_1}{\ZCMV_2}}{\TMV_2}{\ZCLetR{x}{\ECMV_1}{\ZCMV_2'}}{\TMV_2'}{\AMV}
   }
 
   \inferrule[ASEZipPlusL]{
-    \AAEAction{\ctx}{\ZMV}{\ZMV'}{\TNum}{\AMV}
+    \AAEAction{\ctx}{\ZCMV}{\ZCMV'}{\TNum}{\AMV}
   }{
-    \ASEAction{\ctx}{\ZPlusL{\ZMV}{\ECMV}}{\TNum}{\ZPlusL{\ZMV'}{\ECMV}}{\TNum}{\AMV}
+    \ASEAction{\ctx}{\ZCPlusL{\ZCMV}{\ECMV}}{\TNum}{\ZCPlusL{\ZCMV'}{\ECMV}}{\TNum}{\AMV}
   }
 
   \inferrule[ASEZipPlusR]{
-    \AAEAction{\ctx}{\ZMV}{\ZMV'}{\TNum}{\AMV}
+    \AAEAction{\ctx}{\ZCMV}{\ZCMV'}{\TNum}{\AMV}
   }{
-    \ASEAction{\ctx}{\ZPlusR{\ECMV}{\ZMV}}{\TNum}{\ZPlusR{\ECMV}{\ZMV'}}{\TNum}{\AMV}
+    \ASEAction{\ctx}{\ZCPlusR{\ECMV}{\ZCMV}}{\TNum}{\ZCPlusR{\ECMV}{\ZCMV'}}{\TNum}{\AMV}
   }
 
   \inferrule[ASEZipIfC]{
-    \AAEAction{\ctx}{\ZMV}{\ZMV'}{\TBool}{\AMV}
+    \AAEAction{\ctx}{\ZCMV}{\ZCMV'}{\TBool}{\AMV}
   }{
-    \ASEAction{\ctx}{\ZIfC{\ZMV}{\ECMV_1}{\ECMV_2}}{\TMV}{\ZIfC{\ZMV'}{\ECMV_1}{\ECMV_2}}{\TMV}{\AMV}
+    \ASEAction{\ctx}{\ZCIfC{\ZCMV}{\ECMV_1}{\ECMV_2}}{\TMV}{\ZCIfC{\ZCMV'}{\ECMV_1}{\ECMV_2}}{\TMV}{\AMV}
   }
 
   \inferrule[ASEZipIfL1]{
-    \ctxSynTypeM{\ctx}{\cursorErase{\ZMV}}{\TMV_1} \\
+    \ctxSynTypeM{\ctx}{\cursorErase{\ZCMV}}{\TMV_1} \\
     \ctxSynTypeM{\ctx}{\ECMV_2}{\TMV_2} \\\\
-    \ASEAction{\ctx}{\ZMV}{\TMV_1}{\ZMV'}{\TMV_1'}{\AMV} \\
+    \ASEAction{\ctx}{\ZCMV}{\TMV_1}{\ZCMV'}{\TMV_1'}{\AMV} \\
     \consistent{\TMV_1'}{\TMV_2}
   }{
-    \ASEAction{\ctx}{\ZIfL{\ECMV_1}{\ZMV}{\ECMV_2}}{\TMV}{\ZIfL{\ECMV_1}{\ZMV'}{\ECMV_2}}{\TMeet{\TMV_1'}{\TMV_2}}{\AMV}
+    \ASEAction{\ctx}{\ZCIfL{\ECMV_1}{\ZCMV}{\ECMV_2}}{\TMV}{\ZCIfL{\ECMV_1}{\ZCMV'}{\ECMV_2}}{\TMeet{\TMV_1'}{\TMV_2}}{\AMV}
   }
 
   \inferrule[ASEZipIfL2]{
-    \ctxSynTypeM{\ctx}{\cursorErase{\ZMV}}{\TMV_1} \\
+    \ctxSynTypeM{\ctx}{\cursorErase{\ZCMV}}{\TMV_1} \\
     \ctxSynTypeM{\ctx}{\ECMV_2}{\TMV_2} \\\\
-    \ASEAction{\ctx}{\ZMV}{\TMV_1}{\ZMV'}{\TMV_1'}{\AMV} \\
+    \ASEAction{\ctx}{\ZCMV}{\TMV_1}{\ZCMV'}{\TMV_1'}{\AMV} \\
     \inconsistent{\TMV_1'}{\TMV_2}
   }{
-    \ASEAction{\ctx}{\ZIfL{\ECMV_1}{\ZMV}{\ECMV_2}}{\TMV}{\ZInconBrL{\ECMV_1}{\ZMV'}{\ECMV_2}}{\TUnknown}{\AMV}
+    \ASEAction{\ctx}{\ZCIfL{\ECMV_1}{\ZCMV}{\ECMV_2}}{\TMV}{\ZCInconBrL{\ECMV_1}{\ZCMV'}{\ECMV_2}}{\TUnknown}{\AMV}
   }
 
   \inferrule[ASEZipIfR1]{
     \ctxSynTypeM{\ctx}{\ECMV_2}{\TMV_1} \\
-    \ctxSynTypeM{\ctx}{\cursorErase{\ZMV}}{\TMV_2} \\\\
-    \ASEAction{\ctx}{\ZMV}{\TMV_2}{\ZMV'}{\TMV_2'}{\AMV} \\
+    \ctxSynTypeM{\ctx}{\cursorErase{\ZCMV}}{\TMV_2} \\\\
+    \ASEAction{\ctx}{\ZCMV}{\TMV_2}{\ZCMV'}{\TMV_2'}{\AMV} \\
     \consistent{\TMV_1}{\TMV_2'}
   }{
-    \ASEAction{\ctx}{\ZIfR{\ECMV_1}{\ECMV_2}{\ZMV}}{\TMV}{\ZIfR{\ECMV_1}{\ECMV_2}{\ZMV'}}{\TMeet{\TMV_1}{\TMV_2'}}{\AMV}
+    \ASEAction{\ctx}{\ZCIfR{\ECMV_1}{\ECMV_2}{\ZCMV}}{\TMV}{\ZCIfR{\ECMV_1}{\ECMV_2}{\ZCMV'}}{\TMeet{\TMV_1}{\TMV_2'}}{\AMV}
   }
 
   \inferrule[ASEZipIfR2]{
     \ctxSynTypeM{\ctx}{\ECMV_1}{\TMV_1} \\
-    \ctxSynTypeM{\ctx}{\cursorErase{\ZMV}}{\TMV_2} \\\\
-    \ASEAction{\ctx}{\ZMV}{\TMV_2}{\ZMV'}{\TMV_2'}{\AMV} \\
+    \ctxSynTypeM{\ctx}{\cursorErase{\ZCMV}}{\TMV_2} \\\\
+    \ASEAction{\ctx}{\ZCMV}{\TMV_2}{\ZCMV'}{\TMV_2'}{\AMV} \\
     \inconsistent{\TMV_1}{\TMV_2'}
   }{
-    \ASEAction{\ctx}{\ZIfR{\ECMV_1}{\ECMV_2}{\ZMV}}{\TMV}{\ZInconBrR{\ECMV_1}{\ECMV_2}{\ZMV'}}{\TUnknown}{\AMV}
+    \ASEAction{\ctx}{\ZCIfR{\ECMV_1}{\ECMV_2}{\ZCMV}}{\TMV}{\ZCInconBrR{\ECMV_1}{\ECMV_2}{\ZCMV'}}{\TUnknown}{\AMV}
   }
 
   \inferrule[ASEZipInconsistentBranchesC]{
-    \AAEAction{\ctx}{\ZMV}{\ZMV'}{\TBool}{\AMV}
+    \AAEAction{\ctx}{\ZCMV}{\ZCMV'}{\TBool}{\AMV}
   }{
-    \ASEAction{\ctx}{\ZInconBrC{\ZMV}{\ECMV_1}{\ECMV_2}}{\TMV}{\ZInconBrC{\ZMV'}{\ECMV_1}{\ECMV_2}}{\TMV}{\AMV}
+    \ASEAction{\ctx}{\ZCInconBrC{\ZCMV}{\ECMV_1}{\ECMV_2}}{\TMV}{\ZCInconBrC{\ZCMV'}{\ECMV_1}{\ECMV_2}}{\TMV}{\AMV}
   }
 
   \inferrule[ASEZipInconsistentBranchesL1]{
-    \ASEAction{\ctx}{\ZMV}{\TMV_1}{\ZMV'}{\TMV_1'}{\AMV} \\
+    \ASEAction{\ctx}{\ZCMV}{\TMV_1}{\ZCMV'}{\TMV_1'}{\AMV} \\
     \ctxSynTypeM{\ctx}{\ECMV_2}{\TMV_2} \\
     \consistent{\TMV_1'}{\TMV_2}
   }{
-    \ASEAction{\ctx}{\ZInconBrL{\ECMV_1}{\ZMV}{\ECMV_2}}{\TMV}{\ZIfL{\ECMV_1}{\ZMV'}{\ECMV_2}}{\TMeet{\TMV_1'}{\TMV_2}}{\AMV}
+    \ASEAction{\ctx}{\ZCInconBrL{\ECMV_1}{\ZCMV}{\ECMV_2}}{\TMV}{\ZCIfL{\ECMV_1}{\ZCMV'}{\ECMV_2}}{\TMeet{\TMV_1'}{\TMV_2}}{\AMV}
   }
 
   \inferrule[ASEZipInconsistentBranchesL2]{
-    \ASEAction{\ctx}{\ZMV}{\TMV_1}{\ZMV'}{\TMV_1'}{\AMV} \\
+    \ASEAction{\ctx}{\ZCMV}{\TMV_1}{\ZCMV'}{\TMV_1'}{\AMV} \\
     \ctxSynTypeM{\ctx}{\ECMV_2}{\TMV_2} \\
     \inconsistent{\TMV_1'}{\TMV_2}
   }{
-    \ASEAction{\ctx}{\ZInconBrL{\ECMV_1}{\ZMV}{\ECMV_2}}{\TMV}{\ZInconBrL{\ECMV_1}{\ZMV'}{\ECMV_2}}{\TUnknown}{\AMV}
+    \ASEAction{\ctx}{\ZCInconBrL{\ECMV_1}{\ZCMV}{\ECMV_2}}{\TMV}{\ZCInconBrL{\ECMV_1}{\ZCMV'}{\ECMV_2}}{\TUnknown}{\AMV}
   }
 
   \inferrule[ASEZipInconsistentBranchesR1]{
     \ctxSynTypeM{\ctx}{\ECMV_1}{\TMV_1} \\
-    \ASEAction{\ctx}{\ZMV}{\TMV_2}{\ZMV'}{\TMV_2'}{\AMV} \\
+    \ASEAction{\ctx}{\ZCMV}{\TMV_2}{\ZCMV'}{\TMV_2'}{\AMV} \\
     \consistent{\TMV_1}{\TMV_2'}
   }{
-    \ASEAction{\ctx}{\ZInconBrR{\ECMV_1}{\ECMV_2}{\ZMV}}{\TMV}{\ZIfL{\ECMV_1}{\ECMV_2}{\ZMV'}}{\TMeet{\TMV_1}{\TMV_2'}}{\AMV}
+    \ASEAction{\ctx}{\ZCInconBrR{\ECMV_1}{\ECMV_2}{\ZCMV}}{\TMV}{\ZCIfL{\ECMV_1}{\ECMV_2}{\ZCMV'}}{\TMeet{\TMV_1}{\TMV_2'}}{\AMV}
   }
 
   \inferrule[ASEZipInconsistentBranchesR2]{
     \ctxSynTypeM{\ctx}{\ECMV_2}{\TMV_1} \\
-    \ASEAction{\ctx}{\ZMV}{\TMV_2}{\ZMV'}{\TMV_2'}{\AMV} \\
+    \ASEAction{\ctx}{\ZCMV}{\TMV_2}{\ZCMV'}{\TMV_2'}{\AMV} \\
     \inconsistent{\TMV_1}{\TMV_2'}
   }{
-    \ASEAction{\ctx}{\ZInconBrR{\ECMV_1}{\ECMV_2}{\ZMV}}{\TMV}{\ZInconBrR{\ECMV_1}{\ECMV_2}{\ZMV'}}{\TUnknown}{\AMV}
+    \ASEAction{\ctx}{\ZCInconBrR{\ECMV_1}{\ECMV_2}{\ZCMV}}{\TMV}{\ZCInconBrR{\ECMV_1}{\ECMV_2}{\ZCMV'}}{\TUnknown}{\AMV}
   }
 \end{mathparpagebreakable}
 
 \subsubsection{Analytic expression actions}
 \label{sec:typed-analytic-expression-actions}
-\judgbox{\ensuremath{\AAAction{\ctx}{\ZMV}{\ZMV'}{\TMV'}{\AMV}}}
+\judgbox{\ensuremath{\AAAction{\ctx}{\ZCMV}{\ZCMV'}{\TMV'}{\AMV}}}
 
 \paragraph{Subsumption}
 \begin{mathpar}
   \inferrule[AAESubsume1]{
-    \ctxSynTypeM{\ctx}{\cursorErase{\ZMV}}{\TMV'} \\
-    \ASAction{\ctx}{\ZMV}{\TMV'}{\ZMV'}{\TMV''}{\AMV} \\\\
+    \ctxSynTypeM{\ctx}{\cursorErase{\ZCMV}}{\TMV'} \\
+    \ASAction{\ctx}{\ZCMV}{\TMV'}{\ZCMV'}{\TMV''}{\AMV} \\\\
     \consistent{\TMV}{\TMV''} \\
-    \subsumable{\cursorErase{\ZMV}}
+    \subsumable{\cursorErase{\ZCMV}}
   }{
-    \AAAction{\ctx}{\ZMV}{\ZMV'}{\TMV}{\AMV}
+    \AAAction{\ctx}{\ZCMV}{\ZCMV'}{\TMV}{\AMV}
   }
 
   \inferrule[AAESubsume2]{
-    \ctxSynTypeM{\ctx}{\cursorErase{\ZMV}}{\TMV'} \\
-    \ASAction{\ctx}{\ZMV}{\TMV'}{\ZMV'}{\TMV''}{\AMV} \\\\
+    \ctxSynTypeM{\ctx}{\cursorErase{\ZCMV}}{\TMV'} \\
+    \ASAction{\ctx}{\ZCMV}{\TMV'}{\ZCMV'}{\TMV''}{\AMV} \\\\
     \inconsistent{\TMV}{\TMV''} \\
-    \subsumable{\cursorErase{\ZMV}}
+    \subsumable{\cursorErase{\ZCMV}}
   }{
-    \AAAction{\ctx}{\ZMV}{\ZInconType{\ZMV'}}{\TMV}{\AMV}
+    \AAAction{\ctx}{\ZCMV}{\ZCInconType{\ZCMV'}}{\TMV}{\AMV}
   }
 
   \inferrule[AAEInconsistentTypes1]{
-    \ctxSynTypeM{\ctx}{\cursorErase{\ZMV}}{\TMV'} \\
-    \ASAction{\ctx}{\ZMV}{\TMV'}{\ZMV'}{\TMV''}{\AMV} \\\\
+    \ctxSynTypeM{\ctx}{\cursorErase{\ZCMV}}{\TMV'} \\
+    \ASAction{\ctx}{\ZCMV}{\TMV'}{\ZCMV'}{\TMV''}{\AMV} \\\\
     \inconsistent{\TMV}{\TMV''} \\
-    \subsumable{\cursorErase{\ZMV}}
+    \subsumable{\cursorErase{\ZCMV}}
   }{
-    \AAAction{\ctx}{\ZInconType{\ZMV}}{\ZInconType{\ZMV'}}{\TMV}{\AMV}
+    \AAAction{\ctx}{\ZCInconType{\ZCMV}}{\ZCInconType{\ZCMV'}}{\TMV}{\AMV}
   }
 
   \inferrule[AAEInconsistentTypes2]{
-    \ctxSynTypeM{\ctx}{\cursorErase{\ZMV}}{\TMV'} \\
-    \ASAction{\ctx}{\ZMV}{\TMV'}{\ZMV'}{\TMV''}{\AMV} \\\\
+    \ctxSynTypeM{\ctx}{\cursorErase{\ZCMV}}{\TMV'} \\
+    \ASAction{\ctx}{\ZCMV}{\TMV'}{\ZCMV'}{\TMV''}{\AMV} \\\\
     \consistent{\TMV}{\TMV''} \\
-    \subsumable{\cursorErase{\ZMV}}
+    \subsumable{\cursorErase{\ZCMV}}
   }{
-    \AAAction{\ctx}{\ZInconType{\ZMV}}{\ZMV'}{\TMV}{\AMV}
+    \AAAction{\ctx}{\ZCInconType{\ZCMV}}{\ZCMV'}{\TMV}{\AMV}
   }
 \end{mathpar}
 
 \paragraph{Movement}
 \begin{mathpar}
   \inferrule[AAEMove]{
-    \ASEMove{\ZMV}{\ZMV'}{\MMV}
+    \ASEMove{\ZCMV}{\ZCMV'}{\MMV}
   }{
-    \AAMove{\ctx}{\ZMV}{\ZMV'}{\TMV}{\MMV}
+    \AAMove{\ctx}{\ZCMV}{\ZCMV'}{\TMV}{\MMV}
   }
 \end{mathpar}
 
@@ -788,33 +788,33 @@ Type actions are the same as in the untyped model.
     \matchedArrow{\TMV}{\TMV_1}{\TMV_2} \\
     \ctxAnaFixedInto{\extendCtx{\ctx}{x}{\TMV_1}}{\ECMV}{\ECMV'}{\TMV_2}
   }{
-    \AACon{\ctx}{\ZCursor{\ECMV}}{\ZLamT{x}{\ZTCursor{\TMV_1}}{\ECMV'}}{\TMV}{\SLam{x}}
+    \AACon{\ctx}{\ZCCursor{\ECMV}}{\ZCLamT{x}{\ZTCursor{\TMV_1}}{\ECMV'}}{\TMV}{\SLam{x}}
   }
 
   \inferrule[AAEConLam2]{
     \notMatchedArrow{\TMV} \\
     \ctxAnaFixedInto{\extendCtx{\ctx}{x}{\TUnknown}}{\ECMV}{\ECMV'}{\TUnknown}
   }{
-    \AACon{\ctx}{\ZCursor{\ECMV}}{\ZInconType{\ZLamT{x}{\ZTCursor{\TUnknown}}{\ECMV'}}}{\TMV}{\SLam{x}}
+    \AACon{\ctx}{\ZCCursor{\ECMV}}{\ZCInconType{\ZCLamT{x}{\ZTCursor{\TUnknown}}{\ECMV'}}}{\TMV}{\SLam{x}}
   }
 
   \inferrule[AAEConLetL]{ }{
-    \AACon{\ctx}{\ZCursor{\ECMV}}{\ZLetL{x}{\ECMV}{\ZCursor{\ECEHole}}}{\TMV}{\SLetL{x}}
+    \AACon{\ctx}{\ZCCursor{\ECMV}}{\ZCLetL{x}{\ECMV}{\ZCCursor{\ECEHole}}}{\TMV}{\SLetL{x}}
   }
 
   \inferrule[AAEConLetR]{
     \ctxAnaFixedInto{\extendCtx{\ctx}{x}{\TUnknown}}{\erase{\ECMV}}{\ECMV'}{\TMV}
   }{
-    \AACon{\ctx}{\ZCursor{\ECMV}}{\ZLetR{x}{\ZCursor{\ECEHole}}{\ECMV'}}{\TMV}{\SLetR{x}}
+    \AACon{\ctx}{\ZCCursor{\ECMV}}{\ZCLetR{x}{\ZCCursor{\ECEHole}}{\ECMV'}}{\TMV}{\SLetR{x}}
   }
  
   \inferrule[AAEConIfL]{ }{
-    \AACon{\ctx}{\ZCursor{\ECMV}}{\ZIfC{\ZCursor{\ECEHole}}{\ECMV}{\ECEHole}}{\TMV}{\SIfL}
+    \AACon{\ctx}{\ZCCursor{\ECMV}}{\ZCIfC{\ZCCursor{\ECEHole}}{\ECMV}{\ECEHole}}{\TMV}{\SIfL}
   }
 
   \inferrule[AAEConIfR]{
   }{
-    \AACon{\ctx}{\ZCursor{\ECMV}}{\ZIfC{\ZCursor{\ECEHole}}{\ECEHole}{\ECMV}}{\TMV}{\SIfR}
+    \AACon{\ctx}{\ZCCursor{\ECMV}}{\ZCIfC{\ZCCursor{\ECEHole}}{\ECEHole}{\ECMV}}{\TMV}{\SIfR}
   }
 \end{mathparpagebreakable}
 
@@ -824,7 +824,7 @@ Type actions are the same as in the untyped model.
     \AUTAction{\ZTMV}{\ZTMV'}{\AMV} \\
     \consistent{\cursorErase{\ZTMV}}{\cursorErase{\ZTMV'}}
   }{
-    \AAAction{\ctx}{\ZLamT{x}{\ZTMV}{\ECMV}}{\ZLamT{x}{\ZTMV'}{\ECMV}}{\TMV}{\AMV}
+    \AAAction{\ctx}{\ZCLamT{x}{\ZTMV}{\ECMV}}{\ZCLamT{x}{\ZTMV'}{\ECMV}}{\TMV}{\AMV}
   }
 
   \inferrule[AAEZipLamT2]{
@@ -834,7 +834,7 @@ Type actions are the same as in the untyped model.
     \consistent{\cursorErase{\ZTMV'}}{\TMV_1} \\
     \ctxAnaFixedInto{\extendCtx{\ctx}{x}{\cursorErase{\ZTMV'}}}{\erase{\ECMV}}{\ECMV'}{\TMV_2}
   }{
-    \AAAction{\ctx}{\ZLamT{x}{\ZTMV}{\ECMV}}{\ZLamT{x}{\ZTMV'}{\ECMV'}}{\TMV}{\AMV}
+    \AAAction{\ctx}{\ZCLamT{x}{\ZTMV}{\ECMV}}{\ZCLamT{x}{\ZTMV'}{\ECMV'}}{\TMV}{\AMV}
   }
 
   \inferrule[AAEZipLamT3]{
@@ -844,55 +844,55 @@ Type actions are the same as in the untyped model.
     \inconsistent{\cursorErase{\ZTMV'}}{\TMV_1} \\
     \ctxAnaFixedInto{\extendCtx{\ctx}{x}{\TMV_1}}{\erase{\ECMV}}{\ECMV'}{\TMV_2}
   }{
-    \AAAction{\ctx}{\ZLamT{x}{\ZTMV}{\ECMV}}{\ZInconType{\ZLamT{x}{\ZTMV'}{\ECMV'}}}{\TMV}{\AMV}
+    \AAAction{\ctx}{\ZCLamT{x}{\ZTMV}{\ECMV}}{\ZCInconType{\ZCLamT{x}{\ZTMV'}{\ECMV'}}}{\TMV}{\AMV}
   }
 
   \inferrule[AAEZipLamE]{
     \matchedArrow{\TMV}{\TMV_1}{\TMV_2} \\
-    \AAAction{\extendCtx{\ctx}{x}{\TMV_3}}{\ZMV}{\ZMV'}{\TMV_2}{\AMV}
+    \AAAction{\extendCtx{\ctx}{x}{\TMV_3}}{\ZCMV}{\ZCMV'}{\TMV_2}{\AMV}
   }{
-    \AAAction{\ctx}{\ZLamE{x}{\TMV_3}{\ZMV}}{\ZLamE{x}{\TMV_3}{\ZMV'}}{\TMV}{\AMV}
+    \AAAction{\ctx}{\ZCLamE{x}{\TMV_3}{\ZCMV}}{\ZCLamE{x}{\TMV_3}{\ZCMV'}}{\TMV}{\AMV}
   }
 
   \inferrule[AAEZipLetL1]{
-    \ctxSynTypeM{\ctx}{\cursorErase{\ZMV}}{\TMV_1} \\
-    \ASEAction{\ctx}{\ZMV}{\TMV_1}{\ZMV'}{\TMV_1'}{\AMV} \\
+    \ctxSynTypeM{\ctx}{\cursorErase{\ZCMV}}{\TMV_1} \\
+    \ASEAction{\ctx}{\ZCMV}{\TMV_1}{\ZCMV'}{\TMV_1'}{\AMV} \\
     \consistent{\TMV_1}{\TMV_1'}
   }{
-    \AAAction{\ctx}{\ZLetL{x}{\ZMV}{\ECMV}}{\ZLetL{x}{\ZMV'}{\ECMV}}{\TMV}{\AMV}
+    \AAAction{\ctx}{\ZCLetL{x}{\ZCMV}{\ECMV}}{\ZCLetL{x}{\ZCMV'}{\ECMV}}{\TMV}{\AMV}
   }
 
   \inferrule[AAEZipLetL2]{
-    \ctxSynTypeM{\ctx}{\cursorErase{\ZMV}}{\TMV_1} \\
-    \ASEAction{\ctx}{\ZMV}{\TMV_1}{\ZMV'}{\TMV_1'}{\AMV} \\\\
+    \ctxSynTypeM{\ctx}{\cursorErase{\ZCMV}}{\TMV_1} \\
+    \ASEAction{\ctx}{\ZCMV}{\TMV_1}{\ZCMV'}{\TMV_1'}{\AMV} \\\\
     \ctxAnaFixedInto{\extendCtx{\ctx}{x}{\TMV_1'}}{\erase{\ECMV}}{\ECMV'}{\TMV}
   }{
-    \AAAction{\ctx}{\ZLetL{x}{\ZMV}{\ECMV}}{\ZLetL{x}{\ZMV'}{\ECMV'}}{\TMV}{\AMV}
+    \AAAction{\ctx}{\ZCLetL{x}{\ZCMV}{\ECMV}}{\ZCLetL{x}{\ZCMV'}{\ECMV'}}{\TMV}{\AMV}
   }
 
   \inferrule[AAEZipLetR]{
     \ctxSynTypeM{\ctx}{\ECMV}{\TMV'} \\
-    \AAAction{\extendCtx{\ctx}{x}{\TMV'}}{\ZMV}{\ZMV'}{\TMV}{\AMV}
+    \AAAction{\extendCtx{\ctx}{x}{\TMV'}}{\ZCMV}{\ZCMV'}{\TMV}{\AMV}
   }{
-    \AAAction{\ctx}{\ZLetR{x}{\ECMV}{\ZMV}}{\ZLetL{x}{\ECMV}{\ZMV'}}{\TMV}{\AMV}
+    \AAAction{\ctx}{\ZCLetR{x}{\ECMV}{\ZCMV}}{\ZCLetL{x}{\ECMV}{\ZCMV'}}{\TMV}{\AMV}
   }
 
   \inferrule[AAEZipIfC]{
-    \AAAction{\ctx}{\ZMV}{\ZMV'}{\TBool}{\AMV}
+    \AAAction{\ctx}{\ZCMV}{\ZCMV'}{\TBool}{\AMV}
   }{
-    \AAAction{\ctx}{\ZIfC{\ZMV}{\ECMV_1}{\ECMV_2}}{\ZIfC{\ZMV'}{\ECMV_1}{\ECMV_2}}{\TMV}{\AMV}
+    \AAAction{\ctx}{\ZCIfC{\ZCMV}{\ECMV_1}{\ECMV_2}}{\ZCIfC{\ZCMV'}{\ECMV_1}{\ECMV_2}}{\TMV}{\AMV}
   }
 
   \inferrule[AAEZipIfL]{
-    \AAAction{\ctx}{\ZMV}{\ZMV'}{\TMV}{\AMV}
+    \AAAction{\ctx}{\ZCMV}{\ZCMV'}{\TMV}{\AMV}
   }{
-    \AAAction{\ctx}{\ZIfL{\ECMV_1}{\ZMV}{\ECMV_2}}{\ZIfL{\ECMV_1}{\ZMV'}{\ECMV_2}}{\TMV}{\AMV}
+    \AAAction{\ctx}{\ZCIfL{\ECMV_1}{\ZCMV}{\ECMV_2}}{\ZCIfL{\ECMV_1}{\ZCMV'}{\ECMV_2}}{\TMV}{\AMV}
   }
 
   \inferrule[AAEZipIfR]{
-    \AAAction{\ctx}{\ZMV}{\ZMV'}{\TMV}{\AMV}
+    \AAAction{\ctx}{\ZCMV}{\ZCMV'}{\TMV}{\AMV}
   }{
-    \AAAction{\ctx}{\ZIfR{\ECMV_1}{\ECMV_2}{\ZMV}}{\ZIfR{\ECMV_1}{\ECMV_2}{\ZMV'}}{\TMV}{\AMV}
+    \AAAction{\ctx}{\ZCIfR{\ECMV_1}{\ECMV_2}{\ZCMV}}{\ZCIfR{\ECMV_1}{\ECMV_2}{\ZCMV'}}{\TMV}{\AMV}
   }
 \end{mathparpagebreakable}
 
@@ -900,33 +900,33 @@ Type actions are the same as in the untyped model.
 \label{sec:typed-iterated-actions}
 The iterated type action and movements judgments are the same as in the untyped model. \\
 
-\judgbox{\ensuremath{\ASEActionIter{\ctx}{\ZMV}{\TMV}{\ZMV'}{\TMV'}{\AIMV}}}
+\judgbox{\ensuremath{\ASEActionIter{\ctx}{\ZCMV}{\TMV}{\ZCMV'}{\TMV'}{\AIMV}}}
 %
 \begin{mathpar}
   \inferrule[ASEIRefl]{ }{
-    \ASEActionIter{\ctx}{\ZMV}{\TMV}{\ZMV}{\TMV}{\AINil}
+    \ASEActionIter{\ctx}{\ZCMV}{\TMV}{\ZCMV}{\TMV}{\AINil}
   }
 
   \inferrule[ASEIExp]{
-    \ASEAction{\ctx}{\ZMV}{\TMV}{\ZMV'}{\TMV'}{\AMV} \\
-    \ASEActionIter{\ctx}{\ZMV'}{\TMV'}{\ZMV''}{\TMV''}{\AIMV}
+    \ASEAction{\ctx}{\ZCMV}{\TMV}{\ZCMV'}{\TMV'}{\AMV} \\
+    \ASEActionIter{\ctx}{\ZCMV'}{\TMV'}{\ZCMV''}{\TMV''}{\AIMV}
   }{
-    \ASEActionIter{\ctx}{\ZMV}{\TMV}{\ZMV''}{\TMV''}{\AICons{\AMV}{\AIMV}}
+    \ASEActionIter{\ctx}{\ZCMV}{\TMV}{\ZCMV''}{\TMV''}{\AICons{\AMV}{\AIMV}}
   }
 \end{mathpar}
 
-\judgbox{\ensuremath{\AAEActionIter{\ctx}{\ZMV}{\ZMV'}{\TMV}{\AIMV}}}
+\judgbox{\ensuremath{\AAEActionIter{\ctx}{\ZCMV}{\ZCMV'}{\TMV}{\AIMV}}}
 %
 \begin{mathpar}
   \inferrule[AAEIRefl]{ }{
-    \AAEActionIter{\ctx}{\ZMV}{\ZMV}{\TMV}{\AINil}
+    \AAEActionIter{\ctx}{\ZCMV}{\ZCMV}{\TMV}{\AINil}
   }
 
   \inferrule[AAEIExp]{
-    \AAEAction{\ctx}{\ZMV}{\ZMV'}{\TMV'}{\AMV} \\
-    \AAEActionIter{\ctx}{\ZMV'}{\ZMV''}{\TMV''}{\AIMV}
+    \AAEAction{\ctx}{\ZCMV}{\ZCMV'}{\TMV'}{\AMV} \\
+    \AAEActionIter{\ctx}{\ZCMV'}{\ZCMV''}{\TMV''}{\AIMV}
   }{
-    \AAEActionIter{\ctx}{\ZMV}{\ZMV''}{\TMV''}{\AICons{\AMV}{\AIMV}}
+    \AAEActionIter{\ctx}{\ZCMV}{\ZCMV''}{\TMV''}{\AICons{\AMV}{\AIMV}}
   }
 \end{mathpar}
 
@@ -934,13 +934,13 @@ The iterated type action and movements judgments are the same as in the untyped 
 \label{sec:typed-metatheorems}
 \begin{theorem}[name=Sensibility] \
   \begin{enumerate}
-    \item If $\zWellFormed{\ZMV}$ and $\ctxSynTypeM{\ctx}{\cursorErase{\ZMV}}{\TMV}$ and
-      $\ASEAction{\ctx}{\ZMV}{\TMV}{\ZMV'}{\TMV'}{\AMV}$, then $\zWellFormed{\ZMV'}$ and
-      $\ctxSynTypeM{\ctx}{\cursorErase{\ZMV'}}{\TMV'}$.
+    \item If $\zWellFormed{\ZCMV}$ and $\ctxSynTypeM{\ctx}{\cursorErase{\ZCMV}}{\TMV}$ and
+      $\ASEAction{\ctx}{\ZCMV}{\TMV}{\ZCMV'}{\TMV'}{\AMV}$, then $\zWellFormed{\ZCMV'}$ and
+      $\ctxSynTypeM{\ctx}{\cursorErase{\ZCMV'}}{\TMV'}$.
 
-    \item If $\zWellFormed{\ZMV}$ and $\ctxAnaType{\ctx}{\cursorErase{\ZMV}}{\TMV}$ and
-      $\AAEAction{\ctx}{\ZMV}{\ZMV'}{\TMV}{\AMV}$, then $\zWellFormed{\ZMV'}$ and
-      $\ctxAnaType{\ctx}{\cursorErase{\ZMV'}}{\TMV}$.
+    \item If $\zWellFormed{\ZCMV}$ and $\ctxAnaType{\ctx}{\cursorErase{\ZCMV}}{\TMV}$ and
+      $\AAEAction{\ctx}{\ZCMV}{\ZCMV'}{\TMV}{\AMV}$, then $\zWellFormed{\ZCMV'}$ and
+      $\ctxAnaType{\ctx}{\cursorErase{\ZCMV'}}{\TMV}$.
   \end{enumerate}
 \end{theorem}
 
@@ -949,13 +949,13 @@ The iterated type action and movements judgments are the same as in the untyped 
     \item If $\AUTAction{\ZTMV}{\ZTMV'}{\AMove{\MMV}}$, then $\cursorErase{\ZTMV} =
       \cursorErase{\ZTMV'}$.
 
-    \item If $\zWellFormed{\ZMV}$ and $\ctxSynTypeM{\ctx}{\cursorErase{\ZMV}}{\TMV}$ and
-      $\ASEAction{\ctx}{\ZMV}{\TMV}{\ZMV'}{\TMV'}{\AMove{\MMV}}$, then $\zWellFormed{\ZMV'}$ and
-      $\cursorErase{\ZMV} = \cursorErase{\ZMV'}$ and $\equal{\TMV}{\TMV'}$.
+    \item If $\zWellFormed{\ZCMV}$ and $\ctxSynTypeM{\ctx}{\cursorErase{\ZCMV}}{\TMV}$ and
+      $\ASEAction{\ctx}{\ZCMV}{\TMV}{\ZCMV'}{\TMV'}{\AMove{\MMV}}$, then $\zWellFormed{\ZCMV'}$ and
+      $\cursorErase{\ZCMV} = \cursorErase{\ZCMV'}$ and $\equal{\TMV}{\TMV'}$.
 
-    \item If $\zWellFormed{\ZMV}$ and $\ctxAnaType{\ctx}{\cursorErase{\ZMV}}{\TMV}$ and
-      $\AAEAction{\ctx}{\ZMV}{\ZMV'}{\TMV}{\AMove{\MMV}}$, then $\zWellFormed{\ZMV'}$ and
-      $\cursorErase{\ZMV} = \cursorErase{\ZMV'}$.
+    \item If $\zWellFormed{\ZCMV}$ and $\ctxAnaType{\ctx}{\cursorErase{\ZCMV}}{\TMV}$ and
+      $\AAEAction{\ctx}{\ZCMV}{\ZCMV'}{\TMV}{\AMove{\MMV}}$, then $\zWellFormed{\ZCMV'}$ and
+      $\cursorErase{\ZCMV} = \cursorErase{\ZCMV'}$.
   \end{enumerate}
 \end{theorem}
 
@@ -964,15 +964,15 @@ The iterated type action and movements judgments are the same as in the untyped 
     \item If $\cursorErase{\ZTMV} = \cursorErase{\ZTMV'}$, then there exists $\AIMV$ such that
       $\movements{\AIMV}$ and $\AUTActionIter{\ZTMV}{\ZTMV'}{\AIMV}$.
 
-    \item If $\zWellFormed{\ZMV}$ and $\zWellFormed{\ZMV'}$ and
-      $\ctxSynTypeM{\ctx}{\cursorErase{\ZMV}}{\TMV}$ and $\cursorErase{\ZMV} = \cursorErase{\ZMV'}$,
+    \item If $\zWellFormed{\ZCMV}$ and $\zWellFormed{\ZCMV'}$ and
+      $\ctxSynTypeM{\ctx}{\cursorErase{\ZCMV}}{\TMV}$ and $\cursorErase{\ZCMV} = \cursorErase{\ZCMV'}$,
       then there exists $\AIMV$ such that $\movements{\AIMV}$ and
-      $\ASEActionIter{\ctx}{\ZMV}{\TMV}{\ZMV'}{\TMV}{\AIMV}$.
+      $\ASEActionIter{\ctx}{\ZCMV}{\TMV}{\ZCMV'}{\TMV}{\AIMV}$.
 
-    \item If $\zWellFormed{\ZMV}$ and $\zWellFormed{\ZMV'}$ and
-      $\ctxAnaType{\ctx}{\cursorErase{\ZMV}}{\TMV}$ and $\cursorErase{\ZMV} = \cursorErase{\ZMV'}$,
+    \item If $\zWellFormed{\ZCMV}$ and $\zWellFormed{\ZCMV'}$ and
+      $\ctxAnaType{\ctx}{\cursorErase{\ZCMV}}{\TMV}$ and $\cursorErase{\ZCMV} = \cursorErase{\ZCMV'}$,
       then there exists $\AIMV$ such that $\movements{\AIMV}$ and
-      $\AAEActionIter{\ctx}{\ZMV}{\ZMV'}{\TMV}{\AIMV}$.
+      $\AAEActionIter{\ctx}{\ZCMV}{\ZCMV'}{\TMV}{\AIMV}$.
   \end{enumerate}
 \end{theorem}
 
@@ -981,13 +981,13 @@ The iterated type action and movements judgments are the same as in the untyped 
     \item If $\cursorErase{\ZTMV} = \TMV$, then there exists $\AIMV$ such that $\movements{\AIMV}$
       and $\AUTActionIter{\ZTMV}{\ZTCursor{\TMV}}{\AIMV}$.
 
-    \item If $\zWellFormed{\ZMV}$ and $\ctxSynTypeM{\ctx}{\cursorErase{\ZMV}}{\TMV}$ and
-      $\cursorErase{\ZMV} = \ECMV$, then there exists $\AIMV$ such that $\movements{\AIMV}$ and
-      $\ASEActionIter{\ctx}{\ZMV}{\TMV}{\ZTCursor{\ECMV}}{\TMV}{\AIMV}$.
+    \item If $\zWellFormed{\ZCMV}$ and $\ctxSynTypeM{\ctx}{\cursorErase{\ZCMV}}{\TMV}$ and
+      $\cursorErase{\ZCMV} = \ECMV$, then there exists $\AIMV$ such that $\movements{\AIMV}$ and
+      $\ASEActionIter{\ctx}{\ZCMV}{\TMV}{\ZCCursor{\ECMV}}{\TMV}{\AIMV}$.
 
-    \item If $\zWellFormed{\ZMV}$ and $\ctxAnaType{\ctx}{\cursorErase{\ZMV}}{\TMV}$ and
-      $\cursorErase{\ZMV} = \ECMV$, then there exists $\AIMV$ such that $\movements{\AIMV}$ and
-      $\AAEActionIter{\ctx}{\ZMV}{\ZTCursor{\ECMV}}{\TMV}{\AIMV}$.
+    \item If $\zWellFormed{\ZCMV}$ and $\ctxAnaType{\ctx}{\cursorErase{\ZCMV}}{\TMV}$ and
+      $\cursorErase{\ZCMV} = \ECMV$, then there exists $\AIMV$ such that $\movements{\AIMV}$ and
+      $\AAEActionIter{\ctx}{\ZCMV}{\ZCCursor{\ECMV}}{\TMV}{\AIMV}$.
   \end{enumerate}
 \end{lemma}
 
@@ -996,13 +996,13 @@ The iterated type action and movements judgments are the same as in the untyped 
     \item If $\cursorErase{\ZTMV} = \TMV$, then there exists $\AIMV$ such that $\movements{\AIMV}$
       and $\AUTActionIter{\ZTCursor{\TMV}}{\ZTMV}{\AIMV}$.
 
-    \item If $\zWellFormed{\ZMV}$ and $\ctxSynTypeM{\ctx}{\cursorErase{\ZMV}}{\TMV}$ and
-      $\cursorErase{\ZMV} = \ECMV$, then there exists $\AIMV$ such that $\movements{\AIMV}$ and
-      $\ASEActionIter{\ctx}{\ZTCursor{\ECMV}}{\TMV}{\ZMV}{\TMV}{\AIMV}$.
+    \item If $\zWellFormed{\ZCMV}$ and $\ctxSynTypeM{\ctx}{\cursorErase{\ZCMV}}{\TMV}$ and
+      $\cursorErase{\ZCMV} = \ECMV$, then there exists $\AIMV$ such that $\movements{\AIMV}$ and
+      $\ASEActionIter{\ctx}{\ZCCursor{\ECMV}}{\TMV}{\ZCMV}{\TMV}{\AIMV}$.
 
-    \item If $\zWellFormed{\ZMV}$ and $\ctxAnaType{\ctx}{\cursorErase{\ZMV}}{\TMV}$ and
-      $\cursorErase{\ZMV} = \ECMV$, then there exists $\AIMV$ such that $\movements{\AIMV}$ and
-      $\AAEActionIter{\ctx}{\ZTCursor{\ECMV}}{\ZMV}{\TMV}{\AIMV}$.
+    \item If $\zWellFormed{\ZCMV}$ and $\ctxAnaType{\ctx}{\cursorErase{\ZCMV}}{\TMV}$ and
+      $\cursorErase{\ZCMV} = \ECMV$, then there exists $\AIMV$ such that $\movements{\AIMV}$ and
+      $\AAEActionIter{\ctx}{\ZCCursor{\ECMV}}{\ZCMV}{\TMV}{\AIMV}$.
   \end{enumerate}
 \end{lemma}
 
@@ -1012,10 +1012,10 @@ The iterated type action and movements judgments are the same as in the untyped 
       $\AUTActionIter{\ZTCursor{\TUnknown}}{\ZTCursor{\TMV}}{\AIMV}$.
 
     \item If $\ctxSynTypeM{\ctx}{\ECMV}{\TMV}$, then there exists $\AIMV$ such that
-      $\ASEActionIter{\ctx}{\ZCursor{\EEHole}}{\TUnknown}{\ZCursor{\ECMV}}{\TMV}{\AIMV}$.
+      $\ASEActionIter{\ctx}{\ZCCursor{\EEHole}}{\TUnknown}{\ZCCursor{\ECMV}}{\TMV}{\AIMV}$.
 
     \item If $\ctxAnaType{\ctx}{\ECMV}{\TMV}$, then there exists $\AIMV$ such that
-      $\AAEActionIter{\ctx}{\ZCursor{\EEHole}}{\ZCursor{\ECMV}}{\TMV}{\AIMV}$.
+      $\AAEActionIter{\ctx}{\ZCCursor{\EEHole}}{\ZCCursor{\ECMV}}{\TMV}{\AIMV}$.
   \end{enumerate}
 \end{theorem}
 
@@ -1024,14 +1024,14 @@ The iterated type action and movements judgments are the same as in the untyped 
     \item If $\AUTActionIter{\ZTMV}{\ZTMV'}{\AMV}$ and $\AUTActionIter{\ZTMV}{\ZTMV''}{\AMV}$, then
       $\ZTMV' = \ZTMV''$.
 
-    \item If $\zWellFormed{\ZMV}$ and $\ctxSynTypeM{\ctx}{\cursorErase{\ZMV}}{\TMV}$ and
-      $\ASEActionIter{\ctx}{\ZMV}{\TMV}{\ZMV'}{\TMV'}{\AMV}$ and
-      $\ASEActionIter{\ctx}{\ZMV}{\TMV}{\ZMV''}{\TMV''}{\AMV}$, then $\ZMV' = \ZMV''$ and
+    \item If $\zWellFormed{\ZCMV}$ and $\ctxSynTypeM{\ctx}{\cursorErase{\ZCMV}}{\TMV}$ and
+      $\ASEActionIter{\ctx}{\ZCMV}{\TMV}{\ZCMV'}{\TMV'}{\AMV}$ and
+      $\ASEActionIter{\ctx}{\ZCMV}{\TMV}{\ZCMV''}{\TMV''}{\AMV}$, then $\ZCMV' = \ZCMV''$ and
       $\equal{\TMV'}{\TMV''}$.
 
-    \item If $\zWellFormed{\ZMV}$ and $\ctxAnaType{\ctx}{\cursorErase{\ZMV}}{\TMV}$ and
-      $\AAEActionIter{\ctx}{\ZMV}{\ZMV'}{\TMV}{\AMV}$ and
-      $\AAEActionIter{\ctx}{\ZMV}{\ZMV''}{\TMV}{\AMV}$, then $\ZMV' = \ZMV''$.
+    \item If $\zWellFormed{\ZCMV}$ and $\ctxAnaType{\ctx}{\cursorErase{\ZCMV}}{\TMV}$ and
+      $\AAEActionIter{\ctx}{\ZCMV}{\ZCMV'}{\TMV}{\AMV}$ and
+      $\AAEActionIter{\ctx}{\ZCMV}{\ZCMV''}{\TMV}{\AMV}$, then $\ZCMV' = \ZCMV''$.
   \end{enumerate}
 \end{theorem}
 
