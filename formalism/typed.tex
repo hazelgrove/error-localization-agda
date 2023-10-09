@@ -44,6 +44,10 @@ Zippered types are the same as in the untyped model.
     \zWellFormed{\ZCCursor{\ECMV}}
   }
 
+  \inferrule[WFFree]{ }{
+    \zWellFormed{\ZCFree{x}}
+  }
+
   \inferrule[WFLam1]{ }{
     \zWellFormed{\ZCLamT{x}{\ZTMV}{\ECMV}}
   }
@@ -52,6 +56,27 @@ Zippered types are the same as in the untyped model.
     \zWellFormed{\ZCMV}
   }{
     \zWellFormed{\ZCLamE{x}{\TMV}{\ZCMV}}
+  }
+
+  \inferrule[WFLam3]{
+  }{
+    \zWellFormed{\ZCLamAnaNonMatchedArrowT{x}{\ZTMV}{\ECMV}}
+  }
+
+  \inferrule[WFLam4]{
+    \zWellFormed{\ZCMV}
+  }{
+    \zWellFormed{\ZCLamAnaNonMatchedArrowE{x}{\TMV}{\ZCMV}}
+  }
+
+  \inferrule[WFLam5]{ }{
+    \zWellFormed{\ZCLamInconAscT{x}{\ZTMV}{\ECMV}}
+  }
+
+  \inferrule[WFLam6]{
+    \zWellFormed{\ZCMV}
+  }{
+    \zWellFormed{\ZCLamInconAscE{x}{\TMV}{\ZCMV}}
   }
 
   \inferrule[WFAp1]{
@@ -64,6 +89,18 @@ Zippered types are the same as in the untyped model.
     \zWellFormed{\ZCMV}
   }{
     \zWellFormed{\ZCApR{\ECMV}{\ZCMV}}
+  }
+
+  \inferrule[WFAp3]{
+    \zWellFormed{\ZCMV}
+  }{
+    \zWellFormed{\ZCApSynNonMatchedArrowL{\ZCMV}{\ECMV}}
+  }
+
+  \inferrule[WFAp4]{
+    \zWellFormed{\ZCMV}
+  }{
+    \zWellFormed{\ZCApSynNonMatchedArrowR{\ECMV}{\ZCMV}}
   }
 
   \inferrule[WFLet1]{
@@ -108,74 +145,6 @@ Zippered types are the same as in the untyped model.
     \zWellFormed{\ZCIfR{\ECMV_1}{\ECMV_2}{\ZCMV}}
   }
 
-  \inferrule[WFPair1]{
-    \zWellFormed{\ZCMV}
-  }{
-    \zWellFormed{\ZCPairL{\ZCMV}{\ECMV}}
-  }
-
-  \inferrule[WFPair2]{
-    \zWellFormed{\ZCMV}
-  }{
-    \zWellFormed{\ZCPairR{\ECMV}{\ZCMV}}
-  }
-
-  \inferrule[WFProjL1]{
-    \zWellFormed{\ZCMV}
-  }{
-    \zWellFormed{\ZCProjL{\ZCMV}}
-  }
-
-  \inferrule[WFProjR1]{
-    \zWellFormed{\ZCMV}
-  }{
-    \zWellFormed{\ZCProjR{\ZCMV}}
-  }
-
-  \inferrule[WFFree]{ }{
-    \zWellFormed{\ZCFree{x}}
-  }
-
-  \inferrule[WFInconsistentTypes]{
-    \notEqual{\ZCMV}{\ZCCursor{\ECMV}} \\
-    \zWellFormed{\ZCMV}
-  }{
-    \zWellFormed{\ZCInconType{\ZCMV}}
-  }
-
-  \inferrule[WFLam3]{ }{
-    \zWellFormed{\ZCLamInconAscT{x}{\ZTMV}{\ECMV}}
-  }
-
-  \inferrule[WFLam4]{
-    \zWellFormed{\ZCMV}
-  }{
-    \zWellFormed{\ZCLamInconAscE{x}{\TMV}{\ZCMV}}
-  }
-
-  \inferrule[WFLam5]{
-  }{
-    \zWellFormed{\ZCLamAnaNonMatchedArrowT{x}{\ZTMV}{\ECMV}}
-  }
-
-  \inferrule[WFLam6]{
-    \zWellFormed{\ZCMV}
-  }{
-    \zWellFormed{\ZCLamAnaNonMatchedArrowE{x}{\TMV}{\ZCMV}}
-  }
-
-  \inferrule[WFAp3]{
-    \zWellFormed{\ZCMV}
-  }{
-    \zWellFormed{\ZCApSynNonMatchedArrowL{\ZCMV}{\ECMV}}
-  }
-
-  \inferrule[WFAp4]{
-    \zWellFormed{\ZCMV}
-  }{
-    \zWellFormed{\ZCApSynNonMatchedArrowR{\ECMV}{\ZCMV}}
-  }
-
   \inferrule[WFInconsistentBranches1]{
     \zWellFormed{\ZCMV}
   }{
@@ -194,6 +163,18 @@ Zippered types are the same as in the untyped model.
     \zWellFormed{\ZCInconBrR{\ECMV_1}{\ECMV_2}{\ZCMV}}
   }
 
+  \inferrule[WFPair1]{
+    \zWellFormed{\ZCMV}
+  }{
+    \zWellFormed{\ZCPairL{\ZCMV}{\ECMV}}
+  }
+
+  \inferrule[WFPair2]{
+    \zWellFormed{\ZCMV}
+  }{
+    \zWellFormed{\ZCPairR{\ECMV}{\ZCMV}}
+  }
+
   \inferrule[WFPair3]{
     \zWellFormed{\ZCMV}
   }{
@@ -206,16 +187,35 @@ Zippered types are the same as in the untyped model.
     \zWellFormed{\ZCPairAnaNonMatchedProdR{\ECMV}{\ZCMV}}
   }
 
+  \inferrule[WFProjL1]{
+    \zWellFormed{\ZCMV}
+  }{
+    \zWellFormed{\ZCProjL{\ZCMV}}
+  }
+
   \inferrule[WFProjL2]{
     \zWellFormed{\ZCMV}
   }{
     \zWellFormed{\ZCProjLSynNonMatchedProd{\ZCMV}}
   }
 
+  \inferrule[WFProjR1]{
+    \zWellFormed{\ZCMV}
+  }{
+    \zWellFormed{\ZCProjR{\ZCMV}}
+  }
+
   \inferrule[WFProjR2]{
     \zWellFormed{\ZCMV}
   }{
     \zWellFormed{\ZCProjRSynNonMatchedProd{\ZCMV}}
+  }
+
+  \inferrule[WFInconsistentTypes]{
+    \notEqual{\ZCMV}{\ZCCursor{\ECMV}} \\
+    \zWellFormed{\ZCMV}
+  }{
+    \zWellFormed{\ZCInconType{\ZCMV}}
   }
 \end{mathpar}
 
@@ -233,10 +233,17 @@ Type cursor erasure is the same as in the untyped model.
 \newcommand{\cursorErasesToRow}[2]{\ensuremath{\cursorErase{#1} & = & #2}}
 \[\begin{array}{rcl}
   \cursorErasesToRow{\ZCCursor{\ECMV}}{\ECMV} \\
+  \cursorErasesToRow{\ZCFree{x}}{\cursorErase{\ECFree{x}}} \\
   \cursorErasesToRow{(\ZCLamT{x}{\ZTMV}{\ECMV})}{\ECLam{x}{(\cursorErase{\ZTMV})}{\ECMV}} \\
   \cursorErasesToRow{(\ZCLamE{x}{\TMV}{\ZCMV})}{\ECLam{x}{\TMV}{(\cursorErase{\ZCMV})}} \\
+  \cursorErasesToRow{\ZCLamAnaNonMatchedArrowT{x}{\ZTMV}{\ECMV}}{\ECLamAnaNonMatchedArrow{x}{(\cursorErase{\ZTMV})}{\ECMV}} \\
+  \cursorErasesToRow{\ZCLamAnaNonMatchedArrowE{x}{\TMV}{\ZCMV}}{\ECLamAnaNonMatchedArrow{x}{\TMV}{(\cursorErase{\ZCMV})}} \\
+  \cursorErasesToRow{\ZCLamInconAscT{x}{\ZTMV}{\ECMV}}{\ECLamInconAsc{x}{(\cursorErase{\ZTMV})}{\ECMV}} \\
+  \cursorErasesToRow{\ZCLamInconAscE{x}{\TMV}{\ZCMV}}{\ECLamInconAsc{x}{\TMV}{(\cursorErase{\ZCMV})}} \\
   \cursorErasesToRow{(\ZCApL{\ZCMV}{\ECMV})}{\ECAp{(\cursorErase{\ZCMV})}{\ECMV}} \\
   \cursorErasesToRow{(\ZCApR{\ECMV}{\ZCMV})}{\ECAp{\ECMV}{(\cursorErase{\ZCMV})}} \\
+  \cursorErasesToRow{(\ZCApSynNonMatchedArrowL{\ZCMV}{\ECMV})}{\ECApSynNonMatchedArrow{\cursorErase{\ZCMV}}{\ECMV}} \\
+  \cursorErasesToRow{(\ZCApSynNonMatchedArrowR{\ECMV}{\ZCMV})}{\ECApSynNonMatchedArrow{\ECMV}{(\cursorErase{\ZCMV})}} \\
   \cursorErasesToRow{(\ZCLetL{x}{\ZCMV}{\ECMV})}{\ECLet{x}{(\cursorErase{\ZCMV})}{\ECMV}} \\
   \cursorErasesToRow{(\ZCLetR{x}{\ECMV}{\ZCMV})}{\ECLet{x}{\ECMV}{(\cursorErase{\ZCMV})}} \\
   \cursorErasesToRow{(\ZCPlusL{\ZCMV}{\ECMV})}{\ECPlus{(\cursorErase{\ZCMV})}{\ECMV}} \\
@@ -244,25 +251,18 @@ Type cursor erasure is the same as in the untyped model.
   \cursorErasesToRow{(\ZCIfC{\ZCMV}{\ECMV_1}{\ECMV_2})}{\ECIf{(\cursorErase{\ZCMV})}{\ECMV_1}{\ECMV_2}} \\
   \cursorErasesToRow{(\ZCIfL{\ECMV_1}{\ZCMV}{\ECMV_2})}{\ECIf{\ECMV_1}{(\cursorErase{\ZCMV})}{\ECMV_2}} \\
   \cursorErasesToRow{(\ZCIfL{\ECMV_1}{\ECMV_2}{\ZCMV})}{\ECIf{\ECMV_1}{\ECMV_2}{(\cursorErase{\ZCMV})}} \\
+  \cursorErasesToRow{\ZCInconBrC{\ZCMV}{\ECMV_1}{\ECMV_2}}{\ECInconBr{(\cursorErase{\ZCMV})}{\ECMV_1}{\ECMV_2}} \\
+  \cursorErasesToRow{\ZCInconBrL{\ECMV_1}{\ZCMV}{\ECMV_2}}{\ECInconBr{\ECMV_1}{(\cursorErase{\ZCMV})}{\ECMV_2}} \\
+  \cursorErasesToRow{\ZCInconBrR{\ECMV_1}{\ECMV_2}{\ZCMV}}{\ECInconBr{\ECMV_1}{\ECMV_2}{(\cursorErase{\ZCMV})}} \\
   \cursorErasesToRow{\ZCPairL{\ZCMV}{\ECMV}}{\ECPair{\cursorErase{\ZCMV}}{\ECMV}} \\
   \cursorErasesToRow{\ZCPairR{\ECMV}{\ZCMV}}{\ECPair{\ECMV}{\cursorErase{\ZCMV}}} \\
-  \cursorErasesToRow{(\ZCProjL{\ZCMV})}{\ECProjL{(\cursorErase{\ZCMV})}} \\
-  \cursorErasesToRow{(\ZCProjR{\ZCMV})}{\ECProjR{(\cursorErase{\ZCMV})}} \\
-  \cursorErasesToRow{\ZCFree{x}}{\cursorErase{\ECFree{x}}} \\
-  \cursorErasesToRow{\ZCInconType{\ZCMV}}{\ECInconType{\cursorErase{\ZCMV}}} \\
-  \cursorErasesToRow{\ZCLamInconAscT{x}{\ZTMV}{\ECMV}}{\ECLamInconAsc{x}{\cursorErase{\ZTMV}}{\ECMV}} \\
-  \cursorErasesToRow{\ZCLamInconAscE{x}{\TMV}{\ZCMV}}{\ECLamInconAsc{x}{\TMV}{\cursorErase{\ZCMV}}} \\
-  \cursorErasesToRow{\ZCLamAnaNonMatchedArrowT{x}{\ZTMV}{\ECMV}}{\ECLamAnaNonMatchedArrow{x}{\cursorErase{\ZTMV}}{\ECMV}} \\
-  \cursorErasesToRow{\ZCLamAnaNonMatchedArrowE{x}{\TMV}{\ZCMV}}{\ECLamAnaNonMatchedArrow{x}{\TMV}{\cursorErase{\ZCMV}}} \\
-  \cursorErasesToRow{(\ZCApSynNonMatchedArrowL{\ZCMV}{\ECMV})}{\ECApSynNonMatchedArrow{\cursorErase{\ZCMV}}{\ECMV}} \\
-  \cursorErasesToRow{(\ZCApSynNonMatchedArrowR{\ECMV}{\ZCMV})}{\ECApSynNonMatchedArrow{\ECMV}{(\cursorErase{\ZCMV})}} \\
-  \cursorErasesToRow{\ZCInconBrC{\ZCMV}{\ECMV_1}{\ECMV_2}}{\ECInconBr{\cursorErase{\ZCMV}}{\ECMV_1}{\ECMV_2}} \\
-  \cursorErasesToRow{\ZCInconBrL{\ECMV_1}{\ZCMV}{\ECMV_2}}{\ECInconBr{\ECMV_1}{\cursorErase{\ZCMV}}{\ECMV_2}} \\
-  \cursorErasesToRow{\ZCInconBrR{\ECMV_1}{\ECMV_2}{\ZCMV}}{\ECInconBr{\ECMV_1}{\ECMV_2}{\cursorErase{\ZCMV}}} \\
   \cursorErasesToRow{\ZCPairAnaNonMatchedProdL{\ZCMV}{\ECMV}}{\ECPairAnaNonMatchedProd{\cursorErase{\ZCMV}}{\ECMV}} \\
   \cursorErasesToRow{\ZCPairAnaNonMatchedProdR{\ECMV}{\ZCMV}}{\ECPairAnaNonMatchedProd{\ECMV}{\cursorErase{\ZCMV}}} \\
+  \cursorErasesToRow{(\ZCProjL{\ZCMV})}{\ECProjL{(\cursorErase{\ZCMV})}} \\
   \cursorErasesToRow{(\ZCProjLSynNonMatchedProd{\ZCMV})}{\ECProjLSynNonMatchedProd{\cursorErase{\ZCMV}}} \\
+  \cursorErasesToRow{(\ZCProjR{\ZCMV})}{\ECProjR{(\cursorErase{\ZCMV})}} \\
   \cursorErasesToRow{(\ZCProjRSynNonMatchedProd{\ZCMV})}{\ECProjRSynNonMatchedProd{\cursorErase{\ZCMV}}} \\
+  \cursorErasesToRow{\ZCInconType{\ZCMV}}{\ECInconType{\cursorErase{\ZCMV}}} \\
 \end{array}\]
 
 \subsection{Action model}
@@ -290,12 +290,44 @@ Type actions are the same as in the untyped model.
     \ASEMChild{\ECLam{x}{\TMV}{\ECMV}}{\ZCLamE{x}{\TMV}{\ZCCursor{\ECMV}}}{2}
   }
 
+  \inferrule[AEMLamChild3]{ }{
+    \ASEMChild{\ECLamAnaNonMatchedArrow{x}{\TMV}{\ECMV}}{\ZCLamAnaNonMatchedArrowT{x}{\ZTCursor{\TMV}}{\ECMV}}{1}
+  }
+
+  \inferrule[AEMLamChild4]{ }{
+    \ASEMChild{\ECLamAnaNonMatchedArrow{x}{\TMV}{\ECMV}}{\ZCLamAnaNonMatchedArrowE{x}{\TMV}{\ZCCursor{\ECMV}}}{2}
+  }
+
+  \inferrule[AEMLamChild5]{ }{
+    \ASEMChild{\ECLamInconAsc{x}{\TMV}{\ECMV}}{\ZCLamInconAscT{x}{\ZTCursor{\TMV}}{\ECMV}}{1}
+  }
+
+  \inferrule[AEMLamChild6]{ }{
+    \ASEMChild{\ECLamInconAsc{x}{\TMV}{\ECMV}}{\ZCLamInconAscE{x}{\TMV}{\ZCCursor{\ECMV}}}{2}
+  }
+
   \inferrule[AEMLamParent1]{ }{
     \ASEMParent{\ZCLamT{x}{\ZTCursor{\TMV}}{\ECMV}}{\ECLam{x}{\TMV}{\ECMV}}
   }
 
   \inferrule[AEMLamParent2]{ }{
     \ASEMParent{\ZCLamE{x}{\TMV}{\ZCCursor{\ECMV}}}{\ECLam{x}{\TMV}{\ECMV}}
+  }
+
+  \inferrule[AEMLamParent3]{ }{
+    \ASEMParent{\ZCLamAnaNonMatchedArrowT{x}{\ZTCursor{\TMV}}{\ECMV}}{\ECLamAnaNonMatchedArrow{x}{\TMV}{\ECMV}}
+  }
+
+  \inferrule[AEMLamParent4]{ }{
+    \ASEMParent{\ZCLamAnaNonMatchedArrowE{x}{\TMV}{\ZCCursor{\ECMV}}}{\ECLamAnaNonMatchedArrow{x}{\TMV}{\ECMV}}
+  }
+
+  \inferrule[AEMLamParent5]{ }{
+    \ASEMParent{\ZCLamInconAscT{x}{\ZTCursor{\TMV}}{\ECMV}}{\ECLamInconAsc{x}{\TMV}{\ECMV}}
+  }
+
+  \inferrule[AEMLamParent6]{ }{
+    \ASEMParent{\ZCLamInconAscE{x}{\TMV}{\ZCCursor{\ECMV}}}{\ECLamInconAsc{x}{\TMV}{\ECMV}}
   }
 
   \inferrule[AEMApChild1]{ }{
@@ -306,12 +338,28 @@ Type actions are the same as in the untyped model.
     \ASEMChild{\ECAp{\ECMV_1}{\ECMV_2}}{\ZCApR{\ECMV_1}{\ZCCursor{\ECMV_2}}}{2}
   }
 
+  \inferrule[AEMApChild3]{ }{
+    \ASEMChild{\ECApSynNonMatchedArrow{\ECMV_1}{\ECMV_2}}{\ZCApSynNonMatchedArrowL{\ZCCursor{\ECMV_1}}{\ECMV_2}}{1}
+  }
+
+  \inferrule[AEMApChild4]{ }{
+    \ASEMChild{\ECApSynNonMatchedArrow{\ECMV_1}{\ECMV_2}}{\ZCApSynNonMatchedArrowR{\ECMV_1}{\ZCCursor{\ECMV_2}}}{2}
+  }
+
   \inferrule[AEMApParent1]{ }{
     \ASEMParent{\ZCApL{\ZCCursor{\ECMV_1}}{\ECMV_2}}{\ECAp{\ECMV_1}{\ECMV_2}}
   }
 
   \inferrule[AEMApParent2]{ }{
     \ASEMParent{\ZCApR{\ECMV_1}{\ZCCursor{\ECMV_2}}}{\ECAp{\ECMV_1}{\ECMV_2}}
+  }
+
+  \inferrule[AEMApParent3]{ }{
+    \ASEMParent{\ZCApSynNonMatchedArrowL{\ZCCursor{\ECMV_1}}{\ECMV_2}}{\ECApSynNonMatchedArrow{\ECMV_1}{\ECMV_2}}
+  }
+
+  \inferrule[AEMApParent4]{ }{
+    \ASEMParent{\ZCApSynNonMatchedArrowR{\ECMV_1}{\ZCCursor{\ECMV_2}}}{\ECApSynNonMatchedArrow{\ECMV_1}{\ECMV_2}}
   }
 
   \inferrule[AEMLetChild1]{ }{
@@ -370,98 +418,6 @@ Type actions are the same as in the untyped model.
     \ASEMParent{\ZCIfR{\ECMV_1}{\ECMV_2}{\ZCCursor{\ECMV_3}}}{\ECIf{\ECMV_1}{\ECMV_2}{\ECMV_3}}
   }
 
-  \inferrule[AEMPairChild1]{ }{
-    \ASEMChild{\ECPair{\ECMV_1}{\ECMV_2}}{\ZCPairL{\ZCCursor{\ECMV_1}}{\ECMV_2}}{1}
-  }
-
-  \inferrule[AEMPairChild2]{ }{
-    \ASEMChild{\ECPair{\ECMV_1}{\ECMV_2}}{\ZCPairR{\ECMV_1}{\ZCCursor{\ECMV_2}}}{2}
-  }
-
-  \inferrule[AEMPairParent1]{ }{
-    \ASEMParent{\ZCPairL{\ZCCursor{\ECMV_1}}{\ECMV_2}}{\ECPair{\ECMV_1}{\ECMV_2}}
-  }
-
-  \inferrule[AEMPairParent2]{ }{
-    \ASEMParent{\ZCPairR{\ECMV_1}{\ZCCursor{\ECMV_2}}}{\ECPair{\ECMV_1}{\ECMV_2}}
-  }
-
-  \inferrule[AEMProjLChild1]{ }{
-    \ASEMChild{\ECProjL{\ECMV}}{\ZCProjL{\ZCCursor{\ECMV}}}{1}
-  }
-
-  \inferrule[AEMProjLParent1]{ }{
-    \ASEMParent{\ZCProjL{\ZCCursor{\ECMV}}}{\ECProjL{\ECMV}}
-  }
-
-  \inferrule[AEMProjRChild1]{ }{
-    \ASEMChild{\ECProjR{\ECMV}}{\ZCProjR{\ZCCursor{\ECMV}}}{1}
-  }
-
-  \inferrule[AEMProjRParent1]{ }{
-    \ASEMParent{\ZCProjR{\ZCCursor{\ECMV}}}{\ECProjR{\ECMV}}
-  }
-
-  \inferrule[AEMInconsistentTypesChild]{
-    \ASEMChild{\ZCMV}{\ZCMV'}{\MChildNMV}
-  }{
-    \ASEMChild{\ZCInconType{\ZCMV}}{\ZCInconType{\ZCMV'}}{\MChildNMV}
-  }
-
-  \inferrule[AEMInconsistentTypesParent]{
-    \ASEMParent{\ZCMV}{\ZCMV'}
-  }{
-    \ASEMParent{\ZCInconType{\ZCMV}}{\ZCInconType{\ZCMV'}}
-  }
-
-  \inferrule[AEMLamChild3]{ }{
-    \ASEMChild{\ECLamInconAsc{x}{\TMV}{\ECMV}}{\ZCLamInconAscT{x}{\ZTCursor{\TMV}}{\ECMV}}{1}
-  }
-
-  \inferrule[AEMLamChild4]{ }{
-    \ASEMChild{\ECLamInconAsc{x}{\TMV}{\ECMV}}{\ZCLamInconAscE{x}{\TMV}{\ZCCursor{\ECMV}}}{2}
-  }
-
-  \inferrule[AEMLamParent3]{ }{
-    \ASEMParent{\ZCLamInconAscT{x}{\ZTCursor{\TMV}}{\ECMV}}{\ECLamInconAsc{x}{\TMV}{\ECMV}}
-  }
-
-  \inferrule[AEMLamParent4]{ }{
-    \ASEMParent{\ZCLamInconAscE{x}{\TMV}{\ZCCursor{\ECMV}}}{\ECLamInconAsc{x}{\TMV}{\ECMV}}
-  }
-
-  \inferrule[AEMLamChild5]{ }{
-    \ASEMChild{\ECLamAnaNonMatchedArrow{x}{\TMV}{\ECMV}}{\ZCLamAnaNonMatchedArrowT{x}{\ZTCursor{\TMV}}{\ECMV}}{1}
-  }
-
-  \inferrule[AEMLamChild6]{ }{
-    \ASEMChild{\ECLamAnaNonMatchedArrow{x}{\TMV}{\ECMV}}{\ZCLamAnaNonMatchedArrowE{x}{\TMV}{\ZCCursor{\ECMV}}}{2}
-  }
-
-  \inferrule[AEMLamParent5]{ }{
-    \ASEMParent{\ZCLamAnaNonMatchedArrowT{x}{\ZTCursor{\TMV}}{\ECMV}}{\ECLamAnaNonMatchedArrow{x}{\TMV}{\ECMV}}
-  }
-
-  \inferrule[AEMLamParent6]{ }{
-    \ASEMParent{\ZCLamAnaNonMatchedArrowE{x}{\TMV}{\ZCCursor{\ECMV}}}{\ECLamAnaNonMatchedArrow{x}{\TMV}{\ECMV}}
-  }
-
-  \inferrule[AEMApChild3]{ }{
-    \ASEMChild{\ECApSynNonMatchedArrow{\ECMV_1}{\ECMV_2}}{\ZCApSynNonMatchedArrowL{\ZCCursor{\ECMV_1}}{\ECMV_2}}{1}
-  }
-
-  \inferrule[AEMApChild4]{ }{
-    \ASEMChild{\ECApSynNonMatchedArrow{\ECMV_1}{\ECMV_2}}{\ZCApSynNonMatchedArrowR{\ECMV_1}{\ZCCursor{\ECMV_2}}}{2}
-  }
-
-  \inferrule[AEMApParent3]{ }{
-    \ASEMParent{\ZCApSynNonMatchedArrowL{\ZCCursor{\ECMV_1}}{\ECMV_2}}{\ECApSynNonMatchedArrow{\ECMV_1}{\ECMV_2}}
-  }
-
-  \inferrule[AEMApParent4]{ }{
-    \ASEMParent{\ZCApSynNonMatchedArrowR{\ECMV_1}{\ZCCursor{\ECMV_2}}}{\ECApSynNonMatchedArrow{\ECMV_1}{\ECMV_2}}
-  }
-
   \inferrule[AEMInconsistentBranchesChild1]{ }{
     \ASEMChild{\ECInconBr{\ECMV_1}{\ECMV_2}{\ECMV_3}}{\ZCInconBrC{\ZCCursor{\ECMV_1}}{\ECMV_2}{\ECMV_3}}{1}
   }
@@ -486,12 +442,28 @@ Type actions are the same as in the untyped model.
     \ASEMParent{\ZCInconBrC{\ECMV_1}{\ECMV_2}{\ZCCursor{\ECMV_3}}}{\ECInconBr{\ECMV_1}{\ECMV_2}{\ECMV_3}}
   }
 
+  \inferrule[AEMPairChild1]{ }{
+    \ASEMChild{\ECPair{\ECMV_1}{\ECMV_2}}{\ZCPairL{\ZCCursor{\ECMV_1}}{\ECMV_2}}{1}
+  }
+
+  \inferrule[AEMPairChild2]{ }{
+    \ASEMChild{\ECPair{\ECMV_1}{\ECMV_2}}{\ZCPairR{\ECMV_1}{\ZCCursor{\ECMV_2}}}{2}
+  }
+
   \inferrule[AEMPairChild3]{ }{
     \ASEMChild{\ECPairAnaNonMatchedProd{\ECMV_1}{\ECMV_2}}{\ZCPairAnaNonMatchedProdL{\ZCCursor{\ECMV_1}}{\ECMV_2}}{1}
   }
 
   \inferrule[AEMPairChild4]{ }{
     \ASEMChild{\ECPairAnaNonMatchedProd{\ECMV_1}{\ECMV_2}}{\ZCPairAnaNonMatchedProdR{\ECMV_1}{\ZCCursor{\ECMV_2}}}{2}
+  }
+
+  \inferrule[AEMPairParent1]{ }{
+    \ASEMParent{\ZCPairL{\ZCCursor{\ECMV_1}}{\ECMV_2}}{\ECPair{\ECMV_1}{\ECMV_2}}
+  }
+
+  \inferrule[AEMPairParent2]{ }{
+    \ASEMParent{\ZCPairR{\ECMV_1}{\ZCCursor{\ECMV_2}}}{\ECPair{\ECMV_1}{\ECMV_2}}
   }
 
   \inferrule[AEMPairParent3]{ }{
@@ -502,20 +474,48 @@ Type actions are the same as in the untyped model.
     \ASEMParent{\ZCPairAnaNonMatchedProdR{\ECMV_1}{\ZCCursor{\ECMV_2}}}{\ECPairAnaNonMatchedProd{\ECMV_1}{\ECMV_2}}
   }
 
+  \inferrule[AEMProjLChild1]{ }{
+    \ASEMChild{\ECProjL{\ECMV}}{\ZCProjL{\ZCCursor{\ECMV}}}{1}
+  }
+
   \inferrule[AEMProjLChild2]{ }{
     \ASEMChild{\ECProjLSynNonMatchedProd{\ECMV}}{\ZCProjLSynNonMatchedProd{\ZCCursor{\ECMV}}}{1}
+  }
+
+  \inferrule[AEMProjLParent1]{ }{
+    \ASEMParent{\ZCProjL{\ZCCursor{\ECMV}}}{\ECProjL{\ECMV}}
   }
 
   \inferrule[AEMProjLParent2]{ }{
     \ASEMParent{\ZCProjLSynNonMatchedProd{\ZCCursor{\ECMV}}}{\ECProjLSynNonMatchedProd{\ECMV}}
   }
 
+  \inferrule[AEMProjRChild1]{ }{
+    \ASEMChild{\ECProjR{\ECMV}}{\ZCProjR{\ZCCursor{\ECMV}}}{1}
+  }
+
   \inferrule[AEMProjRChild2]{ }{
     \ASEMChild{\ECProjRSynNonMatchedProd{\ECMV}}{\ZCProjRSynNonMatchedProd{\ZCCursor{\ECMV}}}{1}
   }
 
+  \inferrule[AEMProjRParent1]{ }{
+    \ASEMParent{\ZCProjR{\ZCCursor{\ECMV}}}{\ECProjR{\ECMV}}
+  }
+
   \inferrule[AEMProjRParent2]{ }{
     \ASEMParent{\ZCProjRSynNonMatchedProd{\ZCCursor{\ECMV}}}{\ECProjRSynNonMatchedProd{\ECMV}}
+  }
+
+  \inferrule[AEMInconsistentTypesChild]{
+    \ASEMChild{\ZCMV}{\ZCMV'}{\MChildNMV}
+  }{
+    \ASEMChild{\ZCInconType{\ZCMV}}{\ZCInconType{\ZCMV'}}{\MChildNMV}
+  }
+
+  \inferrule[AEMInconsistentTypesParent]{
+    \ASEMParent{\ZCMV}{\ZCMV'}
+  }{
+    \ASEMParent{\ZCInconType{\ZCMV}}{\ZCInconType{\ZCMV'}}
   }
 \end{mathparpagebreakable}
 
