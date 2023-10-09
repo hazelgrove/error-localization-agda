@@ -130,7 +130,7 @@ incomplete editor states \`a la Hazelnut but are not essential.
   }
 
   \inferrule[USLam]{
-    \ctxSynTypeU{\extendCtx{\ctx}{x}{\TMV}}{\EMV}{\TMV_2}
+    \ctxSynTypeU{\extendCtx{\ctx}{x}{\TMV_1}}{\EMV}{\TMV_2}
   }{
     \ctxSynTypeU{\ctx}{\ELam{x}{\TMV_1}{\EMV}}{\TArrow{\TMV_1}{\TMV_2}}
   }
@@ -388,7 +388,7 @@ incomplete editor states \`a la Hazelnut but are not essential.
     \ctxSynFixedInto{\ctx}{\EMV}{\ECMV}{\TMV} \\
     \notMatchedProd{\TMV}
   }{
-    \ctxSynFixedInto{\ctx}{\EProjL{\EMV}}{\ECProjLSynNonMatchedProd{\ECMV}}{\TMV_1}
+    \ctxSynFixedInto{\ctx}{\EProjL{\EMV}}{\ECProjLSynNonMatchedProd{\ECMV}}{\TUnknown}
   }
 
   \inferrule[MKSProjR1]{
@@ -402,7 +402,7 @@ incomplete editor states \`a la Hazelnut but are not essential.
     \ctxSynFixedInto{\ctx}{\EMV}{\ECMV}{\TMV} \\
     \notMatchedProd{\TMV}
   }{
-    \ctxSynFixedInto{\ctx}{\EProjR{\EMV}}{\ECProjRSynNonMatchedProd{\ECMV}}{\TMV_2}
+    \ctxSynFixedInto{\ctx}{\EProjR{\EMV}}{\ECProjRSynNonMatchedProd{\ECMV}}{\TUnknown}
   }
 \end{mathpar} \\
 
@@ -502,7 +502,7 @@ incomplete editor states \`a la Hazelnut but are not essential.
   }
 
   \inferrule[MSLam]{
-    \ctxSynTypeM{\extendCtx{\ctx}{x}{\TMV}}{\ECMV}{\TMV_2}
+    \ctxSynTypeM{\extendCtx{\ctx}{x}{\TMV_1}}{\ECMV}{\TMV_2}
   }{
     \ctxSynTypeM{\ctx}{\ECLam{x}{\TMV_1}{\ECMV}}{\TArrow{\TMV_1}{\TMV_2}}
   }
