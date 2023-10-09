@@ -118,29 +118,29 @@
 \judgbox{\ensuremath{\ctxSynFixedIntoPat{\ctx}{\PMV}{\PCMV}{\TMV}}} $\PMV$ is marked into $\PCMV$ and synthesizes $\TMV$
  %
 \begin{mathpar}
-  \inferrule[ISPWild]{ }{
+  \inferrule[MKSPWild]{ }{
     \ctxSynFixedIntoPat{\ctx}{\PWild}{\PCWild}{\TUnknownSwitch}
   }
    
-  \inferrule[ISPVar]{ }{
+  \inferrule[MKSPVar]{ }{
     \ctxSynFixedIntoPat{\ctx}{\PVar{x}}{\PCVar{x}}{\TUnknownSwitch}
   }
 
-  \inferrule[ISPPair]{
+  \inferrule[MKSPPair]{
     \ctxSynFixedIntoPat{\ctx}{\PMV_1}{\PCMV_1}{\TMV_1} \\\\
     \ctxSynFixedIntoPat{\ctx}{\PMV_2}{\PCMV_2}{\TMV_2}
   }{
      \ctxSynFixedIntoPat{\ctx}{\EPair{\PMV_1}{\PMV_2}}{\ECPair{\PCMV_1}{\PCMV_2}}{\TProd{\TMV_1}{\TMV_2}}
   }
 
-  \inferrule[ISPAnn1]{
+  \inferrule[MKSPAnn1]{
     \ctxAnaPatU{\ctx}{\PMV{}}{\TMV}{\ctx'} \\
     \ctxAnaFixedIntoPat{\ctx}{\PMV}{\PCMV}{\TMV}{\ctx''}
   }{
     \ctxSynFixedIntoPat{\ctx}{\PAsc{\PMV}{\TMV}}{\PCAsc{\PCMV}{\TMV}}{\tau}
   }
 
-  \inferrule[ISPAnn2]{
+  \inferrule[MKSPAnn2]{
     \ctxNotAnaPatU{\ctx}{\PMV{}}{\TMV}{\ctx'} \\
     \ctxAnaFixedIntoPat{\ctx}{\PMV}{\PCMV}{\TUnknown}{\ctx''}
   }{
@@ -151,15 +151,15 @@
 \judgbox{\ensuremath{\ctxAnaFixedIntoPat{\ctx_1}{\PMV}{\PCMV}{\TMV}{\ctx_2}}} $\PMV$ is marked into $\PCMV$ and analyzes against $\TMV$ producing $\ctx_2$
 %
 \begin{mathpar}
-  \inferrule[IAPWild]{ }{
+  \inferrule[MKAPWild]{ }{
     \ctxAnaFixedIntoPat{\ctx}{\PWild}{\PCWild}{\TMV}{\ctx}
   }
    
-  \inferrule[IAPVar]{ }{
+  \inferrule[MKAPVar]{ }{
     \ctxAnaFixedIntoPat{\ctx}{\PVar{x}}{\PCVar{x}}{\TMV}{\extendCtx{\ctx}{x}{\TMV}}
   }
 
-  \inferrule[IAPPair1]{
+  \inferrule[MKAPPair1]{
     \matchedProd{\TMV}{\TMV_1}{\TMV_2} \\
     \ctxAnaFixedIntoPat{\ctx}{\PMV_1}{\PCMV_1}{\TMV_1}{\ctx_1} \\\\
     \ctxAnaFixedIntoPat{\ctx_1}{\PMV_2}{\PCMV_2}{\TMV_2}{\ctx_2}
@@ -167,7 +167,7 @@
     \ctxAnaFixedIntoPat{\ctx}{\PPair{\PMV_1}{\PMV_2}}{\PCPair{\PCMV_1}{\PCMV_2}}{\TMV}{\ctx_2}
   }
 
-  \inferrule[IAPPair2]{
+  \inferrule[MKAPPair2]{
     \notMatchedProd{\TMV} \\
     \ctxAnaFixedIntoPat{\ctx}{\PMV_1}{\PCMV_1}{\TUnknown}{\ctx_1} \\\\
     \ctxAnaFixedIntoPat{\ctx_1}{\PMV_2}{\PCMV_2}{\TUnknown}{\ctx_2}
@@ -175,14 +175,14 @@
     \ctxAnaFixedIntoPat{\ctx}{\PPair{\PMV_1}{\PMV_2}}{\PCPairAnaNonMatchedProd{\PCMV_1}{\PCMV_2}}{\TMV}{\ctx_2}
   }
 
-  \inferrule[IAPAnn1]{
+  \inferrule[MKAPAnn1]{
     \consistent{\TMV}{\TMV'} \\
     \ctxAnaFixedIntoPat{\ctx}{\PMV}{\PCMV}{\TMV'}{\ctx'}
   }{
     \ctxAnaFixedIntoPat{\ctx}{\PAsc{\PMV}{\TMV'}}{\PCAsc{\PCMV}{\TMV'}}{\TMV}{\ctx'}
   }
 
-  \inferrule[IAPAnn2]{
+  \inferrule[MKAPAnn2]{
     \inconsistent{\TMV}{\TMV'} \\
     \ctxAnaFixedIntoPat{\ctx}{\PMV}{\PCMV}{\TMV'}{\ctx'}
   }{
@@ -348,7 +348,7 @@ $\judgbox{\erase{\PCMV}}$ is a metafunction defined as follows:
 \judgbox{\ctxSynFixedInto{\ctx}{\EMV}{\ECMV}{\TMV}} $\EMV$ is marked into $\ECMV$ and synthesizes type $\TMV$
 %
 \begin{mathpar}
-  \inferrule[ISLetPat]{
+  \inferrule[MKSLetPat]{
     \ctxSynFixedInto{\ctx}{\PMV}{\PCMV}{\TMV_p} \\
     \ctxAnaFixedInto{\ctx}{\EMV_{1}}{\ECMV_{1}}{\TMV_{p}} \\\\
     \ctxSynTypeU{\ctx}{\EMV_{1}}{\TMV_{1}} \\
@@ -362,7 +362,7 @@ $\judgbox{\erase{\PCMV}}$ is a metafunction defined as follows:
 \judgbox{\ctxAnaFixedInto{\ctx}{\EMV}{\ECMV}{\TMV}} $\EMV$ is marked into $\ECMV$ and analyzes against type $\TMV$
 %
 \begin{mathpar}
-  \inferrule[IALetPat]{
+  \inferrule[MKALetPat]{
     \ctxSynFixedInto{\ctx}{\PMV}{\PCMV}{\TMV_p} \\
     \ctxAnaFixedInto{\ctx}{\EMV_{1}}{\ECMV_{1}}{\TMV_{p}} \\\\
     \ctxSynTypeU{\ctx}{\EMV_{1}}{\TMV_{1}} \\
