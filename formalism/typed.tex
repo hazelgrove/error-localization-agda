@@ -952,19 +952,19 @@ Type actions are the same as in the untyped model.
   \inferrule[AAEInconsistentTypes1]{
     \ctxSynTypeM{\ctx}{\cursorErase{\ZCMV}}{\TMV'} \\
     \ASAction{\ctx}{\ZCMV}{\TMV'}{\ZCMV'}{\TMV''}{\AMV} \\\\
-    \inconsistent{\TMV}{\TMV''} \\
+    \consistent{\TMV}{\TMV''} \\
     \subsumable{\cursorErase{\ZCMV}}
   }{
-    \AAAction{\ctx}{\ZCInconType{\ZCMV}}{\ZCInconType{\ZCMV'}}{\TMV}{\AMV}
+    \AAAction{\ctx}{\ZCInconType{\ZCMV}}{\ZCMV'}{\TMV}{\AMV}
   }
 
   \inferrule[AAEInconsistentTypes2]{
     \ctxSynTypeM{\ctx}{\cursorErase{\ZCMV}}{\TMV'} \\
     \ASAction{\ctx}{\ZCMV}{\TMV'}{\ZCMV'}{\TMV''}{\AMV} \\\\
-    \consistent{\TMV}{\TMV''} \\
+    \inconsistent{\TMV}{\TMV''} \\
     \subsumable{\cursorErase{\ZCMV}}
   }{
-    \AAAction{\ctx}{\ZCInconType{\ZCMV}}{\ZCMV'}{\TMV}{\AMV}
+    \AAAction{\ctx}{\ZCInconType{\ZCMV}}{\ZCInconType{\ZCMV'}}{\TMV}{\AMV}
   }
 \end{mathpar}
 
@@ -988,20 +988,22 @@ Type actions are the same as in the untyped model.
 \begin{mathparpagebreakable}
   \inferrule[AAEConLam1]{
     \matchedArrow{\TMV}{\TMV_1}{\TMV_2} \\
-    \ctxAnaFixedInto{\extendCtx{\ctx}{x}{\TMV_1}}{\ECMV}{\ECMV'}{\TMV_2}
+    \ctxAnaFixedInto{\extendCtx{\ctx}{x}{\TMV_1}}{\erase{\ECMV}}{\ECMV'}{\TMV_2}
   }{
     \AACon{\ctx}{\ZCCursor{\ECMV}}{\ZCLamT{x}{\ZTCursor{\TMV_1}}{\ECMV'}}{\TMV}{\SLam{x}}
   }
 
   \inferrule[AAEConLam2]{
     \notMatchedArrow{\TMV} \\
-    \ctxAnaFixedInto{\extendCtx{\ctx}{x}{\TUnknown}}{\ECMV}{\ECMV'}{\TUnknown}
+    \ctxAnaFixedInto{\extendCtx{\ctx}{x}{\TUnknown}}{\erase{\ECMV}}{\ECMV'}{\TUnknown}
   }{
     \AACon{\ctx}{\ZCCursor{\ECMV}}{\ZCInconType{\ZCLamT{x}{\ZTCursor{\TUnknown}}{\ECMV'}}}{\TMV}{\SLam{x}}
   }
 
-  \inferrule[AAEConLetL]{ }{
-    \AACon{\ctx}{\ZCCursor{\ECMV}}{\ZCLetL{x}{\ECMV}{\ZCCursor{\ECEHole}}}{\TMV}{\SLetL{x}}
+  \inferrule[AAEConLetL]{
+    \ctxSynFixedInto{\ctx}{\erase{\ECMV}}{\ECMV'}{\TMV}
+  }{
+    \AACon{\ctx}{\ZCCursor{\ECMV}}{\ZCLetL{x}{\ECMV'}{\ZCCursor{\ECEHole}}}{\TMV}{\SLetL{x}}
   }
 
   \inferrule[AAEConLetR]{
@@ -1010,13 +1012,46 @@ Type actions are the same as in the untyped model.
     \AACon{\ctx}{\ZCCursor{\ECMV}}{\ZCLetR{x}{\ZCCursor{\ECEHole}}{\ECMV'}}{\TMV}{\SLetR{x}}
   }
  
+  \inferrule[AAEConIfC]{
+    \ctxAnaFixedInto{\ctx}{\ECMV}{\ECMV'}{\TBool}
+  }{
+    \AACon{\ctx}{\ZCCursor{\ECMV}}{\ZCIfL{\ECMV'}{\ZCCursor{\ECEHole}}{\ECEHole}}{\TMV}{\SIfC}
+  }
+ 
   \inferrule[AAEConIfL]{ }{
-    \AACon{\ctx}{\ZCCursor{\ECMV}}{\ZCIfC{\ZCCursor{\ECEHole}}{\ECMV}{\ECEHole}}{\TMV}{\SIfL}
+    \AACon{\ctx}{\ZCCursor{\ECMV}}{\ZCIfC{\ZCCursor{\ECEHole}}{\ECMV'}{\ECEHole}}{\TMV}{\SIfL}
   }
 
-  \inferrule[AAEConIfR]{
+  \inferrule[AAEConIfR]{ }{
+    \AACon{\ctx}{\ZCCursor{\ECMV}}{\ZCIfC{\ZCCursor{\ECEHole}}{\ECEHole}{\ECMV'}}{\TMV}{\SIfR}
+  }
+
+  \inferrule[AAEConPairL1]{
+    \matchedProd{\TMV}{\TMV_1}{\TMV_2} \\
+    \ctxAnaFixedInto{\ctx}{\erase{\ECMV}}{\ECMV'}{\TMV_1}
   }{
-    \AACon{\ctx}{\ZCCursor{\ECMV}}{\ZCIfC{\ZCCursor{\ECEHole}}{\ECEHole}{\ECMV}}{\TMV}{\SIfR}
+    \AACon{\ctx}{\ZCursor{\ECMV}}{\ZCPairL{\ECMV'}{\ZCursor{\ECEHole}}}{\TMV}{\SPairL}
+  }
+
+  \inferrule[AAEConPairL2]{
+    \notMatchedProd{\TMV} \\
+    \ctxAnaFixedInto{\ctx}{\erase{\ECMV}}{\ECMV'}{\TUnknown}
+  }{
+    \AACon{\ctx}{\ZCursor{\ECMV}}{\ZCPairAnaNonMatchedProdL{\ECMV'}{\ZCursor{\ECEHole}}}{\TMV}{\SPairL}
+  }
+
+  \inferrule[AAEConPairR1]{
+    \matchedProd{\TMV}{\TMV_1}{\TMV_2} \\
+    \ctxAnaFixedInto{\ctx}{\erase{\ECMV}}{\ECMV'}{\TMV_2}
+  }{
+    \AACon{\ctx}{\ZCursor{\ECMV}}{\ZCPairR{\ZCursor{\ECEHole}}{\ECMV'}}{\TMV}{\SPairR}
+  }
+
+  \inferrule[AAEConPairR2]{
+    \notMatchedProd{\TMV} \\
+    \ctxAnaFixedInto{\ctx}{\erase{\ECMV}}{\ECMV'}{\TUnknown}
+  }{
+    \AACon{\ctx}{\ZCursor{\ECMV}}{\ZCPairAnaNonMatchedProdR{\ZCursor{\ECEHole}}{\ECMV'}}{\TMV}{\SPairR}
   }
 \end{mathparpagebreakable}
 
