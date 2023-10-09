@@ -1058,33 +1058,39 @@ Type actions are the same as in the untyped model.
 \paragraph{Zipper Cases} \ \\
 \begin{mathparpagebreakable}
   \inferrule[AAEZipLamT1]{
-    \AUTAction{\ZTMV}{\ZTMV'}{\AMV} \\
-    \consistent{\cursorErase{\ZTMV}}{\cursorErase{\ZTMV'}}
+    \AUTAction{\ZTMV_3}{\ZTMV_3'}{\AMV} \\
+    \equal{\cursorErase{\ZTMV_3}}{\cursorErase{\ZTMV_3'}}
   }{
-    \AAAction{\ctx}{\ZCLamT{x}{\ZTMV}{\ECMV}}{\ZCLamT{x}{\ZTMV'}{\ECMV}}{\TMV}{\AMV}
+    \AAAction{\ctx}{\ZCLamT{x}{\ZTMV_3}{\ECMV}}{\ZCLamT{x}{\ZTMV_3'}{\ECMV}}{\TMV}{\AMV}
   }
 
   \inferrule[AAEZipLamT2]{
-    \AUTAction{\ZTMV}{\ZTMV'}{\AMV} \\
-    \inconsistent{\cursorErase{\ZTMV}}{\cursorErase{\ZTMV'}} \\
+    \AUTAction{\ZTMV_3}{\ZTMV_3'}{\AMV} \\
+    \notEqual{\cursorErase{\ZTMV_3}}{\cursorErase{\ZTMV_3'}} \\
     \matchedArrow{\TMV}{\TMV_1}{\TMV_2} \\\\
-    \consistent{\cursorErase{\ZTMV'}}{\TMV_1} \\
-    \ctxAnaFixedInto{\extendCtx{\ctx}{x}{\cursorErase{\ZTMV'}}}{\erase{\ECMV}}{\ECMV'}{\TMV_2}
+    \consistent{\cursorErase{\ZTMV_3'}}{\TMV_1} \\
+    \ctxAnaFixedInto{\extendCtx{\ctx}{x}{\cursorErase{\ZTMV_3'}}}{\erase{\ECMV}}{\ECMV'}{\TMV_2}
   }{
-    \AAAction{\ctx}{\ZCLamT{x}{\ZTMV}{\ECMV}}{\ZCLamT{x}{\ZTMV'}{\ECMV'}}{\TMV}{\AMV}
+    \AAAction{\ctx}{\ZCLamT{x}{\ZTMV_3}{\ECMV}}{\ZCLamT{x}{\ZTMV_3'}{\ECMV'}}{\TMV}{\AMV}
   }
 
   \inferrule[AAEZipLamT3]{
-    \AUTAction{\ZTMV}{\ZTMV'}{\AMV} \\
-    \inconsistent{\cursorErase{\ZTMV}}{\cursorErase{\ZTMV'}} \\
+    \AUTAction{\ZTMV_3}{\ZTMV_3'}{\AMV} \\
+    \notEqual{\cursorErase{\ZTMV_3}}{\cursorErase{\ZTMV'}} \\
     \matchedArrow{\TMV}{\TMV_1}{\TMV_2} \\\\
-    \inconsistent{\cursorErase{\ZTMV'}}{\TMV_1} \\
+    \inconsistent{\cursorErase{\ZTMV_3'}}{\TMV_1} \\
     \ctxAnaFixedInto{\extendCtx{\ctx}{x}{\TMV_1}}{\erase{\ECMV}}{\ECMV'}{\TMV_2}
   }{
-    \AAAction{\ctx}{\ZCLamT{x}{\ZTMV}{\ECMV}}{\ZCInconType{\ZCLamT{x}{\ZTMV'}{\ECMV'}}}{\TMV}{\AMV}
+    \AAAction{\ctx}{\ZCLamT{x}{\ZTMV_3}{\ECMV}}{\ZCInconType{\ZCLamT{x}{\ZTMV_3'}{\ECMV'}}}{\TMV}{\AMV}
   }
 
-  \inferrule[AAEZipLamE]{
+  \inferrule[AAEZipLamT4]{
+    \AUTAction{\ZTMV_3}{\ZTMV_3'}{\AMV} \\
+  }{
+    \AAAction{\ctx}{\ZCLamAnaNonMatchedArrowT{x}{\ZTMV_3}{\ECMV}}{\ZCLamT{x}{\ZTMV_3'}{\ECMV}}{\TMV}{\AMV}
+  }
+
+  \inferrule[AAEZipLamE1]{
     \matchedArrow{\TMV}{\TMV_1}{\TMV_2} \\
     \AAAction{\extendCtx{\ctx}{x}{\TMV_3}}{\ZCMV}{\ZCMV'}{\TMV_2}{\AMV}
   }{
