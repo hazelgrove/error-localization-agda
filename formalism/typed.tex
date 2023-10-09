@@ -571,8 +571,10 @@ Type actions are the same as in the untyped model.
     \ASCon{\ctx}{\ZCCursor{\ECMV}}{\TMV}{\ZCApL{\ECInconType{\ECMV}}{\ZCCursor{\ECEHole}}}{\TUnknown}{\SApL}
   }
 
-  \inferrule[ASEConApR]{ }{
-    \ASCon{\ctx}{\ZCCursor{\ECMV}}{\TMV}{\ZCApR{\ZCCursor{\ECEHole}}{\ECMV}}{\TUnknown}{\SApR}
+  \inferrule[ASEConApR]{
+    \ctxAnaFixedInto{\ctx}{\erase{\ECMV}}{\ECMV'}{\TUnknown}
+  }{
+    \ASCon{\ctx}{\ZCCursor{\ECMV}}{\TMV}{\ZCApR{\ZCCursor{\ECEHole}}{\ECMV'}}{\TUnknown}{\SApR}
   }
 
   \inferrule[ASEConLet1]{ }{
@@ -589,40 +591,22 @@ Type actions are the same as in the untyped model.
     \ASCon{\ctx}{\ZCCursor{\ECEHole}}{\TUnknown}{\ZCCursor{\ENumMV}}{\TNum}{\SLit{\ENumMV}}
   }
 
-  \inferrule[ASEConPlusL1]{
-    \consistent{\TMV}{\TNum}
+  \inferrule[ASEConPlusL]{
+    \ctxAnaFixedInto{\ctx}{\erase{\ECMV}}{\ECMV'}{\TNum}
   }{
-    \ASCon{\ctx}{\ZCCursor{\ECMV}}{\TMV}{\ZCPlusR{\ECMV}{\ZCCursor{\ECEHole}}}{\TNum}{\SPlusL}
+    \ASCon{\ctx}{\ZCCursor{\ECMV}}{\TMV}{\ZCPlusR{\ECMV'}{\ZCCursor{\ECEHole}}}{\TNum}{\SPlusL}
   }
 
-  \inferrule[ASEConPlusL2]{
-    \inconsistent{\TMV}{\TNum}
+  \inferrule[ASEConPlusR]{
+    \ctxAnaFixedInto{\ctx}{\erase{\ECMV}}{\ECMV'}{\TNum}
   }{
-    \ASCon{\ctx}{\ZCCursor{\ECMV}}{\TMV}{\ZCPlusR{\ECInconType{\ECMV}}{\ZCCursor{\ECEHole}}}{\TNum}{\SPlusL}
-  } \\
-
-  \inferrule[ASEConPlusR1]{
-    \consistent{\TMV}{\TNum}
-  }{
-    \ASCon{\ctx}{\ZCCursor{\ECMV}}{\TMV}{\ZCPlusL{\ZCCursor{\ECEHole}}{\ECMV}}{\TNum}{\SPlusR}
+    \ASCon{\ctx}{\ZCCursor{\ECMV}}{\TMV}{\ZCPlusL{\ZCCursor{\ECEHole}}{\ECMV'}}{\TNum}{\SPlusR}
   }
 
-  \inferrule[ASEConPlusR2]{
-    \inconsistent{\TMV}{\TNum}
+  \inferrule[ASEConIfC]{
+    \ctxAnaFixedInto{\ctx}{\erase{\ECMV}}{\ECMV'}{\TBool}
   }{
-    \ASCon{\ctx}{\ZCCursor{\ECMV}}{\TMV}{\ZCPlusL{\ZCCursor{\ECEHole}}{\ECInconType{\ECMV}}}{\TNum}{\SPlusR}
-  }
-
-  \inferrule[ASEConIfC1]{
-    \consistent{\TMV}{\TBool}
-  }{
-    \ASCon{\ctx}{\ZCCursor{\ECMV}}{\TMV}{\ZCIfL{\ECMV}{\ZCCursor{\ECEHole}}{\ECEHole}}{\TUnknown}{\SIfC}
-  }
-
-  \inferrule[ASEConIfC2]{
-    \inconsistent{\TMV}{\TBool}
-  }{
-    \ASCon{\ctx}{\ZCCursor{\ECMV}}{\TMV}{\ZCIfL{\ECInconType{\ECMV}}{\ZCCursor{\ECEHole}}{\ECEHole}}{\TUnknown}{\SIfC}
+    \ASCon{\ctx}{\ZCCursor{\ECMV}}{\TMV}{\ZCIfL{\ECMV'}{\ZCCursor{\ECEHole}}{\ECEHole}}{\TUnknown}{\SIfC}
   }
 
   \inferrule[ASEConIfL]{ }{
@@ -641,7 +625,7 @@ Type actions are the same as in the untyped model.
     \ASCon{\ctx}{\ZCCursor{\ECMV}}{\TMV}{\ZCPairR{\ECEHole}{\ZCCursor{\ECMV}}}{\TProd{\TUnknown}{\TMV}}{\SPairR}
   }
 
-  \inferrule[ASEConProjL1]{
+  \inferrule[ASEConProjL]{
     \matchedProd{\TMV}{\TMV_1}{\TMV_2}
   }{
     \ASCon{\ctx}{\ZCCursor{\ECMV}}{\TMV}{\ZCProjL{\ZCCursor{\ECMV}}}{\TMV_1}{\SProjL}
