@@ -26,7 +26,7 @@ Zippered types are the same as in the untyped model.
            &       & \mid         & \ZCPlusL{\ZCMV}{\ECMV} \mid \ZCPlusR{\ECMV}{\ZCMV} \\
            &       & \mid         & \ZCIfC{\ZCMV}{\ECMV}{\ECMV} \mid \ZCIfL{\ECMV}{\ZCMV}{\ECMV} \mid \ZCIfR{\ECMV}{\ECMV}{\ZCMV} \\
            &       & \mid         & \ZCPairL{\ZCMV}{\EMV} \mid \ZCPairR{\EMV}{\ZCMV} \mid \ZCProjL{\ZCMV} \mid \ZCProjR{\ZCMV} \\
-           &       & \mid         & \ZCFree{x} \mid \ZCInconType{\ZCMV} \\
+           &       & \mid         & \ZCInconType{\ZCMV} \\
            &       & \mid         & \ZCLamInconAscT{x}{\ZTMV}{\ECMV} \mid \ZCLamInconAscE{x}{\TMV}{\ZCMV}
                      \mid           \ZCLamAnaNonMatchedArrowT{x}{\ZTMV}{\ECMV} \mid \ZCLamAnaNonMatchedArrowE{x}{\TMV}{\ZCMV}
                      \mid           \ZCApSynNonMatchedArrowL{\ZCMV}{\ECMV} \mid \ZCApSynNonMatchedArrowR{\ECMV}{\ZCMV} \\
@@ -42,10 +42,6 @@ Zippered types are the same as in the untyped model.
 \begin{mathpar}
   \inferrule[WFCursor]{ }{
     \zWellFormed{\ZCCursor{\ECMV}}
-  }
-
-  \inferrule[WFFree]{ }{
-    \zWellFormed{\ZCFree{x}}
   }
 
   \inferrule[WFLam1]{ }{
@@ -233,7 +229,6 @@ Type cursor erasure is the same as in the untyped model.
 \newcommand{\cursorErasesToRow}[2]{\ensuremath{\cursorErase{#1} & = & #2}}
 \[\begin{array}{rcl}
   \cursorErasesToRow{\ZCCursor{\ECMV}}{\ECMV} \\
-  \cursorErasesToRow{\ZCFree{x}}{\cursorErase{\ECFree{x}}} \\
   \cursorErasesToRow{(\ZCLamT{x}{\ZTMV}{\ECMV})}{\ECLam{x}{(\cursorErase{\ZTMV})}{\ECMV}} \\
   \cursorErasesToRow{(\ZCLamE{x}{\TMV}{\ZCMV})}{\ECLam{x}{\TMV}{(\cursorErase{\ZCMV})}} \\
   \cursorErasesToRow{\ZCLamAnaNonMatchedArrowT{x}{\ZTMV}{\ECMV}}{\ECLamAnaNonMatchedArrow{x}{(\cursorErase{\ZTMV})}{\ECMV}} \\
@@ -550,7 +545,7 @@ Type actions are the same as in the untyped model.
   \inferrule[ASEConFree]{
     \notInCtx{\ctx}{x}
   }{
-    \ASCon{\ctx}{\ZCCursor{\ECEHole}}{\TUnknown}{\ZCCursor{\ZCFree{x}}}{\TUnknown}{\SVar{x}}
+    \ASCon{\ctx}{\ZCCursor{\ECEHole}}{\TUnknown}{\ZCCursor{\ECFree{x}}}{\TUnknown}{\SVar{x}}
   }
 
   \inferrule[ASEConLam]{
