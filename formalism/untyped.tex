@@ -655,61 +655,77 @@ is no longer meaningful in this untyped context, still hold (see \cref{sec:untyp
 
 \begin{theorem}[name=Movement Erasure Invariance] \
   \begin{enumerate}
-    \item If $\AUTAction{\ZTMV}{\ZTMV'}{\AMove{\MMV}}$, then $\cursorErase{\ZTMV} =
-      \cursorErase{\ZTMV'}$.
+    \item If $\AUTAction{\ZTMV}{\ZTMV'}{\AMove{\MMV}}$,
+      then $\cursorErase{\ZTMV} = \cursorErase{\ZTMV'}$.
 
-    \item If $\AUEAction{\ZMV}{\ZMV'}{\AMove{\MMV}}$, then $\cursorErase{\ZMV} =
-      \cursorErase{\ZMV'}$.
+    \item If $\AUEAction{\ZMV}{\ZMV'}{\AMove{\MMV}}$,
+      then $\cursorErase{\ZMV} = \cursorErase{\ZMV'}$.
   \end{enumerate}
 \end{theorem}
 
 \begin{theorem}[name=Reachability] \
   \begin{enumerate}
-    \item If $\cursorErase{\ZTMV} = \cursorErase{\ZTMV'}$, then there exists $\AIMV$ such that
-      $\movements{\AIMV}$ and $\AUTActionIter{\ZTMV}{\ZTMV'}{\AIMV}$.
+    \item If $\cursorErase{\ZTMV} = \cursorErase{\ZTMV'}$,
+      then there exists $\AIMV$
+        such that $\movements{\AIMV}$
+          and $\AUTActionIter{\ZTMV}{\ZTMV'}{\AIMV}$.
 
-    \item If $\cursorErase{\ZMV} = \cursorErase{\ZMV'}$, then there exists $\AIMV$ such that
-      $\movements{\AIMV}$ and $\AUEActionIter{\ZMV}{\ZMV'}{\AIMV}$.
+    \item If $\cursorErase{\ZMV} = \cursorErase{\ZMV'}$,
+      then there exists $\AIMV$
+        such that $\movements{\AIMV}$
+          and $\AUEActionIter{\ZMV}{\ZMV'}{\AIMV}$.
   \end{enumerate}
 \end{theorem}
 
 \begin{lemma}[name=Reach Up] \
   \begin{enumerate}
-    \item If $\cursorErase{\ZTMV} = \TMV$, then there exists $\AIMV$ such that $\movements{\AIMV}$
-      and $\AUTActionIter{\ZTMV}{\ZTCursor{\TMV}}{\AIMV}$.
+    \item If $\cursorErase{\ZTMV} = \TMV$,
+      then there exists $\AIMV$
+        such that $\movements{\AIMV}$
+          and $\AUTActionIter{\ZTMV}{\ZTCursor{\TMV}}{\AIMV}$.
 
-    \item If $\cursorErase{\ZMV} = \EMV$, then there exists $\AIMV$ such that $\movements{\AIMV}$
-      and $\AUEActionIter{\ZMV}{\ZTCursor{\EMV}}{\AIMV}$.
+    \item If $\cursorErase{\ZMV} = \EMV$,
+      then there exists $\AIMV$
+        such that $\movements{\AIMV}$
+          and $\AUEActionIter{\ZMV}{\ZTCursor{\EMV}}{\AIMV}$.
   \end{enumerate}
 \end{lemma}
 
 \begin{lemma}[name=Reach Down] \
   \begin{enumerate}
-    \item If $\cursorErase{\ZTMV} = \TMV$, then there exists $\AIMV$ such that $\movements{\AIMV}$
-      and $\AUTActionIter{\ZTCursor{\TMV}}{\ZTMV}{\AIMV}$.
+    \item If $\cursorErase{\ZTMV} = \TMV$,
+      then there exists $\AIMV$
+        such that $\movements{\AIMV}$
+          and $\AUTActionIter{\ZTCursor{\TMV}}{\ZTMV}{\AIMV}$.
 
-    \item If $\cursorErase{\ZMV} = \EMV$, then there exists $\AIMV$ such that $\movements{\AIMV}$
-      and $\AUEActionIter{\ZTCursor{\EMV}}{\ZMV}{\AIMV}$.
+    \item If $\cursorErase{\ZMV} = \EMV$,
+      then there exists $\AIMV$
+        such that $\movements{\AIMV}$
+          and $\AUEActionIter{\ZTCursor{\EMV}}{\ZMV}{\AIMV}$.
   \end{enumerate}
 \end{lemma}
 
 \begin{theorem}[name=Constructability] \
   \begin{enumerate}
-    \item For every $\TMV$, there exists $\AIMV$ such that
-      $\AUTActionIter{\ZTCursor{\TUnknown}}{\ZTCursor{\TMV}}{\AIMV}$.
+    \item For every $\TMV$,
+        there exists $\AIMV$
+          such that $\AUTActionIter{\ZTCursor{\TUnknown}}{\ZTCursor{\TMV}}{\AIMV}$.
 
-    \item For every $\EMV$, there exists $\AIMV$ such that
-      $\AUEActionIter{\ZCursor{\EEHole}}{\ZCursor{\EMV}}{\AIMV}$.
+    \item For every $\EMV$,
+        there exists $\AIMV$
+          such that $\AUEActionIter{\ZCursor{\EEHole}}{\ZCursor{\EMV}}{\AIMV}$.
   \end{enumerate}
 \end{theorem}
 
 \begin{theorem}[name=Determinism] \
   \begin{enumerate}
-    \item If $\AUTActionIter{\ZTMV}{\ZTMV'}{\AMV}$ and $\AUTActionIter{\ZTMV}{\ZTMV''}{\AMV}$, then
-      $\ZTMV' = \ZTMV''$.
+    \item If $\AUTActionIter{\ZTMV}{\ZTMV'}{\AMV}$
+        and $\AUTActionIter{\ZTMV}{\ZTMV''}{\AMV}$,
+      then $\ZTMV' = \ZTMV''$.
 
-    \item If $\AUEActionIter{\ZMV}{\ZMV'}{\AMV}$ and $\AUEActionIter{\ZMV}{\ZMV''}{\AMV}$, then
-      $\ZMV' = \ZMV''$.
+    \item If $\AUEActionIter{\ZMV}{\ZMV'}{\AMV}$
+        and $\AUEActionIter{\ZMV}{\ZMV''}{\AMV}$,
+      then $\ZMV' = \ZMV''$.
   \end{enumerate}
 \end{theorem}
 
