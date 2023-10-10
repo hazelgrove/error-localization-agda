@@ -1248,6 +1248,44 @@ The iterated type action and movements judgments are the same as in the untyped 
   }
 \end{mathpar}
 
+\subsection{Mark erasure}
+\label{sec:typed-mark-erasure}
+\judgbox{\ensuremath{\erase{\ZCMV}}} is a metafunction $\ZCMName \to \ZMName$ defined as follows:
+%
+\newcommand{\erasesToRow}[2]{\erase{#1} & = & #2}
+\[\begin{array}{rcl}
+  \erasesToRow{\ZCCursor{\ECMV}}{\ZCCursor{\erase{\ECMV}}} \\
+  \erasesToRow{(\ZCLamT{x}{\ZTMV}{\ECMV})}{\ZCLamT{x}{\ZTMV}{(\erase{\ECMV})}} \\
+  \erasesToRow{(\ZCLamE{x}{\TMV}{\ZCMV})}{\ZCLamE{x}{\TMV}{(\erase{\ZCMV})}} \\
+  \erasesToRow{\ZCLamAnaNonMatchedArrowT{x}{\ZTMV}{\ECMV}}{\ZCLamT{x}{\ZTMV}{(\erase{\ECMV})}} \\
+  \erasesToRow{\ZCLamAnaNonMatchedArrowE{x}{\TMV}{\ZCMV}}{\ZCLamE{x}{\TMV}{(\erase{\ZCMV})}} \\
+  \erasesToRow{\ZCLamInconAscT{x}{\ZTMV}{\ECMV}}{\ZCLamT{x}{\ZTMV}{(\erase{\ECMV})}} \\
+  \erasesToRow{\ZCLamInconAscE{x}{\TMV}{\ZCMV}}{\ZCLamE{x}{\TMV}{(\erase{\ZCMV})}} \\
+  \erasesToRow{(\ZCApL{\ZCMV}{\ECMV})}{\ZCApL{(\erase{\ZCMV})}{(\erase{\ZCMV})}} \\
+  \erasesToRow{(\ZCApR{\ECMV}{\ZCMV})}{\ZCApR{(\erase{\ECMV})}{(\erase{\ZCMV})}} \\
+  \erasesToRow{(\ZCApSynNonMatchedArrowL{\ZCMV}{\ECMV})}{\ZCApL{\erase{\ZCMV}}{(\erase{\ECMV})}} \\
+  \erasesToRow{(\ZCApSynNonMatchedArrowR{\ECMV}{\ZCMV})}{\ZCApR{\erase{\ECMV}}{(\erase{\ZCMV})}} \\
+  \erasesToRow{(\ZCLetL{x}{\ZCMV}{\ECMV})}{\ZCLetL{x}{(\erase{\ZCMV})}{(\erase{\ECMV})}} \\
+  \erasesToRow{(\ZCLetR{x}{\ECMV}{\ZCMV})}{\ZCLetR{x}{(\erase{\ECMV})}{(\erase{\ZCMV})}} \\
+  \erasesToRow{(\ZCPlusL{\ZCMV}{\ECMV})}{\ZCPlusL{(\erase{\ZCMV})}{(\erase{\ECMV})}} \\
+  \erasesToRow{(\ZCPlusR{\ECMV}{\ZCMV})}{\ZCPlusR{(\erase{\ECMV})}{(\erase{\ZCMV})}} \\
+  \erasesToRow{(\ZCIfC{\ZCMV}{\ECMV_1}{\ECMV_2})}{\ZCIfC{(\erase{\ZCMV})}{(\erase{\ECMV_1})}{(\erase{\ECMV_2})}} \\
+  \erasesToRow{(\ZCIfL{\ECMV_1}{\ZCMV}{\ECMV_2})}{\ZCIfL{(\erase{\ECMV_1})}{(\erase{\ZCMV})}{(\erase{\ECMV_2})}} \\
+  \erasesToRow{(\ZCIfL{\ECMV_1}{\ECMV_2}{\ZCMV})}{\ZCIfR{(\erase{\ECMV_1})}{(\erase{\ECMV_2})}{(\erase{\ZCMV})}} \\
+  \erasesToRow{\ZCInconBrC{\ZCMV}{\ECMV_1}{\ECMV_2}}{\ZCIfC{(\erase{\ZCMV})}{(\erase{\ECMV_1})}{(\erase{\ECMV_2})}} \\
+  \erasesToRow{\ZCInconBrL{\ECMV_1}{\ZCMV}{\ECMV_2}}{\ZCIfL{(\erase{\ECMV_1})}{(\erase{\ZCMV})}{(\erase{\ECMV_2})}} \\
+  \erasesToRow{\ZCInconBrR{\ECMV_1}{\ECMV_2}{\ZCMV}}{\ZCIfR{(\erase{\ECMV_1})}{(\erase{\ECMV_2})}{(\erase{\ZCMV})}} \\
+  \erasesToRow{\ZCPairL{\ZCMV}{\ECMV}}{\ZCPairL{\erase{\ZCMV}}{\erase{\ECMV}}} \\
+  \erasesToRow{\ZCPairR{\ECMV}{\ZCMV}}{\ZCPairR{\erase{\ECMV}}{\erase{\ZCMV}}} \\
+  \erasesToRow{\ZCPairAnaNonMatchedProdL{\ZCMV}{\ECMV}}{\ZCPairL{\erase{\ZCMV}}{\erase{\ECMV}}} \\
+  \erasesToRow{\ZCPairAnaNonMatchedProdR{\ECMV}{\ZCMV}}{\ZCPairR{\erase{\ECMV}}{\erase{\ZCMV}}} \\
+  \erasesToRow{(\ZCProjL{\ZCMV})}{\ZCProjL{(\erase{\ZCMV})}} \\
+  \erasesToRow{(\ZCProjLSynNonMatchedProd{\ZCMV})}{\ZCProjL{\erase{\ZCMV}}} \\
+  \erasesToRow{(\ZCProjR{\ZCMV})}{\ZCProjR{(\erase{\ZCMV})}} \\
+  \erasesToRow{(\ZCProjRSynNonMatchedProd{\ZCMV})}{\ZCProjR{\erase{\ZCMV}}} \\
+  \erasesToRow{\ZCInconType{\ZCMV}}{\erase{\ZCMV}} \\
+\end{array}\]
+
 \subsection{Metatheorems}
 \label{sec:typed-metatheorems}
 \begin{theorem}[name=Sensibility] \
