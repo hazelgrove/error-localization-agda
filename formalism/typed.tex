@@ -1301,6 +1301,18 @@ The iterated type action and movements judgments are the same as in the untyped 
   \end{tikzcd}\]
 \end{theorem}
 
+\begin{theorem}[name=Correctness] \
+  \begin{enumerate}
+    \item If $\zWellFormed{\ZCMV}$ and $\ctxSynTypeM{\ctx}{\cursorErase{\ZCMV}}{\TMV}$ and
+      $\ASEAction{\ctx}{\ZCMV}{\TMV}{\ZCMV'}{\TMV'}{\AMV}$ and
+      $\AUEAction{\erase{\ZCMV}}{\ZMV'}{\AMV}$, then $\equal{\erase{\ZCMV'}}{\ZMV'}$.
+
+    \item If $\zWellFormed{\ZCMV}$ and $\ctxAnaTypeM{\ctx}{\cursorErase{\ZCMV}}{\TMV}$ and
+      $\AAEAction{\ctx}{\ZCMV}{\ZCMV'}{\TMV}{\AMV}$ and
+      $\AUEAction{\erase{\ZCMV}}{\ZMV'}{\AMV}$, then $\equal{\erase{\ZCMV'}}{\ZMV'}$.
+  \end{enumerate}
+\end{theorem}
+
 \begin{theorem}[name=Sensibility] \
   \begin{enumerate}
     \item If $\zWellFormed{\ZCMV}$ and $\ctxSynTypeM{\ctx}{\cursorErase{\ZCMV}}{\TMV}$ and
