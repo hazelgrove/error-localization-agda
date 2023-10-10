@@ -1307,7 +1307,7 @@ The iterated type action and movements judgments are the same as in the untyped 
       $\ASEAction{\ctx}{\ZCMV}{\TMV}{\ZCMV'}{\TMV'}{\AMV}$, then $\zWellFormed{\ZCMV'}$ and
       $\ctxSynTypeM{\ctx}{\cursorErase{\ZCMV'}}{\TMV'}$.
 
-    \item If $\zWellFormed{\ZCMV}$ and $\ctxAnaType{\ctx}{\cursorErase{\ZCMV}}{\TMV}$ and
+    \item If $\zWellFormed{\ZCMV}$ and $\ctxAnaTypeM{\ctx}{\cursorErase{\ZCMV}}{\TMV}$ and
       $\AAEAction{\ctx}{\ZCMV}{\ZCMV'}{\TMV}{\AMV}$, then $\zWellFormed{\ZCMV'}$ and
       $\ctxAnaType{\ctx}{\cursorErase{\ZCMV'}}{\TMV}$.
   \end{enumerate}
@@ -1322,7 +1322,7 @@ The iterated type action and movements judgments are the same as in the untyped 
       $\ASEAction{\ctx}{\ZCMV}{\TMV}{\ZCMV'}{\TMV'}{\AMove{\MMV}}$, then $\zWellFormed{\ZCMV'}$ and
       $\cursorErase{\ZCMV} = \cursorErase{\ZCMV'}$ and $\equal{\TMV}{\TMV'}$.
 
-    \item If $\zWellFormed{\ZCMV}$ and $\ctxAnaType{\ctx}{\cursorErase{\ZCMV}}{\TMV}$ and
+    \item If $\zWellFormed{\ZCMV}$ and $\ctxAnaTypeM{\ctx}{\cursorErase{\ZCMV}}{\TMV}$ and
       $\AAEAction{\ctx}{\ZCMV}{\ZCMV'}{\TMV}{\AMove{\MMV}}$, then $\zWellFormed{\ZCMV'}$ and
       $\cursorErase{\ZCMV} = \cursorErase{\ZCMV'}$.
   \end{enumerate}
@@ -1339,7 +1339,7 @@ The iterated type action and movements judgments are the same as in the untyped 
       $\ASEActionIter{\ctx}{\ZCMV}{\TMV}{\ZCMV'}{\TMV}{\AIMV}$.
 
     \item If $\zWellFormed{\ZCMV}$ and $\zWellFormed{\ZCMV'}$ and
-      $\ctxAnaType{\ctx}{\cursorErase{\ZCMV}}{\TMV}$ and $\cursorErase{\ZCMV} = \cursorErase{\ZCMV'}$,
+      $\ctxAnaTypeM{\ctx}{\cursorErase{\ZCMV}}{\TMV}$ and $\cursorErase{\ZCMV} = \cursorErase{\ZCMV'}$,
       then there exists $\AIMV$ such that $\movements{\AIMV}$ and
       $\AAEActionIter{\ctx}{\ZCMV}{\ZCMV'}{\TMV}{\AIMV}$.
   \end{enumerate}
@@ -1354,7 +1354,7 @@ The iterated type action and movements judgments are the same as in the untyped 
       $\cursorErase{\ZCMV} = \ECMV$, then there exists $\AIMV$ such that $\movements{\AIMV}$ and
       $\ASEActionIter{\ctx}{\ZCMV}{\TMV}{\ZCCursor{\ECMV}}{\TMV}{\AIMV}$.
 
-    \item If $\zWellFormed{\ZCMV}$ and $\ctxAnaType{\ctx}{\cursorErase{\ZCMV}}{\TMV}$ and
+    \item If $\zWellFormed{\ZCMV}$ and $\ctxAnaTypeM{\ctx}{\cursorErase{\ZCMV}}{\TMV}$ and
       $\cursorErase{\ZCMV} = \ECMV$, then there exists $\AIMV$ such that $\movements{\AIMV}$ and
       $\AAEActionIter{\ctx}{\ZCMV}{\ZCCursor{\ECMV}}{\TMV}{\AIMV}$.
   \end{enumerate}
@@ -1369,7 +1369,7 @@ The iterated type action and movements judgments are the same as in the untyped 
       $\cursorErase{\ZCMV} = \ECMV$, then there exists $\AIMV$ such that $\movements{\AIMV}$ and
       $\ASEActionIter{\ctx}{\ZCCursor{\ECMV}}{\TMV}{\ZCMV}{\TMV}{\AIMV}$.
 
-    \item If $\zWellFormed{\ZCMV}$ and $\ctxAnaType{\ctx}{\cursorErase{\ZCMV}}{\TMV}$ and
+    \item If $\zWellFormed{\ZCMV}$ and $\ctxAnaTypeM{\ctx}{\cursorErase{\ZCMV}}{\TMV}$ and
       $\cursorErase{\ZCMV} = \ECMV$, then there exists $\AIMV$ such that $\movements{\AIMV}$ and
       $\AAEActionIter{\ctx}{\ZCCursor{\ECMV}}{\ZCMV}{\TMV}{\AIMV}$.
   \end{enumerate}
@@ -1383,7 +1383,7 @@ The iterated type action and movements judgments are the same as in the untyped 
     \item If $\ctxSynTypeM{\ctx}{\ECMV}{\TMV}$, then there exists $\AIMV$ such that
       $\ASEActionIter{\ctx}{\ZCCursor{\EEHole}}{\TUnknown}{\ZCCursor{\ECMV}}{\TMV}{\AIMV}$.
 
-    \item If $\ctxAnaType{\ctx}{\ECMV}{\TMV}$, then there exists $\AIMV$ such that
+    \item If $\ctxAnaTypeM{\ctx}{\ECMV}{\TMV}$, then there exists $\AIMV$ such that
       $\AAEActionIter{\ctx}{\ZCCursor{\EEHole}}{\ZCCursor{\ECMV}}{\TMV}{\AIMV}$.
   \end{enumerate}
 \end{theorem}
@@ -1398,7 +1398,7 @@ The iterated type action and movements judgments are the same as in the untyped 
       $\ASEActionIter{\ctx}{\ZCMV}{\TMV}{\ZCMV''}{\TMV''}{\AMV}$, then $\ZCMV' = \ZCMV''$ and
       $\equal{\TMV'}{\TMV''}$.
 
-    \item If $\zWellFormed{\ZCMV}$ and $\ctxAnaType{\ctx}{\cursorErase{\ZCMV}}{\TMV}$ and
+    \item If $\zWellFormed{\ZCMV}$ and $\ctxAnaTypeM{\ctx}{\cursorErase{\ZCMV}}{\TMV}$ and
       $\AAEActionIter{\ctx}{\ZCMV}{\ZCMV'}{\TMV}{\AMV}$ and
       $\AAEActionIter{\ctx}{\ZCMV}{\ZCMV''}{\TMV}{\AMV}$, then $\ZCMV' = \ZCMV''$.
   \end{enumerate}
