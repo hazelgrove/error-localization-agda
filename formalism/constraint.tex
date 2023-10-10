@@ -1,0 +1,219 @@
+\documentclass[formalism.tex]{subfiles}
+
+\begin{document}
+\input{symbols/types}
+\input{symbols/expressions}
+\input{symbols/marked}
+\input{symbols/constraint}
+
+\section{Constraint generation}
+\label{constraint}
+
+A list of constraint generating bidirectional typing rules under the marked lambda calculus for type
+hole inference (see Section 4). \\
+
+\judgbox{\ensuremath{\matchedArrowConstraint{\TMV}{\TMV_1}{\TMV_2}{C}}} $\TMV$ has matched arrow type $\TArrow{\TMV_1}{\TMV_2}$ and generates constraints $C$
+\begin{mathpar}
+  \judgment{ }{
+    \matchedArrowConstraint{\TUnknown^p}{\TUnknown^{\rightarrow_L(p)}}{\TUnknown^{\rightarrow_R(p)}}{\{ \TUnknown^p \approx \tarr{\TUnknown^{\rightarrow_L(p)}}{\TUnknown^{\rightarrow_R(p)}} \}}
+  }{TMAHole-C}
+
+  \judgment{ }{
+    \matchedArrowConstraint{\TArrow{\TMV_1}{\TMV_2}}{\TMV_1}{\TMV_2}{\{\}}
+  }{TMAArr-C}
+\end{mathpar}
+
+\judgbox{\ensuremath{\matchedProdConstraint{\TMV}{\TMV_1}{\TMV_2}{C}}} $\TMV$ has matched binary product type $\TProd{\TMV_1}{\TMV_2}$ and generates constraints $C$
+\begin{mathpar}
+  \judgment{ }{
+    \matchedProdConstraint{\TUnknown^p}{\TUnknown}{\TUnknown}{\{ \TUnknown^p \approx \TProd{\TUnknown^{\times_{L}(p)}}{\TUnknown^{\times_{R}(p)}} \}}
+  }{TMPHole-C}
+
+  \judgment{ }{
+    \matchedProdConstraint{\TProd{\TMV_1}{\TMV_2}}{\TMV_1}{\TMV_2}{\{\}}
+  }{TMPProd-C}
+\end{mathpar}
+
+\judgbox{\ensuremath{\synConstraint{\ctx}{\ECMV}{\TMV}{C}}} $\ECMV$ synthesizes type $\TMV$ and generates constraints $C$
+%
+\begin{mathparpagebreakable}
+  \judgment{ }{
+    \synConstraint{\ctx}{\EEHole^u}{\TUnknown^{exp(u)}}{\{ \TUnknown^{exp(u)} \approx \mathtt{etc} \}}
+  }{MSEHole-C}\\
+
+  \judgment{
+    \inCtx{\ctx}{x}{\TMV}
+  }{
+    \synConstraint{\ctx}{x}{\TMV}{\{\}}
+  }{MSVar-C}
+  
+  \judgment{
+    \notInCtx{\ctx}{x}
+  }{
+    \synConstraint{\ctx}{\ECFreeId{x}{u}}{\TUnknown^{exp(u)}}{\{ \TUnknown^{exp(u)} \approx \mathtt{etc} \}}
+  }{MSFree-C}
+
+  \judgment{
+    \synConstraint{\extendCtx{\ctx}{x}{\TMV}}{\ECMV}{\TMV_2}{C}
+  }{
+    \synConstraint{\ctx}{\ECLam{x}{\TMV_1}{\ECMV}}{\TArrow{\TMV_1}{\TMV_2}}{C}
+  }{MSLam-C}
+
+  \judgment{
+    \synConstraint{\ctx}{\ECMV_1}{\TMV}{C_1} \\
+    \matchedArrowConstraint{\TMV}{\TMV_1}{\TMV_2}{C_2} \\
+    \anaConstraint{\ctx}{\ECMV_2}{\TMV_1}{C_3}
+  }{
+    \synConstraint{\ctx}{\ECAp{\ECMV_1}{\ECMV_2}}{\TMV_2}{C_1 \cup C_2 \cup C_3}
+  }{MSAp1-C}
+
+    \judgment{
+    \synConstraint{\ctx}{\ECMV_1}{\TMV}{C_1} \\
+    \notMatchedArrow{\TMV} \\
+    \anaConstraint{\ctx}{\ECMV_2}{\TUnknown^{\rightarrow_{L}(exp(u))}}{C_2}
+  }{
+    \synConstraint{\ctx}{\ECApSynNonMatchedArrowId{\ECMV_1}{u}{\ECMV_2}}{\TUnknown^{\rightarrow_{R}(exp(u))}}{C_1 \cup C_2 \cup \{ \TUnknown^{exp(u)} \approx \tarr{\TUnknown^{\rightarrow_L(exp(u))}}{\TUnknown^{\rightarrow_R(exp(u))}}\}}
+  }{MSAp2-C}
+
+  \judgment{ }{
+      \synConstraint{\ctx}{\ECNumMV}{\TNum}{\{\}}
+  }{MSNum-C}
+
+  \judgment{
+    \anaConstraint{\ctx}{\ECMV_1}{\TNum}{C_1}\\    \anaConstraint{\ctx}{\ECMV_2}{\TNum}{C_2}
+  }{
+    \synConstraint{\ctx}{\ECPlus{\ECMV_1}{\ECMV_2}}{\TNum}{C_1 \cup C_2}
+  }{MSPlus-C}
+
+  \judgment{ }{
+    \synConstraint{\ctx}{\ECTrue}{\TBool}{\{\}}
+  }{MSTrue-C}
+
+  \judgment{ }{
+      \synConstraint{\ctx}{\ECFalse}{\TBool}{\{\}}
+  }{MSFalse-C}
+
+  \judgment{
+    \anaConstraint{\ctx}{\ECMV_1}{\TBool}{C_1} \\
+    \synConstraint{\ctx}{\ECMV_2}{\TMV_1}{C_2} \\
+    \synConstraint{\ctx}{\ECMV_3}{\TMV_2}{C_3}
+  }{
+    \synConstraint{\ctx}{\ECIf{\ECMV_1}{\ECMV_2}{\ECMV_3}}{\TMeet{\TMV_1}{\TMV_2}}{C_1 \cup C_2 \cup C_3 \cup \{ \TMV_1 \approx \TMV_2 \}}
+  }{MSIf-C}
+
+  \judgment{
+    \anaConstraint{\ctx}{\ECMV_1}{\TBool}{C_1} \\
+    \synConstraint{\ctx}{\ECMV_2}{\TMV_1}{C_2} \\
+    \synConstraint{\ctx}{\ECMV_3}{\TMV_2}{C_3} \\
+    \inconsistent{\TMV_1}{\TMV_2}
+  }{
+    \synConstraint{\ctx}{\ECInconBrId{\ECMV_1}{\ECMV_2}{\ECMV_3}{u}}{\TUnknown^{exp(u)}}{C_1 \cup C_2 \cup C_3 \cup \{ \TMV_1 \approx \TMV_2, \TUnknown^{exp(u)} \approx \mathtt{etc} \}}
+  }{MSInconsistentBranches-C}
+  
+  \judgment{
+    \synConstraint{\ctx}{\ECMV_1}{\TMV_1}{C_1}\\
+    \synConstraint{\ctx}{\ECMV_2}{\TMV_2}{C_2}
+  }{
+    \synConstraint{\ctx}{\ECPair{\ECMV_1}{\ECMV_2}}{\TProd{\TMV_1}{\TMV_2}}{C_1 \cup C_2}
+  }{MSPair-C}
+    
+  \judgment{
+    \synConstraint{\ctx}{\ECMV}{\TMV}{C_1} \\
+    \matchedProdConstraint{\TMV}{\TMV_1}{\TMV_2}{C_2}
+  }{
+    \synConstraint{\ctx}{\ECProjL{\ECMV}}{\TMV_1}{C_1 \cup C_3}
+  }{MSProjL1-C}
+
+   \judgment{
+    \synConstraint{\ctx}{\ECMV}{\TMV}{C_1} \\
+    \matchedProdConstraint{\TMV}{\TMV_1}{\TMV_2}{C_2}
+  }{
+    \synConstraint{\ctx}{\ECProjR{\ECMV}}{\TMV_2}{C_1 \cup C_2}
+  }{MSProjR1-C}
+
+  \judgment{
+    \synConstraint{\ctx}{\ECMV}{\TMV}{C} \\
+    \notMatchedProd{\TMV}
+  }{
+    \synConstraint{\ctx}{\ECProjL{\ECProjLSynNonMatchedProdId{\ECMV}{u}}}{\TUnknown^{\times_{L}(exp(u))}}{C \cup \{ \TUnknown^{exp(u)} \approx \TProd{\TUnknown^{\times_{L}(exp(u))}}{\TUnknown^{\times_{R}(exp(u))}}, \TUnknown^{exp(u)} \approx \mathtt{etc} \}}
+  }{MSProjL2-C}
+
+  \judgment{
+    \synConstraint{\ctx}{\ECMV}{\TMV}{C} \\
+    \notMatchedProd{\TMV}
+  }{
+    \synConstraint{\ctx}{\ECProjR{\ECProjRSynNonMatchedProdId{\ECMV}{u}}}{\TUnknown^{\times_{R}(exp(u))}}{C \cup \{ \TUnknown^{exp(u)} \approx \TProd{\TUnknown^{\times_{L}(exp(u))}}{\TUnknown^{\times_{R}(exp(u))}}, \TUnknown^{exp(u)} \approx \mathtt{etc} \}}
+  }{MSProjR2-C}
+\end{mathparpagebreakable}
+
+\judgbox{\ensuremath{\anaConstraint{\ctx}{\ECMV}{\TMV}{C}}} $\ECMV$ analyzes against type $\TMV$ and generates constraints $C$
+%
+\begin{mathparpagebreakable}
+  \judgment{
+    \matchedArrowConstraint{\TMV_3}{\TMV_1}{\TMV_2}{C_1}\\
+    \consistent{\TMV}{\TMV_1} \\
+    \anaConstraint{\extendCtx{\ctx}{x}{\TMV}}{\ECMV}{\TMV_2}{C_2}
+  }{
+    \anaConstraint{\ctx}{\ECLam{x}{\TMV}{\ECMV}}{\TMV_3}{C_1 \cup C_2 \cup \{ \TMV \approx \TMV_1 \}}
+  }{MALam1-C}
+
+  \judgment{
+    \notMatchedArrow{\TMV_3} \\
+    \anaConstraint{\extendCtx{\ctx}{x}{\TMV}}{\ECMV}{\TUnknown^{anon}}{C}
+  }{
+    \anaConstraint{\ctx}{\ECLamAnaNonMatchedArrowId{x}{\TMV}{\ECMV}{u}}{\TMV_3} {C \cup \{ \TUnknown^{exp(u)} \approx \TMV_3 \}}
+  }{MALam2-C}
+
+  \judgment{
+    \matchedArrowConstraint{\TMV_3}{\TMV_1}{\TMV_2}{C_1}\\
+    \inconsistent{\TMV}{\TMV_1} \\\\
+    \anaConstraint{\extendCtx{\ctx}{x}{\TMV}}{\ECMV}{\TMV_2}{C_2}
+  }{
+    \anaConstraint{\ctx}{\ECInconTypeId{\ECLam{x}{\TMV}{\ECMV}}{u}}{\TMV_3} {C_1 \cup C_2 \cup \{ \TUnknown^{exp(u)} \approx \TMV_3 \}}
+  }{MALam3-C}
+
+  \judgment{
+    \anaConstraint{\ctx}{\ECMV_1}{\TBool}{C_1} \\
+    \anaConstraint{\ctx}{\ECMV_1}{\TMV}{C_2} \\
+    \anaConstraint{\ctx}{\ECMV_2}{\TMV}{C_3}
+  }{
+    \anaConstraint{\ctx}{\ECIf{\ECMV_1}{\ECMV_2}{\ECMV_3}}{\TMV}{C_1 \cup C_2 \cup C_3}
+  }{MAIf}  
+
+  \judgment{
+    \matchedProdConstraint{\TMV}{\TMV_1}{\TMV_2}{C_1} \\
+    \anaConstraint{\ctx}{\ECMV_1}{\TMV_1}{C_2} \\
+    \anaConstraint{\ctx}{\ECMV_2}{\TMV_2}{C_3}
+  }{
+    \anaConstraint{\ctx}{\ECPair{\ECMV_1}{\ECMV_2}}{\TMV}{C_1 \cup C_2 \cup C_3}
+  }{MAPair1-C}
+
+  \judgment{
+    \notMatchedProd{\TMV} \\
+    \anaConstraint{\ctx}{\ECMV_1}{\TUnknown^{anon}}{C_1} \\
+    \anaConstraint{\ctx}{\ECMV_2}{\TUnknown^{anon}}{C_2}
+  }{
+    \anaConstraint{\ctx}{
+      \ECPairAnaNonMatchedProdId{\ECMV_1}{\ECMV_2}{u}
+    }{\TMV}{C_1 \cup C_2 \cup \{\TUnknown^{exp(u)} \approx \tau\}}
+  }{MAPair2-C}
+
+  \judgment{
+    \synConstraint{\ctx}{\ECMV}{\TMV'}{C} \\
+    \inconsistent{\TMV}{\TMV'} \\
+    \subsumable{\ECMV}
+  }{
+    \anaConstraint{\ctx}{\ECInconTypeId{\ECMV}{u}}{\TMV}{C \cup \{ \TMV \approx \TUnknown^{exp(u)} \}}
+  }{MAInconsistentTypes-C}
+
+  \judgment{
+    \synConstraint{\ctx}{\ECMV}{\TMV'}{C} \\
+    \consistent{\TMV}{\TMV'} \\
+    \subsumable{\ECMV}
+  }{
+    \anaConstraint{\ctx}{\ECMV}{\TMV}{C \cup \{ \TMV \approx \TMV' \}}
+  }{MASubsume-C}
+\end{mathparpagebreakable}
+
+\end{document}
+

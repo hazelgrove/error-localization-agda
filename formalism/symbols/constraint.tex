@@ -1,0 +1,305 @@
+\newcommand{\judgment}[3]{\inferrule[#3]{#1}{#2}}
+
+%
+% provenances
+%
+\newcommand{\Prov}{{\normalfont\textsf{Provenance}}}
+\newcommand{\Provp}{\ensuremath{p}}
+
+% errors with id
+\newcommand{\ECMarkedId}[3]{\ensuremath{\textcolor{red}{\bm{\llparenthesis}}\textcolor{red}{#1}\textcolor{red}{\bm{\rrparenthesis}^{#3}_{#2}}}}
+\newcommand{\ECMarkedFreeId}[2]{\ensuremath{\ECMarkedId{#1}{\MRFree}{#2}}}
+\newcommand{\ECMarkedInconTypeId}[2]{\ensuremath{\ECMarkedId{#1}{\MRInconAsc}{#2}}}
+\newcommand{\ECMarkedInconBrId}[2]{\ensuremath{\ECMarkedId{#1}{\MRInconBr}{#2}}}
+
+\newcommand{\ECFreeId}[2]{\ensuremath{\ECMarkedFreeId{#1}{#2}}}
+\newcommand{\ECInconTypeId}[2]{\ensuremath{\ECMarkedInconTypeId{#1}{#2}}}
+\newcommand{\ECInconBrId}[4]{\ensuremath{\ECMarkedInconBrId{\ECIf{#1}{#2}{#3}}{#4}}}
+\newcommand{\ECApNonMatchedId}[3]{\ensuremath{\ECAp{\ECInconTypeId{#1}{#2}}{#3}}}
+
+\newcommand{\ECApSynNonMatchedArrowId}[3]{\ensuremath{\ECAp{\ECMarkedId{#1}{\MRSynNonMatchedArrow}{\MRSyn,~#2}}{#3}}}
+
+\newcommand{\ECLamAnaNonMatchedArrowId}[4]{\ECMarkedId{\ECLam{#1}{#2}{#3}}{\MRAnaNonMatchedArrow}{\MRAna,~#4}}
+
+\newcommand{\ECInconMatchedId}[3]{\ensuremath{\ECMarkedId{#1}{#2}{#3}}}
+\newcommand{\ECInconMatchedArrowId}[2]{\ensuremath{\ECInconMatchedId{#1}{\notMatchedArrowRel}{#2}}}
+\newcommand{\ECInconMatchedPairId}[2]{\ensuremath{\ECInconMatchedId{#1}{\notMatchedProdRel}{#2}}}
+
+\newcommand{\ECPairAnaNonMatchedProdId}[3]{\ECMarkedId{\ECPair{#1}{#2}}{\MRAnaNonMatchedProd}{\MRAna,~#3}}
+
+\newcommand{\ECProjLSynNonMatchedProdId}[2]{\ECMarkedId{#1}{\MRSynNonMatchedProd}{\MRSyn,~#2}}
+\newcommand{\ECProjRSynNonMatchedProdId}[2]{\ECMarkedId{#1}{\MRSynNonMatchedProd}{\MRSyn,~#2}}
+
+% Violet hotdogs; highlight color helps distinguish them
+\newcommand{\llparenthesiscolor}{\textcolor{violet}{\llparenthesis}}
+\newcommand{\rrparenthesiscolor}{\textcolor{violet}{\rrparenthesis}}
+
+% HTyp and HExp
+\newcommand{\hcomplete}[1]{#1~\mathsf{complete}}
+
+% HTyp
+\newcommand{\htau}{\dot{\tau}}
+
+\newcommand{\tarrnp}[2]{#1 \rightarrow #2}
+\newcommand{\trul}[2]{\inparens{#1 \Rightarrow #2}}
+\newcommand{\trulnp}[2]{#1 \Rightarrow #2}
+\newcommand{\tnum}{\mathtt{num}}
+\newcommand{\tbool}{\mathtt{bool}}
+\newcommand{\tehole}{\mathtt{?}}
+\newcommand{\tsum}[2]{\inparens{{#1} + {#2}}}
+\newcommand{\tprod}[2]{\inparens{{#1} \times {#2}}}
+\newcommand{\tunit}{\mathtt{1}}
+\newcommand{\tvoid}{\mathtt{0}}
+
+\newcommand{\tcompat}[2]{#1 \sim #2}
+\newcommand{\tincompat}[2]{#1 \nsim #2}
+
+% HExp
+\newcommand{\hexp}{\dot{e}}
+\newcommand{\hlam}[3]{\inparens{\lambda #1:#2.#3}}
+\newcommand{\hap}[2]{#1(#2)}
+\newcommand{\hapP}[2]{(#1)~(#2)} % Extra paren around function term
+\newcommand{\hnum}[1]{\underline{#1}}
+\newcommand{\hadd}[2]{\inparens{#1 + #2}}
+\newcommand{\hpair}[2]{\inparens{#1 , #2}}
+\newcommand{\htriv}{()}
+\newcommand{\hehole}[1]{\llparenthesiscolor\rrparenthesiscolor}
+\newcommand{\hhole}[2]{\llparenthesiscolor #1 \rrparenthesiscolor}
+\newcommand{\hindet}[1]{\lceil#1\rceil}
+\newcommand{\hinj}[2]{\mathtt{inj}_{#1}({#2})}
+\newcommand{\hinl}[2]{\mathtt{inl}_{#1}({#2})}
+\newcommand{\hinr}[2]{\mathtt{inr}_{#1}({#2})}
+\newcommand{\hinlp}[1]{\mathtt{inl}(#1)}
+\newcommand{\hinrp}[1]{\mathtt{inr}(#1)}
+\newcommand{\hmatch}[2]{\mathtt{match}(#1) \{#2\}}
+\newcommand{\hcase}[5]{\mathtt{case}({#1},{#2}.{#3},{#4}.{#5})}
+\newcommand{\hrules}[2]{#1 \mid #2}
+\newcommand{\hrulesP}[2]{\inparens{#1 \mid #2}}
+\newcommand{\hrul}[2]{#1 \Rightarrow #2}
+\newcommand{\hrulP}[2]{\inparens{#1 \Rightarrow #2}}
+
+\newcommand{\hGamma}{\dot{\Gamma}}
+\newcommand{\domof}[1]{\text{dom}(#1)}
+\newcommand{\hsyn}[3]{#1 \vdash #2 \Rightarrow #3}
+\newcommand{\hana}[3]{#1 \vdash #2 \Leftarrow #3}
+\newcommand{\hexptyp}[4]{#1 \mathbin{;} #2 \vdash #3 : #4}
+\newcommand{\hpattyp}[4]{#1 : #2 \dashV #3 \mathbin{;} #4}
+\newcommand{\hsubstyp}[2]{#1 : #2}
+\newcommand{\hpatmatch}[3]{#1 \vartriangleright #2 \dashV #3}
+\newcommand{\hnotmatch}[2]{#1 \mathbin{\bot} #2}
+\newcommand{\hmaymatch}[2]{#1 \mathbin{?} #2}
+\newcommand{\htrans}[2]{#1 \mapsto #2}
+
+\newcommand{\isVal}[1]{#1 ~\mathtt{val}}
+\newcommand{\isErr}[1]{#1 ~\mathtt{err}}
+\newcommand{\isIndet}[1]{#1 ~\mathtt{indet}}
+\newcommand{\isFinal}[1]{#1 ~\mathtt{final}}
+
+% ZTyp and ZExp
+\newcommand{\zlsel}[1]{{\bowtie}{#1}}
+\newcommand{\zrsel}[1]{{#1}{\bowtie}}
+\newcommand{\zwsel}[1]{
+  \setlength{\fboxsep}{0pt}
+  \colorbox{green!10!white!100}{
+    \ensuremath{{{\textcolor{Green}{{\hspace{-2px}\triangleright}}}}{#1}{\textcolor{Green}{\triangleleft{\vphantom{\tehole}}}}}}
+}
+
+\newcommand{\removeSel}[1]{#1^{\diamond}}
+
+% ZTyp
+\newcommand{\ztau}{\hat{\tau}}
+
+% ZExp
+\newcommand{\zexp}{\hat{e}}
+
+% Direction
+\newcommand{\dParent}{\mathtt{parent}}
+\newcommand{\dChildn}[1]{\mathtt{child}~\mathtt{{#1}}}
+\newcommand{\dChildnm}[1]{\mathtt{child}~{#1}}
+
+% Action
+\newcommand{\aMove}[1]{\mathtt{move}~#1}
+	\newcommand{\zrightmost}[1]{\mathsf{rightmost}(#1)}
+	\newcommand{\zleftmost}[1]{\mathsf{leftmost}(#1)}
+\newcommand{\aSelect}[1]{\mathtt{sel}~#1}
+\newcommand{\aDel}{\mathtt{del}}
+\newcommand{\aReplace}[1]{\mathtt{replace}~#1}
+\newcommand{\aConstruct}[1]{\mathtt{construct}~#1}
+\newcommand{\aConstructx}[1]{#1}
+\newcommand{\aFinish}{\mathtt{finish}}
+
+\newcommand{\performAna}[5]{#1 \vdash #2 \xlongrightarrow{#4} #5 \Leftarrow #3}
+\newcommand{\performAnaI}[5]{#1 \vdash #2 \xlongrightarrow{#4}\hspace{-3px}{}^{*}~ #5 \Leftarrow #3}
+\newcommand{\performSyn}[6]{#1 \vdash #2 \Rightarrow #3 \xlongrightarrow{#4} #5 \Rightarrow #6}
+\newcommand{\performSynI}[6]{#1 \vdash #2 \Rightarrow #3 \xlongrightarrow{#4}\hspace{-3px}{}^{*}~ #5 \Rightarrow #6}
+\newcommand{\performTyp}[3]{#1 \xlongrightarrow{#2} #3}
+\newcommand{\performTypI}[3]{#1 \xlongrightarrow{#2}\hspace{-3px}{}^{*}~#3}
+
+\newcommand{\performMove}[3]{#1 \xlongrightarrow{#2} #3}
+\newcommand{\performDel}[2]{#1 \xlongrightarrow{\aDel} #2}
+
+% Form
+\newcommand{\farr}{\mathtt{arrow}}
+\newcommand{\fnum}{\mathtt{num}}
+\newcommand{\fsum}{\mathtt{sum}}
+
+\newcommand{\fasc}{\mathtt{asc}}
+\newcommand{\fvar}[1]{\mathtt{var}~#1}
+\newcommand{\flam}[1]{\mathtt{lam}~#1}
+\newcommand{\fap}{\mathtt{ap}}
+% \newcommand{\farg}{\mathtt{arg}}
+\newcommand{\fnumlit}[1]{\mathtt{lit}~#1}
+\newcommand{\fplus}{\mathtt{plus}}
+\newcommand{\fhole}{\mathtt{hole}}
+\newcommand{\fnehole}{\mathtt{nehole}}
+
+\newcommand{\finj}[1]{\mathtt{inj}~#1}
+\newcommand{\fcase}[2]{\mathtt{case}~#1~#2}
+
+% Talk about formal rules in example
+\newcommand{\refrule}[1]{\textrm{Rule~(#1)}}
+
+\newcommand{\herase}[1]{\left|#1\right|_\textsf{erase}}
+
+\newcommand{\arrmatch}[2]{#1 \blacktriangleright_{\rightarrow} #2}
+
+
+\newcommand{\TABperformAna}[5]{#1 \vdash & #2                & \xlongrightarrow{#4} & #5 & \Leftarrow #3}
+\newcommand{\TABperformSyn}[6]{#1 \vdash & #2 \Rightarrow #3 & \xlongrightarrow{#4} & #5 \Rightarrow #6}
+\newcommand{\TABperformTyp}[3]{& #1 & \xlongrightarrow{#2} & #3}
+
+\newcommand{\TABperformMove}[3]{#1 & \xlongrightarrow{#2} & #3}
+\newcommand{\TABperformDel}[2]{#1 \xlongrightarrow{\aDel} #2}
+
+\newcommand{\sumhasmatched}[2]{#1 \mathrel{\textcolor{black}{\blacktriangleright_{+}}} #2}
+
+\newcommand{\subminsyn}[1]{\mathsf{submin}_{\Rightarrow}(#1)}
+\newcommand{\subminana}[1]{\mathsf{submin}_{\Leftarrow}(#1)}
+
+
+\newcommand{\inparens}[1]{{\color{gray}(}#1{\color{gray})}}
+
+%% rule names for appendix
+\newcommand{\rname}[1]{\textsc{#1}}
+\newcommand{\gap}{\vspace{7pt}}
+
+%% constraints
+\newcommand{\consexptyp}[4]{#1 \vdash #2 {\Rightarrow} #3 {~ \vert ~} #4}
+\newcommand{\ana}[4]{#1 \vdash #2 {\Leftarrow} #3 {~ \vert ~} #4}
+\newcommand{\consexptypnc}[3]{#1 \vdash #2 {\Rightarrow} #3}
+\newcommand{\ananc}[3]{#1 \vdash #2 {\Leftarrow} #3}
+\newcommand{\econs}{\{\}}
+\newcommand{\addcons}[1]{{~ \vert ~} #1}
+\newcommand{\typearrow}{\blacktriangleright_{\rightarrow}}
+\newcommand{\tarr}[2]{#1 \rightarrow #2}
+\newcommand{\lamfunc}[2]{( \lambda #1.#2 )}
+\newcommand{\ehole}{\llparenthesiscolor\rrparenthesiscolor}
+\newcommand{\notehole}[1]{\llparenthesiscolor #1 \rrparenthesiscolor}
+\newcommand{\underlinenum}[1]{\underline{#1}}
+\newcommand{\conless}[2]{#1 \sqsubseteq #2}
+
+\newcommand{\colorCText}{\colorUText}
+\newcommand{\colorCBkgSyn}{\colorUBkgSyn}
+\newcommand{\colorCBkgAna}{\colorUBkgAna}
+
+%
+% constraints
+%
+\newcommand{\constrain}[2]{{#1} \approx {#2}}
+\newcommand{\constraintCons}[2]{\normalfont\textsf{cons}(#1, #2)}
+\newcommand{\constraintNil}{[]}
+
+\newcommand{\matchedArrowConstraint}[4]{
+    \matchedArrow{#1}{#2}{#3}\goodcolor{\colorOkSideJudge}{~|~} {#4}
+}
+\newcommand{\matchedProdConstraint}[4]{
+    \matchedProd{#1}{#2}{#3}\goodcolor{\colorOkSideJudge}{~|~} {#4}
+}
+\newcommand{\constraintTurn}{\goodcolor{\colorCText}{\vdash}}
+\newcommand{\constraintBar}{\goodcolor{\colorCText}{~|~}}
+\newcommand{\constraintSyn}{\goodcolor{\colorCText}{\Rightarrow}}
+\newcommand{\constraintAna}{\goodcolor{\colorCText}{\Leftarrow}}
+\newcommand{\synConstraint}[4]{
+    \begin{highlightbox}{\colorCBkgSyn}
+    \ensuremath{{#1} \constraintTurn {#2} \constraintSyn {#3} \constraintBar {#4}}
+    \end{highlightbox}
+}
+\newcommand{\anaConstraint}[4]{
+    \begin{highlightbox}{\colorCBkgAna}
+    \ensuremath{{#1} \constraintTurn {#2} \constraintAna {#3} \constraintBar {#4}}
+    \end{highlightbox}
+}
+
+% type incomplete
+\newcommand{\incomplete}[1]{#1 ~ \normalfont\textsf{incomplete}}
+
+% potential type
+\newcommand{\PTUnknownVar}[1]{\ensuremath{#1}}
+\newcommand{\PTNum}{\ensuremath{{\normalfont\textsf{N}}}}
+\newcommand{\PTBool}{\ensuremath{{\normalfont\textsf{B}}}}
+\newcommand{\PTArrow}[2]{\ensuremath{#1 \to #2}}
+
+% potential types
+\newcommand{\ptypCons}[2]{\normalfont\textsf{cons}(#1, #2)}
+\newcommand{\ptypSingle}[1]{\normalfont\textsf{single}(#1)}
+
+% potential type set
+\newcommand{\ptsRep}[1]{\normalfont\textsf{rep}(#1)}
+\newcommand{\ptsLead}[1]{\normalfont\textsf{lead}(#1)}
+
+% PTGraph Elements and Membership
+\newcommand{\ptypGraphNode}[2]{#1\normalfont\textsf{ : }#2}
+\newcommand{\underGraph}[2]{#1~|~#2}
+\newcommand{\isIn}[2]{#1 \in #2}
+\newcommand{\isNotIn}[2]{#1 \notin #2}
+
+% PTGraph Update
+\newcommand{\ptypGraphUpdate}[4]{
+    \underGraph{#1}{\normalfont\textsf{update}~#2:#3 ~\hookrightarrow~ #4}
+}
+
+% PTGraph add node
+\newcommand{\ptypGraphAdd}[3]{
+    \underGraph{#1}{\normalfont\textsf{add}~#2 ~\hookrightarrow~ #3}
+}
+
+% PTSet Leader
+\newcommand{\leader}[4]{
+    \underGraph{#1}{\normalfont\textsf{leader}~#2 \equiv \ptypGraphNode{#3}{#4}}
+}
+
+% Unions
+\newcommand{\unionOf}[3]{#2 \cup_{#1} #3}
+
+%   Type Union
+\newcommand{\typUnion}[2]{\unionOf{\tau}{#1}{#2}}
+\newcommand{\ptypGraphUnion}[4]{
+    \underGraph{#1}{\typUnion{#2}{#3}} ~\hookrightarrow~ #4
+}
+
+% PTyps Union
+\newcommand{\ptypsUnion}[2]{#1~\Cup~#2}
+\newcommand{\specSubset}[3]{#1~\Subset_{#3}~#2}
+\newcommand{\ptypesSubset}[2]{\specSubset{#1}{#2}{u}}
+\newcommand{\ptypSetSubset}[3]{\underGraph{#1}{\specSubset{#2}{#3}{s}}}
+\newcommand{\snapSubset}[2]{\specSubset{#1}{#2}{j}}
+\newcommand{\snapElement}[2]{#1 ~\in_{h}~ #2}
+
+% unification
+\newcommand{\unify}[3]{\underGraph{#1}{#2~\amalg~#3}}
+
+% Snapshot PTS
+\newcommand{\ptsSnapshot}[3]{\underGraph{#1}{\normalfont\textsf{snapshot}_s~#2 \equiv #3}}
+
+% Snapshot List
+\newcommand{\listSnapshot}[3]{\underGraph{#1}{\normalfont\textsf{snapshot}_l~#2 \equiv #3}}
+
+% Solution
+\newcommand{\solution}[2]{\normalfont\textsf{solution}~#1 \equiv #2}
+
+% List
+\newcommand{\listCons}[2]{\normalfont\textsf{cons}(#1, #2)}
+\newcommand{\listNil}{\normalfont\textsf{nil}}
+
+% fresh
+\newcommand{\fresh}[1]{#1~\normalfont\textsf{fresh}}
