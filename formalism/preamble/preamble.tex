@@ -18,6 +18,7 @@
 
 % font
 \usepackage{iftex}
+\usepackage{fontspec}
 \ifPDFTeX
   \usepackage{libertinust1math}
   \usepackage{libertine}
@@ -31,6 +32,9 @@
 \usepackage{bm}
 \usepackage{relsize}
 \usepackage{centernot}
+
+% no indentation
+\usepackage{parskip}
 
 % hyperlinks
 \usepackage[colorlinks=true, linkcolor=purple]{hyperref}
@@ -60,3 +64,15 @@
 
 % utilities
 \input{preamble/utilities}
+
+% mechanization notices
+\newenvironment{mechanization}{
+  \textsc{Mechanization} $\bm{\bigcirc}$
+  %
+  \begin{itemize}[label=$\blacktriangleright$, noitemsep]
+    \ttfamily
+}{
+  \end{itemize}
+}
+
+\newcommand{\nomechanization}{\textsc{Mechanization} $\times$}
