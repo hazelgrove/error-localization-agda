@@ -854,49 +854,61 @@ $\judgbox{\erase{\ECMV}}$ is a metafunction $\ECMName \to \EMName$ defined as fo
 \label{sec:marked-metatheorems}
 \begin{theorem}[name=Marking Totality] \
   \begin{enumerate}
-    \item For all $\ctx$ and $\EMV$, there exist $\ECMV$ and $\TMV$ such that
-      $\ctxSynFixedInto{\ctx}{\EMV}{\ECMV}{\TMV}$.
-    \item For all $\ctx$, $\EMV$, and $\TMV$, there exists $\ECMV$ such that
-      $\ctxAnaFixedInto{\ctx}{\EMV}{\ECMV}{\TMV}$.
+    \item For all $\ctx$ and $\EMV$,
+      there exist $\ECMV$ and $\TMV$
+        such that $\ctxSynFixedInto{\ctx}{\EMV}{\ECMV}{\TMV}$.
+    \item For all $\ctx$, $\EMV$, and $\TMV$,
+      there exists $\ECMV$
+        such that $\ctxAnaFixedInto{\ctx}{\EMV}{\ECMV}{\TMV}$.
   \end{enumerate}
 \end{theorem}
 
 \begin{theorem}[name=Marking Well-Formedness] \
   \begin{enumerate}
-    \item If $\ctxSynFixedInto{\ctx}{\EMV}{\ECMV}{\TMV}$, then $\ctxSynTypeM{\ctx}{\ECMV}{\TMV}$ and
-      $\erasesTo{\ECMV}{\EMV}$.
-    \item If $\ctxAnaFixedInto{\ctx}{\EMV}{\ECMV}{\TMV}$, then $\ctxAnaTypeM{\ctx}{\ECMV}{\TMV}$ and
-      $\erasesTo{\ECMV}{\EMV}$.
+    \item If $\ctxSynFixedInto{\ctx}{\EMV}{\ECMV}{\TMV}$,
+      then $\ctxSynTypeM{\ctx}{\ECMV}{\TMV}$
+        and $\erasesTo{\ECMV}{\EMV}$.
+    \item If $\ctxAnaFixedInto{\ctx}{\EMV}{\ECMV}{\TMV}$,
+      then $\ctxAnaTypeM{\ctx}{\ECMV}{\TMV}$
+        and $\erasesTo{\ECMV}{\EMV}$.
   \end{enumerate}
 \end{theorem}
 
 \begin{theorem}[name=Marking of Well-Typed/Ill-Typed Expressions] \
   \begin{enumerate}
     \item \begin{enumerate}
-        \item If $\ctxSynTypeU{\ctx}{\EMV}{\TMV}$ and $\ctxSynFixedInto{\ctx}{\EMV}{\ECMV}{\TMV}$,
+        \item If $\ctxSynTypeU{\ctx}{\EMV}{\TMV}$
+            and $\ctxSynFixedInto{\ctx}{\EMV}{\ECMV}{\TMV}$,
           then $\markless{\ECMV}$.
-        \item If $\ctxAnaTypeU{\ctx}{\EMV}{\TMV}$ and $\ctxAnaFixedInto{\ctx}{\EMV}{\ECMV}{\TMV}$,
+        \item If $\ctxAnaTypeU{\ctx}{\EMV}{\TMV}$
+            and $\ctxAnaFixedInto{\ctx}{\EMV}{\ECMV}{\TMV}$,
           then $\markless{\ECMV}$.
       \end{enumerate}
 
     \item \begin{enumerate}
-        \item If there does not exist $\TMV$ such that $\ctxSynTypeU{\ctx}{\EMV}{\TMV}$, then for
-          all $\ECMV$ and $\TMV'$ such that $\ctxSynFixedInto{\ctx}{\EMV}{\ECMV}{\TMV'}$, it is not
-          the case that $\markless{\ECMV}$.
-        \item If there does not exist $\TMV$ such that $\ctxAnaTypeU{\ctx}{\EMV}{\TMV}$, then for
-          all $\ECMV$ and $\TMV'$ such that $\ctxAnaFixedInto{\ctx}{\EMV}{\ECMV}{\TMV'}$, it is not
-          the case that $\markless{\ECMV}$.
+        \item If there does not exist $\TMV$
+            such that $\ctxSynTypeU{\ctx}{\EMV}{\TMV}$,
+          then for all $\ECMV$ and $\TMV'$
+            such that $\ctxSynFixedInto{\ctx}{\EMV}{\ECMV}{\TMV'}$,
+            it is not the case that $\markless{\ECMV}$.
+        \item If there does not exist $\TMV$
+            such that $\ctxAnaTypeU{\ctx}{\EMV}{\TMV}$,
+          then for all $\ECMV$ and $\TMV'$
+            such that $\ctxAnaFixedInto{\ctx}{\EMV}{\ECMV}{\TMV'}$,
+            it is not the case that $\markless{\ECMV}$.
       \end{enumerate}
   \end{enumerate}
 \end{theorem}
 
 \begin{theorem}[name=Marking Unicity] \
   \begin{enumerate}
-    \item If $\ctxSynFixedInto{\ctx}{\EMV}{\ECMV_1}{\TMV_1}$ and
-      $\ctxSynFixedInto{\ctx}{\EMV}{\ECMV_2}{\TMV_2}$, then $\ECMV_1 = \ECMV_2$ and $\TMV_1 =
-      \TMV_2$.
-    \item If $\ctxAnaFixedInto{\ctx}{\EMV}{\ECMV_1}{\TMV}$ and
-      $\ctxAnaFixedInto{\ctx}{\EMV}{\ECMV_2}{\TMV}$, then $\ECMV_1 = \ECMV_2$.
+    \item If $\ctxSynFixedInto{\ctx}{\EMV}{\ECMV_1}{\TMV_1}$
+        and $\ctxSynFixedInto{\ctx}{\EMV}{\ECMV_2}{\TMV_2}$,
+      then $\ECMV_1 = \ECMV_2$
+        and $\TMV_1 = \TMV_2$.
+    \item If $\ctxAnaFixedInto{\ctx}{\EMV}{\ECMV_1}{\TMV}$
+        and $\ctxAnaFixedInto{\ctx}{\EMV}{\ECMV_2}{\TMV}$,
+      then $\ECMV_1 = \ECMV_2$.
   \end{enumerate}
 \end{theorem}
 
