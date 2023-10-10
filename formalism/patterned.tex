@@ -52,7 +52,7 @@
   }
 \end{mathpar}
 
-\judgbox{\ensuremath{\TMeet{\TMV_1}{\TMV_2}}} is a \emph{partial} metafunction defined as follows:
+\judgbox{\ensuremath{\TMeet{\TMV_1}{\TMV_2}}} is a \emph{partial} metafunction $\TMName \times \TMName \rightharpoonup \TMName$ defined as follows:
 %
 \newcommand{\meetsToRow}[3]{\ensuremath{\TMeet{#1}{#2} & = & #3}}
 \[\begin{array}{rcl}
@@ -288,11 +288,10 @@
 
 \subsection{Pattern mark erasure}
 \label{sec:patterned-pattern-mark-erasure}
-$\judgbox{\erase{\PCMV}}$ is a metafunction defined as follows:
+$\judgbox{\erase{\PCMV}}$ is a metafunction $\PCMName \to \PMName$ defined as follows:
 %
 \newcommand{\erasesToRow}[2]{\erase{#1} & = & #2}
 \[\begin{array}{rcl}
-  & \vdots & \\
   \erasesToRow{\PCWild}{\PWild} \\
   \erasesToRow{\PCVar{x}}{\PVar{x}} \\
   \erasesToRow{\PCPair{\PCMV_1}{\PCMV_2}}{\PPair{\erase{\PCMV_1}}{\erase{\PCMV_2}}} \\
@@ -423,7 +422,7 @@ $\judgbox{\erase{\PCMV}}$ is a metafunction defined as follows:
 
 \subsection{Mark erasure}
 \label{sec:patterned-mark-erasure}
-$\judgbox{\erase{\ECMV}}$ is a metafunction defined as follows:
+$\judgbox{\erase{\ECMV}}$ is a metafunction $\ECMName \to \EMName$ defined as follows:
 %
 \[\begin{array}{rcl}
   & \vdots & \\

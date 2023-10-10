@@ -114,7 +114,7 @@ straightforwardly derived from the original rules. \\
   }
 \end{mathpar}
 
-\judgbox{\ensuremath{\TMeet{\TMV_1}{\TMV_2}}} is a \emph{partial} metafunction defined as follows:
+\judgbox{\ensuremath{\TMeet{\TMV_1}{\TMV_2}}} is a \emph{partial} metafunction $\TMName \times \TMName \rightharpoonup \TMName$ defined as follows:
 %
 \newcommand{\meetsToRow}[3]{\ensuremath{\TMeet{#1}{#2} & = & #3}}
 \[\begin{array}{rcl}
@@ -123,7 +123,7 @@ straightforwardly derived from the original rules. \\
   \meetsToRow{\TVarMV}{\TVarMV}{\TVarMV} \\
 \end{array}\]
 
-\judgbox{\ensuremath{\subst{\TMV_1}{\TMV_2}{\TVarMV}}} is a metafunction defined as follows:
+\judgbox{\ensuremath{\subst{\TMV_1}{\TMV_2}{\TVarMV}}} is a metafunction $\TMName \times \TMName \times \TVarMName \to \TMName$ defined as follows:
 %
 \newcommand{\substToRow}[4]{\ensuremath{\subst{#1}{#2}{#3} & = & #4}}
 \[\begin{array}{rcll}
@@ -284,7 +284,7 @@ straightforwardly derived from the original rules. \\
   }
 \end{mathpar}
 
-\judgbox{\ensuremath{\MTMeet{\MTMV_1}{\MTMV_2}}} is a \emph{partial} metafunction defined as follows:
+\judgbox{\ensuremath{\MTMeet{\MTMV_1}{\MTMV_2}}} is a \emph{partial} metafunction $\MTMName \times \MTMName \rightharpoonup \MTMName$ defined as follows:
 %
 \[\begin{array}{rcl}
   & \vdots & \\
@@ -294,7 +294,7 @@ straightforwardly derived from the original rules. \\
   \meetsToRow{\MTMV}{\MTFree{\MTVarMV}}{\MTMV} \\
 \end{array}\]
 
-\judgbox{\ensuremath{\subst{\MTMV_1}{\MTMV_2}{\MTVarMV}}} is a metafunction defined as follows:
+\judgbox{\ensuremath{\subst{\MTMV_1}{\MTMV_2}{\MTVarMV}}} is a metafunction $\MTMName \times \MTMName \times \MTVarMName \to \MTMName$ defined as follows:
 %
 \[\begin{array}{rcll}
   \substToRow{\MTUnknown}{\MTMV}{\MTVarMV}{\MTUnknown} \\
@@ -351,7 +351,7 @@ straightforwardly derived from the original rules. \\
 
 \subsection{Type mark erasure}
 \label{sec:polymorphism-type-mark-erasure}
-\judgbox{\ensuremath{\erase{\MTMV}}} is a metafunction defined as follows:
+\judgbox{\ensuremath{\erase{\MTMV}}} is a metafunction $\MTMName \to \TMName$ defined as follows:
 %
 \newcommand{\erasesToRow}[2]{\erase{#1} & = & #2}
 \[\begin{array}{rcl}
@@ -545,7 +545,7 @@ straightforwardly derived from the original rules. \\
 
 \subsection{Mark erasure}
 \label{sec:polymorphism-mark-erasure}
-\judgbox{\ensuremath{\erase{\ECMV}}} is a metafunction defined as follows:
+\judgbox{\ensuremath{\erase{\ECMV}}} is a metafunction $\ECMName \to \EMName$ defined as follows:
 %
 \[\begin{array}{rcl}
   & \vdots & \\

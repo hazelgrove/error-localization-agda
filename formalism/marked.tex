@@ -95,7 +95,7 @@ incomplete editor states \`a la Hazelnut but are not essential.
   }
 \end{mathpar} \\
 
-\judgbox{\ensuremath{\TMeet{\TMV_1}{\TMV_2}}} is a \emph{partial} metafunction defined as follows:
+\judgbox{\ensuremath{\TMeet{\TMV_1}{\TMV_2}}} is a \emph{partial} metafunction $\TMName \times \TMName \rightharpoonup \TMName$ defined as follows:
 %
 \newcommand{\meetsToRow}[3]{\ensuremath{\TMeet{#1}{#2} & = & #3}}
 \[\begin{array}{rcl}
@@ -822,7 +822,7 @@ incomplete editor states \`a la Hazelnut but are not essential.
 
 \subsection{Mark erasure}
 \label{sec:marked-mark-erasure}
-$\judgbox{\erase{\ECMV}}$ is a metafunction defined as follows:
+$\judgbox{\erase{\ECMV}}$ is a metafunction $\ECMName \to \EMName$ defined as follows:
 %
 \newcommand{\erasesToRow}[2]{\erase{#1} & = & #2}
 \[\begin{array}{rcl}
