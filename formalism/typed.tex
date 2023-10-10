@@ -1153,7 +1153,7 @@ Type actions are the same as in the untyped model.
   \inferrule[AAEZipLetL1]{
     \ctxSynTypeM{\ctx}{\cursorErase{\ZCMV}}{\TMV_1} \\
     \ASEAction{\ctx}{\ZCMV}{\TMV_1}{\ZCMV'}{\TMV_1'}{\AMV} \\
-    \consistent{\TMV_1}{\TMV_1'}
+    \equal{\TMV_1}{\TMV_1'}
   }{
     \AAAction{\ctx}{\ZCLetL{x}{\ZCMV}{\ECMV}}{\ZCLetL{x}{\ZCMV'}{\ECMV}}{\TMV}{\AMV}
   }
@@ -1161,14 +1161,15 @@ Type actions are the same as in the untyped model.
   \inferrule[AAEZipLetL2]{
     \ctxSynTypeM{\ctx}{\cursorErase{\ZCMV}}{\TMV_1} \\
     \ASEAction{\ctx}{\ZCMV}{\TMV_1}{\ZCMV'}{\TMV_1'}{\AMV} \\\\
+    \notEqual{\TMV_1}{\TMV_1'} \\
     \ctxAnaFixedInto{\extendCtx{\ctx}{x}{\TMV_1'}}{\erase{\ECMV}}{\ECMV'}{\TMV}
   }{
     \AAAction{\ctx}{\ZCLetL{x}{\ZCMV}{\ECMV}}{\ZCLetL{x}{\ZCMV'}{\ECMV'}}{\TMV}{\AMV}
   }
 
   \inferrule[AAEZipLetR]{
-    \ctxSynTypeM{\ctx}{\ECMV}{\TMV'} \\
-    \AAAction{\extendCtx{\ctx}{x}{\TMV'}}{\ZCMV}{\ZCMV'}{\TMV}{\AMV}
+    \ctxSynTypeM{\ctx}{\ECMV}{\TMV_1} \\
+    \AAAction{\extendCtx{\ctx}{x}{\TMV_1}}{\ZCMV}{\ZCMV'}{\TMV}{\AMV}
   }{
     \AAAction{\ctx}{\ZCLetR{x}{\ECMV}{\ZCMV}}{\ZCLetL{x}{\ECMV}{\ZCMV'}}{\TMV}{\AMV}
   }
@@ -1189,6 +1190,32 @@ Type actions are the same as in the untyped model.
     \AAAction{\ctx}{\ZCMV}{\ZCMV'}{\TMV}{\AMV}
   }{
     \AAAction{\ctx}{\ZCIfR{\ECMV_1}{\ECMV_2}{\ZCMV}}{\ZCIfR{\ECMV_1}{\ECMV_2}{\ZCMV'}}{\TMV}{\AMV}
+  }
+
+  \inferrule[AAEZipPairL1]{
+    \matchedProd{\TMV}{\TMV_1}{\TMV_2} \\
+    \AAAction{\ctx}{\ZCMV}{\ZCMV'}{\TMV_1}{\AMV}
+  }{
+    \AAAction{\ctx}{\ZCPairL{\ZCMV}{\ECMV}}{\ZCPairL{\ZCMV'}{\ECMV}}{\TMV}{\AMV}
+  }
+
+  \inferrule[AAEZipPairL2]{
+    \AAAction{\ctx}{\ZCMV}{\ZCMV'}{\TUnknown}{\AMV}
+  }{
+    \AAAction{\ctx}{\ZCPairAnaNonMatchedProdL{\ZCMV}{\ECMV}}{\ZCPairAnaNonMatchedProdL{\ZCMV'}{\ECMV}}{\TMV}{\AMV}
+  }
+
+  \inferrule[AAEZipPairR1]{
+    \matchedProd{\TMV}{\TMV_1}{\TMV_2} \\
+    \AAAction{\ctx}{\ZCMV}{\ZCMV'}{\TMV_2}{\AMV}
+  }{
+    \AAAction{\ctx}{\ZCPairR{\ECMV}{\ZCMV}}{\ZCPairR{\ECMV}{\ZCMV'}}{\TMV}{\AMV}
+  }
+
+  \inferrule[AAEZipPairR2]{
+    \AAAction{\ctx}{\ZCMV}{\ZCMV'}{\TUnknown}{\AMV}
+  }{
+    \AAAction{\ctx}{\ZCPairAnaNonMatchedProdR{\ECMV}{\ZCMV}}{\ZCPairAnaNonMatchedProdR{\ECMV}{\ZCMV'}}{\TMV}{\AMV}
   }
 \end{mathparpagebreakable}
 
