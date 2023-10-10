@@ -1,16 +1,6 @@
 \hbadness=99999
 \usepackage{silence}
 
-% font
-\usepackage{iftex}
-\ifPDFTeX
-  \usepackage{libertinust1math}
-  \usepackage{libertine}
-\else
-  \usepackage{libertinus}
-\fi
-\usepackage[scaled=0.8]{FiraMono}
-
 % geometry
 \usepackage[margin=1in]{geometry}
 
@@ -25,6 +15,18 @@
 \usepackage{stmaryrd}
 \WarningFilter{latexfont}{Font shape `U/stmry/b/n' undefined}
 \WarningFilter{latexfont}{Some font shapes were not available}
+
+% font
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage{libertinust1math}
+  \usepackage{libertine}
+\else
+  \expandafter\def\csname ver@unicode-math.sty\endcsname{}
+  \usepackage[nomath]{libertinus}
+  \usepackage{libertinust1math}
+\fi
+\usepackage[scaled=0.8]{FiraMono}
 
 \usepackage{bm}
 \usepackage{relsize}
