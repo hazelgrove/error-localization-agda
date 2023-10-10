@@ -786,9 +786,10 @@ Type actions are the same as in the untyped model.
     \ctxSynTypeM{\ctx}{\cursorErase{\ZCMV}}{\TMV_1} \\
     \ctxSynTypeM{\ctx}{\ECMV_2}{\TMV_2} \\\\
     \ASEAction{\ctx}{\ZCMV}{\TMV_1}{\ZCMV'}{\TMV_1'}{\AMV} \\
-    \consistent{\TMV_1'}{\TMV_2}
+    \consistent{\TMV_1'}{\TMV_2} \\
+    \TMV' = \TMeet{\TMV_1'}{\TMV_2}
   }{
-    \ASEAction{\ctx}{\ZCIfL{\ECMV_1}{\ZCMV}{\ECMV_2}}{\TMV}{\ZCIfL{\ECMV_1}{\ZCMV'}{\ECMV_2}}{\TMeet{\TMV_1'}{\TMV_2}}{\AMV}
+    \ASEAction{\ctx}{\ZCIfL{\ECMV_1}{\ZCMV}{\ECMV_2}}{\TMV}{\ZCIfL{\ECMV_1}{\ZCMV'}{\ECMV_2}}{\TMV'}{\AMV}
   }
 
   \inferrule[ASEZipIfL2]{
@@ -804,9 +805,10 @@ Type actions are the same as in the untyped model.
     \ctxSynTypeM{\ctx}{\ECMV_2}{\TMV_1} \\
     \ctxSynTypeM{\ctx}{\cursorErase{\ZCMV}}{\TMV_2} \\\\
     \ASEAction{\ctx}{\ZCMV}{\TMV_2}{\ZCMV'}{\TMV_2'}{\AMV} \\
-    \consistent{\TMV_1}{\TMV_2'}
+    \consistent{\TMV_1}{\TMV_2'} \\
+    \TMV' = \TMeet{\TMV_1}{\TMV_2'}
   }{
-    \ASEAction{\ctx}{\ZCIfR{\ECMV_1}{\ECMV_2}{\ZCMV}}{\TMV}{\ZCIfR{\ECMV_1}{\ECMV_2}{\ZCMV'}}{\TMeet{\TMV_1}{\TMV_2'}}{\AMV}
+    \ASEAction{\ctx}{\ZCIfR{\ECMV_1}{\ECMV_2}{\ZCMV}}{\TMV}{\ZCIfR{\ECMV_1}{\ECMV_2}{\ZCMV'}}{\TMV'}{\AMV}
   }
 
   \inferrule[ASEZipIfR2]{
@@ -825,15 +827,16 @@ Type actions are the same as in the untyped model.
   }
 
   \inferrule[ASEZipInconsistentBranchesL1]{
-    \ASEAction{\ctx}{\ZCMV}{\TMV_1}{\ZCMV'}{\TMV_1'}{\AMV} \\
+    \ASEAction{\ctx}{\ZCMV}{\TMV_1}{\ZCMV'}{\TMV_1'}{\AMV} \\\\
     \ctxSynTypeM{\ctx}{\ECMV_2}{\TMV_2} \\
-    \consistent{\TMV_1'}{\TMV_2}
+    \consistent{\TMV_1'}{\TMV_2} \\
+    \TMV' = \TMeet{\TMV_1'}{\TMV_2}
   }{
-    \ASEAction{\ctx}{\ZCInconBrL{\ECMV_1}{\ZCMV}{\ECMV_2}}{\TMV}{\ZCIfL{\ECMV_1}{\ZCMV'}{\ECMV_2}}{\TMeet{\TMV_1'}{\TMV_2}}{\AMV}
+    \ASEAction{\ctx}{\ZCInconBrL{\ECMV_1}{\ZCMV}{\ECMV_2}}{\TMV}{\ZCIfL{\ECMV_1}{\ZCMV'}{\ECMV_2}}{\TMV'}{\AMV}
   }
 
   \inferrule[ASEZipInconsistentBranchesL2]{
-    \ASEAction{\ctx}{\ZCMV}{\TMV_1}{\ZCMV'}{\TMV_1'}{\AMV} \\
+    \ASEAction{\ctx}{\ZCMV}{\TMV_1}{\ZCMV'}{\TMV_1'}{\AMV} \\\\
     \ctxSynTypeM{\ctx}{\ECMV_2}{\TMV_2} \\
     \inconsistent{\TMV_1'}{\TMV_2}
   }{
@@ -841,16 +844,17 @@ Type actions are the same as in the untyped model.
   }
 
   \inferrule[ASEZipInconsistentBranchesR1]{
-    \ctxSynTypeM{\ctx}{\ECMV_1}{\TMV_1} \\
+    \ctxSynTypeM{\ctx}{\ECMV_1}{\TMV_1} \\\\
     \ASEAction{\ctx}{\ZCMV}{\TMV_2}{\ZCMV'}{\TMV_2'}{\AMV} \\
-    \consistent{\TMV_1}{\TMV_2'}
+    \consistent{\TMV_1}{\TMV_2'} \\
+    \TMV' = \TMeet{\TMV_1}{\TMV_2'}
   }{
-    \ASEAction{\ctx}{\ZCInconBrR{\ECMV_1}{\ECMV_2}{\ZCMV}}{\TMV}{\ZCIfL{\ECMV_1}{\ECMV_2}{\ZCMV'}}{\TMeet{\TMV_1}{\TMV_2'}}{\AMV}
+    \ASEAction{\ctx}{\ZCInconBrR{\ECMV_1}{\ECMV_2}{\ZCMV}}{\TMV}{\ZCIfL{\ECMV_1}{\ECMV_2}{\ZCMV'}}{\TMV'}{\AMV}
   }
 
   \inferrule[ASEZipInconsistentBranchesR2]{
+    \ASEAction{\ctx}{\ZCMV}{\TMV_2}{\ZCMV'}{\TMV_2'}{\AMV} \\\\
     \ctxSynTypeM{\ctx}{\ECMV_2}{\TMV_1} \\
-    \ASEAction{\ctx}{\ZCMV}{\TMV_2}{\ZCMV'}{\TMV_2'}{\AMV} \\
     \inconsistent{\TMV_1}{\TMV_2'}
   }{
     \ASEAction{\ctx}{\ZCInconBrR{\ECMV_1}{\ECMV_2}{\ZCMV}}{\TMV}{\ZCInconBrR{\ECMV_1}{\ECMV_2}{\ZCMV'}}{\TUnknown}{\AMV}
