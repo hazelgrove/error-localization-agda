@@ -1288,6 +1288,19 @@ The iterated type action and movements judgments are the same as in the untyped 
 
 \subsection{Metatheorems}
 \label{sec:typed-metatheorems}
+\begin{theorem}[name=Erasure Commutativity]
+  For all $\ZCMV$, $\cursorErase{(\erase{\ZCMV})} = \erase{(\cursorErase{\ZCMV})}$.
+  %
+  \[\begin{tikzcd}
+    \ZCMV \mathsmaller{~\in~ \ZCMName} && \ZMV \mathsmaller{~\in~ \ZMName} \\\\
+    \ECMV \mathsmaller{~\in~ \ECMName} && \EMV \mathsmaller{~\in~ \EMName}
+    \arrow["{\cursorErase{\_}}"', from=1-1, to=3-1]
+    \arrow["{\erase{\_}}", from=1-1, to=1-3]
+    \arrow["{\cursorErase{\_}}", from=1-3, to=3-3]
+    \arrow["{\erase{\_}}"', from=3-1, to=3-3]
+  \end{tikzcd}\]
+\end{theorem}
+
 \begin{theorem}[name=Sensibility] \
   \begin{enumerate}
     \item If $\zWellFormed{\ZCMV}$ and $\ctxSynTypeM{\ctx}{\cursorErase{\ZCMV}}{\TMV}$ and
