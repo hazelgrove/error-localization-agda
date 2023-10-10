@@ -9,22 +9,12 @@
 \section{Extension: System F-style polymorphism}
 \label{sec:polymorphism}
 In this section, we describe an extension of the marked lambda calculus for System F-style
-parametric polymorphism.
-
-Chiefly, the introduction of type variables and the possibility of free ones requires the
-distinction between unmarked and marked types. These are each governed by well-formedness judgments
-(alongside extensions of the original consistency, etc. judgments) and linked by a marking
-operation.
+parametric polymorphism, as sketched out in Section 2.4 of the paper.
 
 \nomechanization{}
 
 \subsection{Syntax}
 \label{sec:polymorphism-syntax}
-The syntax of unmarked types is exactly that of the original types alongside additional forms for
-forall types and type variables. In marked types, we additionally have free type variables.
-Within unmarked expressions, there may be type abstractions and type applications. In marked
-expressions, marks corresponding to those of ordinary lambda abstractions are present.
-
 \[\begin{array}{rrcl}
   \TMName  & \TMV  & \Coloneqq & \cdots \mid \TForall{\TVarMV}{\TMV} \mid \TVarMV \\
   \MTMName & \MTMV & \Coloneqq & \cdots
@@ -38,10 +28,6 @@ expressions, marks corresponding to those of ordinary lambda abstractions are pr
 
 \subsection{Unmarked types}
 \label{sec:polymorphism-unmarked-types}
-Type consistency is now parametrized by the type variable context $\tvarCtx$. Here (and similarly
-the extension of other judgments), we omit the rules for the old syntactic constructs, which may be
-straightforwardly derived from the original rules. \\
-
 \judgbox{\ensuremath{\tvarCtxConsistentU{\tvarCtx}{\TMV_1}{\TMV_2}}} $\TMV_1$ and $\TMV_2$ are consistent
 %
 \begin{mathpar}
