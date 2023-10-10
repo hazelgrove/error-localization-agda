@@ -13,6 +13,6 @@ all : formalism.pdf all.agdai
 
 .PHONY : clean
 clean :
-	rm -rf build
+	rm -rf formalism/build
 	rm -f *.pdf
 	rm -f *.agdai
