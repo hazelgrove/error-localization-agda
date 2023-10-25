@@ -431,7 +431,7 @@ numbers, booleans, and product types, as described in Section 2.1 of the paper.
   \inferrule[MKALam3]{
     \matchedArrow{\TMV_3}{\TMV_1}{\TMV_2} \\
     \inconsistent{\TMV}{\TMV_1} \\
-    \ctxAnaFixedInto{\extendCtx{\ctx}{x}{\TMV_1}}{\EMV}{\ECMV}{\TMV_2}
+    \ctxAnaFixedInto{\extendCtx{\ctx}{x}{\TMV}}{\EMV}{\ECMV}{\TMV_2}
   }{
     \ctxAnaFixedInto{\ctx}{\ELam{x}{\TMV}{\EMV}}{\ECLamInconAsc{x}{\TMV}{\ECMV}}{\TMV_3}
   }
@@ -556,7 +556,7 @@ numbers, booleans, and product types, as described in Section 2.1 of the paper.
   \inferrule[MSIf]{
     \ctxAnaTypeM{\ctx}{\ECMV_1}{\TBool} \\
     \ctxSynTypeM{\ctx}{\ECMV_2}{\TMV_1} \\
-    \ctxSynTypeM{\ctx}{\ECMV_3}{\TMV_2}
+    \ctxSynTypeM{\ctx}{\ECMV_3}{\TMV_2} \\
     \TMV_3 = \TMeet{\TMV_1}{\TMV_2}
   }{
     \ctxSynTypeM{\ctx}{\ECIf{\ECMV_1}{\ECMV_2}{\ECMV_3}}{\TMV_3}
