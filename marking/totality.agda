@@ -44,8 +44,8 @@ module marking.totality where
          | ⟨ τ₂ , ⟨ ě₃ , e₃↬⇒ě₃ ⟩ ⟩ ← ↬⇒-totality Γ e₃
       with τ₁ ~? τ₂
     ...  | yes τ₁~τ₂
-             with ⟨ τ , ⊔⇒τ ⟩ ← ~→⊔ τ₁~τ₂
-                = ⟨ τ , ⟨ ⊢ ě₁ ∙ ě₂ ∙ ě₃ [ ⊔⇒τ ] , MKSIf e₁↬⇐ě₁ e₂↬⇐ě₂ e₃↬⇒ě₃ ⊔⇒τ ⟩ ⟩
+             with ⟨ τ , ⊓⇒τ ⟩ ← ~→⊓ τ₁~τ₂
+                = ⟨ τ , ⟨ ⊢ ě₁ ∙ ě₂ ∙ ě₃ [ ⊓⇒τ ] , MKSIf e₁↬⇐ě₁ e₂↬⇐ě₂ e₃↬⇒ě₃ ⊓⇒τ ⟩ ⟩
     ...  | no  τ₁~̸τ₂ = ⟨ unknown , ⟨ ⊢⦉ ě₁ ∙ ě₂ ∙ ě₃ ⦊[ τ₁~̸τ₂ ] , MKSInconsistentBranches e₁↬⇐ě₁ e₂↬⇐ě₂ e₃↬⇒ě₃ τ₁~̸τ₂ ⟩ ⟩
     ↬⇒-totality Γ ‵⟨ e₁ , e₂ ⟩
       with ⟨ τ₁ , ⟨ ě₁ , e₁↬⇒ě₁ ⟩ ⟩ ← ↬⇒-totality Γ e₁
