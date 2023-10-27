@@ -97,9 +97,10 @@ calculus for type hole inference, described in Section 4 of the paper.
   \judgment{
     \anaConstraint{\ctx}{\ECMV_1}{\TBool}{C_1} \\
     \synConstraint{\ctx}{\ECMV_2}{\TMV_1}{C_2} \\
-    \synConstraint{\ctx}{\ECMV_3}{\TMV_2}{C_3}
+    \synConstraint{\ctx}{\ECMV_3}{\TMV_2}{C_3} \\
+    \TMV_3 = \TMeet{\TMV_1}{\TMV_2}
   }{
-    \synConstraint{\ctx}{\ECIf{\ECMV_1}{\ECMV_2}{\ECMV_3}}{\TMeet{\TMV_1}{\TMV_2}}{C_1 \cup C_2 \cup C_3 \cup \{ \TMV_1 \approx \TMV_2 \}}
+    \synConstraint{\ctx}{\ECIf{\ECMV_1}{\ECMV_2}{\ECMV_3}}{\TMV_3}{C_1 \cup C_2 \cup C_3 \cup \{ \TMV_1 \approx \TMV_2 \}}
   }{MSIf-C}
 
   \judgment{
