@@ -29,7 +29,7 @@ module marking.wellformed where
             | ↬⇐□ e₂↬⇐ě₂ = refl
     ↬⇒□ MKSTrue          = refl
     ↬⇒□ MKSFalse         = refl
-    ↬⇒□ (MKSIf e₁↬⇐ě₁ e₂↬⇒ě₂ e₃↬⇒ě₃ τ₁⊔τ₂)
+    ↬⇒□ (MKSIf e₁↬⇐ě₁ e₂↬⇒ě₂ e₃↬⇒ě₃ τ₁⊓τ₂)
       rewrite ↬⇐□ e₁↬⇐ě₁
             | ↬⇒□ e₂↬⇒ě₂
             | ↬⇒□ e₃↬⇒ě₃ = refl
@@ -97,10 +97,10 @@ module marking.wellformed where
          | ⟨ ě₂ , e₂↬⇐ě₂ ⟩ ← ⇐τ→↬⇐τ e₂⇐num = ⟨ ⊢ ě₁ + ě₂ , MKSPlus e₁↬⇐ě₁ e₂↬⇐ě₂ ⟩
     ⇒τ→↬⇒τ {e = ‵tt}            USTrue     = ⟨ ⊢tt , MKSTrue ⟩
     ⇒τ→↬⇒τ {e = ‵ff}            USFalse    = ⟨ ⊢ff , MKSFalse ⟩
-    ⇒τ→↬⇒τ {e = ‵ e₁ ∙ e₂ ∙ e₃} (USIf e₁⇐bool e₂⇒τ₁ e₃⇒τ₂ τ₁⊔τ₂)
+    ⇒τ→↬⇒τ {e = ‵ e₁ ∙ e₂ ∙ e₃} (USIf e₁⇐bool e₂⇒τ₁ e₃⇒τ₂ τ₁⊓τ₂)
       with ⟨ ě₁ , e₁↬⇐ě₁ ⟩ ← ⇐τ→↬⇐τ e₁⇐bool
          | ⟨ ě₂ , e₂↬⇒ě₂ ⟩ ← ⇒τ→↬⇒τ e₂⇒τ₁
-         | ⟨ ě₃ , e₃↬⇒ě₃ ⟩ ← ⇒τ→↬⇒τ e₃⇒τ₂  = ⟨ ⊢ ě₁ ∙ ě₂ ∙ ě₃ [ τ₁⊔τ₂ ] , MKSIf e₁↬⇐ě₁ e₂↬⇒ě₂ e₃↬⇒ě₃ τ₁⊔τ₂ ⟩
+         | ⟨ ě₃ , e₃↬⇒ě₃ ⟩ ← ⇒τ→↬⇒τ e₃⇒τ₂  = ⟨ ⊢ ě₁ ∙ ě₂ ∙ ě₃ [ τ₁⊓τ₂ ] , MKSIf e₁↬⇐ě₁ e₂↬⇒ě₂ e₃↬⇒ě₃ τ₁⊓τ₂ ⟩
     ⇒τ→↬⇒τ {e = ‵⟨ e₁ , e₂ ⟩}   (USPair e₁⇒τ₁ e₂⇒τ₂)
       with ⟨ ě₁ , e₁↬⇒ě₁ ⟩ ← ⇒τ→↬⇒τ e₁⇒τ₁
          | ⟨ ě₂ , e₂↬⇒ě₂ ⟩ ← ⇒τ→↬⇒τ e₂⇒τ₂  = ⟨ ⊢⟨ ě₁ , ě₂ ⟩ , MKSPair e₁↬⇒ě₁ e₂↬⇒ě₂ ⟩
@@ -160,15 +160,15 @@ module marking.wellformed where
        = refl
   ⇒-↬-≡ USFalse MKSFalse
        = refl
-  ⇒-↬-≡ (USIf e₁⇐bool e₂⇒τ₁ e₃⇒τ₂ τ₁⊔τ₂) (MKSIf e₁↬⇐ě₁ e₂↬⇒ě₂ e₃↬⇒ě₃ τ₁⊔τ₂′)
+  ⇒-↬-≡ (USIf e₁⇐bool e₂⇒τ₁ e₃⇒τ₂ τ₁⊓τ₂) (MKSIf e₁↬⇐ě₁ e₂↬⇒ě₂ e₃↬⇒ě₃ τ₁⊓τ₂′)
     with refl ← ⇒-↬-≡ e₂⇒τ₁ e₂↬⇒ě₂
     with refl ← ⇒-↬-≡ e₃⇒τ₂ e₃↬⇒ě₃
-    with refl ← ⊔-unicity τ₁⊔τ₂ τ₁⊔τ₂′
+    with refl ← ⊓-unicity τ₁⊓τ₂ τ₁⊓τ₂′
        = refl
-  ⇒-↬-≡ (USIf e₁⇐bool e₂⇒τ₁ e₃⇒τ₂ τ₁⊔τ₂) (MKSInconsistentBranches e₁↬⇐ě₁ e₂↬⇒ě₂ e₃↬⇒ě₃ τ₁~̸τ₂)
+  ⇒-↬-≡ (USIf e₁⇐bool e₂⇒τ₁ e₃⇒τ₂ τ₁⊓τ₂) (MKSInconsistentBranches e₁↬⇐ě₁ e₂↬⇒ě₂ e₃↬⇒ě₃ τ₁~̸τ₂)
     with refl ← ⇒-↬-≡ e₂⇒τ₁ e₂↬⇒ě₂
     with refl ← ⇒-↬-≡ e₃⇒τ₂ e₃↬⇒ě₃
-       = ⊥-elim (τ₁~̸τ₂ (⊔→~ τ₁⊔τ₂))
+       = ⊥-elim (τ₁~̸τ₂ (⊓→~ τ₁⊓τ₂))
   ⇒-↬-≡ (USPair e₁⇒τ₁ e₂⇒τ₂) (MKSPair e₁↬⇒ě₁ e₂↬⇒ě₂)
     with refl ← ⇒-↬-≡ e₁⇒τ₁ e₁↬⇒ě₁
     with refl ← ⇒-↬-≡ e₂⇒τ₂ e₂↬⇒ě₂
@@ -221,14 +221,14 @@ module marking.wellformed where
          = MLSTrue
     ⇒τ→markless USFalse MKSFalse
          = MLSFalse
-    ⇒τ→markless (USIf e₁⇐bool e₂⇒τ₁ e₃⇒τ₂ τ₁⊔τ₂) (MKSIf e₁↬⇐ě₁ e₂↬⇒ě₂ e₃↬⇒ě₃ τ₁⊔τ₃)
+    ⇒τ→markless (USIf e₁⇐bool e₂⇒τ₁ e₃⇒τ₂ τ₁⊓τ₂) (MKSIf e₁↬⇐ě₁ e₂↬⇒ě₂ e₃↬⇒ě₃ τ₁⊓τ₃)
       with refl ← ⇒-↬-≡ e₂⇒τ₁ e₂↬⇒ě₂
       with refl ← ⇒-↬-≡ e₃⇒τ₂ e₃↬⇒ě₃
          = MLSIf (⇐τ→markless e₁⇐bool e₁↬⇐ě₁) (⇒τ→markless e₂⇒τ₁ e₂↬⇒ě₂) (⇒τ→markless e₃⇒τ₂ e₃↬⇒ě₃)
-    ⇒τ→markless (USIf e₁⇐bool e₂⇒τ₁ e₃⇒τ₂ τ₁⊔τ₂) (MKSInconsistentBranches e₁↬⇐ě₁ e₂↬⇒ě₂ e₃↬⇒ě₃ τ₁~̸τ₂)
+    ⇒τ→markless (USIf e₁⇐bool e₂⇒τ₁ e₃⇒τ₂ τ₁⊓τ₂) (MKSInconsistentBranches e₁↬⇐ě₁ e₂↬⇒ě₂ e₃↬⇒ě₃ τ₁~̸τ₂)
       with refl ← ⇒-↬-≡ e₂⇒τ₁ e₂↬⇒ě₂
       with refl ← ⇒-↬-≡ e₃⇒τ₂ e₃↬⇒ě₃
-         = ⊥-elim (τ₁~̸τ₂ (⊔→~ τ₁⊔τ₂))
+         = ⊥-elim (τ₁~̸τ₂ (⊓→~ τ₁⊓τ₂))
     ⇒τ→markless (USPair e₁⇒τ₁ e₂⇒τ₂) (MKSPair e₁↬⇒ě₁ e₂↬⇒ě₂)
          = MLSPair (⇒τ→markless e₁⇒τ₁ e₁↬⇒ě₁) (⇒τ→markless e₂⇒τ₂ e₂↬⇒ě₂)
     ⇒τ→markless (USProjL e⇒τ τ▸) (MKSProjL1 e↬⇒ě τ▸′)
@@ -299,11 +299,11 @@ module marking.wellformed where
          = USPlus e₁⇐τ₁ e₂⇐τ₂
     ↬⇒τ-markless→⇒τ MKSTrue MLSTrue = USTrue
     ↬⇒τ-markless→⇒τ MKSFalse MLSFalse = USFalse
-    ↬⇒τ-markless→⇒τ (MKSIf e₁↬⇐ě₁ e₂↬⇒ě₂ e₃↬⇒ě₃ τ₁⊔τ₂) (MLSIf less₁ less₂ less₃)
+    ↬⇒τ-markless→⇒τ (MKSIf e₁↬⇐ě₁ e₂↬⇒ě₂ e₃↬⇒ě₃ τ₁⊓τ₂) (MLSIf less₁ less₂ less₃)
       with e₁⇐τ₁ ← ↬⇐τ-markless→⇐τ e₁↬⇐ě₁ less₁
          | e₂⇒τ₂ ← ↬⇒τ-markless→⇒τ e₂↬⇒ě₂ less₂
          | e₃⇒τ₃ ← ↬⇒τ-markless→⇒τ e₃↬⇒ě₃ less₃
-         = USIf e₁⇐τ₁ e₂⇒τ₂ e₃⇒τ₃ τ₁⊔τ₂
+         = USIf e₁⇐τ₁ e₂⇒τ₂ e₃⇒τ₃ τ₁⊓τ₂
     ↬⇒τ-markless→⇒τ (MKSPair e₁↬⇒ě₁ e₂↬⇒ě₂) (MLSPair less₁ less₂)
       with e₁⇒τ₁ ← ↬⇒τ-markless→⇒τ e₁↬⇒ě₁ less₁
          | e₂⇒τ₂ ← ↬⇒τ-markless→⇒τ e₂↬⇒ě₂ less₂

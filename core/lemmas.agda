@@ -55,10 +55,10 @@ module core.lemmas where
   ⇒-unicity (USPlus e₁⇐num e₂⇐num) (USPlus e₁⇐num′ e₂⇐num′) = refl
   ⇒-unicity USTrue                 USTrue                   = refl
   ⇒-unicity USFalse                USFalse                  = refl
-  ⇒-unicity (USIf e₁⇐bool e₂⇒τ₁ e₃⇒τ₂ τ₁⊔τ₂) (USIf e₁⇐bool′ e₂⇒τ₁′ e₃⇒τ₂′ τ₁⊔τ₂′)
+  ⇒-unicity (USIf e₁⇐bool e₂⇒τ₁ e₃⇒τ₂ τ₁⊓τ₂) (USIf e₁⇐bool′ e₂⇒τ₁′ e₃⇒τ₂′ τ₁⊓τ₂′)
     rewrite ⇒-unicity e₂⇒τ₁ e₂⇒τ₁′
           | ⇒-unicity e₃⇒τ₂ e₃⇒τ₂′
-          | ⊔-unicity τ₁⊔τ₂ τ₁⊔τ₂′                          = refl
+          | ⊓-unicity τ₁⊓τ₂ τ₁⊓τ₂′                          = refl
   ⇒-unicity (USPair e₁⇒τ₁ e₂⇒τ₂)   (USPair e₁⇒τ₁′ e₂⇒τ₂′)
     rewrite ⇒-unicity e₁⇒τ₁ e₁⇒τ₁′
           | ⇒-unicity e₂⇒τ₂ e₂⇒τ₂′                          = refl
@@ -85,8 +85,8 @@ module core.lemmas where
   ⇒-~-⇐ (USPlus e₁⇐num e₂⇐num) τ′~num = UASubsume (USPlus e₁⇐num e₂⇐num) τ′~num USuPlus
   ⇒-~-⇐ USTrue τ′~bool = UASubsume USTrue τ′~bool USuTrue
   ⇒-~-⇐ USFalse τ′~bool = UASubsume USFalse τ′~bool USuFalse
-  ⇒-~-⇐ (USIf e₁⇐bool e₂⇒τ₁ e₃⇒τ₂ τ₁⊔τ₂) τ′~τ
-    with ⟨ τ₁~τ′ , τ₂~τ′ ⟩ ← ⊔⇒-~→~ τ₁⊔τ₂ (~-sym τ′~τ)
+  ⇒-~-⇐ (USIf e₁⇐bool e₂⇒τ₁ e₃⇒τ₂ τ₁⊓τ₂) τ′~τ
+    with ⟨ τ₁~τ′ , τ₂~τ′ ⟩ ← ⊓⇒-~→~ τ₁⊓τ₂ (~-sym τ′~τ)
     with e₂⇐τ₁′ ← ⇒-~-⇐ e₂⇒τ₁ (~-sym τ₁~τ′)
        | e₃⇐τ₂′ ← ⇒-~-⇐ e₃⇒τ₂ (~-sym τ₂~τ′)
        = UAIf e₁⇐bool e₂⇐τ₁′ e₃⇐τ₂′
@@ -116,9 +116,9 @@ module core.lemmas where
   ⊢⇐-⊢⇒ (⊢ ě₁ ∙ ě₂ ∙ ě₃)
     with ⟨ τ₁ , ⟨ ě₂′ , eq ⟩ ⟩ ← ⊢⇐-⊢⇒ ě₂ rewrite eq
     with ⟨ τ₂ , ⟨ ě₃′ , eq ⟩ ⟩ ← ⊢⇐-⊢⇒ ě₃ rewrite eq
-    with τ₁ ⊔? τ₂
-  ...  | yes ⟨ τ , τ₁⊔τ₂ ⟩ = ⟨ τ , ⟨ ⊢ ě₁ ∙ ě₂′ ∙ ě₃′ [ τ₁⊔τ₂ ] , refl ⟩ ⟩
-  ...  | no ¬τ₁⊔τ₂         = ⟨ unknown , ⟨ ⊢⦉ ě₁ ∙ ě₂′ ∙ ě₃′ ⦊[ ¬⊔→~̸ ¬τ₁⊔τ₂ ] , refl ⟩ ⟩
+    with τ₁ ⊓? τ₂
+  ...  | yes ⟨ τ , τ₁⊓τ₂ ⟩ = ⟨ τ , ⟨ ⊢ ě₁ ∙ ě₂′ ∙ ě₃′ [ τ₁⊓τ₂ ] , refl ⟩ ⟩
+  ...  | no ¬τ₁⊓τ₂         = ⟨ unknown , ⟨ ⊢⦉ ě₁ ∙ ě₂′ ∙ ě₃′ ⦊[ ¬⊓→~̸ ¬τ₁⊓τ₂ ] , refl ⟩ ⟩
   ⊢⇐-⊢⇒ ⊢⟨ ě₁ , ě₂ ⟩[ τ▸ ]
     with ⟨ τ₁ , ⟨ ě₁′ , eq ⟩ ⟩ ← ⊢⇐-⊢⇒ ě₁ rewrite eq
     with ⟨ τ₂ , ⟨ ě₂′ , eq ⟩ ⟩ ← ⊢⇐-⊢⇒ ě₂ rewrite eq
@@ -162,7 +162,7 @@ module core.lemmas where
   ⊢⇒-⊢⇐ ě@(⊢ ě₁ + ě₂)                         = ⊢⇒-⊢⇐-subsume ě MSuPlus
   ⊢⇒-⊢⇐ ě@(⊢tt)                               = ⊢⇒-⊢⇐-subsume ě MSuTrue
   ⊢⇒-⊢⇐ ě@(⊢ff)                               = ⊢⇒-⊢⇐-subsume ě MSuFalse
-  ⊢⇒-⊢⇐ ⊢ ě₁ ∙ ě₂ ∙ ě₃ [ τ₁⊔τ₂ ]
+  ⊢⇒-⊢⇐ ⊢ ě₁ ∙ ě₂ ∙ ě₃ [ τ₁⊓τ₂ ]
     with ⟨ ě₂′ , eq ⟩ ← ⊢⇒-⊢⇐ ě₂ rewrite eq
     with ⟨ ě₃′ , eq ⟩ ← ⊢⇒-⊢⇐ ě₃ rewrite eq = ⟨ ⊢ ě₁ ∙ ě₂′ ∙ ě₃′ , refl ⟩
   ⊢⇒-⊢⇐ {τ′ = τ′} ⊢⟨ ě₁ , ě₂ ⟩
