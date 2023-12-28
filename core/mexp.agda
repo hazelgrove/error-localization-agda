@@ -23,6 +23,11 @@ module core.mexp where
         → (∋x : Γ ∋ x ∶ τ)
         → Γ ⊢⇒ τ
 
+      -- MSFree
+      ⊢⟦_⟧ : ∀ {Γ y}
+        → (∌y : Γ ∌ y)
+        → Γ ⊢⇒ unknown
+
       -- MSLam
       ⊢λ_∶_∙_ : ∀ {Γ τ′}
         → (x : Var)
@@ -77,11 +82,6 @@ module core.mexp where
         → (ě₃ : Γ ⊢⇒ τ₂)
         → (τ₁⊓τ₂ : τ₁ ⊓ τ₂ ⇒ τ)
         → Γ ⊢⇒ τ
-
-      -- MSFree
-      ⊢⟦_⟧ : ∀ {Γ y}
-        → (∌y : Γ ∌ y)
-        → Γ ⊢⇒ unknown
 
       -- MSInconsistentBranches
       ⊢⦉_∙_∙_⦊[_] : ∀ {Γ τ₁ τ₂}
